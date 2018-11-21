@@ -19,6 +19,7 @@ Here are some components that are **promising**:
 - [material-ui-time-picker](https://github.com/TeamWertarbyte/material-ui-time-picker): time pickers.
 - [material-ui-next-pickers](https://github.com/chingyawhao/material-ui-next-pickers): date pickers and time pickers.
 
+
 ⚠️ Native input controls support by browsers [isn't perfect](https://caniuse.com/#feat=input-datetime).
 
 ## Date pickers
@@ -38,3 +39,9 @@ A native time picker example with `type="time"`:
 A native date & time picker example with `type="datetime-local"`:
 
 {{"demo": "pages/demos/pickers/DateAndTimePickers.js"}}
+
+## MUI-pickers example
+
+You can refer [documentation website](https://material-ui-pickers.firebaseapp.com/) for more information
+
+{{"demo": "pages/demos/pickers/MaterialUIPickers.js"}}
