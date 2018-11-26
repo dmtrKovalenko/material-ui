@@ -40,7 +40,7 @@ A native date & time picker example with `type="datetime-local"`:
 
 {{"demo": "pages/demos/pickers/DateAndTimePickers.js"}}
 
-## MUI-pickers example
+## Material-ui-pickers example
 
 You can refer [documentation website](https://material-ui-pickers.firebaseapp.com/) for more information
 

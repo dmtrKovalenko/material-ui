@@ -1,12 +1,18 @@
 const webpack = require('webpack');
 const pkg = require('./package.json');
+const withModuleTranspile = require('@weco/next-plugin-transpile-modules');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { findPages } = require('./docs/src/modules/utils/find');
 
 process.env.LIB_VERSION = pkg.version;
 
 module.exports = {
-  webpack: config => {
+  webpack: (config, options) => {
+    config = withModuleTranspile({
+      // transpile any peer dependent to @material-ui/core modules
+      transpileModules: ['material-ui-pickers'],
+    }).webpack(config, options);
+
     const plugins = config.plugins.concat([
       new webpack.DefinePlugin({
         'process.env': {
