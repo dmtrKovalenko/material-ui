@@ -56,7 +56,7 @@ export interface FilledTextFieldProps extends BaseTextFieldProps {
   onBlur?: FilledInputProps['onBlur'];
   onChange?: FilledInputProps['onChange'];
   onFocus?: FilledInputProps['onFocus'];
-  variant: 'filled';
+  variant?: 'filled';
   InputProps?: Partial<FilledInputProps>;
   inputProps?: FilledInputProps['inputProps'];
 }
@@ -65,7 +65,7 @@ export interface OutlinedTextFieldProps extends BaseTextFieldProps {
   onBlur?: OutlinedInputProps['onBlur'];
   onChange?: OutlinedInputProps['onChange'];
   onFocus?: OutlinedInputProps['onFocus'];
-  variant: 'outlined';
+  variant?: 'outlined';
   InputProps?: Partial<OutlinedInputProps>;
   inputProps?: OutlinedInputProps['inputProps'];
 }
