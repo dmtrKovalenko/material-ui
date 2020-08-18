@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ClockPointer from './ClockPointer';
-import { useUtils } from '../internal/pickers/hooks/useUtils';
+import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { VIEW_HEIGHT } from '../internal/pickers/constants/dimensions';
 import { ClockViewType } from '../internal/pickers/constants/ClockType';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
@@ -28,6 +28,11 @@ export interface ClockProps<TDate> extends ReturnType<typeof useMeridiemMode> {
   minutesStep?: number;
   ampmInClock?: boolean;
   allowKeyboardControl?: boolean;
+  getClockLabelText: (
+    view: 'hours' | 'minutes' | 'seconds',
+    time: TDate,
+    adapter: MuiPickersAdapter<TDate>,
+  ) => string;
 }
 
 const muiComponentConfig = {
@@ -93,7 +98,7 @@ export const useStyles = makeStyles(
       },
     },
   }),
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 export function Clock<TDate>(props: ClockProps<TDate>) {
@@ -110,6 +115,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
     onChange,
     type,
     value,
+    getClockLabelText,
   } = useDefaultProps(props, muiComponentConfig);
 
   const utils = useUtils();
@@ -138,12 +144,12 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
       offsetY = e.changedTouches[0].clientY - rect.top;
     }
 
-    const value =
+    const newSelectedValue =
       type === 'seconds' || type === 'minutes'
         ? getMinutes(offsetX, offsetY, minutesStep)
         : getHours(offsetX, offsetY, Boolean(ampm));
 
-    handleValueChange(value, isFinish);
+    handleValueChange(newSelectedValue, isFinish);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -194,7 +200,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
       [keycode.End]: () => handleValueChange(type === 'minutes' ? 59 : 23, 'partial'),
       [keycode.ArrowUp]: () => handleValueChange(value + keyboardControlStep, 'partial'),
       [keycode.ArrowDown]: () => handleValueChange(value - keyboardControlStep, 'partial'),
-    }
+    },
   );
 
   return (
@@ -202,6 +208,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
       <div className={classes.clock}>
         <div
           role="menu"
+          data-mui-test="clock"
           tabIndex={-1}
           className={classes.squareMask}
           onTouchMove={handleTouchMove}
@@ -219,7 +226,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
                 isInner={isPointerInner}
                 hasSelected={hasSelected}
                 aria-live="polite"
-                aria-label={`Selected time ${utils.format(date, 'fullTime')}`}
+                aria-label={getClockLabelText(type, date, utils)}
               />
             )}
           </React.Fragment>

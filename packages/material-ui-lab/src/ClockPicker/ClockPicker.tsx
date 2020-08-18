@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Clock } from './Clock';
 import { pipe } from '../internal/pickers/utils';
-import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
+import { useUtils, useNow, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { getHourNumbers, getMinutesNumbers } from './ClockNumbers';
@@ -41,6 +41,15 @@ export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate
    * @default currentWrapper !== 'static'
    */
   allowKeyboardControl?: boolean;
+  /**
+   * Accessible text that helps user to understand which time and view is selected.
+   * @default (view, time) => `Select ${view}. Selected time is ${format(time, 'fullTime')}`
+   */
+  getClockLabelText?: (
+    view: 'hours' | 'minutes' | 'seconds',
+    time: TDate,
+    adapter: MuiPickersAdapter<TDate>,
+  ) => string;
 }
 
 export interface ClockViewProps<TDate>
@@ -91,12 +100,16 @@ export const useStyles = makeStyles(
       top: 15,
     },
   }),
-  muiPickersComponentConfig
+  muiPickersComponentConfig,
 );
 
-function getMinutesAriaText(minute: string) {
-  return `${minute} minutes`;
-}
+const getDefaultClockLabelText = (
+  view: 'hours' | 'minutes' | 'seconds',
+  time: unknown,
+  adapter: MuiPickersAdapter,
+) => `Select ${view}. Selected time is ${adapter.format(time, 'fullTime')}`;
+
+const getMinutesAriaText = (minute: string) => `${minute} minutes`;
 
 const getHoursAriaText = (hour: string) => `${hour} hours`;
 
@@ -109,6 +122,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
     ampmInClock,
     date,
     disableIgnoringDatePartForTimeValidation,
+    getClockLabelText = getDefaultClockLabelText,
     getHoursClockNumberText = getHoursAriaText,
     getMinutesClockNumberText = getMinutesAriaText,
     getSecondsClockNumberText = getSecondsAriaText,
@@ -140,7 +154,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
   const { meridiemMode, handleMeridiemChange } = useMeridiemMode<TDate>(
     dateOrNow,
     ampm,
-    onDateChange
+    onDateChange,
   );
 
   const isTimeDisabled = React.useCallback(
@@ -152,13 +166,13 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
       const validateTimeValue = (getRequestedTimePoint: (when: 'start' | 'end') => TDate) => {
         const isAfterComparingFn = createIsAfterIgnoreDatePart(
           Boolean(disableIgnoringDatePartForTimeValidation),
-          utils
+          utils,
         );
 
         return Boolean(
           (minTime && isAfterComparingFn(minTime, getRequestedTimePoint('end'))) ||
             (maxTime && isAfterComparingFn(getRequestedTimePoint('start'), maxTime)) ||
-            (shouldDisableTime && shouldDisableTime(rawValue, type))
+            (shouldDisableTime && shouldDisableTime(rawValue, type)),
         );
       };
 
@@ -169,8 +183,8 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
             pipe(
               (currentDate) => utils.setHours(currentDate, hoursWithMeridiem),
               (dateWithHours) => utils.setMinutes(dateWithHours, when === 'start' ? 0 : 59),
-              (dateWithMinutes) => utils.setSeconds(dateWithMinutes, when === 'start' ? 0 : 59)
-            )(date)
+              (dateWithMinutes) => utils.setSeconds(dateWithMinutes, when === 'start' ? 0 : 59),
+            )(date),
           );
         }
 
@@ -178,8 +192,8 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
           return validateTimeValue((when: 'start' | 'end') =>
             pipe(
               (currentDate) => utils.setMinutes(currentDate, rawValue),
-              (dateWithMinutes) => utils.setSeconds(dateWithMinutes, when === 'start' ? 0 : 59)
-            )(date)
+              (dateWithMinutes) => utils.setSeconds(dateWithMinutes, when === 'start' ? 0 : 59),
+            )(date),
           );
 
         case 'seconds':
@@ -198,7 +212,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
       minTime,
       shouldDisableTime,
       utils,
-    ]
+    ],
   );
 
   const viewProps = React.useMemo(() => {
@@ -303,6 +317,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
         onDateChange={onDateChange}
         type={type}
         ampm={ampm}
+        getClockLabelText={getClockLabelText}
         minutesStep={minutesStep}
         allowKeyboardControl={allowKeyboardControl}
         isTimeDisabled={isTimeDisabled}

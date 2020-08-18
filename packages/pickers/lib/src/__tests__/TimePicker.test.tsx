@@ -25,7 +25,7 @@ const fakeTouchEvent = {
 
 describe('e2e - TimePicker', () => {
   let component: ReactWrapper<TimePickerProps>;
-  const onChangeMock = jest.fn();
+  const onChangeMock = spy();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -77,7 +77,7 @@ describe('e2e - TimePicker', () => {
 
 describe('e2e - TimePicker with seconds', () => {
   let component: ReactWrapper<TimePickerProps>;
-  const onChangeMock = jest.fn();
+  const onChangeMock = spy();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -151,7 +151,7 @@ describe.skip('e2e - Timepicker view navigation', () => {
 
 describe('e2e - TimePicker time validation', () => {
   let component: ReactWrapper<TimePickerProps>;
-  const onChangeMock = jest.fn();
+  const onChangeMock = spy();
 
   const clockTouchEvents = {
     '13:--': {
