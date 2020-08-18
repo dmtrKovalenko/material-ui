@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { mountStaticPicker } from '../test-utils';
 import { StaticDatePicker } from '@material-ui/pickers';
+import { mountStaticPicker } from '../test-utils';
 
 describe('<DatePicker />', () => {
   it('Renders and show todays date', () => {

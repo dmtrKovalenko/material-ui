@@ -5,7 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { PickersDay, DayProps } from '../PickersDay/PickersDay';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import { DAY_SIZE, DAY_MARGIN } from '../constants/dimensions';
+import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
@@ -26,7 +26,7 @@ export interface ExportedCalendarProps<TDate>
   renderDay?: (
     day: TDate,
     selectedDates: (TDate | null)[],
-    DayComponentProps: DayProps<TDate>
+    DayComponentProps: DayProps<TDate>,
   ) => JSX.Element;
   /**
    * Enables keyboard listener for moving between days in calendar.
@@ -144,7 +144,7 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
 
       onChange(finalDate, isFinish);
     },
-    [date, now, onChange, utils]
+    [date, now, onChange, utils],
   );
 
   const initialDate = Array.isArray(date) ? date[0] : date;
@@ -215,7 +215,7 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
                     today: utils.isSameDay(day, now),
                     inCurrentMonth: isDayInCurrentMonth,
                     selected: selectedDates.some(
-                      (selectedDate) => selectedDate && utils.isSameDay(selectedDate, day)
+                      (selectedDate) => selectedDate && utils.isSameDay(selectedDate, day),
                     ),
                     disableHighlightToday,
                     showDaysOutsideCurrentMonth,

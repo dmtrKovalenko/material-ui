@@ -4,12 +4,12 @@ import { useTheme, makeStyles } from '@material-ui/core/styles';
 import ToolbarText from '../internal/pickers/ToolbarText';
 import { ToolbarButton } from '../internal/pickers/ToolbarButton';
 import PickerToolbar from '../internal/pickers/PickerToolbar';
-import { arrayIncludes } from '../_helpers/utils';
+import { arrayIncludes } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
 import { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
-import { convertToMeridiem, getMeridiem } from '../_helpers/time-utils';
+import { convertToMeridiem, getMeridiem } from '../internal/pickers/time-utils';
 
 const muiComponentConfig = { name: 'MuiPickersTimePickerToolbar' };
 

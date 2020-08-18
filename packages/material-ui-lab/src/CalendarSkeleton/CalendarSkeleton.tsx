@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from '@material-ui/core/styles';
-import { DAY_SIZE, DAY_MARGIN } from '../constants/dimensions';
+import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
 import { useStyles as useCalendarStyles } from '../DayPicker/Calendar';
 

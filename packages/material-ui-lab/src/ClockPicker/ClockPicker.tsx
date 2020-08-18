@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Clock } from './Clock';
-import { pipe } from '../_helpers/utils';
+import { pipe } from '../internal/pickers/utils';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
@@ -14,7 +14,7 @@ import {
   convertValueToMeridiem,
   createIsAfterIgnoreDatePart,
   TimeValidationProps,
-} from '../_helpers/time-utils';
+} from '../internal/pickers/time-utils';
 
 export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate> {
   /**

@@ -6,13 +6,13 @@ import { useParsedDate, OverrideParsableDateProps } from '../internal/pickers/ho
 import { ExportedDayPickerProps } from '../DayPicker/DayPicker';
 import { MobileWrapper, DesktopWrapper, StaticWrapper, SomeWrapper } from '../internal/pickers/wrappers/Wrapper';
 import { makeValidationHook, ValidationProps } from '../internal/pickers/hooks/useValidation';
-import { ParsableDate, defaultMinDate, defaultMaxDate } from '../constants/prop-types';
+import { ParsableDate, defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 import {
   makePickerWithStateAndWrapper,
   AllPickerProps,
   SharedPickerProps,
 } from '../internal/pickers/Picker/makePickerWithState';
-import { getFormatAndMaskByViews, DateValidationError, validateDate } from '../_helpers/date-utils';
+import { getFormatAndMaskByViews, DateValidationError, validateDate } from '../internal/pickers/date-utils';
 
 export type DatePickerView = 'year' | 'date' | 'month';
 

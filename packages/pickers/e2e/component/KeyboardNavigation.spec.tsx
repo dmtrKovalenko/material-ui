@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { mountPicker, mountPickerWithState } from '../test-utils';
 import { DesktopDatePicker, MobileDatePicker, TimePicker } from '@material-ui/pickers';
+import { mountPicker, mountPickerWithState } from '../test-utils';
 
 describe('Keyboard navigation', () => {
   context('DatePicker', () => {

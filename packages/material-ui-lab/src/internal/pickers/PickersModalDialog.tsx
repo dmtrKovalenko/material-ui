@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Dialog, { DialogProps } from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
-import { DIALOG_WIDTH, DIALOG_WIDTH_WIDER } from '../../constants/dimensions';
+import { DIALOG_WIDTH, DIALOG_WIDTH_WIDER } from './constants/dimensions';
 
 export interface ExportedPickerModalProps {
   /**

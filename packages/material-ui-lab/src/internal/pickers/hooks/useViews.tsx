@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { arrayIncludes } from '../../../_helpers/utils';
+import { arrayIncludes } from '../utils';
 import { PickerSelectionState } from './usePickerState';
 import { AnyPickerView } from '../Picker/SharedPickerProps';
 

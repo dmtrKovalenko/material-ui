@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DayPickerProps } from './DayPicker';
 import { SlideDirection } from './SlideTransition';
-import { validateDate } from '../_helpers/date-utils';
+import { validateDate } from '../internal/pickers/date-utils';
 import { MuiPickersAdapter, useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 
 interface CalendarState<TDate> {

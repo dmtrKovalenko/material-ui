@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { IS_TOUCH_DEVICE_MEDIA } from '../../../constants/dimensions';
+import { IS_TOUCH_DEVICE_MEDIA } from '../constants/dimensions';
 import { MobileWrapperProps, MobileWrapper } from './MobileWrapper';
 import { DesktopWrapperProps, DesktopWrapper } from './DesktopWrapper';
 import { DesktopTooltipWrapperProps, DesktopTooltipWrapper } from './DesktopTooltipWrapper';

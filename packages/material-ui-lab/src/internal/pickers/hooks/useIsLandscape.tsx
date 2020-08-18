@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useIsomorphicEffect } from './useKeyDown';
-import { arrayIncludes } from '../../../_helpers/utils';
+import { arrayIncludes } from '../utils';
 import { DateTimePickerView } from '../../../DateTimePicker';
 import { BasePickerProps } from '../typings/BasePicker';
 

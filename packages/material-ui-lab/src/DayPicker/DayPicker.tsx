@@ -8,17 +8,17 @@ import { FadeTransitionGroup } from './FadeTransitionGroup';
 import { Calendar, ExportedCalendarProps } from './Calendar';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
-import { DAY_SIZE, DAY_MARGIN } from '../constants/dimensions';
+import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { CalendarHeader, ExportedCalendarHeaderProps } from './CalendarHeader';
-import { YearSelection, ExportedYearSelectionProps } from '../YearPicker/YearSelection';
-import { defaultMinDate, defaultMaxDate } from '../constants/prop-types';
+import { YearPicker, ExportedYearPickerProps } from '../YearPicker/YearPicker';
+import { defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 import { IsStaticVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
-import { DateValidationProps, findClosestEnabledDate } from '../_helpers/date-utils';
+import { DateValidationProps, findClosestEnabledDate } from '../internal/pickers/date-utils';
 
 export interface DayPickerProps<TDate>
   extends DateValidationProps<TDate>,
     ExportedCalendarProps<TDate>,
-    ExportedYearSelectionProps<TDate>,
+    ExportedYearPickerProps<TDate>,
     ExportedCalendarHeaderProps<TDate> {
   date: TDate;
   view: DatePickerView;
@@ -153,7 +153,7 @@ export function DayPicker<TDate>(props: DayPickerProps<TDate>) {
       >
         <div>
           {view === 'year' && (
-            <YearSelection
+            <YearPicker
               {...other}
               date={date}
               onChange={onChange}

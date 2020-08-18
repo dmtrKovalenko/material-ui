@@ -4,6 +4,10 @@ const createDOM = require('./createDOM');
 
 process.browser = true;
 
+require('@babel/register')({
+  extensions: ['.js', '.ts', '.tsx'],
+});
+
 // Enable missing act warnings: https://github.com/facebook/react/blob/v16.13.1/packages/react-reconciler/src/ReactFiberHooks.js#L965
 // TODO: Revisit once https://github.com/facebook/react/issues/15439 is resolved.
 global.jest = null;
@@ -12,6 +16,7 @@ createDOM();
 require('./init');
 
 const mochaHooks = {
+  beforeAll: [],
   beforeEach: [],
   afterEach: [],
 };
@@ -33,8 +38,11 @@ function throwOnUnexpectedConsoleMessages(methodName, expectedMatcher) {
       message,
     ]);
   }
-  // eslint-disable-next-line no-console
-  console[methodName] = logUnexpectedConsoleCalls;
+
+  mochaHooks.beforeAll.push(function registerConsoleStub() {
+    // eslint-disable-next-line no-console
+    console[methodName] = logUnexpectedConsoleCalls;
+  });
 
   mochaHooks.beforeEach.push(function resetUnexpectedCalls() {
     unexpectedCalls.length = 0;
@@ -64,6 +72,7 @@ function throwOnUnexpectedConsoleMessages(methodName, expectedMatcher) {
         `${location}: ${message}\n\n${formattedCalls.join('\n\n')}\n\n` +
           `in ${testPath} (${location})`,
       );
+
       // The stack of `flushUnexpectedCalls` is irrelevant.
       // It includes no clue where the test was triggered
       error.stack = '';

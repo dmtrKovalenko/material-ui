@@ -3,10 +3,10 @@ import * as PropTypes from 'prop-types';
 import { TextFieldProps } from '@material-ui/core/TextField';
 import { IconButtonProps } from '@material-ui/core/IconButton';
 import { InputAdornmentProps } from '@material-ui/core/InputAdornment';
-import { onSpaceOrEnter } from '../../_helpers/utils';
-import { ParsableDate } from '../../constants/prop-types';
+import { onSpaceOrEnter } from './utils';
+import { ParsableDate } from './constants/prop-types';
 import { useUtils, MuiPickersAdapter } from './hooks/useUtils';
-import { getDisplayDate, getTextFieldAriaText } from '../../_helpers/text-field-helper';
+import { getDisplayDate, getTextFieldAriaText } from './text-field-helper';
 
 export type MuiTextFieldProps = TextFieldProps | Omit<TextFieldProps, 'variant'>;
 

@@ -7,7 +7,7 @@ import { useUtils } from './hooks/useUtils';
 import { CalendarIcon } from '../svg-icons/CalendarIcon';
 import { useMaskedInput } from './hooks/useMaskedInput';
 import { DateInputProps, DateInputRefs } from './PureDateInput';
-import { getTextFieldAriaText } from '../../_helpers/text-field-helper';
+import { getTextFieldAriaText } from './text-field-helper';
 
 export const KeyboardDateInput: React.FC<DateInputProps & DateInputRefs> = ({
   containerRef,

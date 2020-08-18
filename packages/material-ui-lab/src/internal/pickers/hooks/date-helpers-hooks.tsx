@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useUtils } from './useUtils';
-import { ParsableDate } from '../../../constants/prop-types';
+import { ParsableDate } from '../constants/prop-types';
 
 export type OverrideParsableDateProps<TDate, TProps, TKey extends keyof TProps> = Omit<
   TProps,

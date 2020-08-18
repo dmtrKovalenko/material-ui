@@ -9,7 +9,7 @@ import { DatePickerView } from '../DatePicker';
 import { SlideDirection } from './SlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';
-import { DateValidationProps } from '../_helpers/date-utils';
+import { DateValidationProps } from '../internal/pickers/date-utils';
 import { ArrowDropDownIcon } from '../internal/svg-icons/ArrowDropDown';
 import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
 import {

@@ -1,5 +1,5 @@
-import { ParsableDate } from '../constants/prop-types';
-import { MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
+import { ParsableDate } from './constants/prop-types';
+import { MuiPickersAdapter } from './hooks/useUtils';
 
 type Meridiem = 'am' | 'pm' | null;
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { onSpaceOrEnter } from '../_helpers/utils';
+import { onSpaceOrEnter } from '../internal/pickers/utils';
 
 export interface MonthProps {
   children: React.ReactNode;

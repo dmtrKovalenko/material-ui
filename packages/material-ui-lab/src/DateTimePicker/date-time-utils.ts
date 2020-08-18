@@ -1,7 +1,7 @@
-import { ParsableDate } from '../constants/prop-types';
+import { ParsableDate } from '../internal/pickers/constants/prop-types';
 import { MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
-import { DateValidationProps, validateDate } from '../_helpers/date-utils';
-import { TimeValidationProps, validateTime } from '../_helpers/time-utils';
+import { DateValidationProps, validateDate } from '../internal/pickers/date-utils';
+import { TimeValidationProps, validateTime } from '../internal/pickers/time-utils';
 
 export function validateDateAndTime<TDate>(
   utils: MuiPickersAdapter,

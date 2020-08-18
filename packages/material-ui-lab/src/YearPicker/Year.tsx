@@ -2,17 +2,17 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { useForkRef } from '@material-ui/core/utils';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { onSpaceOrEnter } from '../_helpers/utils';
+import { onSpaceOrEnter } from '../internal/pickers/utils';
 import { useCanAutoFocus } from '../internal/pickers/hooks/useCanAutoFocus';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
 
 export interface YearProps {
   children: React.ReactNode;
   disabled?: boolean;
-  onSelect: (value: any) => void;
+  onSelect: (value: number) => void;
   selected: boolean;
   focused: boolean;
-  value: any;
+  value: number;
   allowKeyboardControl?: boolean;
   forwardedRef?: React.Ref<HTMLButtonElement>;
 }
@@ -59,7 +59,7 @@ export const useStyles = makeStyles(
   { name: 'MuiPickersYear' }
 );
 
-export const Year: React.FC<YearProps> = (props) => {
+const Year: React.FC<YearProps> = (props) => {
   const {
     allowKeyboardControl,
     children,

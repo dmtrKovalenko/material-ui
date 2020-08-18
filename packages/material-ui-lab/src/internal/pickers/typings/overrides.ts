@@ -16,7 +16,7 @@ import { useStyles as DatePickerRootStyles } from '../../../DatePicker/DatePicke
 import { useStyles as CalendarHeaderStyles } from '../../../DayPicker/CalendarHeader';
 import { useStyles as TimePickerToolbarStyles } from '../../../TimePicker/TimePickerToolbar';
 import { useStyles as SlideTransitionStyles } from '../../../DayPicker/SlideTransition';
-import { useStyles as MuiPickersYearSelectionStyles } from '../../../YearPicker/YearSelection';
+import { useStyles as MuiPickersYearSelectionStyles } from '../../../YearPicker/YearPicker';
 import { useStyles as MuiPickersMonthSelectionStyles } from '../../../MonthPicker/MonthPicker';
 
 type StylesHook<C extends string> = (props?: any) => Record<C, string>;

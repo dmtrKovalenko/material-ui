@@ -8,8 +8,8 @@ import { useForkRef } from '@material-ui/core/utils';
 import { makeStyles } from '@material-ui/core/styles';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useGlobalKeyDown, keycode } from './hooks/useKeyDown';
-import { IS_TOUCH_DEVICE_MEDIA } from '../../constants/dimensions';
-import { executeInTheNextEventLoopTick } from '../../_helpers/utils';
+import { IS_TOUCH_DEVICE_MEDIA } from './constants/dimensions';
+import { executeInTheNextEventLoopTick } from './utils';
 
 export interface ExportedPickerPopperProps {
   /**

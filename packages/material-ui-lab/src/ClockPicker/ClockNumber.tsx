@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { makeStyles, fade } from '@material-ui/core/styles';
-import { onSpaceOrEnter } from '../_helpers/utils';
+import { onSpaceOrEnter } from '../internal/pickers/utils';
 import { useCanAutoFocus } from '../internal/pickers/hooks/useCanAutoFocus';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 

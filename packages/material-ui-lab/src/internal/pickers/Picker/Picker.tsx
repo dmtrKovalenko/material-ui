@@ -10,7 +10,7 @@ import { DayPicker } from '../../../DayPicker/DayPicker';
 import { withDefaultProps } from '../withDefaultProps';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { useIsLandscape } from '../hooks/useIsLandscape';
-import { DIALOG_WIDTH, VIEW_HEIGHT } from '../../../constants/dimensions';
+import { DIALOG_WIDTH, VIEW_HEIGHT } from '../constants/dimensions';
 import { PickerSelectionState } from '../hooks/usePickerState';
 import { WrapperVariantContext } from '../wrappers/WrapperVariantContext';
 import {

@@ -1,8 +1,8 @@
 import { arrayIncludes } from './utils';
-import { ParsableDate } from '../constants/prop-types';
-import { BasePickerProps } from '../internal/pickers/typings/BasePicker';
-import { DatePickerView } from '../DatePicker/DatePicker';
-import { MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
+import { ParsableDate } from './constants/prop-types';
+import { BasePickerProps } from './typings/BasePicker';
+import { DatePickerView } from '../../DatePicker/DatePicker';
+import { MuiPickersAdapter } from './hooks/useUtils';
 
 interface FindClosestDateParams<TDate> {
   date: TDate;

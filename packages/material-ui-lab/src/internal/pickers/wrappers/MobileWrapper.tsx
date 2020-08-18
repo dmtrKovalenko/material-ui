@@ -43,6 +43,7 @@ export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
     showTodayButton,
     todayText,
     wider,
+    TransitionComponent,
     ...other
   } = props;
   return (
@@ -62,6 +63,7 @@ export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
         cancelText={cancelText}
         clearable={clearable}
         showTodayButton={showTodayButton}
+        TransitionComponent={TransitionComponent}
         data-mui-test="mobile-wrapper-dialog"
         {...DialogProps}
       >

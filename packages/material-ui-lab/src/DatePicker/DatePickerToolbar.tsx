@@ -7,7 +7,7 @@ import { DatePickerView } from './DatePicker';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
 import { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
-import { isYearAndMonthViews, isYearOnlyView } from '../_helpers/date-utils';
+import { isYearAndMonthViews, isYearOnlyView } from '../internal/pickers/date-utils';
 
 const muiPickersComponentConfig = { name: 'MuiPickersDatePickerToolbar' };
 

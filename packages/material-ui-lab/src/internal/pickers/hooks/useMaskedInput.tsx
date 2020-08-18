@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useRifm } from 'rifm';
 import { useUtils } from './useUtils';
-import { createDelegatedEventHandler } from '../../../_helpers/utils';
+import { createDelegatedEventHandler } from '../utils';
 import { DateInputProps, MuiTextFieldProps } from '../PureDateInput';
 import {
   maskedDateFormatter,
   getDisplayDate,
   checkMaskIsValidForCurrentFormat,
-} from '../../../_helpers/text-field-helper';
+} from '../text-field-helper';
 
 type MaskedInputProps = Omit<
   DateInputProps,

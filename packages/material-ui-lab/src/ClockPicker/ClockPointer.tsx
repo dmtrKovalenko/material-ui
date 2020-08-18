@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core/styles';
-import { ClockViewType } from '../constants/ClockType';
+import { ClockViewType } from '../internal/pickers/constants/ClockType';
 
 export const styles = (theme: Theme) =>
   createStyles({

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { ReactWrapper } from 'enzyme';
-import { mount, utilsToUse, mountPickerWithState } from './test-utils';
+import { mount, adapterToUse, mountPickerWithState } from './test-utils';
 import {
   DatePicker,
   MobileDatePicker,
@@ -12,8 +12,8 @@ import { CalendarSkeleton } from '../CalendarSkeleton';
 
 describe('e2e - DatePicker default year format', () => {
   let component: ReactWrapper<DatePickerProps>;
-  const onChangeMock = jest.fn();
-  const date = utilsToUse.date('2018-01-01T00:00:00.000Z');
+  const onChangeMock = () => {};
+  const date = adapterToUse.date('2018-01-01T00:00:00.000Z');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21,7 +21,7 @@ describe('e2e - DatePicker default year format', () => {
       <DatePicker
         renderInput={(props) => <TextField {...props} />}
         desktopModeMediaQuery="(min-width:720px)"
-        value={utilsToUse.date('2018-01-01T00:00:00.000')}
+        value={adapterToUse.date('2018-01-01T00:00:00.000')}
         onChange={onChangeMock}
         views={['year']}
       />
@@ -29,14 +29,14 @@ describe('e2e - DatePicker default year format', () => {
   });
 
   it('Should use year format by default for year only view', () => {
-    expect(component.find('input').props().value).toBe(utilsToUse.format(date, 'year'));
+    expect(component.find('input').props().value).toBe(adapterToUse.format(date, 'year'));
   });
 });
 
 describe('e2e - DatePicker default year month format', () => {
   let component: ReactWrapper<DatePickerProps>;
-  const onChangeMock = jest.fn();
-  const date = utilsToUse.date('2018-01-01T00:00:00.000Z');
+  const onChangeMock = () => {};
+  const date = adapterToUse.date('2018-01-01T00:00:00.000Z');
 
   beforeEach(() => {
     component = mount(
@@ -50,14 +50,14 @@ describe('e2e - DatePicker default year month format', () => {
   });
 
   it('Should use year month format by default for year & month views', () => {
-    expect(component.find('input').props().value).toBe(utilsToUse.format(date, 'monthAndYear'));
+    expect(component.find('input').props().value).toBe(adapterToUse.format(date, 'monthAndYear'));
   });
 });
 
 describe('e2e - DatePicker default year month day format', () => {
   let component: ReactWrapper<DatePickerProps>;
-  const onChangeMock = jest.fn();
-  const date = utilsToUse.date('2018-01-01T00:00:00.000Z');
+  const onChangeMock = () => {};
+  const date = adapterToUse.date('2018-01-01T00:00:00.000Z');
 
   beforeEach(() => {
     component = mount(
@@ -71,16 +71,16 @@ describe('e2e - DatePicker default year month day format', () => {
   });
 
   it('Should use default for year & month & day views', () => {
-    expect(component.find('input').props().value).toBe(utilsToUse.format(date, 'keyboardDate'));
+    expect(component.find('input').props().value).toBe(adapterToUse.format(date, 'keyboardDate'));
   });
 });
 
 describe('e2e - DatePicker onMonthChange', () => {
   let component: ReactWrapper<DatePickerProps>;
-  const onChangeMock = jest.fn();
-  const onMonthChangeMock = jest.fn();
+  const onChangeMock = () => {};
+  const onMonthChangeMock = () => {};
 
-  const date = utilsToUse.date('2018-01-01T00:00:00.000Z');
+  const date = adapterToUse.date('2018-01-01T00:00:00.000Z');
   beforeEach(() => {
     component = mount(
       <MobileDatePicker
@@ -107,8 +107,8 @@ describe('e2e - DatePicker loading prop', () => {
         open
         loading
         renderInput={(props) => <TextField {...props} />}
-        onChange={jest.fn()}
-        value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
+        onChange={() => {}}
+        value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
       />
     );
 
@@ -122,9 +122,9 @@ describe('e2e - DatePicker loading prop', () => {
         open
         loading
         renderInput={(props) => <TextField {...props} />}
-        onChange={jest.fn()}
+        onChange={() => {}}
         renderLoading={() => <CalendarSkeleton data-mui-test="custom-loading" />}
-        value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
+        value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
       />
     );
 
@@ -140,7 +140,7 @@ it('Custom toolbar component', () => {
       open
       disableHighlightToday
       value={new Date()}
-      onChange={jest.fn()}
+      onChange={() => {}}
       ToolbarComponent={() => <div id="custom-toolbar" />}
     />
   );
@@ -153,9 +153,9 @@ it('Selected date is disabled', () => {
     <MobileDatePicker
       renderInput={(props) => <TextField {...props} />}
       open
-      value={utilsToUse.date('01-01-2019')}
-      maxDate={utilsToUse.date('01-01-2018')}
-      onChange={jest.fn()}
+      value={adapterToUse.date('01-01-2019')}
+      maxDate={adapterToUse.date('01-01-2018')}
+      onChange={() => {}}
     />
   );
 

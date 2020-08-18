@@ -1,5 +1,5 @@
-import { ParsableDate } from '../constants/prop-types';
-import { MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
+import { ParsableDate } from './constants/prop-types';
+import { MuiPickersAdapter } from './hooks/useUtils';
 
 export function getTextFieldAriaText(rawValue: ParsableDate, utils: MuiPickersAdapter) {
   return rawValue && utils.isValid(utils.date(rawValue))

@@ -2,7 +2,7 @@ import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { DateTimePickerToolbar } from './DateTimePickerToolbar';
 import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
-import { pick12hOr24hFormat } from '../_helpers/text-field-helper';
+import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
 import { useParsedDate, OverrideParsableDateProps } from '../internal/pickers/hooks/date-helpers-hooks';
 import { ExportedDayPickerProps } from '../DayPicker/DayPicker';
 import { makePickerWithStateAndWrapper, SharedPickerProps } from '../internal/pickers/Picker/makePickerWithState';
@@ -10,7 +10,7 @@ import { DesktopWrapper, MobileWrapper, StaticWrapper, SomeWrapper } from '../in
 import { WithViewsProps, AllSharedPickerProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { DateAndTimeValidationError, validateDateAndTime } from './date-time-utils';
 import { makeValidationHook, ValidationProps } from '../internal/pickers/hooks/useValidation';
-import { ParsableDate, defaultMinDate, defaultMaxDate } from '../constants/prop-types';
+import { ParsableDate, defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 
 export type DateTimePickerView = 'year' | 'date' | 'month' | 'hours' | 'minutes' | 'seconds';
 

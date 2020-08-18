@@ -5,7 +5,7 @@ import { InnerMobileWrapperProps } from './MobileWrapper';
 import { InnerDesktopWrapperProps } from './DesktopWrapper';
 import { WrapperVariantContext } from './WrapperVariantContext';
 import { KeyboardDateInput } from '../KeyboardDateInput';
-import { executeInTheNextEventLoopTick } from '../../../_helpers/utils';
+import { executeInTheNextEventLoopTick } from '../utils';
 import { ExportedPickerPopperProps, PickersPopper } from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
 

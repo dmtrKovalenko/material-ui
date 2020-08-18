@@ -1,32 +1,31 @@
 import * as React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-// eslint-disable-next-line import/no-named-as-default
 import Year from './Year';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import { findClosestEnabledDate } from '../_helpers/date-utils';
+import { findClosestEnabledDate } from '../internal/pickers/date-utils';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
 import { useGlobalKeyDown, keycode as keys } from '../internal/pickers/hooks/useKeyDown';
 
-export interface ExportedYearSelectionProps<TDate> {
+export interface ExportedYearPickerProps<TDate> {
   /**
    * Callback firing on year change @DateIOType.
    */
-  onYearChange?: (date: unknown) => void;
+  onYearChange?: (date: TDate) => void;
   /**
    * Disable specific years dynamically.
    * Works like `shouldDisableDate` but for year selection view. @DateIOType.
    */
-  shouldDisableYear?: (day: unknown) => boolean;
+  shouldDisableYear?: (day: TDate) => boolean;
 }
 
-export interface YearSelectionProps<TDate> extends ExportedYearSelectionProps<TDate> {
+export interface YearPickerProps<TDate> extends ExportedYearPickerProps<TDate> {
   allowKeyboardControl?: boolean;
   changeFocusedDay: (day: TDate) => void;
   date: TDate;
-  disableFuture?: boolean | null | undefined;
-  disablePast?: boolean | null | undefined;
+  disableFuture?: boolean | null;
+  disablePast?: boolean | null;
   isDateDisabled: (day: TDate) => boolean;
   maxDate: TDate;
   minDate: TDate;
@@ -44,10 +43,10 @@ export const useStyles = makeStyles(
       margin: '0 4px',
     },
   },
-  { name: 'MuiPickersYearSelection' }
+  { name: 'MuiPickersYearSelection' },
 );
 
-export function YearSelection<TDate>({
+export function YearPicker<TDate>({
   allowKeyboardControl,
   changeFocusedDay,
   date: __dateOrNull,
@@ -59,7 +58,7 @@ export function YearSelection<TDate>({
   onChange,
   onYearChange,
   shouldDisableYear,
-}: YearSelectionProps<TDate>) {
+}: YearPickerProps<TDate>) {
   const now = useNow<TDate>();
   const theme = useTheme();
   const utils = useUtils<TDate>();
@@ -73,7 +72,7 @@ export function YearSelection<TDate>({
 
   const handleYearSelection = React.useCallback(
     (year: number, isFinish: PickerSelectionState = 'finish') => {
-      const submitDate = (newDate: TDate | null) => {
+      const submitDate = (newDate: TDate) => {
         onChange(newDate, isFinish);
         changeFocusedDay(newDate || now);
 
@@ -94,7 +93,7 @@ export function YearSelection<TDate>({
           shouldDisableDate: isDateDisabled,
         });
 
-        submitDate(closestEnabledDate);
+        submitDate(closestEnabledDate || now);
       } else {
         submitDate(newDate);
       }
@@ -111,7 +110,7 @@ export function YearSelection<TDate>({
       maxDate,
       disablePast,
       disableFuture,
-    ]
+    ],
   );
 
   const focusYear = React.useCallback(
@@ -120,7 +119,7 @@ export function YearSelection<TDate>({
         setFocusedYear(year);
       }
     },
-    [selectedDate, isDateDisabled, utils]
+    [selectedDate, isDateDisabled, utils],
   );
 
   const yearsInRow = wrapperVariant === 'desktop' ? 4 : 3;

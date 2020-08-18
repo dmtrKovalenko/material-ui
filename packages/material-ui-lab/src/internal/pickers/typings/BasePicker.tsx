@@ -1,4 +1,4 @@
-import { ParsableDate } from '../../../constants/prop-types';
+import { ParsableDate } from '../constants/prop-types';
 import { ToolbarComponentProps } from '../Picker/SharedPickerProps';
 
 export interface BasePickerProps<TInputValue = ParsableDate, TDateValue = unknown> {
