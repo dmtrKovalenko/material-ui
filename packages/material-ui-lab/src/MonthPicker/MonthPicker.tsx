@@ -23,7 +23,7 @@ export const useStyles = makeStyles(
       alignContent: 'stretch',
     },
   },
-  { name: 'MuiPickersMonthSelection' }
+  { name: 'MuiPickersMonthSelection' },
 );
 
 export function MonthPicker<TDate>({
@@ -42,11 +42,11 @@ export function MonthPicker<TDate>({
 
   const shouldDisableMonth = (month: TDate) => {
     const firstEnabledMonth = utils.startOfMonth(
-      disablePast && utils.isAfter(now, minDate) ? now : minDate
+      disablePast && utils.isAfter(now, minDate) ? now : minDate,
     );
 
     const lastEnabledMonth = utils.startOfMonth(
-      disableFuture && utils.isBefore(now, maxDate) ? now : maxDate
+      disableFuture && utils.isBefore(now, maxDate) ? now : maxDate,
     );
 
     const isBeforeFirstEnabled = utils.isBefore(month, firstEnabledMonth);
@@ -64,7 +64,7 @@ export function MonthPicker<TDate>({
         onMonthChange(newDate);
       }
     },
-    [date, now, onChange, onMonthChange, utils]
+    [date, now, onChange, onMonthChange, utils],
   );
 
   return (

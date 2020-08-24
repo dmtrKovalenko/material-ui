@@ -28,12 +28,12 @@ test.each`
         range,
         newDate,
         currentlySelectingRangeEnd: selectingEnd,
-      })
+      }),
     ).toEqual({
       nextSelection: expectedNextSelection,
       newRange: expectedRange,
     });
-  }
+  },
 );
 
 test.each`
@@ -55,7 +55,7 @@ test.each`
         range,
         newDate,
         currentlySelectingRangeEnd: selectingEnd,
-      })
+      }),
     ).toEqual(expectedRange);
-  }
+  },
 );

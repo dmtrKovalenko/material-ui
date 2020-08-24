@@ -14,7 +14,7 @@ export function useDefaultProps<T>(props: T, { name }: { name: string }) {
 
 export function withDefaultProps<T>(
   componentConfig: { name: string },
-  Component: React.ComponentType<T>
+  Component: React.ComponentType<T>,
 ): React.FC<T> {
   const componentName = componentConfig.name.replace('Mui', '');
 

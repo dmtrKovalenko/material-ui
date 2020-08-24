@@ -5,5 +5,5 @@ const { version } = require('../../lib/package.json');
 
 execSync('now alias dev.material-ui-pickers.dev next.material-ui-pickers.dev');
 execSync(
-  `now alias dev.material-ui-pickers.dev v${version.replace(/\./g, '-')}.material-ui-pickers.dev`
+  `now alias dev.material-ui-pickers.dev v${version.replace(/\./g, '-')}.material-ui-pickers.dev`,
 );

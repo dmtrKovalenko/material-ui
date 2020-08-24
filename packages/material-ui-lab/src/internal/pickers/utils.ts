@@ -11,7 +11,7 @@ export function arrayIncludes<T>(array: T[] | readonly T[], itemOrItems: T | T[]
 
 export const onSpaceOrEnter = (
   innerFn: () => void,
-  onFocus?: (event: React.KeyboardEvent<any>) => void
+  onFocus?: (event: React.KeyboardEvent<any>) => void,
 ) => (event: React.KeyboardEvent) => {
   if (event.key === 'Enter' || event.key === ' ') {
     innerFn();
@@ -30,7 +30,7 @@ export const onSpaceOrEnter = (
 export const pipe = (...fns: ((...args: any[]) => any)[]) =>
   fns.reduceRight(
     (prevFn, nextFn) => (...args) => nextFn(prevFn(...args)),
-    (value) => value
+    (value) => value,
   );
 
 export const executeInTheNextEventLoopTick = (fn: () => void) => {
@@ -39,7 +39,7 @@ export const executeInTheNextEventLoopTick = (fn: () => void) => {
 
 export function createDelegatedEventHandler<TEvent>(
   fn: (event: TEvent) => void,
-  onEvent?: (event: TEvent) => void
+  onEvent?: (event: TEvent) => void,
 ) {
   return (event: TEvent) => {
     fn(event);

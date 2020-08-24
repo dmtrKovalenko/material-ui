@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { expect } from 'chai';
 import { spy } from 'sinon';
+import { isWeekend } from 'date-fns';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, act } from 'test/utils';
 import { StaticDatePicker, DesktopDatePicker, DesktopDatePickerProps } from './DatePicker';
@@ -200,6 +201,49 @@ describe('<DatePicker /> keyboard interactions', () => {
         fireEvent.keyDown(document.body, { force: true, keyCode, key });
 
         expect(document.activeElement).to.have.text(expectFocusedYear);
+      });
+    });
+  });
+
+  context('input validaiton', () => {
+    [
+      { expectedError: 'invalidDate', props: {}, input: 'invalidText' },
+      { expectedError: 'disablePast', props: { disablePast: true }, input: '01/01/1900' },
+      { expectedError: 'disableFuture', props: { disableFuture: true }, input: '01/01/2050' },
+      { expectedError: 'minDate', props: { minDate: new Date('01/01/2000') }, input: '01/01/1990' },
+      { expectedError: 'maxDate', props: { maxDate: new Date('01/01/2000') }, input: '01/01/2010' },
+      {
+        expectedError: 'shouldDisableDate',
+        props: { shouldDisableDate: isWeekend },
+        input: '04/25/2020',
+      },
+    ].forEach(({ props, input, expectedError }) => {
+      it(`dispatches ${expectedError} error`, () => {
+        const onErrorMock = spy();
+        // we are running validation on value change
+        function DatePickerInput() {
+          const [date, setDate] = React.useState<Date | null>(null);
+
+          return (
+            <DesktopDatePicker<Date>
+              value={date}
+              onError={onErrorMock}
+              onChange={(newDate) => setDate(newDate)}
+              renderInput={(props) => <TextField {...props} />}
+              {...props}
+            />
+          );
+        }
+
+        render(<DatePickerInput />);
+
+        fireEvent.change(screen.getByRole('textbox'), {
+          target: {
+            value: input,
+          },
+        });
+
+        expect(onErrorMock.calledWith(expectedError)).to.be.ok;
       });
     });
   });

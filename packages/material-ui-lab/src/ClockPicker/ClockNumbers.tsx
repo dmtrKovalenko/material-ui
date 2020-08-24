@@ -60,7 +60,7 @@ export const getHourNumbers = ({
         label={utils.formatNumber(label)}
         onSelect={() => onChange(hour, 'finish')}
         getClockNumberText={getClockNumberText}
-      />
+      />,
     );
   }
 

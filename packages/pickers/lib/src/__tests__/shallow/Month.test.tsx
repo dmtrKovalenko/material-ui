@@ -10,7 +10,7 @@ describe('Month', () => {
     component = shallow(
       <Month value={utilsToUse.date('01-01-2017')} onSelect={jest.fn()}>
         Oct
-      </Month>
+      </Month>,
     );
   });
 
@@ -26,7 +26,7 @@ describe('Month - disabled state', () => {
     component = shallow(
       <Month disabled value={utilsToUse.date('01-01-2017')} onSelect={jest.fn()}>
         Oct
-      </Month>
+      </Month>,
     );
   });
 

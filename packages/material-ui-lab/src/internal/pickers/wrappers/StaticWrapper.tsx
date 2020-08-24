@@ -13,7 +13,7 @@ const useStyles = makeStyles(
       backgroundColor: theme.palette.background.paper,
     },
   }),
-  { name: 'MuiPickersStaticWrapper' }
+  { name: 'MuiPickersStaticWrapper' },
 );
 
 export interface StaticWrapperProps {

@@ -28,7 +28,7 @@ describe('<DatePicker />', () => {
         minDate={new Date('2000-01-01')}
         maxDate={new Date('2010-01-01')}
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByRole('button', { name: '2010' }));
@@ -41,7 +41,7 @@ describe('<DatePicker />', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={jest.fn()}
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByRole('textbox'));
@@ -57,7 +57,7 @@ describe('<DatePicker />', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={jest.fn()}
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Choose date, selected date is Jan 1, 2018'));
@@ -76,7 +76,7 @@ describe('<DatePicker />', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={jest.fn()}
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Choose date, selected date is Jan 1, 2018'));
@@ -96,7 +96,7 @@ describe('<DatePicker />', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Choose date, selected date is Jan 1, 2018'));
@@ -153,7 +153,7 @@ describe('<DatePicker />', () => {
             locale={locale}
             Picker={DesktopDatePicker}
             PickerProps={{ views: ['month', 'year'] }}
-          />
+          />,
         );
         const input = screen.getByRole('textbox');
         fireEvent.change(input, { target: { value: invalid } });
@@ -171,7 +171,7 @@ describe('<DatePicker />', () => {
             locale={locale}
             Picker={DesktopDatePicker}
             PickerProps={{ views: ['month', 'year'] }}
-          />
+          />,
         );
         const input = screen.getByRole('textbox');
         fireEvent.change(input, { target: { value: invalid } });

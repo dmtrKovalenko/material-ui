@@ -8,7 +8,7 @@ export type MuiPickersAdapter<TDate = unknown> = IUtils<TDate>;
 function checkUtils(utils: MuiPickersAdapter | null) /* :asserts utils is MuiPickersAdapter */ {
   if (!utils) {
     throw new Error(
-      'Can not find utils in context. It looks like you forgot to wrap your component in LocalizationProvider, or pass dateAdapter prop directly.'
+      'Can not find utils in context. It looks like you forgot to wrap your component in LocalizationProvider, or pass dateAdapter prop directly.',
     );
   }
 }

@@ -23,10 +23,10 @@ const getOrientation = () => {
 
 export function useIsLandscape(
   views: DateTimePickerView[],
-  customOrientation?: BasePickerProps['orientation']
+  customOrientation?: BasePickerProps['orientation'],
 ): boolean {
   const [orientation, setOrientation] = React.useState<BasePickerProps['orientation']>(
-    getOrientation()
+    getOrientation(),
   );
 
   useIsomorphicEffect(() => {

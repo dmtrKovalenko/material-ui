@@ -14,7 +14,7 @@ if (duplicates.length === 0) {
 }
 
 console.log(
-  `${duplicates.length} duplicated package(s) found\n${duplicates.map((x) => `  ${x}`).join('\n')}`
+  `${duplicates.length} duplicated package(s) found\n${duplicates.map((x) => `  ${x}`).join('\n')}`,
 );
 
 if (process.env.CI) {
@@ -22,7 +22,7 @@ if (process.env.CI) {
     [
       `Error: There are currently ${duplicates.length} duplicated package(s).`,
       `To deduplicate run "yarn deduplicate"`,
-    ].join('\n')
+    ].join('\n'),
   );
   process.exit(1);
 }

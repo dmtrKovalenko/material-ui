@@ -24,7 +24,7 @@ describe('e2e - DesktopDateTimePicker', () => {
         OpenPickerButtonProps={{ id: 'keyboard-button' }}
         renderInput={(props) => <TextField {...props} />}
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
-      />
+      />,
     );
   });
 

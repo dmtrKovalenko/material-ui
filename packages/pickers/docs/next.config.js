@@ -74,9 +74,9 @@ module.exports = withBundleAnalyzer(
                 reportFilename: '../.next/bundle/client.html',
               },
             },
-          })
-        )
-      )
-    )
-  )
+          }),
+        ),
+      ),
+    ),
+  ),
 );

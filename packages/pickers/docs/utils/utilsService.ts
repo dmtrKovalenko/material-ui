@@ -47,7 +47,7 @@ function replaceGetFormatInvocation(sourceToProcess: string, lib: UtilsLib) {
 
   const getFormatStringInvocation = sourceToProcess.slice(
     startOfExpression,
-    endOfExpression + endInvocationPattern.length
+    endOfExpression + endInvocationPattern.length,
   );
 
   const formatsMap = getFormatStringInvocation

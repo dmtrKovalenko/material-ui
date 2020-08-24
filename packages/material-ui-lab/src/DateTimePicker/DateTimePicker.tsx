@@ -3,14 +3,29 @@ import { DateTimePickerToolbar } from './DateTimePickerToolbar';
 import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
-import { useParsedDate, OverrideParsableDateProps } from '../internal/pickers/hooks/date-helpers-hooks';
+import {
+  useParsedDate,
+  OverrideParsableDateProps,
+} from '../internal/pickers/hooks/date-helpers-hooks';
 import { ExportedDayPickerProps } from '../DayPicker/DayPicker';
-import { makePickerWithStateAndWrapper, SharedPickerProps } from '../internal/pickers/Picker/makePickerWithState';
-import { DesktopWrapper, MobileWrapper, StaticWrapper, SomeWrapper } from '../internal/pickers/wrappers/Wrapper';
+import {
+  makePickerWithStateAndWrapper,
+  SharedPickerProps,
+} from '../internal/pickers/Picker/makePickerWithState';
+import {
+  DesktopWrapper,
+  MobileWrapper,
+  StaticWrapper,
+  SomeWrapper,
+} from '../internal/pickers/wrappers/Wrapper';
 import { WithViewsProps, AllSharedPickerProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { DateAndTimeValidationError, validateDateAndTime } from './date-time-utils';
 import { makeValidationHook, ValidationProps } from '../internal/pickers/hooks/useValidation';
-import { ParsableDate, defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
+import {
+  ParsableDate,
+  defaultMinDate,
+  defaultMaxDate,
+} from '../internal/pickers/constants/prop-types';
 
 export type DateTimePickerView = 'year' | 'date' | 'month' | 'hours' | 'minutes' | 'seconds';
 
@@ -116,7 +131,7 @@ const dateTimePickerConfig = {
 };
 
 type DateTimePickerComponent<TWrapper extends SomeWrapper> = <TDate>(
-  props: BaseDateTimePickerProps<TDate> & SharedPickerProps<TDate, TWrapper>
+  props: BaseDateTimePickerProps<TDate> & SharedPickerProps<TDate, TWrapper>,
 ) => JSX.Element;
 
 export const DateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerProps<unknown>>(
@@ -124,7 +139,7 @@ export const DateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
   {
     name: 'MuiDateTimePicker',
     ...dateTimePickerConfig,
-  }
+  },
 ) as DateTimePickerComponent<typeof ResponsiveWrapper>;
 
 export type DateTimePickerProps = React.ComponentProps<typeof DateTimePicker>;
@@ -143,7 +158,7 @@ export const MobileDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePi
   {
     name: 'MuiMobileDateTimePicker',
     ...dateTimePickerConfig,
-  }
+  },
 ) as DateTimePickerComponent<typeof MobileWrapper>;
 
 export type MobileDateTimePickerProps = React.ComponentProps<typeof MobileDateTimePicker>;
@@ -153,7 +168,7 @@ export const StaticDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePi
   {
     name: 'MuiStaticDateTimePicker',
     ...dateTimePickerConfig,
-  }
+  },
 ) as DateTimePickerComponent<typeof StaticWrapper>;
 
 export type StaticDateTimePickerProps = React.ComponentProps<typeof StaticDateTimePicker>;

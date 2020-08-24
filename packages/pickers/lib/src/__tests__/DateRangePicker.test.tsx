@@ -27,11 +27,11 @@ describe('<DateRangePicker />', () => {
           utilsToUse.date('2018-01-01T00:00:00.000'),
           utilsToUse.date('2018-01-31T00:00:00.000'),
         ]}
-      />
+      />,
     );
 
     expect(
-      getAllByMuiTest('DateRangeDay').filter((day) => day.getAttribute('disabled') !== undefined)
+      getAllByMuiTest('DateRangeDay').filter((day) => day.getAttribute('disabled') !== undefined),
     ).toHaveLength(31);
   });
 
@@ -43,7 +43,7 @@ describe('<DateRangePicker />', () => {
         calendars={3}
         onChange={jest.fn()}
         value={[utilsToUse.date(new Date(NaN)), utilsToUse.date('2018-01-31T00:00:00.000')]}
-      />
+      />,
     );
 
     fireEvent.focus(screen.getAllByRole('textbox')[0]);
@@ -60,7 +60,7 @@ describe('<DateRangePicker />', () => {
         onChange={jest.fn()}
         renderDay={(day) => <div key={String(day)} data-mui-test="renderDayCalled" />}
         value={[null, null]}
-      />
+      />,
     );
 
     await waitFor(() => screen.getByRole('tooltip'));

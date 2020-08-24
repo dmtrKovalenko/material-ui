@@ -63,7 +63,7 @@ export function useMaskedInput({
   const formatter = React.useMemo(
     () =>
       shouldUseMaskedInput && mask ? maskedDateFormatter(mask, acceptRegex) : (st: string) => st,
-    [acceptRegex, mask, shouldUseMaskedInput]
+    [acceptRegex, mask, shouldUseMaskedInput],
   );
 
   React.useEffect(() => {

@@ -81,7 +81,7 @@ export const useStyles = makeStyles(
       marginRight: 4,
     },
   }),
-  { name: 'MuiPickersCalendarHeader' }
+  { name: 'MuiPickersCalendarHeader' },
 );
 
 function getSwitchingViewAriaText(view: DatePickerView) {

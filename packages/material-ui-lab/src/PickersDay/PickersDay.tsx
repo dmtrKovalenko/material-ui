@@ -70,7 +70,7 @@ export const useStyles = makeStyles(
     selected: {},
     disabled: {},
   }),
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 export interface DayProps<TDate> extends ExtendMui<ButtonBaseProps> {
@@ -216,7 +216,7 @@ function PureDay<TDate>(props: DayProps<TDate>) {
       [classes.today]: !disableHighlightToday && isToday,
       [classes.dayOutsideMonth]: !isInCurrentMonth && showDaysOutsideCurrentMonth,
     },
-    className
+    className,
   );
 
   if (!isInCurrentMonth && !showDaysOutsideCurrentMonth) {

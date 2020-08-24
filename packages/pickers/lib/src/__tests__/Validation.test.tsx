@@ -166,7 +166,7 @@ describe('validation', () => {
         });
 
         expect(onErrorMock).toBeCalledWith(expectedError, expect.anything());
-      }
+      },
     );
   });
 });

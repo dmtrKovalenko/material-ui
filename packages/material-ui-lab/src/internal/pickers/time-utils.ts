@@ -26,7 +26,7 @@ export const convertToMeridiem = <TDate>(
   time: TDate,
   meridiem: 'am' | 'pm',
   ampm: boolean,
-  utils: MuiPickersAdapter<TDate>
+  utils: MuiPickersAdapter<TDate>,
 ) => {
   const newHoursAmount = convertValueToMeridiem(utils.getHours(time), meridiem, ampm);
   return utils.setHours(time, newHoursAmount);
@@ -94,7 +94,7 @@ export function getSecondsInDay(date: unknown, utils: MuiPickersAdapter) {
 
 export const createIsAfterIgnoreDatePart = (
   disableIgnoringDatePartForTimeValidation: boolean,
-  utils: MuiPickersAdapter
+  utils: MuiPickersAdapter,
 ) => (dateLeft: unknown, dateRight: unknown) => {
   if (disableIgnoringDatePartForTimeValidation) {
     return utils.isAfter(dateLeft, dateRight);
@@ -135,12 +135,12 @@ export const validateTime = <TDate>(
     maxTime,
     shouldDisableTime,
     disableIgnoringDatePartForTimeValidation,
-  }: TimeValidationProps<TDate>
+  }: TimeValidationProps<TDate>,
 ) => {
   const date = utils.date(value);
   const isAfterComparingFn = createIsAfterIgnoreDatePart(
     Boolean(disableIgnoringDatePartForTimeValidation),
-    utils
+    utils,
   );
 
   if (value === null) {

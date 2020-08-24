@@ -8,7 +8,7 @@ const cache = {
 type CacheType = typeof cache;
 
 export function fetchGithubData<T extends keyof CacheType>(
-  path: T
+  path: T,
 ): Promise<NonNullable<CacheType[T]>> {
   if (cache[path] && new Date().getTime() < cacheRemaining) {
     return Promise.resolve(cache[path] || ([] as any));

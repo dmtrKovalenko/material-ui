@@ -83,7 +83,7 @@ export const isYearAndMonthViews = (views: readonly DatePickerView[]) =>
 
 export const getFormatAndMaskByViews = (
   views: readonly DatePickerView[],
-  utils: MuiPickersAdapter
+  utils: MuiPickersAdapter,
 ) => {
   if (isYearOnlyView(views)) {
     return {
@@ -107,7 +107,7 @@ export const getFormatAndMaskByViews = (
 
 export function parsePickerInputValue(
   utils: MuiPickersAdapter,
-  { value }: BasePickerProps
+  { value }: BasePickerProps,
 ): unknown | null {
   const parsedValue = utils.date(value);
 
@@ -130,7 +130,7 @@ export interface DateValidationProps<TDate> {
   /**
    * Disable specific date. @DateIOType
    */
-  shouldDisableDate?: (day: unknown) => boolean;
+  shouldDisableDate?: (day: TDate) => boolean;
   /**
    * Disable past dates.
    *
@@ -148,7 +148,7 @@ export interface DateValidationProps<TDate> {
 export const validateDate = <TDate>(
   utils: MuiPickersAdapter,
   value: TDate | ParsableDate,
-  { minDate, maxDate, disableFuture, shouldDisableDate, disablePast }: DateValidationProps<TDate>
+  { minDate, maxDate, disableFuture, shouldDisableDate, disablePast }: DateValidationProps<TDate>,
 ) => {
   const now = utils.date();
   const date = utils.date(value);
@@ -187,6 +187,5 @@ type DateRangeValidationErrorValue = DateValidationError | 'invalidRange' | null
 
 export type DateRangeValidationError = [
   DateRangeValidationErrorValue,
-  DateRangeValidationErrorValue
+  DateRangeValidationErrorValue,
 ];
-

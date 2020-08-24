@@ -29,7 +29,7 @@ export interface SharedPickerProps<
   onDateChange: (
     date: TDateValue,
     currentWrapperVariant: WrapperVariant,
-    isFinish?: PickerSelectionState
+    isFinish?: PickerSelectionState,
   ) => void;
 }
 

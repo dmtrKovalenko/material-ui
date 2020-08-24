@@ -22,8 +22,8 @@ function mockTime() {
 
 export function mountStaticPicker(
   createStaticPickerNode: (
-    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>
-  ) => React.ReactNode
+    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>,
+  ) => React.ReactNode,
 ) {
   document.body.style.margin = '0px';
   cy.viewport(DIALOG_WIDTH, 500);
@@ -33,28 +33,28 @@ export function mountStaticPicker(
   mount(
     <LocalizationProvider dateAdapter={DateFnsAdapter}>
       {createStaticPickerNode(mockRequiredProps)}
-    </LocalizationProvider>
+    </LocalizationProvider>,
   );
 }
 
 export function mountPicker(
   createPicker: (
-    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>
-  ) => React.ReactNode
+    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>,
+  ) => React.ReactNode,
 ) {
   mockTime();
 
   mount(
     <LocalizationProvider dateAdapter={DateFnsAdapter}>
       {createPicker(mockRequiredProps)}
-    </LocalizationProvider>
+    </LocalizationProvider>,
   );
 }
 
 export function mountPickerWithState(
   createPicker: (
-    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>
-  ) => JSX.Element
+    props: Pick<StaticDatePickerProps, 'value' | 'onChange' | 'renderInput'>,
+  ) => JSX.Element,
 ) {
   function PickerWithState() {
     const [value, setDate] = React.useState<any>(momentInTime);

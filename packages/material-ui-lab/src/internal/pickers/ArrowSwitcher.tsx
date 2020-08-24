@@ -59,7 +59,7 @@ export const useStyles = makeStyles(
       visibility: 'hidden',
     },
   }),
-  { name: 'MuiPickersArrowSwitcher' }
+  { name: 'MuiPickersArrowSwitcher' },
 );
 
 const PureArrowSwitcher = React.forwardRef<HTMLDivElement, ArrowSwitcherProps>((props, ref) => {

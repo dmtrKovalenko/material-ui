@@ -5,7 +5,7 @@ import { AnyPickerView } from '../Picker/SharedPickerProps';
 
 export type PickerOnChangeFn<TDate> = (
   date: TDate | null,
-  selectionState?: PickerSelectionState
+  selectionState?: PickerSelectionState,
 ) => void;
 
 export function useViews({
@@ -22,7 +22,7 @@ export function useViews({
   toggleMobileKeyboardView: () => void;
 }) {
   const [openView, setOpenView] = React.useState(
-    openTo && arrayIncludes(views, openTo) ? openTo : views[0]
+    openTo && arrayIncludes(views, openTo) ? openTo : views[0],
   );
 
   const setOpenViewEnhanced = React.useCallback(
@@ -33,7 +33,7 @@ export function useViews({
 
       setOpenView(...args);
     },
-    [isMobileKeyboardViewOpen, toggleMobileKeyboardView]
+    [isMobileKeyboardViewOpen, toggleMobileKeyboardView],
   );
 
   const previousView = views[views.indexOf(openView!) - 1];
@@ -58,7 +58,7 @@ export function useViews({
         openNext();
       }
     },
-    [nextView, onChange, openNext]
+    [nextView, onChange, openNext],
   );
 
   return {

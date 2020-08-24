@@ -26,7 +26,7 @@ const [queryDescriptionOf, , getDescriptionOf, , findDescriptionOf] = buildQueri
   },
   function getMissingError() {
     return `Found no describing element.`;
-  }
+  },
 );
 
 const customQueries = { queryDescriptionOf, getDescriptionOf, findDescriptionOf };
@@ -43,7 +43,7 @@ const customQueries = { queryDescriptionOf, getDescriptionOf, findDescriptionOf 
  */
 function clientRender(
   element: any,
-  options: { wrapper?: any; baseElement?: any; strict?: boolean } = {}
+  options: { wrapper?: any; baseElement?: any; strict?: boolean } = {},
 ) {
   const { baseElement, strict = true, wrapper: InnerWrapper = React.Fragment } = options;
 
@@ -84,7 +84,7 @@ export function createClientRender(globalOptions: { strict?: boolean } = {}) {
       {
         ...localOptions,
         strict,
-      }
+      },
     );
   };
 }
@@ -103,8 +103,8 @@ const fireEvent = Object.assign(rtlFireEvent, {
         `\`keydown\` events can only be targeted at the active element which is ${prettyDOM(
           target,
           undefined,
-          { maxDepth: 1 }
-        )}`
+          { maxDepth: 1 },
+        )}`,
       );
       // We're only interested in the callsite of fireEvent.keyDown
       error.stack = error.stack
@@ -142,8 +142,8 @@ const fireEvent = Object.assign(rtlFireEvent, {
         `\`keyup\` events can only be targeted at the active element which is ${prettyDOM(
           target,
           undefined,
-          { maxDepth: 1 }
-        )}`
+          { maxDepth: 1 },
+        )}`,
       );
       // We're only interested in the callsite of fireEvent.keyUp
       error.stack = error.stack
@@ -177,6 +177,6 @@ export { act, cleanup, fireEvent };
 
 export function render() {
   throw new Error(
-    "Don't use `render` directly. Instead use the return value from `createClientRender`"
+    "Don't use `render` directly. Instead use the return value from `createClientRender`",
   );
 }

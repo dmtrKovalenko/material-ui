@@ -16,7 +16,7 @@ const parser = require('react-docgen-typescript').withCustomConfig(
   {
     // @ts-ignore
     propFilter: (...args) => removeExternalDeps(...args) && removeWrapperProps(...args),
-  }
+  },
 );
 
 const doc = {};
@@ -93,7 +93,7 @@ components.forEach((filePart) => {
         obj[key] = propTypeObj;
         return obj;
       },
-      {}
+      {},
     );
   });
 });

@@ -21,13 +21,13 @@ interface ChangeMonthPayload<TDate> {
 export const createCalendarStateReducer = <TDate extends unknown>(
   reduceAnimations: boolean,
   disableSwitchToMonthOnDayFocus: boolean,
-  utils: MuiPickersAdapter<TDate>
+  utils: MuiPickersAdapter<TDate>,
 ) => (
   state: CalendarState<TDate>,
   action:
     | ReducerAction<'finishMonthSwitchingAnimation'>
     | ReducerAction<'changeMonth', ChangeMonthPayload<TDate>>
-    | ReducerAction<'changeFocusedDay', { focusedDay: TDate }>
+    | ReducerAction<'changeFocusedDay', { focusedDay: TDate }>,
 ): CalendarState<TDate> => {
   switch (action.type) {
     case 'changeMonth':
@@ -93,7 +93,7 @@ export function useCalendarState<TDate>({
   const utils = useUtils<TDate>();
   const dateForMonth = date || now;
   const reducerFn = React.useRef(
-    createCalendarStateReducer(Boolean(reduceAnimations), disableSwitchToMonthOnDayFocus, utils)
+    createCalendarStateReducer(Boolean(reduceAnimations), disableSwitchToMonthOnDayFocus, utils),
   ).current;
 
   const [calendarState, dispatch] = React.useReducer(reducerFn, {
@@ -114,7 +114,7 @@ export function useCalendarState<TDate>({
         onMonthChange(payload.newMonth);
       }
     },
-    [onMonthChange]
+    [onMonthChange],
   );
 
   const changeMonth = React.useCallback(
@@ -131,7 +131,7 @@ export function useCalendarState<TDate>({
           : 'right',
       });
     },
-    [calendarState.currentMonth, handleChangeMonth, now, utils]
+    [calendarState.currentMonth, handleChangeMonth, now, utils],
   );
 
   const isDateDisabled = React.useCallback(
@@ -143,7 +143,7 @@ export function useCalendarState<TDate>({
         maxDate,
         shouldDisableDate,
       }) !== null,
-    [disableFuture, disablePast, maxDate, minDate, shouldDisableDate, utils]
+    [disableFuture, disablePast, maxDate, minDate, shouldDisableDate, utils],
   );
 
   const onMonthSwitchingAnimationEnd = React.useCallback(() => {
@@ -156,7 +156,7 @@ export function useCalendarState<TDate>({
         dispatch({ type: 'changeFocusedDay', focusedDay: newFocusedDate });
       }
     },
-    [isDateDisabled]
+    [isDateDisabled],
   );
 
   return {

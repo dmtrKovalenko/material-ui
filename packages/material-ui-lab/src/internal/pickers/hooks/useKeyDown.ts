@@ -7,7 +7,7 @@ type KeyHandlers = Record<number, () => void>;
 
 export function runKeyHandler(
   event: KeyboardEvent | React.KeyboardEvent,
-  keyHandlers: KeyHandlers
+  keyHandlers: KeyHandlers,
 ) {
   const handler = keyHandlers[event.keyCode];
   if (handler) {
@@ -27,7 +27,7 @@ export function useKeyDownHandler(active: boolean, keyHandlers: KeyHandlers) {
         runKeyHandler(event, keyHandlersRef.current);
       }
     },
-    [active]
+    [active],
   );
 }
 

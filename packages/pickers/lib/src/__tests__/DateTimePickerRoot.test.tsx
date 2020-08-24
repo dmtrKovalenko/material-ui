@@ -23,7 +23,7 @@ describe('e2e - DateTimePicker', () => {
         dateRangeIcon="date_range"
         timeIcon="access_time"
         renderInput={(props) => <TextField {...props} />}
-      />
+      />,
     );
   });
 

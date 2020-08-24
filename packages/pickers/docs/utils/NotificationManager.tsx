@@ -28,11 +28,11 @@ export function useNotification() {
     }
 
     const viewedNotifications: string[] = JSON.parse(
-      localStorage.getItem('viewedNotifications') || '[]'
+      localStorage.getItem('viewedNotifications') || '[]',
     );
 
     const notificationToShow = (notifications as Notification[]).find(
-      (notification) => !viewedNotifications.some((viewedId) => viewedId === notification.id)
+      (notification) => !viewedNotifications.some((viewedId) => viewedId === notification.id),
     );
 
     if (notificationToShow) {
@@ -46,12 +46,12 @@ export function useNotification() {
             vertical: 'top',
             horizontal: 'center',
           },
-        }
+        },
       );
 
       localStorage.setItem(
         'viewedNotifications',
-        JSON.stringify([...viewedNotifications, notificationToShow.id])
+        JSON.stringify([...viewedNotifications, notificationToShow.id]),
       );
     }
   }, [enqueueSnackbar, styles.notificationContainer]);

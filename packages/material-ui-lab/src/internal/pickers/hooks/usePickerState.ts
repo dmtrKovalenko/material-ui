@@ -10,7 +10,7 @@ export interface PickerStateValueManager<TInput, TDateValue> {
   areValuesEqual: (
     utils: MuiPickersAdapter,
     valueLeft: TDateValue,
-    valueRight: TDateValue
+    valueRight: TDateValue,
   ) => boolean;
 }
 
@@ -18,7 +18,7 @@ export type PickerSelectionState = 'partial' | 'shallow' | 'finish';
 
 export function usePickerState<TInput, TDateValue>(
   props: BasePickerProps<TInput, TDateValue>,
-  valueManager: PickerStateValueManager<TInput, TDateValue>
+  valueManager: PickerStateValueManager<TInput, TDateValue>,
 ) {
   const {
     inputFormat,
@@ -67,7 +67,7 @@ export function usePickerState<TInput, TDateValue>(
         }
       }
     },
-    [onAccept, onChange, setIsOpen]
+    [onAccept, onChange, setIsOpen],
   );
 
   const wrapperProps = React.useMemo(
@@ -82,7 +82,7 @@ export function usePickerState<TInput, TDateValue>(
         acceptDate(now as any, !disableCloseOnSelect);
       },
     }),
-    [acceptDate, disableCloseOnSelect, isOpen, now, pickerDate, setIsOpen, valueManager.emptyValue]
+    [acceptDate, disableCloseOnSelect, isOpen, now, pickerDate, setIsOpen, valueManager.emptyValue],
   );
 
   const pickerProps = React.useMemo(
@@ -101,7 +101,7 @@ export function usePickerState<TInput, TDateValue>(
       onDateChange: (
         newDate: TDateValue,
         wrapperVariant: WrapperVariant,
-        selectionState: PickerSelectionState = 'partial'
+        selectionState: PickerSelectionState = 'partial',
       ) => {
         setPickerDate(newDate);
         if (selectionState === 'partial') {
@@ -116,7 +116,7 @@ export function usePickerState<TInput, TDateValue>(
         // if selectionState === "shallow" do nothing (we already update picker state)
       },
     }),
-    [acceptDate, disableCloseOnSelect, isMobileKeyboardViewOpen, pickerDate]
+    [acceptDate, disableCloseOnSelect, isMobileKeyboardViewOpen, pickerDate],
   );
 
   const inputProps = React.useMemo(
@@ -127,7 +127,7 @@ export function usePickerState<TInput, TDateValue>(
       rawValue: value,
       openPicker: () => !readOnly && !disabled && setIsOpen(true),
     }),
-    [onChange, inputFormat, isOpen, value, readOnly, disabled, setIsOpen]
+    [onChange, inputFormat, isOpen, value, readOnly, disabled, setIsOpen],
   );
 
   const pickerState = { pickerProps, inputProps, wrapperProps };

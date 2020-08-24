@@ -60,7 +60,7 @@ const Ad: React.FC = () => {
     if (adScriptPosition) {
       let script = loadScript(
         'https://cdn.carbonads.com/carbon.js?serve=CKYIL27L&placement=material-uicom',
-        adScriptPosition
+        adScriptPosition,
       );
 
       script.id = '_carbonads_js';

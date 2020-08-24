@@ -13,7 +13,7 @@ export interface WithDateAdapterProps<TDate> {
 }
 
 export function withDateAdapterProp<TProps>(
-  Component: React.ComponentType<TProps>
+  Component: React.ComponentType<TProps>,
 ): React.FC<TProps & WithDateAdapterProps<unknown>> {
   return ({ dateAdapter, ...other }: TProps & WithDateAdapterProps<unknown>) => {
     if (dateAdapter) {

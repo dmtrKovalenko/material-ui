@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 function Example({ source, testId, paddingBottom }: ExampleProps) {
   if (!source.default || !source.raw || !source.relativePath) {
     throw new Error(
-      'Missing component or raw component code, you likely forgot to .example to your example extension'
+      'Missing component or raw component code, you likely forgot to .example to your example extension',
     );
   }
 
@@ -81,15 +81,15 @@ function Example({ source, testId, paddingBottom }: ExampleProps) {
   const copySource = React.useCallback(
     () =>
       copy(replacedSource).then(() =>
-        enqueueSnackbar('Source copied', { variant: 'success', autoHideDuration: 1000 })
+        enqueueSnackbar('Source copied', { variant: 'success', autoHideDuration: 1000 }),
       ),
-    [enqueueSnackbar, replacedSource]
+    [enqueueSnackbar, replacedSource],
   );
 
   // remount component only if utils change
   const ExampleComponent = React.useMemo(
     () => withUtilsService(source.default),
-    [currentLib, source.default] // eslint-disable-line
+    [currentLib, source.default], // eslint-disable-line
   );
 
   return (

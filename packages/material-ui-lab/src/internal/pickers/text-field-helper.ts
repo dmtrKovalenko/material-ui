@@ -10,7 +10,7 @@ export function getTextFieldAriaText(rawValue: ParsableDate, utils: MuiPickersAd
 export const getDisplayDate = (
   utils: MuiPickersAdapter,
   value: ParsableDate,
-  inputFormat: string
+  inputFormat: string,
 ) => {
   const date = utils.date(value);
   const isEmpty = value === null;
@@ -25,7 +25,7 @@ export const getDisplayDate = (
 export function pick12hOr24hFormat(
   userFormat: string | undefined,
   ampm: boolean | undefined,
-  formats: { localized: string; '12h': string; '24h': string }
+  formats: { localized: string; '12h': string; '24h': string },
 ) {
   if (userFormat) {
     return userFormat;
@@ -46,15 +46,15 @@ export function checkMaskIsValidForCurrentFormat(
   mask: string,
   format: string,
   acceptRegex: RegExp,
-  utils: MuiPickersAdapter
+  utils: MuiPickersAdapter,
 ) {
   const formattedDateWith1Digit = utils.formatByString(
     utils.date(staticDateWith1DigitTokens),
-    format
+    format,
   );
   const inferredFormatPatternWith1Digits = formattedDateWith1Digit.replace(
     acceptRegex,
-    MASK_USER_INPUT_SYMBOL
+    MASK_USER_INPUT_SYMBOL,
   );
 
   const inferredFormatPatternWith2Digits = utils
@@ -67,7 +67,7 @@ export function checkMaskIsValidForCurrentFormat(
   // @ts-ignore Ignore this warning for luxon because it is appearing mostly always (related to the formats structure of luxon itself)
   if (!isMaskValid && utils.lib !== 'luxon' && process.env.NODE_ENV !== 'production') {
     console.warn(
-      `The mask "${mask}" you passed is not valid for the format used ${format}. Falling down to uncontrolled not-masked input.`
+      `The mask "${mask}" you passed is not valid for the format used ${format}. Falling down to uncontrolled not-masked input.`,
     );
   }
 

@@ -22,7 +22,7 @@ describe('DateRangePicker', () => {
           utilsToUse.date(new Date('2018-01-01T00:00:00.000Z')),
           utilsToUse.date(new Date('2018-01-31T00:00:00.000Z')),
         ]}
-      />
+      />,
     );
 
     expect(component.find('[data-mui-test="DateRangeHighlight"]').length).toBe(31);
@@ -39,7 +39,7 @@ describe('DateRangePicker', () => {
           utilsToUse.date('2018-01-01T00:00:00.000'),
           utilsToUse.date('2018-01-31T00:00:00.000'),
         ]}
-      />
+      />,
     );
 
     expect(component.find('Calendar').length).toBe(3);

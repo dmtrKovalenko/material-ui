@@ -24,7 +24,7 @@ describe('e2e - DatePicker default year format', () => {
         value={adapterToUse.date('2018-01-01T00:00:00.000')}
         onChange={onChangeMock}
         views={['year']}
-      />
+      />,
     );
   });
 
@@ -45,7 +45,7 @@ describe('e2e - DatePicker default year month format', () => {
         onChange={onChangeMock}
         value={date}
         views={['year', 'month']}
-      />
+      />,
     );
   });
 
@@ -66,7 +66,7 @@ describe('e2e - DatePicker default year month day format', () => {
         onChange={onChangeMock}
         value={date}
         views={['year', 'month', 'date']}
-      />
+      />,
     );
   });
 
@@ -89,7 +89,7 @@ describe('e2e - DatePicker onMonthChange', () => {
         onChange={onChangeMock}
         onMonthChange={onMonthChangeMock}
         value={date}
-      />
+      />,
     );
   });
 
@@ -109,7 +109,7 @@ describe('e2e - DatePicker loading prop', () => {
         renderInput={(props) => <TextField {...props} />}
         onChange={() => {}}
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
-      />
+      />,
     );
 
     expect(component.find('[data-mui-test="day"]').length).toBe(0);
@@ -125,7 +125,7 @@ describe('e2e - DatePicker loading prop', () => {
         onChange={() => {}}
         renderLoading={() => <CalendarSkeleton data-mui-test="custom-loading" />}
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
-      />
+      />,
     );
 
     expect(component.find('[data-mui-test="loading-progress"]').length).toBe(0);
@@ -142,7 +142,7 @@ it('Custom toolbar component', () => {
       value={new Date()}
       onChange={() => {}}
       ToolbarComponent={() => <div id="custom-toolbar" />}
-    />
+    />,
   );
 
   expect(component.find('#custom-toolbar').length).toBe(1);
@@ -156,7 +156,7 @@ it('Selected date is disabled', () => {
       value={adapterToUse.date('01-01-2019')}
       maxDate={adapterToUse.date('01-01-2018')}
       onChange={() => {}}
-    />
+    />,
   );
 
   expect(component.find('[data-mui-test="calendar-year-text"]').first().text()).toBe('2018');
@@ -173,6 +173,6 @@ it('Should not add to loading queue when synchronous', () => {
   component.find('button[data-mui-test="day"]').at(0).simulate('click');
 
   expect(component.find('h4[data-mui-test="datepicker-toolbar-date"]').text()).not.toBe(
-    'Enter Date'
+    'Enter Date',
   );
 });

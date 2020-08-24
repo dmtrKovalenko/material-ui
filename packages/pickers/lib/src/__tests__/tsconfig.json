@@ -1,7 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "exclude": [],
-  "include": ["../../typings.d.ts", "./typings.d.ts", "./**/*.tsx", "./**/*.ts", "./typescript/*"],
+  "include": [
+    "../../typings.d.ts",
+    "./typings.d.ts",
+    "./**/*.tsx",
+    "./**/*.ts",
+    "./typescript/*",
+    "../../../../material-ui-lab/src/DateTimePicker/DateTimePickerTestingLib.test.tsx"
+  ],
   "compilerOptions": {
     "emitDeclarationOnly": false,
     "noEmit": false,

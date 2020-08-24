@@ -33,7 +33,7 @@ describe('e2e -- DatePicker keyboard input', () => {
         InputAdornmentProps={{
           disableTypography: true,
         }}
-      />
+      />,
     );
   });
 

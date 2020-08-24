@@ -21,12 +21,12 @@ const removePropTypes = (api) => {
                 NODE;
               }
             `,
-            { placeholderPattern: /^NODE$/ }
+            { placeholderPattern: /^NODE$/ },
           );
           path.replaceWith(
             unsafeWrapTemplate({
               NODE: path.node,
-            })
+            }),
           );
         }
       },

@@ -20,7 +20,7 @@ export interface ResponsiveWrapperProps
 
 export const makeResponsiveWrapper = (
   DesktopWrapperComponent: React.FC<DesktopWrapperProps | DesktopTooltipWrapperProps>,
-  MobileWrapperComponent: React.FC<MobileWrapperProps>
+  MobileWrapperComponent: React.FC<MobileWrapperProps>,
 ) => {
   const ResponsiveWrapper: React.FC<ResponsiveWrapperProps> = ({
     cancelText,

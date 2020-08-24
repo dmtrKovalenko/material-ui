@@ -78,5 +78,5 @@ export function openDesktopPicker() {
 }
 
 export function openMobilePicker() {
-  fireEvent.click(screen.getByRole("textbox"));
+  fireEvent.click(screen.getByRole('textbox'));
 }

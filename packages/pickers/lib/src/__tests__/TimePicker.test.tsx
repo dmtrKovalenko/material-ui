@@ -36,7 +36,7 @@ describe('e2e - TimePicker', () => {
         open
         value={utilsToUse.date('2018-01-01T00:00:00.000')}
         onChange={onChangeMock}
-      />
+      />,
     );
   });
 
@@ -88,7 +88,7 @@ describe('e2e - TimePicker with seconds', () => {
         views={['hours', 'minutes', 'seconds']}
         value={utilsToUse.date('2018-01-01T00:00:12.000')}
         onChange={onChangeMock}
-      />
+      />,
     );
   });
 
@@ -125,7 +125,7 @@ describe.skip('e2e - Timepicker view navigation', () => {
         views={['hours', 'minutes', 'seconds']}
         onChange={jest.fn()}
         value={utilsToUse.date('2018-01-01T00:00:12.000')}
-      />
+      />,
     );
   });
 
@@ -134,13 +134,13 @@ describe.skip('e2e - Timepicker view navigation', () => {
 
     expect(component.find('ClockView').prop('type')).toBe('hours');
     expect(component.find('button[data-mui-test="previous-arrow-button"]').prop('disabled')).toBe(
-      true
+      true,
     );
 
     component.find('button[data-mui-test="next-arrow-button"]').simulate('click');
     expect(component.find('ClockView').prop('type')).toBe('minutes');
     expect(component.find('button[data-mui-test="previous-arrow-button"]').prop('disabled')).toBe(
-      false
+      false,
     );
 
     component.find('button[data-mui-test="next-arrow-button"]').simulate('click');
@@ -188,7 +188,7 @@ describe('e2e - TimePicker time validation', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000')}
         minTime={new Date(0, 0, 0, 12, 15, 15)}
         maxTime={new Date(0, 0, 0, 15, 45, 30)}
-      />
+      />,
     );
   });
 

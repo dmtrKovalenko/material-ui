@@ -255,7 +255,7 @@ describe('<TimePicker />', () => {
               ampm={false}
               value={time}
               onError={onErrorMock}
-              onChange={newTime => setTime(newTime)}
+              onChange={(newTime) => setTime(newTime)}
               renderInput={(props) => <TextField {...props} />}
               {...props}
             />

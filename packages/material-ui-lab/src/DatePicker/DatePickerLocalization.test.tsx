@@ -5,11 +5,7 @@ import deLocale from 'date-fns/locale/de';
 import enLocale from 'date-fns/locale/en-US';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen } from 'test/utils';
-import {
-  adapterToUse,
-  getByMuiTest,
-  createPickerRender,
-} from '../internal/pickers/test-utils';
+import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
 import { DatePickerProps, MobileDatePicker, DesktopDatePicker } from './DatePicker';
 
 describe('<DatePicker /> localization', () => {
@@ -109,7 +105,6 @@ describe('<DatePicker /> localization', () => {
 
         expect(input).to.have.attribute('aria-invalid', 'true');
       });
-
 
       it(`${locale}: should set to valid when was invalid`, () => {
         render(<Form Picker={DesktopDatePicker} PickerProps={{ views: ['month', 'year'] }} />);

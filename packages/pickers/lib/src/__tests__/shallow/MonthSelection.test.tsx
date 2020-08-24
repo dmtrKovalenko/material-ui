@@ -14,7 +14,7 @@ describe('MonthSelection', () => {
         maxDate={utilsToUse.date('05-01-2017')}
         date={utilsToUse.date('04-01-2017')}
         onChange={jest.fn()}
-      />
+      />,
     );
   });
 

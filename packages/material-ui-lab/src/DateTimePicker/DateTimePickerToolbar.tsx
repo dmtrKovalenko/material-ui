@@ -38,7 +38,7 @@ export const useStyles = makeStyles(
       right: 8,
     },
   },
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 export const DateTimePickerToolbar: React.FC<ToolbarComponentProps> = withDefaultProps(
@@ -99,6 +99,7 @@ export const DateTimePickerToolbar: React.FC<ToolbarComponentProps> = withDefaul
               <ToolbarButton
                 tabIndex={-1}
                 variant="subtitle1"
+                data-mui-test="datetimepicker-toolbar-year"
                 onClick={() => setOpenView('year')}
                 selected={openView === 'year'}
                 value={date ? utils.format(date, 'year') : '–'}
@@ -145,5 +146,5 @@ export const DateTimePickerToolbar: React.FC<ToolbarComponentProps> = withDefaul
         )}
       </React.Fragment>
     );
-  }
+  },
 );

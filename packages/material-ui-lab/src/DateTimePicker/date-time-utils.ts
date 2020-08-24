@@ -13,7 +13,7 @@ export function validateDateAndTime<TDate>(
     shouldDisableDate,
     disablePast,
     ...timeValidationProps
-  }: DateValidationProps<TDate> & TimeValidationProps<TDate>
+  }: DateValidationProps<TDate> & TimeValidationProps<TDate>,
 ) {
   const dateValidationResult = validateDate(utils, value, {
     minDate,

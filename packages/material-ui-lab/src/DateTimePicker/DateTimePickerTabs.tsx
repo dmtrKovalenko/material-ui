@@ -50,7 +50,7 @@ export const useStyles = makeStyles(
       },
     };
   },
-  { name: 'MuiDateTimePickerTabs' }
+  { name: 'MuiDateTimePickerTabs' },
 );
 
 const DateTimePickerTabs: React.FC<DateTimePickerTabsProps> = (props) => {

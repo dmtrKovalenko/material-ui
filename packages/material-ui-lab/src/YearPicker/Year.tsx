@@ -56,7 +56,7 @@ export const useStyles = makeStyles(
     disabled: {},
     selected: {},
   }),
-  { name: 'MuiPickersYear' }
+  { name: 'MuiPickersYear' },
 );
 
 const Year: React.FC<YearProps> = (props) => {

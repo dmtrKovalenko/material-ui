@@ -22,12 +22,12 @@ export function makeWrapperComponent<
   TWrapper extends SomeWrapper = any
 >(
   Wrapper: TWrapper,
-  { KeyboardDateInputComponent, PureDateInputComponent }: MakePickerOptions<TInputProps>
+  { KeyboardDateInputComponent, PureDateInputComponent }: MakePickerOptions<TInputProps>,
 ) {
   function WrapperComponent(
     props: Partial<BasePickerProps<any, any>> &
       WithWrapperProps<TInputProps> &
-      Partial<OmitInnerWrapperProps<ResponsiveWrapperProps> & StaticWrapperProps>
+      Partial<OmitInnerWrapperProps<ResponsiveWrapperProps> & StaticWrapperProps>,
   ) {
     const {
       disableCloseOnSelect,

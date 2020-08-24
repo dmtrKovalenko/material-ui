@@ -79,7 +79,7 @@ const PropTypesTableLazy: React.FC<PropTypesTableProps> = ({ disableHeader, src 
         sort: true,
         caseSensitive: false,
       }),
-    [propsDoc]
+    [propsDoc],
   );
 
   const propsToShow = React.useMemo(() => {

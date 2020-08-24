@@ -22,7 +22,7 @@ export const useStyles = makeStyles(
       top: 4,
     },
   },
-  muiPickersComponentConfig
+  muiPickersComponentConfig,
 );
 
 export const DatePickerToolbar: React.FC<ToolbarComponentProps> = withDefaultProps(
@@ -87,5 +87,5 @@ export const DatePickerToolbar: React.FC<ToolbarComponentProps> = withDefaultPro
         </Typography>
       </PickerToolbar>
     );
-  }
+  },
 );

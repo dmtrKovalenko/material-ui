@@ -39,7 +39,7 @@ export const useStyles = makeStyles(
       },
     };
   },
-  { name: 'MuiPickersToolbar' }
+  { name: 'MuiPickersToolbar' },
 );
 
 interface PickerToolbarProps

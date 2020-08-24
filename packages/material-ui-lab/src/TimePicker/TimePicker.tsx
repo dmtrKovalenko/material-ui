@@ -5,13 +5,24 @@ import { TimePickerToolbar } from './TimePickerToolbar';
 import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
-import { useParsedDate, OverrideParsableDateProps } from '../internal/pickers/hooks/date-helpers-hooks';
+import {
+  useParsedDate,
+  OverrideParsableDateProps,
+} from '../internal/pickers/hooks/date-helpers-hooks';
 import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { validateTime, TimeValidationError } from '../internal/pickers/time-utils';
 import { WithViewsProps, AllSharedPickerProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { ValidationProps, makeValidationHook } from '../internal/pickers/hooks/useValidation';
-import { MobileWrapper, DesktopWrapper, StaticWrapper, SomeWrapper } from '../internal/pickers/wrappers/Wrapper';
-import { SharedPickerProps, makePickerWithStateAndWrapper } from '../internal/pickers/Picker/makePickerWithState';
+import {
+  MobileWrapper,
+  DesktopWrapper,
+  StaticWrapper,
+  SomeWrapper,
+} from '../internal/pickers/wrappers/Wrapper';
+import {
+  SharedPickerProps,
+  makePickerWithStateAndWrapper,
+} from '../internal/pickers/Picker/makePickerWithState';
 
 export interface BaseTimePickerProps<TDate = unknown>
   extends ValidationProps<TimeValidationError, ParsableDate<TDate>>,
@@ -70,7 +81,7 @@ const timePickerConfig = {
 };
 
 type TimePickerComponent<TWrapper extends SomeWrapper> = <TDate>(
-  props: BaseTimePickerProps<TDate> & SharedPickerProps<TDate, TWrapper>
+  props: BaseTimePickerProps<TDate> & SharedPickerProps<TDate, TWrapper>,
 ) => JSX.Element;
 
 export const TimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(ResponsiveWrapper, {
@@ -85,7 +96,7 @@ export const DesktopTimePicker = makePickerWithStateAndWrapper<BaseTimePickerPro
   {
     name: 'MuiDesktopTimePicker',
     ...timePickerConfig,
-  }
+  },
 ) as TimePickerComponent<typeof DesktopWrapper>;
 
 export type DesktopTimePickerProps = React.ComponentProps<typeof DesktopTimePicker>;

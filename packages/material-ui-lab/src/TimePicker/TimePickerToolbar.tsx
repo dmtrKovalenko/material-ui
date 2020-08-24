@@ -50,13 +50,13 @@ export const useStyles = makeStyles(
       marginTop: 'auto',
     },
   },
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 export function useMeridiemMode<TDate>(
   date: TDate,
   ampm: boolean | undefined,
-  onChange: PickerOnChangeFn<TDate>
+  onChange: PickerOnChangeFn<TDate>,
 ) {
   const utils = useUtils<TDate>();
   const meridiemMode = getMeridiem(date, utils);
@@ -66,7 +66,7 @@ export function useMeridiemMode<TDate>(
       const timeWithMeridiem = convertToMeridiem<TDate>(date, mode, Boolean(ampm), utils);
       onChange(timeWithMeridiem, 'partial');
     },
-    [ampm, date, onChange, utils]
+    [ampm, date, onChange, utils],
   );
 
   return { meridiemMode, handleMeridiemChange };
@@ -185,7 +185,7 @@ export const TimePickerToolbar: React.FC<ToolbarComponentProps> = withDefaultPro
         )}
       </PickerToolbar>
     );
-  }
+  },
 );
 
 export default TimePickerToolbar;

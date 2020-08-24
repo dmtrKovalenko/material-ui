@@ -25,7 +25,7 @@ export function useOpenState({ open, onOpen, onClose }: BasePickerProps<any, any
 
       return newIsOpen ? onOpen && onOpen() : onClose && onClose();
     },
-    [isControllingOpenProp, onOpen, onClose]
+    [isControllingOpenProp, onOpen, onClose],
   );
 
   return { isOpen: openState, setIsOpen };

@@ -17,7 +17,7 @@ const LocalizationProvider: React.FC<LocalizationProviderProps> = (props) => {
   const { children, dateAdapter: Utils, dateFormats, dateLibInstance, locale } = props;
   const utils = React.useMemo(
     () => new Utils({ locale, formats: dateFormats, instance: dateLibInstance }),
-    [Utils, locale, dateFormats, dateLibInstance]
+    [Utils, locale, dateFormats, dateLibInstance],
   );
 
   return (

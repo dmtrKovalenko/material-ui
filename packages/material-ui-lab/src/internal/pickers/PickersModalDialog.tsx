@@ -89,7 +89,7 @@ export const useStyles = makeStyles(
       },
     },
   },
-  { name: 'MuiPickersModalDialog' }
+  { name: 'MuiPickersModalDialog' },
 );
 
 const PickersModalDialog: React.FC<PickerModalDialogProps> = (props) => {

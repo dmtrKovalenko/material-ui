@@ -21,7 +21,7 @@ it('Should renders without crash in dark theme', () => {
         value={null}
         onChange={jest.fn()}
       />
-    </ThemeProvider>
+    </ThemeProvider>,
   );
 
   expect(component).toBeTruthy();
@@ -35,7 +35,7 @@ it('Should render component with different orientation', () => {
       orientation="landscape"
       value={null}
       onChange={jest.fn()}
-    />
+    />,
   );
 
   expect(component).toBeTruthy();

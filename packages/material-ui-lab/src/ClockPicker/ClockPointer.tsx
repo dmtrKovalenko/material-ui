@@ -44,7 +44,7 @@ export interface ClockPointerProps
 class ClockPointer extends React.Component<ClockPointerProps> {
   public static getDerivedStateFromProps = (
     nextProps: ClockPointerProps,
-    state: ClockPointer['state']
+    state: ClockPointer['state'],
   ) => {
     if (nextProps.type !== state.previousType) {
       return {

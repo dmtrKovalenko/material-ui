@@ -13,11 +13,11 @@ export function useAutoFocusControl(open: boolean) {
     }
   }, [open]);
 
-  // TODO rething approach. It is a temporal fix to allow tests that are rendering Popper to update the state using 
+  // TODO rething approach. It is a temporal fix to allow tests that are rendering Popper to update the state using
   if (process.env.NODE_ENV === 'test') {
     return {
       canAutoFocus: true,
-      onOpen : () => {},
+      onOpen: () => {},
     };
   }
 

@@ -21,7 +21,7 @@ describe('DateTimePicker', () => {
         onClose={onCloseMock}
         onChange={onChangeMock}
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
-      />
+      />,
     );
   });
 
@@ -54,7 +54,7 @@ describe('e2e -- Controlling open state', () => {
         onClose={onCloseMock}
         onChange={jest.fn()}
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
-      />
+      />,
     );
   });
 
@@ -78,7 +78,7 @@ describe('e2e -- Override utils using `dateAdapter`', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={jest.fn()}
         dateAdapter={utilsToUse}
-      />
+      />,
     );
   });
 
@@ -94,7 +94,7 @@ it('e2e - DateTimePicker empty date', () => {
   ));
 
   expect(component.find('button[data-mui-test="datetimepicker-toolbar-date"]').text()).toBe(
-    'Enter Date'
+    'Enter Date',
   );
 
   expect(component.find('button[data-mui-test="hours"]').text()).toBe('--');
@@ -103,7 +103,7 @@ it('e2e - DateTimePicker empty date', () => {
   component.find('button[data-mui-test="day"]').at(0).simulate('click');
 
   expect(component.find('button[data-mui-test="datetimepicker-toolbar-date"]').text()).not.toBe(
-    'Enter Date'
+    'Enter Date',
   );
 
   expect(component.find('button[data-mui-test="hours"]').text()).not.toBe('--');

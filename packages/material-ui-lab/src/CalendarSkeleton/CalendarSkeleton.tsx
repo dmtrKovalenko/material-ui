@@ -24,7 +24,7 @@ export const useStyles = makeStyles(
       visibility: 'hidden',
     },
   },
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 const monthMap = [
@@ -61,7 +61,7 @@ export const CalendarSkeleton: React.FC<CalendarSkeletonProps> = withDefaultProp
         ))}
       </div>
     );
-  }
+  },
 );
 
 export default CalendarSkeleton;

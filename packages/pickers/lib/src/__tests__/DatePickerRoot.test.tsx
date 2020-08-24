@@ -18,7 +18,7 @@ describe('e2e - DatePicker', () => {
         openTo="date"
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
-      />
+      />,
     );
   });
 
@@ -62,7 +62,7 @@ describe('e2e -- DatePicker views year', () => {
         onChange={onChangeMock}
         onYearChange={onYearChangeMock}
         views={['year']}
-      />
+      />,
     );
   });
 
@@ -92,7 +92,7 @@ describe('e2e -- DatePicker views year and month', () => {
         onMonthChange={onMonthChangeMock}
         openTo="month"
         views={['year', 'month']}
-      />
+      />,
     );
   });
 
@@ -127,7 +127,7 @@ describe('e2e -- DatePicker views year and month open from year', () => {
         onChange={onChangeMock}
         views={['year', 'month']}
         openTo="year"
-      />
+      />,
     );
   });
 

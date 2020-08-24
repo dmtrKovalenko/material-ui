@@ -52,7 +52,7 @@ export function makePickerWithStateAndWrapper<
   TWrapper extends SomeWrapper = typeof ResponsiveWrapper
 >(
   Wrapper: TWrapper,
-  { name, useInterceptProps, useValidation, DefaultToolbarComponent }: MakePickerOptions<T>
+  { name, useInterceptProps, useValidation, DefaultToolbarComponent }: MakePickerOptions<T>,
 ): PickerComponent<T, TWrapper> {
   const WrapperComponent = makeWrapperComponent<DateInputProps<any, any>>(Wrapper, {
     KeyboardDateInputComponent: KeyboardDateInput,
@@ -60,14 +60,14 @@ export function makePickerWithStateAndWrapper<
   });
 
   function PickerWithState<TDate>(
-    __props: T & AllSharedPickerProps<ParsableDate<TDate>, TDate> & ExtendWrapper<TWrapper>
+    __props: T & AllSharedPickerProps<ParsableDate<TDate>, TDate> & ExtendWrapper<TWrapper>,
   ) {
     const allProps = useInterceptProps(__props) as AllPickerProps<T, TWrapper>;
 
     const validationError = useValidation(allProps.value, allProps) !== null;
     const { pickerProps, inputProps, wrapperProps } = usePickerState<ParsableDate<TDate>, TDate>(
       allProps,
-      valueManager as PickerStateValueManager<ParsableDate<TDate>, TDate>
+      valueManager as PickerStateValueManager<ParsableDate<TDate>, TDate>,
     );
 
     // Note that we are passing down all the value without spread.
@@ -94,6 +94,6 @@ export function makePickerWithStateAndWrapper<
   // to keep generics without additional cast when using forwardRef
   // @see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834
   return React.forwardRef<HTMLInputElement, React.ComponentProps<typeof FinalPickerComponent>>(
-    (props, ref) => <FinalPickerComponent {...(props as any)} forwardedRef={ref} />
+    (props, ref) => <FinalPickerComponent {...(props as any)} forwardedRef={ref} />,
   );
 }

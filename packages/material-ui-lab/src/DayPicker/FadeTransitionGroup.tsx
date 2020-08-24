@@ -39,7 +39,7 @@ export const useStyles = makeStyles(
       },
     };
   },
-  { name: 'MuiPickersFadeTransition' }
+  { name: 'MuiPickersFadeTransition' },
 );
 
 export const FadeTransitionGroup: React.FC<FadeTransitionProps> = ({

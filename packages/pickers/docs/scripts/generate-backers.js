@@ -25,7 +25,7 @@ async function main() {
     throw new Error(
       `Please provide creator access token as argument.\n
 Find creator access token at https://www.patreon.com/portal/registration/register-clients\n
-Then pass token like: yarn generate-backers {your token here}`
+Then pass token like: yarn generate-backers {your token here}`,
     );
   }
 
@@ -35,7 +35,7 @@ Then pass token like: yarn generate-backers {your token here}`
 
   await fse.writeFile(
     path.resolve(__dirname, '..', 'patrons.json'),
-    JSON.stringify(processedPatreonResponse)
+    JSON.stringify(processedPatreonResponse),
   );
 }
 

@@ -125,7 +125,7 @@ export const PureDateInput: React.FC<DateInputProps & DateInputRefs> = ({
       ...InputProps,
       readOnly: true,
     }),
-    [InputProps]
+    [InputProps],
   );
 
   const inputValue = getDisplayDate(utils, rawValue, inputFormat);

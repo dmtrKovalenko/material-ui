@@ -19,13 +19,13 @@ export const queryAllByMuiTest = queryHelpers.queryAllByAttribute.bind(null, 'da
 export function getAllByMuiTest(
   id: Matcher,
   container: HTMLElement = document.body,
-  options?: MatcherOptions
+  options?: MatcherOptions,
 ): Element[] {
   const els = queryAllByMuiTest(container, id, options);
   if (!els.length) {
     throw queryHelpers.getElementError(
       `Unable to find an element by: [data-mui-test="${id}"]`,
-      container
+      container,
     );
   }
   return els;
@@ -39,7 +39,7 @@ export function getByMuiTest(...args: Parameters<typeof getAllByMuiTest>): Eleme
 
   throw queryHelpers.getElementError(
     `Unable to find an element by: [data-mui-test="${args[0]}"]`,
-    document.body
+    document.body,
   );
 }
 
@@ -51,7 +51,7 @@ export const FakeTransitionComponent = React.forwardRef<HTMLDivElement, Transiti
         {children}
       </div>
     );
-  }
+  },
 );
 
 interface WithUtilsProps {
@@ -88,7 +88,7 @@ export const mount = <P extends WithUtilsProps>(element: React.ReactElement<P>) 
 type RenderPicker<TValue> = (
   props: Pick<BasePickerProps<TValue, TValue>, 'onChange' | 'value'> & {
     renderInput: DatePickerProps['renderInput'];
-  }
+  },
 ) => React.ReactElement;
 
 function createPickerWithState<TValue>(defaultValue: TValue, renderFn: RenderPicker<TValue>) {
@@ -107,7 +107,7 @@ function createPickerWithState<TValue>(defaultValue: TValue, renderFn: RenderPic
 
 export function mountPickerWithState<TValue>(
   defaultValue: TValue,
-  renderPicker: RenderPicker<TValue>
+  renderPicker: RenderPicker<TValue>,
 ) {
   return mount(createPickerWithState(defaultValue, renderPicker));
 }
@@ -115,7 +115,7 @@ export function mountPickerWithState<TValue>(
 export function renderPickerWithState<TValue>(
   defaultValue: TValue,
   renderPicker: RenderPicker<TValue>,
-  clientRenderOptions?: { strict?: boolean }
+  clientRenderOptions?: { strict?: boolean },
 ) {
   const render = createClientRender(clientRenderOptions);
   return render(createPickerWithState(defaultValue, renderPicker));

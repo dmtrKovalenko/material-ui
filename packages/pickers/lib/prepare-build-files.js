@@ -6,7 +6,7 @@ function copyReadme() {
   return fse
     .copyFile(
       path.resolve(__dirname, '..', 'README.md'),
-      path.resolve(__dirname, 'build', 'README.md')
+      path.resolve(__dirname, 'build', 'README.md'),
     )
     .then(() => console.log('> Copied README.md'));
 }
@@ -21,13 +21,13 @@ function createAdapterPackageFile(name) {
 
   return fse.writeFile(
     path.resolve(__dirname, 'build', 'adapter', name, 'package.json'),
-    JSON.stringify(packageJson, null, 2)
+    JSON.stringify(packageJson, null, 2),
   );
 }
 
 function createAdaptersPackages() {
   return Promise.all(
-    ['luxon', 'date-fns', 'dayjs', 'moment'].map(createAdapterPackageFile)
+    ['luxon', 'date-fns', 'dayjs', 'moment'].map(createAdapterPackageFile),
   ).then(() => console.log('> Created package.json files for adapters'));
 }
 

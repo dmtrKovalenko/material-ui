@@ -58,7 +58,7 @@ export const useStyles = makeStyles(
       height: '100%',
     },
   },
-  muiComponentConfig
+  muiComponentConfig,
 );
 
 export const defaultReduceAnimations =
