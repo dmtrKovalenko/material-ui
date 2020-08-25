@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BasePickerProps } from '../typings/BasePicker';
+import type { BasePickerProps } from '../typings/BasePicker';
 
 export function useOpenState({ open, onOpen, onClose }: BasePickerProps<any, any>) {
   const isControllingOpenProp = React.useRef(typeof open === 'boolean').current;
@@ -23,10 +23,18 @@ export function useOpenState({ open, onOpen, onClose }: BasePickerProps<any, any
         setIsOpenState(newIsOpen);
       }
 
-      return newIsOpen ? onOpen && onOpen() : onClose && onClose();
+      if (newIsOpen && onOpen) {
+        onOpen();
+      }
+
+      if (!newIsOpen && onClose) {
+        onClose();
+      }
     },
     [isControllingOpenProp, onOpen, onClose],
   );
 
   return { isOpen: openState, setIsOpen };
 }
+
+export default useOpenState;

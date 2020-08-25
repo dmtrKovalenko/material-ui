@@ -6,9 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar, { ToolbarProps } from '@material-ui/core/Toolbar';
 import { ExtendMui } from './typings/helpers';
-import { PenIcon } from '../svg-icons/Pen';
-import { CalendarIcon } from '../svg-icons/CalendarIcon';
-import { ToolbarComponentProps } from './Picker/SharedPickerProps';
+import PenIcon from '../svg-icons/Pen';
+import CalendarIcon from '../svg-icons/CalendarIcon';
+import type { ToolbarComponentProps } from './Picker/SharedPickerProps';
 
 export const useStyles = makeStyles(
   (theme) => {
@@ -62,7 +62,7 @@ function defaultGetKeyboardInputSwitchingButtonText(isKeyboardInputOpen: boolean
     : 'calendar view is open, go to text input view';
 }
 
-const PickerToolbar: React.SFC<PickerToolbarProps> = ({
+const PickerToolbar: React.FC<PickerToolbarProps> = ({
   children,
   className,
   getMobileKeyboardInputViewButtonText = defaultGetKeyboardInputSwitchingButtonText,

@@ -27,7 +27,7 @@ export const onSpaceOrEnter = (
 };
 
 /* Quick untyped helper to improve function composition readability */
-export const pipe = (...fns: ((...args: any[]) => any)[]) =>
+export const pipe = (...fns: Array<(...args: any[]) => any>) =>
   fns.reduceRight(
     (prevFn, nextFn) => (...args) => nextFn(prevFn(...args)),
     (value) => value,
@@ -50,13 +50,13 @@ export function createDelegatedEventHandler<TEvent>(
   };
 }
 
-export function mergeRefs<T>(refs: (React.Ref<T | null> | undefined)[]) {
+export function mergeRefs<T>(refs: Array<React.Ref<T | null> | undefined>) {
   return (value: T) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
         ref(value);
       } else if (typeof ref === 'object' && ref != null) {
-        // @ts-ignore .current is not a readonly, hold on ts
+        // @ts-expect-error do not use MutableRefObject here for easier type inference from useRef
         ref.current = value;
       }
     });

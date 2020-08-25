@@ -123,3 +123,5 @@ export function useMaskedInput({
     ...TextFieldProps,
   };
 }
+
+export default useMaskedInput;

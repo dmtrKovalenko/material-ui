@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { TextFieldProps } from '@material-ui/core/TextField';
+import { TextFieldProps as MuiTextFieldPropsType } from '@material-ui/core/TextField';
 import { IconButtonProps } from '@material-ui/core/IconButton';
 import { InputAdornmentProps } from '@material-ui/core/InputAdornment';
 import { onSpaceOrEnter } from './utils';
@@ -8,9 +8,10 @@ import { ParsableDate } from './constants/prop-types';
 import { useUtils, MuiPickersAdapter } from './hooks/useUtils';
 import { getDisplayDate, getTextFieldAriaText } from './text-field-helper';
 
-export type MuiTextFieldProps = TextFieldProps | Omit<TextFieldProps, 'variant'>;
+// make `variant` optional
+export type MuiTextFieldProps = MuiTextFieldPropsType | Omit<MuiTextFieldPropsType, 'variant'>;
 
-export interface DateInputProps<TInputValue = ParsableDate<unknown>, TDateValue = unknown> {
+export interface DateInputProps<TInputValue = ParsableDate, TDateValue = unknown> {
   open: boolean;
   rawValue: TInputValue;
   inputFormat: string;
@@ -19,8 +20,8 @@ export interface DateInputProps<TInputValue = ParsableDate<unknown>, TDateValue 
   readOnly?: boolean;
   disabled?: boolean;
   validationError?: boolean;
-  label?: TextFieldProps['label'];
-  InputProps?: TextFieldProps['InputProps'];
+  label?: MuiTextFieldProps['label'];
+  InputProps?: MuiTextFieldProps['InputProps'];
   TextFieldProps?: Partial<MuiTextFieldProps>;
   // lib/src/wrappers/DesktopPopperWrapper.tsx:87
   onBlur?: () => void;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WrapperProps } from './Wrapper';
+import type { WrapperProps } from './Wrapper';
 import { StaticWrapperProps } from './StaticWrapper';
 import { InnerMobileWrapperProps } from './MobileWrapper';
 import { InnerDesktopWrapperProps } from './DesktopWrapper';

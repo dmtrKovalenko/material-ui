@@ -4,17 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Clock } from './Clock';
 import { pipe } from '../internal/pickers/utils';
 import { useUtils, useNow, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
-import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { getHourNumbers, getMinutesNumbers } from './ClockNumbers';
-import { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
-import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
 import {
   convertValueToMeridiem,
   createIsAfterIgnoreDatePart,
   TimeValidationProps,
 } from '../internal/pickers/time-utils';
+import { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
+import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 
 export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate> {
   /**
@@ -103,10 +103,10 @@ export const useStyles = makeStyles(
   muiPickersComponentConfig,
 );
 
-const getDefaultClockLabelText = (
+const getDefaultClockLabelText = <TDate extends any>(
   view: 'hours' | 'minutes' | 'seconds',
-  time: unknown,
-  adapter: MuiPickersAdapter,
+  time: TDate,
+  adapter: MuiPickersAdapter<TDate>,
 ) => `Select ${view}. Selected time is ${adapter.format(time, 'fullTime')}`;
 
 const getMinutesAriaText = (minute: string) => `${minute} minutes`;
@@ -158,7 +158,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
   );
 
   const isTimeDisabled = React.useCallback(
-    (rawValue: number, type: 'hours' | 'minutes' | 'seconds') => {
+    (rawValue: number, viewType: 'hours' | 'minutes' | 'seconds') => {
       if (date === null) {
         return false;
       }
@@ -172,11 +172,11 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
         return Boolean(
           (minTime && isAfterComparingFn(minTime, getRequestedTimePoint('end'))) ||
             (maxTime && isAfterComparingFn(getRequestedTimePoint('start'), maxTime)) ||
-            (shouldDisableTime && shouldDisableTime(rawValue, type)),
+            (shouldDisableTime && shouldDisableTime(rawValue, viewType)),
         );
       };
 
-      switch (type) {
+      switch (viewType) {
         case 'hours': {
           const hoursWithMeridiem = convertValueToMeridiem(rawValue, meridiemMode, Boolean(ampm));
           return validateTimeValue((when: 'start' | 'end') =>
@@ -310,10 +310,10 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
         />
       )}
 
-      <Clock
+      <Clock<TDate>
+        // @ts-expect-error TODO figure out why `date` is missing
         date={date}
         ampmInClock={ampmInClock}
-        // @ts-expect-error FIX ME
         onDateChange={onDateChange}
         type={type}
         ampm={ampm}

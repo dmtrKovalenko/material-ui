@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { arrayIncludes } from '../utils';
-import { PickerSelectionState } from './usePickerState';
-import { AnyPickerView } from '../Picker/SharedPickerProps';
+import type { PickerSelectionState } from './usePickerState';
+import type { AnyPickerView } from '../Picker/SharedPickerProps';
 
 export type PickerOnChangeFn<TDate> = (
   date: TDate | null,
@@ -36,8 +36,8 @@ export function useViews({
     [isMobileKeyboardViewOpen, toggleMobileKeyboardView],
   );
 
-  const previousView = views[views.indexOf(openView!) - 1];
-  const nextView = views[views.indexOf(openView!) + 1];
+  const previousView = views[views.indexOf(openView) - 1];
+  const nextView = views[views.indexOf(openView) + 1];
 
   const openNext = React.useCallback(() => {
     if (nextView) {

@@ -67,7 +67,7 @@ export const useStyles = makeStyles(
   { name: 'MuiPickersSlideTransition' },
 );
 
-export const SlideTransition: React.SFC<SlideTransitionProps> = ({
+export const SlideTransition: React.FC<SlideTransitionProps> = ({
   children,
   className,
   reduceAnimations,
@@ -83,10 +83,13 @@ export const SlideTransition: React.SFC<SlideTransitionProps> = ({
   const transitionClasses = {
     exit: classes.slideExit,
     enterActive: classes.slideEnterActive,
-    // @ts-ignore
-    enter: classes[`slideEnter-${slideDirection}`],
-    // @ts-ignore
-    exitActive: classes[`slideExitActiveLeft-${slideDirection}`],
+    enter: classes[`slideEnter-${slideDirection}` as 'slideEnter-left' | 'slideEnter-right'],
+    exitActive:
+      classes[
+        `slideExitActiveLeft-${slideDirection}` as
+          | 'slideExitActiveLeft-left'
+          | 'slideExitActiveLeft-right'
+      ],
   };
 
   return (

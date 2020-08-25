@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog';
-import { WrapperProps } from './Wrapper';
-import { StaticWrapperProps } from './StaticWrapper';
 import { PureDateInput } from '../PureDateInput';
-import { InnerDesktopWrapperProps } from './DesktopWrapper';
+import type { WrapperProps } from './Wrapper';
+import type { StaticWrapperProps } from './StaticWrapper';
+import type { InnerDesktopWrapperProps } from './DesktopWrapper';
 import { WrapperVariantContext } from './WrapperVariantContext';
 import PickersModalDialog, { ExportedPickerModalProps } from '../PickersModalDialog';
 

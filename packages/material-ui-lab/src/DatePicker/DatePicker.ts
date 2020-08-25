@@ -1,12 +1,12 @@
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { DatePickerToolbar } from './DatePickerToolbar';
-import { WithViewsProps } from '../internal/pickers/Picker/SharedPickerProps';
+import type { WithViewsProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import {
   useParsedDate,
   OverrideParsableDateProps,
 } from '../internal/pickers/hooks/date-helpers-hooks';
-import { ExportedDayPickerProps } from '../DayPicker/DayPicker';
+import type { ExportedDayPickerProps } from '../DayPicker/DayPicker';
 import {
   MobileWrapper,
   DesktopWrapper,

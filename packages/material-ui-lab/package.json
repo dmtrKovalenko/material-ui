@@ -23,11 +23,12 @@
   },
   "homepage": "https://material-ui.com/components/about-the-lab",
   "scripts": {
-    "build": "yarn build:cjs && yarn build:esm && yarn build:es && yarn build:copy-files",
+    "build": "yarn build:cjs && yarn build:esm && yarn build:es && yarn build:ts-declarations && yarn build:copy-files",
     "build:cjs": "node ../../scripts/build cjs",
     "build:esm": "node ../../scripts/build esm",
     "build:es": "node ../../scripts/build es",
     "build:copy-files": "node ../../scripts/copy-files.js",
+    "build:ts-declarations": "tsc -p tsconfig.declaration.json",
     "prebuild": "rimraf build",
     "release": "yarn build && npm publish build --tag next",
     "test": "cd ../../ && cross-env NODE_ENV=test mocha 'packages/material-ui-lab/**/*.test.js' --exclude '**/node_modules/**'",

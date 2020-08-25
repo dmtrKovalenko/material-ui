@@ -256,7 +256,7 @@ describe('<TimePicker />', () => {
               value={time}
               onError={onErrorMock}
               onChange={(newTime) => setTime(newTime)}
-              renderInput={(props) => <TextField {...props} />}
+              renderInput={(inputProps) => <TextField {...inputProps} />}
               {...props}
             />
           );
@@ -270,7 +270,7 @@ describe('<TimePicker />', () => {
           },
         });
 
-        expect(onErrorMock.calledWith(expectedError)).to.be.ok;
+        expect(onErrorMock.calledWith(expectedError)).to.be.equal(true);
       });
     });
   });

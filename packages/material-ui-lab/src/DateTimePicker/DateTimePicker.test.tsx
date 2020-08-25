@@ -109,7 +109,7 @@ describe('<DateTimePicker />', () => {
     expect(getByMuiTest('minutes')).to.have.text('53');
 
     fireEvent.click(screen.getByText(/ok/i));
-    expect(onChangeMock.calledWith(new Date('2010-01-15T11:53:00.000'))).to.be.ok;
+    expect(onChangeMock.calledWith(new Date('2010-01-15T11:53:00.000'))).to.be.equal(true);
   });
 
   it('prop: open – overrides open state', () => {

@@ -42,7 +42,7 @@ export interface ClockPointerProps
 }
 
 class ClockPointer extends React.Component<ClockPointerProps> {
-  public static getDerivedStateFromProps = (
+  static getDerivedStateFromProps = (
     nextProps: ClockPointerProps,
     state: ClockPointer['state'],
   ) => {
@@ -59,13 +59,13 @@ class ClockPointer extends React.Component<ClockPointerProps> {
     };
   };
 
-  public state = {
+  state = {
     toAnimateTransform: false,
     // eslint-disable-next-line react/no-unused-state
     previousType: undefined,
   };
 
-  public getAngleStyle = () => {
+  getAngleStyle = () => {
     const { value, isInner, type } = this.props;
 
     const max = type === 'hours' ? 12 : 60;
@@ -81,7 +81,7 @@ class ClockPointer extends React.Component<ClockPointerProps> {
     };
   };
 
-  public render() {
+  render() {
     const { classes, hasSelected, isInner, type, value, ...other } = this.props;
 
     return (
@@ -104,4 +104,4 @@ class ClockPointer extends React.Component<ClockPointerProps> {
 
 export default withStyles(styles, {
   name: 'MuiPickersClockPointer',
-})(ClockPointer as React.ComponentType<ClockPointerProps>);
+})(ClockPointer);

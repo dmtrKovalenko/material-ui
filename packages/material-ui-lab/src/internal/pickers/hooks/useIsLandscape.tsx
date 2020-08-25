@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useIsomorphicEffect } from './useKeyDown';
 import { arrayIncludes } from '../utils';
-import { DateTimePickerView } from '../../../DateTimePicker';
+import type { DateTimePickerView } from '../../../DateTimePicker';
 import { BasePickerProps } from '../typings/BasePicker';
 
+// tslint:disable deprecation
 const getOrientation = () => {
   if (typeof window === 'undefined') {
     return 'portrait';
@@ -13,7 +14,7 @@ const getOrientation = () => {
     return Math.abs(window.screen.orientation.angle) === 90 ? 'landscape' : 'portrait';
   }
 
-  // Support IOS safari
+  // Support IOS safar
   if (window.orientation) {
     return Math.abs(Number(window.orientation)) === 90 ? 'landscape' : 'portrait';
   }
@@ -47,3 +48,5 @@ export function useIsLandscape(
   const orientationToUse = customOrientation || orientation;
   return orientationToUse === 'landscape';
 }
+
+export default useIsLandscape;

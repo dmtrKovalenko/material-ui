@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';
-import { ArrowLeftIcon } from '../svg-icons/ArrowLeft';
-import { ArrowRightIcon } from '../svg-icons/ArrowRight';
+import ArrowLeftIcon from '../svg-icons/ArrowLeft';
+import ArrowRightIcon from '../svg-icons/ArrowRight';
 
 export interface ExportedArrowSwitcherProps {
   /**

@@ -6,10 +6,10 @@ import { ToolbarButton } from '../internal/pickers/ToolbarButton';
 import PickerToolbar from '../internal/pickers/PickerToolbar';
 import { arrayIncludes } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
-import { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { convertToMeridiem, getMeridiem } from '../internal/pickers/time-utils';
+import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import type { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
 
 const muiComponentConfig = { name: 'MuiPickersTimePickerToolbar' };
 

@@ -29,8 +29,8 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(screen.getByText('January')).to.be.displayed;
-    expect(screen.getByText('2019')).to.be.displayed;
+    expect(screen.getByText('January')).toBeVisible();
+    expect(screen.getByText('2019')).toBeVisible();
     expect(getAllByMuiTest('day').length).to.equal(31);
   });
 
@@ -51,7 +51,7 @@ describe('<DatePicker />', () => {
     fireEvent.click(screen.getByLabelText('Jan 2, 2019'));
     expect(onChangeMock.callCount).to.equal(1);
 
-    expect(screen.queryByRole('dialog')).to.be.null;
+    expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
   it('Mobile mode – Accepts date on `OK` button click', () => {
@@ -69,12 +69,12 @@ describe('<DatePicker />', () => {
 
     fireEvent.click(screen.getByLabelText('Jan 2, 2019'));
     expect(onChangeMock.callCount).to.equal(1);
-    expect(screen.queryByRole('dialog')).not.to.be.null;
+    expect(screen.queryByRole('dialog')).not.to.equal(null);
 
     fireEvent.click(screen.getByText(/ok/i));
     // TODO revisit calling onChange twice. Now it is expected for mobile mode.
     expect(onChangeMock.callCount).to.equal(2);
-    expect(screen.queryByRole('dialog')).to.be.null;
+    expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
   it('Switches between months', () => {
@@ -116,7 +116,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('calendar-month-text')).to.have.text('January');
 
     // onChange must be dispatched with newly selected date
-    expect(onChangeMock.calledWith(adapterToUse.date('01-01-2018'))).to.be.ok;
+    expect(onChangeMock.calledWith(adapterToUse.date('01-01-2018'))).to.be.equal(true);
   });
 
   it('Allows to change only year', () => {
@@ -167,7 +167,7 @@ describe('<DatePicker />', () => {
     fireEvent.click(screen.getByRole('textbox'));
     fireEvent.click(screen.getByLabelText('Jan 2, 2018'));
 
-    expect(screen.queryByRole('dialog')).to.be.visible;
+    expect(screen.queryByRole('dialog')).toBeVisible();
   });
 
   it('Closes picker on selection in Desktop mode', async () => {
@@ -185,7 +185,7 @@ describe('<DatePicker />', () => {
     await waitFor(() => screen.getByRole('dialog'));
     fireEvent.click(screen.getByLabelText('Jan 2, 2018'));
 
-    expect(screen.queryByRole('dialog')).to.be.null;
+    expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
   it('Prop `clearable` - renders clear button in Mobile mode', () => {
@@ -203,8 +203,8 @@ describe('<DatePicker />', () => {
     openMobilePicker();
     fireEvent.click(screen.getByText('Clear'));
 
-    expect(onChangeMock.calledWith(null)).to.be.ok;
-    expect(screen.queryByRole('dialog')).to.be.null;
+    expect(onChangeMock.calledWith(null)).to.be.equal(true);
+    expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
   it("Prop `disableCloseOnSelect` – if `true` doesn't close picker", () => {
@@ -221,7 +221,7 @@ describe('<DatePicker />', () => {
     openDesktopPicker();
     fireEvent.click(screen.getByLabelText('Jan 2, 2018'));
 
-    expect(screen.queryByRole('dialog')).to.be.displayed;
+    expect(screen.queryByRole('dialog')).toBeVisible();
   });
 
   it('does not call onChange if same date selected', async () => {
@@ -280,7 +280,7 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(getByMuiTest('picker-toolbar')).to.be.displayed;
+    expect(getByMuiTest('picker-toolbar')).toBeVisible();
   });
 
   it('Prop `toolbarTitle` – should render title from the prop', () => {
@@ -428,7 +428,7 @@ describe('<DatePicker />', () => {
     );
 
     expect(queryAllByMuiTest(document.body, 'day').length).to.equal(0);
-    expect(getByMuiTest('loading-progress')).to.be.displayed;
+    expect(getByMuiTest('loading-progress')).toBeVisible();
   });
 
   it('Prop `renderLoading` – displays custom loading indicator', () => {
@@ -443,8 +443,8 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(queryByMuiTest(document.body, 'loading-progress')).to.be.null;
-    expect(getByMuiTest('custom-loading')).to.be.displayed;
+    expect(queryByMuiTest(document.body, 'loading-progress')).to.equal(null);
+    expect(getByMuiTest('custom-loading')).toBeVisible();
   });
 
   it('Custom toolbar component', () => {
@@ -459,6 +459,6 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(getByMuiTest('custom-toolbar')).to.be.displayed;
+    expect(getByMuiTest('custom-toolbar')).toBeVisible();
   });
 });

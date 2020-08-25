@@ -5,14 +5,14 @@ import { isWeekend } from 'date-fns';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, act } from 'test/utils';
 import { StaticDatePicker, DesktopDatePicker, DesktopDatePickerProps } from './DatePicker';
-import { createPickerRender, adapterToUse } from '../internal/pickers/test-utils';
+import { createPickerRender } from '../internal/pickers/test-utils';
 import { MakeOptional } from '../internal/pickers/typings/helpers';
 
 function TestKeyboardDatePicker(
-  props: MakeOptional<DesktopDatePickerProps, 'value' | 'onChange' | 'renderInput'>,
+  PickerProps: MakeOptional<DesktopDatePickerProps, 'value' | 'onChange' | 'renderInput'>,
 ) {
   const [value, setValue] = React.useState<unknown>(
-    props.value ?? new Date('2019-01-01T00:00:00.000'),
+    PickerProps.value ?? new Date('2019-01-01T00:00:00.000'),
   );
 
   return (
@@ -20,7 +20,7 @@ function TestKeyboardDatePicker(
       value={value}
       onChange={(newDate) => setValue(newDate)}
       renderInput={(props) => <TextField placeholder="10/10/2018" {...props} />}
-      {...props}
+      {...PickerProps}
     />
   );
 }
@@ -147,7 +147,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       { keyCode: 40, key: 'ArrowDown', expectFocusedDay: 'Aug 20, 2020' },
     ].forEach(({ key, keyCode, expectFocusedDay }) => {
       it(key, () => {
-        fireEvent.keyDown(document.activeElement, { keyCode, key });
+        fireEvent.keyDown(document.activeElement, { force: true, keyCode, key });
 
         expect(document.activeElement).toHaveAccessibleName(expectFocusedDay);
       });
@@ -229,7 +229,7 @@ describe('<DatePicker /> keyboard interactions', () => {
               value={date}
               onError={onErrorMock}
               onChange={(newDate) => setDate(newDate)}
-              renderInput={(props) => <TextField {...props} />}
+              renderInput={(inputProps) => <TextField {...inputProps} />}
               {...props}
             />
           );
@@ -243,7 +243,7 @@ describe('<DatePicker /> keyboard interactions', () => {
           },
         });
 
-        expect(onErrorMock.calledWith(expectedError)).to.be.ok;
+        expect(onErrorMock.calledWith(expectedError)).to.be.equal(true);
       });
     });
   });
@@ -264,6 +264,6 @@ describe('<DatePicker /> keyboard interactions', () => {
 
     screen.debug();
 
-    expect(screen.queryByRole('dialog')).to.be.displayed;
+    expect(screen.queryByRole('dialog')).toBeVisible();
   });
 });

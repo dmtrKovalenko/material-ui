@@ -220,7 +220,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.spec.tsx', '*.spec.ts', "*.test.tsx", " *.test.ts"],
+      files: ['*.spec.tsx', '*.spec.ts'],
       rules: {
         'no-alert': 'off',
         'no-console': 'off',

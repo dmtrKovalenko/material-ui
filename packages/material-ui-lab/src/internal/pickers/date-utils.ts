@@ -1,8 +1,8 @@
 import { arrayIncludes } from './utils';
 import { ParsableDate } from './constants/prop-types';
-import { BasePickerProps } from './typings/BasePicker';
-import { DatePickerView } from '../../DatePicker/DatePicker';
-import { MuiPickersAdapter } from './hooks/useUtils';
+import type { BasePickerProps } from './typings/BasePicker';
+import type { DatePickerView } from '../../DatePicker/DatePicker';
+import type { MuiPickersAdapter } from './hooks/useUtils';
 
 interface FindClosestDateParams<TDate> {
   date: TDate;
@@ -146,14 +146,14 @@ export interface DateValidationProps<TDate> {
 }
 
 export const validateDate = <TDate>(
-  utils: MuiPickersAdapter,
+  utils: MuiPickersAdapter<TDate>,
   value: TDate | ParsableDate,
   { minDate, maxDate, disableFuture, shouldDisableDate, disablePast }: DateValidationProps<TDate>,
 ) => {
-  const now = utils.date();
+  const now = utils.date()!;
   const date = utils.date(value);
 
-  if (value === null) {
+  if (date === null) {
     return null;
   }
 

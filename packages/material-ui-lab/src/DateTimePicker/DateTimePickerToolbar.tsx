@@ -5,7 +5,6 @@ import PickerToolbar from '../internal/pickers/PickerToolbar';
 import { ToolbarButton } from '../internal/pickers/ToolbarButton';
 import DateTimePickerTabs from './DateTimePickerTabs';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { DateTimePickerView } from './DateTimePicker';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
 import { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
@@ -140,7 +139,7 @@ export const DateTimePickerToolbar: React.FC<ToolbarComponentProps> = withDefaul
           <DateTimePickerTabs
             dateRangeIcon={dateRangeIcon}
             timeIcon={timeIcon}
-            view={openView as DateTimePickerView}
+            view={openView}
             onChange={setOpenView}
           />
         )}

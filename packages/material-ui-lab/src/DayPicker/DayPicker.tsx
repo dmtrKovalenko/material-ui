@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { MonthPicker } from '../MonthPicker/MonthPicker';
-import { DatePickerView } from '../DatePicker';
+import type { DatePickerView } from '../DatePicker';
 import { useCalendarState } from './useCalendarState';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';

@@ -4,8 +4,8 @@ import { DateValidationProps, validateDate } from '../internal/pickers/date-util
 import { TimeValidationProps, validateTime } from '../internal/pickers/time-utils';
 
 export function validateDateAndTime<TDate>(
-  utils: MuiPickersAdapter,
-  value: unknown | ParsableDate,
+  utils: MuiPickersAdapter<TDate>,
+  value: ParsableDate<TDate>,
   {
     minDate,
     maxDate,

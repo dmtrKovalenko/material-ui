@@ -1,12 +1,14 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Grow from '@material-ui/core/Grow';
-import Paper, { PaperProps } from '@material-ui/core/Paper';
-import Popper, { PopperProps } from '@material-ui/core/Popper';
-import TrapFocus, { TrapFocusProps } from '@material-ui/core/Unstable_TrapFocus';
+import Paper, { PaperProps as MuiPaperProps } from '@material-ui/core/Paper';
+import Popper, { PopperProps as MuiPopperProps } from '@material-ui/core/Popper';
+import TrapFocus, {
+  TrapFocusProps as MuiTrapFocusProps,
+} from '@material-ui/core/Unstable_TrapFocus';
 import { useForkRef } from '@material-ui/core/utils';
 import { makeStyles } from '@material-ui/core/styles';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { TransitionProps as MuiTransitionProps } from '@material-ui/core/transitions';
 import { useGlobalKeyDown, keycode } from './hooks/useKeyDown';
 import { IS_TOUCH_DEVICE_MEDIA } from './constants/dimensions';
 import { executeInTheNextEventLoopTick } from './utils';
@@ -15,18 +17,18 @@ export interface ExportedPickerPopperProps {
   /**
    * Popper props passed down to [Popper](https://material-ui.com/api/popper/) component.
    */
-  PopperProps?: Partial<PopperProps>;
+  PopperProps?: Partial<MuiPopperProps>;
   /**
    * Custom component for [Transition](https://material-ui.com/components/transitions/#transitioncomponent-prop).
    */
-  TransitionComponent?: React.ComponentType<TransitionProps>;
+  TransitionComponent?: React.ComponentType<MuiTransitionProps>;
 }
 
-export interface PickerPopperProps extends ExportedPickerPopperProps, PaperProps {
+export interface PickerPopperProps extends ExportedPickerPopperProps, MuiPaperProps {
   role: 'tooltip' | 'dialog';
-  TrapFocusProps?: Partial<TrapFocusProps>;
-  anchorEl: PopperProps['anchorEl'];
-  open: PopperProps['open'];
+  TrapFocusProps?: Partial<MuiTrapFocusProps>;
+  anchorEl: MuiPopperProps['anchorEl'];
+  open: MuiPopperProps['open'];
   onClose: () => void;
   onOpen: () => void;
 }

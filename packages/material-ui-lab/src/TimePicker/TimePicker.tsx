@@ -1,18 +1,18 @@
 import React from 'react';
-import { ClockIcon } from '../internal/svg-icons/Clock';
+import ClockIcon from '../internal/svg-icons/Clock';
 import { ParsableDate } from '../internal/pickers/constants/prop-types';
 import { TimePickerToolbar } from './TimePickerToolbar';
 import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
-import {
-  useParsedDate,
-  OverrideParsableDateProps,
-} from '../internal/pickers/hooks/date-helpers-hooks';
 import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { validateTime, TimeValidationError } from '../internal/pickers/time-utils';
 import { WithViewsProps, AllSharedPickerProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { ValidationProps, makeValidationHook } from '../internal/pickers/hooks/useValidation';
+import {
+  useParsedDate,
+  OverrideParsableDateProps,
+} from '../internal/pickers/hooks/date-helpers-hooks';
 import {
   MobileWrapper,
   DesktopWrapper,
@@ -72,11 +72,9 @@ function useInterceptProps({
 
 const timePickerConfig = {
   useInterceptProps,
-  useValidation: makeValidationHook<
-    TimeValidationError,
-    ParsableDate,
-    BaseTimePickerProps<unknown>
-  >(validateTime),
+  useValidation: makeValidationHook<TimeValidationError, ParsableDate, BaseTimePickerProps>(
+    validateTime,
+  ),
   DefaultToolbarComponent: TimePickerToolbar,
 };
 

@@ -5,12 +5,12 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { DatePickerView } from '../DatePicker';
+import type { DatePickerView } from '../DatePicker';
 import { SlideDirection } from './SlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';
 import { DateValidationProps } from '../internal/pickers/date-utils';
-import { ArrowDropDownIcon } from '../internal/svg-icons/ArrowDropDown';
+import ArrowDropDownIcon from '../internal/svg-icons/ArrowDropDown';
 import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
 import {
   usePreviousMonthDisabled,
@@ -137,7 +137,7 @@ export function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate>) {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <div className={classes.monthTitleContainer} onClick={toggleView}>
+        <div role="presentation" className={classes.monthTitleContainer} onClick={toggleView}>
           <FadeTransitionGroup
             reduceAnimations={reduceAnimations}
             transKey={utils.format(month, 'month')}

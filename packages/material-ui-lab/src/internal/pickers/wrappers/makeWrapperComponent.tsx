@@ -1,32 +1,28 @@
 import React from 'react';
 import { StaticWrapperProps } from './StaticWrapper';
 import { BasePickerProps } from '../typings/BasePicker';
-import { DateInputProps } from '../PureDateInput';
 import { ResponsiveWrapperProps } from './ResponsiveWrapper';
 import { OmitInnerWrapperProps, SomeWrapper, WrapperProps, DateInputPropsLike } from './Wrapper';
 
-interface MakePickerOptions<TInputProps> {
-  PureDateInputComponent?: React.FC<TInputProps>;
-  KeyboardDateInputComponent?: React.FC<TInputProps>;
+interface MakePickerOptions {
+  PureDateInputComponent?: React.ComponentType<DateInputPropsLike<any, any>>;
+  KeyboardDateInputComponent?: React.ComponentType<DateInputPropsLike<any, any>>;
 }
 
-interface WithWrapperProps<TInputProps = DateInputProps> {
+interface WithWrapperProps {
   children: React.ReactNode;
-  DateInputProps: TInputProps;
+  DateInputProps: DateInputPropsLike<any, any>;
   wrapperProps: Omit<WrapperProps, 'DateInputProps'>;
 }
 
 /* Creates a component that rendering modal/popover/nothing and spreading props down to text field */
-export function makeWrapperComponent<
-  TInputProps extends DateInputPropsLike<any, any>,
-  TWrapper extends SomeWrapper = any
->(
+export function makeWrapperComponent<TWrapper extends SomeWrapper = any>(
   Wrapper: TWrapper,
-  { KeyboardDateInputComponent, PureDateInputComponent }: MakePickerOptions<TInputProps>,
+  { KeyboardDateInputComponent, PureDateInputComponent }: MakePickerOptions,
 ) {
   function WrapperComponent(
     props: Partial<BasePickerProps<any, any>> &
-      WithWrapperProps<TInputProps> &
+      WithWrapperProps &
       Partial<OmitInnerWrapperProps<ResponsiveWrapperProps> & StaticWrapperProps>,
   ) {
     const {
@@ -54,10 +50,10 @@ export function makeWrapperComponent<
       ...restPropsForTextField
     } = props;
 
-    const WrapperComponent = Wrapper as SomeWrapper;
+    const TypedWrapper = Wrapper as SomeWrapper;
 
     return (
-      <WrapperComponent
+      <TypedWrapper
         clearable={clearable}
         clearText={clearText}
         DialogProps={DialogProps}
@@ -66,9 +62,7 @@ export function makeWrapperComponent<
         todayText={todayText}
         cancelText={cancelText}
         DateInputProps={DateInputProps}
-        // @ts-ignore
         KeyboardDateInputComponent={KeyboardDateInputComponent}
-        // @ts-ignore
         PureDateInputComponent={PureDateInputComponent}
         wider={wider}
         showTabs={showTabs}
@@ -77,9 +71,11 @@ export function makeWrapperComponent<
         {...restPropsForTextField}
       >
         {children}
-      </WrapperComponent>
+      </TypedWrapper>
     );
   }
 
   return WrapperComponent;
 }
+
+export default makeWrapperComponent;

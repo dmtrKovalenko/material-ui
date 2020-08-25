@@ -8,27 +8,27 @@ import ClockPointer from './ClockPointer';
 import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { VIEW_HEIGHT } from '../internal/pickers/constants/dimensions';
 import { ClockViewType } from '../internal/pickers/constants/ClockType';
-import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { getHours, getMinutes } from '../internal/pickers/time-utils';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
-import { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
-import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
+import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import type { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
+import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 
 export interface ClockProps<TDate> extends ReturnType<typeof useMeridiemMode> {
   date: TDate | null;
   type: ClockViewType;
   value: number;
   isTimeDisabled: (timeValue: number, type: ClockViewType) => boolean;
-  children: React.ReactElement<any>[];
+  children: React.ReactNode[];
   onDateChange: PickerOnChangeFn<TDate>;
   onChange: (value: number, isFinish?: PickerSelectionState) => void;
   ampm?: boolean;
   minutesStep?: number;
   ampmInClock?: boolean;
   allowKeyboardControl?: boolean;
-  getClockLabelText: (
+  getClockLabelText: <TDate>(
     view: 'hours' | 'minutes' | 'seconds',
     time: TDate,
     adapter: MuiPickersAdapter<TDate>,
@@ -169,6 +169,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
     e.stopPropagation();
     // MouseEvent.which is deprecated, but MouseEvent.buttons is not supported in Safari
     const isButtonPressed =
+      // tslint:disable-next-line deprecation
       typeof e.buttons === 'undefined' ? e.nativeEvent.which === 1 : e.buttons === 1;
 
     if (isButtonPressed) {

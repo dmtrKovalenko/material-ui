@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useForkRef } from '@material-ui/core/utils';
 import { useUtils } from './hooks/useUtils';
-import { CalendarIcon } from '../svg-icons/CalendarIcon';
+import CalendarIcon from '../svg-icons/CalendarIcon';
 import { useMaskedInput } from './hooks/useMaskedInput';
 import { DateInputProps, DateInputRefs } from './PureDateInput';
 import { getTextFieldAriaText } from './text-field-helper';
@@ -61,3 +61,5 @@ KeyboardDateInput.propTypes = {
   renderInput: PropTypes.func.isRequired,
   rifmFormatter: PropTypes.func,
 };
+
+export default KeyboardDateInput;

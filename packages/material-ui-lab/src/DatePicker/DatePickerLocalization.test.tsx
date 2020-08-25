@@ -72,7 +72,7 @@ describe('<DatePicker /> localization', () => {
       return (
         <Picker
           onChange={setValue}
-          renderInput={(props) => <TextField {...props} />}
+          renderInput={(inputProps) => <TextField {...inputProps} />}
           value={value}
           {...PickerProps}
         />
@@ -95,10 +95,12 @@ describe('<DatePicker /> localization', () => {
     ];
 
     tests.forEach(({ valid, invalid, locale }) => {
-      const render = createPickerRender({ strict: false, locale });
+      const localizedRender = createPickerRender({ strict: false, locale });
 
       it(`${locale}: should set invalid`, () => {
-        render(<Form Picker={DesktopDatePicker} PickerProps={{ views: ['month', 'year'] }} />);
+        localizedRender(
+          <Form Picker={DesktopDatePicker} PickerProps={{ views: ['month', 'year'] }} />,
+        );
 
         const input = screen.getByRole('textbox');
         fireEvent.change(input, { target: { value: invalid } });
@@ -107,7 +109,9 @@ describe('<DatePicker /> localization', () => {
       });
 
       it(`${locale}: should set to valid when was invalid`, () => {
-        render(<Form Picker={DesktopDatePicker} PickerProps={{ views: ['month', 'year'] }} />);
+        localizedRender(
+          <Form Picker={DesktopDatePicker} PickerProps={{ views: ['month', 'year'] }} />,
+        );
 
         const input = screen.getByRole('textbox');
         fireEvent.change(input, { target: { value: invalid } });

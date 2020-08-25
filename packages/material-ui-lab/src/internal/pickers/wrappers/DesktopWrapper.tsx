@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { WrapperProps } from './Wrapper';
+import type { WrapperProps } from './Wrapper';
 import { StaticWrapperProps } from './StaticWrapper';
 import { InnerMobileWrapperProps } from './MobileWrapper';
 import { WrapperVariantContext } from './WrapperVariantContext';
 import { KeyboardDateInput } from '../KeyboardDateInput';
-import { InnerDesktopTooltipWrapperProps } from './DesktopTooltipWrapper';
+import type { InnerDesktopTooltipWrapperProps } from './DesktopTooltipWrapper';
 import { PickersPopper, ExportedPickerPopperProps } from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
 

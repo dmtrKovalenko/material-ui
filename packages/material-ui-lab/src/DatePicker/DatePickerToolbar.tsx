@@ -3,10 +3,10 @@ import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import PickerToolbar from '../internal/pickers/PickerToolbar';
-import { DatePickerView } from './DatePicker';
+import type { DatePickerView } from './DatePicker';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
-import { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
+import type { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { isYearAndMonthViews, isYearOnlyView } from '../internal/pickers/date-utils';
 
 const muiPickersComponentConfig = { name: 'MuiPickersDatePickerToolbar' };

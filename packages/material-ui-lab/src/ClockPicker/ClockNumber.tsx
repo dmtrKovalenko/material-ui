@@ -5,7 +5,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import { onSpaceOrEnter } from '../internal/pickers/utils';
 import { useCanAutoFocus } from '../internal/pickers/hooks/useCanAutoFocus';
-import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 
 const positions: Record<number, [number, number]> = {
   0: [0, 40],

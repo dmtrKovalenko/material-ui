@@ -63,7 +63,7 @@ describe('test-field-helper', () => {
         checkMaskIsValidForCurrentFormat(mask, format, /[\dap]/gi, adapterToUse);
 
       if (isValid) {
-        expect(runMaskValidation()).to.be.ok;
+        expect(runMaskValidation()).to.be.equal(true);
       } else {
         expect(runMaskValidation).toWarnDev(
           `The mask "${mask}" you passed is not valid for the format used ${format}. Falling down to uncontrolled not-masked input.`,

@@ -9,6 +9,7 @@ export function runKeyHandler(
   event: KeyboardEvent | React.KeyboardEvent,
   keyHandlers: KeyHandlers,
 ) {
+  // tslint:disable-next-line deprecation IE11
   const handler = keyHandlers[event.keyCode];
   if (handler) {
     handler();

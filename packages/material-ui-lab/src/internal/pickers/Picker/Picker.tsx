@@ -3,17 +3,17 @@ import clsx from 'clsx';
 import { styled, makeStyles } from '@material-ui/core/styles';
 import { useViews } from '../hooks/useViews';
 import { ClockView } from '../../../ClockPicker/ClockPicker';
-import { DateTimePickerView } from '../../../DateTimePicker';
-import { BasePickerProps } from '../typings/BasePicker';
-import { DatePickerView } from '../../../DatePicker/DatePicker';
 import { DayPicker } from '../../../DayPicker/DayPicker';
 import { withDefaultProps } from '../withDefaultProps';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { useIsLandscape } from '../hooks/useIsLandscape';
 import { DIALOG_WIDTH, VIEW_HEIGHT } from '../constants/dimensions';
-import { PickerSelectionState } from '../hooks/usePickerState';
 import { WrapperVariantContext } from '../wrappers/WrapperVariantContext';
-import {
+import type { PickerSelectionState } from '../hooks/usePickerState';
+import type { DateTimePickerView } from '../../../DateTimePicker';
+import type { BasePickerProps } from '../typings/BasePicker';
+import type { DatePickerView } from '../../../DatePicker/DatePicker';
+import type {
   WithViewsProps,
   AnyPickerView,
   SharedPickerProps,
@@ -99,8 +99,8 @@ function Picker({
     typeof showToolbar === 'undefined' ? wrapperVariant !== 'desktop' : showToolbar;
 
   const handleDateChange = React.useCallback(
-    (date: unknown, selectionState?: PickerSelectionState) => {
-      onDateChange(date, wrapperVariant, selectionState);
+    (newDate: unknown, selectionState?: PickerSelectionState) => {
+      onDateChange(newDate, wrapperVariant, selectionState);
     },
     [onDateChange, wrapperVariant],
   );
@@ -156,10 +156,9 @@ function Picker({
               <DayPicker
                 date={date}
                 changeView={setOpenView}
-                // @ts-ignore
-                views={views}
                 onChange={handleChangeAndOpenNext}
-                view={openView as DatePickerView}
+                view={openView}
+                views={views as DatePickerView[]}
                 {...other}
               />
             )}
@@ -168,7 +167,7 @@ function Picker({
               <ClockView
                 {...other}
                 date={date}
-                type={openView as 'hours' | 'minutes' | 'seconds'}
+                type={openView}
                 onDateChange={handleDateChange}
                 onChange={handleChangeAndOpenNext}
                 openNextView={() => setOpenView(nextView)}

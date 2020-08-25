@@ -1,12 +1,12 @@
-import { DateTimePickerView } from '../../../DateTimePicker';
-import { BasePickerProps } from '../typings/BasePicker';
-import { PickerOnChangeFn } from '../hooks/useViews';
-import { ExportedDateInputProps } from '../PureDateInput';
-import { ExportedClockViewProps } from '../../../ClockPicker/ClockPicker';
-import { WithDateAdapterProps } from '../withDateAdapterProp';
-import { PickerSelectionState } from '../hooks/usePickerState';
-import { DateInputPropsLike, WrapperVariant } from '../wrappers/Wrapper';
-import { ExportedDayPickerProps } from '../../../DayPicker/DayPicker';
+import type { DateTimePickerView } from '../../../DateTimePicker';
+import type { BasePickerProps } from '../typings/BasePicker';
+import type { PickerOnChangeFn } from '../hooks/useViews';
+import type { ExportedDateInputProps } from '../PureDateInput';
+import type { ExportedClockViewProps } from '../../../ClockPicker/ClockPicker';
+import type { WithDateAdapterProps } from '../withDateAdapterProp';
+import type { PickerSelectionState } from '../hooks/usePickerState';
+import type { DateInputPropsLike, WrapperVariant } from '../wrappers/Wrapper';
+import type { ExportedDayPickerProps } from '../../../DayPicker/DayPicker';
 
 export type AnyPickerView = DateTimePickerView;
 

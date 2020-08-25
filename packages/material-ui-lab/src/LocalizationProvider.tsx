@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { DateIOFormats } from '@date-io/core/IUtils';
-import { MuiPickersAdapter } from './internal/pickers/hooks/useUtils';
+import type { MuiPickersAdapter } from './internal/pickers/hooks/useUtils';
 
 export const MuiPickersAdapterContext = React.createContext<MuiPickersAdapter | null>(null);
 

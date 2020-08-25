@@ -1,3 +1,4 @@
+// tslint:disable
 // TODO move this to packages/material-ui-lab/src/themeAugmentation/props.d.ts
 
 // import { PickerProps } from '../Picker/Picker';

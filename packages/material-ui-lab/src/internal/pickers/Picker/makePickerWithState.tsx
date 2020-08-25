@@ -9,9 +9,13 @@ import { SomeWrapper, ExtendWrapper } from '../wrappers/Wrapper';
 import { ResponsiveWrapper } from '../wrappers/ResponsiveWrapper';
 import { withDateAdapterProp } from '../withDateAdapterProp';
 import { makeWrapperComponent } from '../wrappers/makeWrapperComponent';
-import { PureDateInput, DateInputProps } from '../PureDateInput';
+import { PureDateInput } from '../PureDateInput';
 import { usePickerState, PickerStateValueManager } from '../hooks/usePickerState';
-import { AnyPickerView, AllSharedPickerProps, ToolbarComponentProps } from './SharedPickerProps';
+import type {
+  AnyPickerView,
+  AllSharedPickerProps,
+  ToolbarComponentProps,
+} from './SharedPickerProps';
 
 type AllAvailableForOverrideProps = ExportedPickerProps<AnyPickerView>;
 
@@ -24,7 +28,7 @@ export interface MakePickerOptions<T extends unknown> {
   /**
    * Hook that running validation for the `value` and input.
    */
-  useValidation: (value: ParsableDate<unknown>, props: T) => string | null;
+  useValidation: (value: ParsableDate, props: T) => string | null;
   /**
    * Intercept props to override or inject default props specifically for picker.
    */
@@ -54,7 +58,7 @@ export function makePickerWithStateAndWrapper<
   Wrapper: TWrapper,
   { name, useInterceptProps, useValidation, DefaultToolbarComponent }: MakePickerOptions<T>,
 ): PickerComponent<T, TWrapper> {
-  const WrapperComponent = makeWrapperComponent<DateInputProps<any, any>>(Wrapper, {
+  const WrapperComponent = makeWrapperComponent(Wrapper, {
     KeyboardDateInputComponent: KeyboardDateInput,
     PureDateInputComponent: PureDateInput,
   });
@@ -90,6 +94,7 @@ export function makePickerWithStateAndWrapper<
 
   const FinalPickerComponent = withDefaultProps({ name }, withDateAdapterProp(PickerWithState));
 
+  // tslint:disable-next-line
   // @ts-ignore Simply ignore generic values in props, because it is impossible
   // to keep generics without additional cast when using forwardRef
   // @see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834
