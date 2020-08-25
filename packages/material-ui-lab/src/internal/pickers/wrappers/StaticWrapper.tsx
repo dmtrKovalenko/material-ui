@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DIALOG_WIDTH } from '../constants/dimensions';
 import { WrapperVariantContext, IsStaticVariantContext } from './WrapperVariantContext';
+import { StaticWrapperProps, PrivateWrapperProps } from './WrapperProps';
 
 const useStyles = makeStyles(
   (theme) => ({
@@ -16,17 +17,8 @@ const useStyles = makeStyles(
   { name: 'MuiPickersStaticWrapper' },
 );
 
-export interface StaticWrapperProps {
-  /**
-   * Force static wrapper inner components to be rendered in mobile or desktop mode
-   *
-   * @default "static"
-   */
-  displayStaticWrapperAs?: 'desktop' | 'mobile' | 'static';
-}
-
-export const StaticWrapper: React.FC<StaticWrapperProps> = (props) => {
-  const { displayStaticWrapperAs = 'static', children } = props;
+export const StaticWrapper: React.FC<PrivateWrapperProps & StaticWrapperProps> = (props) => {
+  const { displayStaticWrapperAs = 'mobile', children } = props;
   const classes = useStyles();
   const isStatic = true;
 
@@ -38,3 +30,5 @@ export const StaticWrapper: React.FC<StaticWrapperProps> = (props) => {
     </IsStaticVariantContext.Provider>
   );
 };
+
+export default StaticWrapper;

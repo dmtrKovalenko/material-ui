@@ -11,10 +11,13 @@ import { ClockViewType } from '../internal/pickers/constants/ClockType';
 import { getHours, getMinutes } from '../internal/pickers/time-utils';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
-import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
-import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import type { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
-import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import {
+  WrapperVariantContext,
+  IsStaticVariantContext,
+} from '../internal/pickers/wrappers/WrapperVariantContext';
+import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
 
 export interface ClockProps<TDate> extends ReturnType<typeof useMeridiemMode> {
   date: TDate | null;
@@ -120,6 +123,7 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
 
   const utils = useUtils();
   const classes = useStyles();
+  const isStatic = React.useContext(IsStaticVariantContext);
   const wrapperVariant = React.useContext(WrapperVariantContext);
   const isMoving = React.useRef(false);
 
@@ -194,15 +198,12 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
   }, [type, value]);
 
   const keyboardControlStep = type === 'minutes' ? minutesStep : 1;
-  useGlobalKeyDown(
-    Boolean(allowKeyboardControl ?? wrapperVariant !== 'static') && !isMoving.current,
-    {
-      [keycode.Home]: () => handleValueChange(0, 'partial'), // annulate both hours and minutes
-      [keycode.End]: () => handleValueChange(type === 'minutes' ? 59 : 23, 'partial'),
-      [keycode.ArrowUp]: () => handleValueChange(value + keyboardControlStep, 'partial'),
-      [keycode.ArrowDown]: () => handleValueChange(value - keyboardControlStep, 'partial'),
-    },
-  );
+  useGlobalKeyDown(Boolean(allowKeyboardControl ?? !isStatic) && !isMoving.current, {
+    [keycode.Home]: () => handleValueChange(0, 'partial'), // annulate both hours and minutes
+    [keycode.End]: () => handleValueChange(type === 'minutes' ? 59 : 23, 'partial'),
+    [keycode.ArrowUp]: () => handleValueChange(value + keyboardControlStep, 'partial'),
+    [keycode.ArrowDown]: () => handleValueChange(value - keyboardControlStep, 'partial'),
+  });
 
   return (
     <div className={classes.root}>

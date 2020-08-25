@@ -1,30 +1,19 @@
-import { DateInputProps } from '../PureDateInput';
-import { StaticWrapper, StaticWrapperProps } from './StaticWrapper';
-import { MobileWrapper, MobileWrapperProps } from './MobileWrapper';
-import { DesktopWrapper, DesktopWrapperProps } from './DesktopWrapper';
+import { StaticWrapper } from './StaticWrapper';
+import { MobileWrapper } from './MobileWrapper';
+import { DesktopWrapper } from './DesktopWrapper';
 import { ResponsiveWrapper, ResponsiveWrapperProps } from './ResponsiveWrapper';
-import { DesktopTooltipWrapper, DesktopTooltipWrapperProps } from './DesktopTooltipWrapper';
+import { DesktopTooltipWrapper } from './DesktopTooltipWrapper';
+import {
+  StaticWrapperProps,
+  MobileWrapperProps,
+  DesktopWrapperProps,
+  PrivateWrapperProps,
+} from './WrapperProps';
 
-export type DateInputPropsLike<TInputValue, TDateValue> = Omit<
-  DateInputProps<TInputValue, TDateValue>,
-  'renderInput' | 'validationError'
-> & {
-  renderInput: (...args: any) => JSX.Element;
-  validationError?: any;
-};
-
-export interface WrapperProps<TInputProps = DateInputPropsLike<any, any>> {
-  open: boolean;
-  onAccept: () => void;
-  onDismiss: () => void;
-  onClear: () => void;
-  onSetToday: () => void;
-  DateInputProps: TInputProps;
-  KeyboardDateInputComponent?: React.ComponentType<TInputProps>;
-  PureDateInputComponent?: React.ComponentType<TInputProps>;
-}
-
-export type OmitInnerWrapperProps<T extends WrapperProps<any>> = Omit<T, keyof WrapperProps<any>>;
+type UniqueWrapperComponentProps<T extends React.FC<any>> = Omit<
+  React.ComponentProps<T>,
+  keyof PrivateWrapperProps
+>;
 
 export type SomeWrapper =
   | typeof ResponsiveWrapper
@@ -33,34 +22,19 @@ export type SomeWrapper =
   | typeof DesktopWrapper
   | typeof DesktopTooltipWrapper;
 
-export type ExtendWrapper<TWrapper extends SomeWrapper> = TWrapper extends typeof StaticWrapper
+// prettier-ignore
+export type ExtendWrapper<TWrapper extends SomeWrapper> =
+  UniqueWrapperComponentProps<TWrapper> extends StaticWrapperProps
   ? StaticWrapperProps
-  : TWrapper extends typeof ResponsiveWrapper
-  ? OmitInnerWrapperProps<ResponsiveWrapperProps>
-  : TWrapper extends typeof MobileWrapper
-  ? OmitInnerWrapperProps<MobileWrapperProps>
-  : TWrapper extends typeof DesktopWrapper
-  ? OmitInnerWrapperProps<DesktopWrapperProps>
-  : TWrapper extends typeof DesktopWrapper
-  ? OmitInnerWrapperProps<DesktopWrapperProps>
-  : TWrapper extends typeof DesktopTooltipWrapper
-  ? OmitInnerWrapperProps<DesktopTooltipWrapperProps>
-  : never;
+  // make sure that ResponsiveWrapper extends props for mobile and desktop so we must check it before them and only for unique prop
+  : UniqueWrapperComponentProps<TWrapper> extends Pick<ResponsiveWrapperProps, 'desktopModeMediaQuery'>
+  ? ResponsiveWrapperProps
+  : UniqueWrapperComponentProps<TWrapper> extends DesktopWrapperProps
+  ? DesktopWrapperProps
+  : UniqueWrapperComponentProps<TWrapper> extends MobileWrapperProps
+  ? MobileWrapperProps
+  : {};
 
-export function getWrapperVariant(wrapper: SomeWrapper) {
-  if (wrapper === DesktopWrapper) {
-    return 'desktop';
-  }
-  if (wrapper === StaticWrapper) {
-    return 'static';
-  }
-  if (wrapper === MobileWrapper) {
-    return 'mobile';
-  }
-
-  return null;
-}
-
-export type WrapperVariant = ReturnType<typeof getWrapperVariant>;
+export { WrapperVariant } from './WrapperVariantContext';
 
 export { StaticWrapper, MobileWrapper, DesktopWrapper };

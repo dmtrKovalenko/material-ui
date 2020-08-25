@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { MonthPicker } from '../MonthPicker/MonthPicker';
-import type { DatePickerView } from '../DatePicker';
 import { useCalendarState } from './useCalendarState';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';
@@ -14,6 +13,7 @@ import { YearPicker, ExportedYearPickerProps } from '../YearPicker/YearPicker';
 import { defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 import { IsStaticVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
 import { DateValidationProps, findClosestEnabledDate } from '../internal/pickers/date-utils';
+import { DatePickerView } from '../internal/pickers/typings/Views';
 
 export interface DayPickerProps<TDate>
   extends DateValidationProps<TDate>,

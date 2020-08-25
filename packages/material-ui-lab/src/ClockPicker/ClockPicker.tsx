@@ -12,9 +12,9 @@ import {
   createIsAfterIgnoreDatePart,
   TimeValidationProps,
 } from '../internal/pickers/time-utils';
-import { useMeridiemMode } from '../TimePicker/TimePickerToolbar';
-import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
 
 export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate> {
   /**

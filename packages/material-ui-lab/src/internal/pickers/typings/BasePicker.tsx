@@ -1,5 +1,33 @@
+import { ExportedDayPickerProps } from '@material-ui/lab/DayPicker/DayPicker';
+import { ExportedClockViewProps } from '@material-ui/lab/ClockPicker/ClockPicker';
 import { ParsableDate } from '../constants/prop-types';
-import type { ToolbarComponentProps } from '../Picker/SharedPickerProps';
+import { AllAvailableViews } from './Views';
+import { PickerOnChangeFn } from '../hooks/useViews';
+
+export type CalendarAndClockProps<TDate> = ExportedDayPickerProps<TDate> &
+  ExportedClockViewProps<TDate>;
+
+export type ToolbarComponentProps<
+  TDate = unknown,
+  TView extends AllAvailableViews = AllAvailableViews
+> = CalendarAndClockProps<TDate> & {
+  ampmInClock?: boolean;
+  date: TDate;
+  dateRangeIcon?: React.ReactNode;
+  getMobileKeyboardInputViewButtonText?: () => string;
+  hideTabs?: boolean;
+  isLandscape: boolean;
+  isMobileKeyboardViewOpen: boolean;
+  onChange: PickerOnChangeFn<TDate>;
+  openView: TView;
+  setOpenView: (view: TView) => void;
+  timeIcon?: React.ReactNode;
+  toggleMobileKeyboardView: () => void;
+  toolbarFormat?: string;
+  toolbarPlaceholder?: React.ReactNode;
+  toolbarTitle?: React.ReactNode;
+  views: TView[];
+};
 
 export interface BasePickerProps<TInputValue = ParsableDate, TDateValue = unknown> {
   /**

@@ -1,22 +1,14 @@
 import * as React from 'react';
-import type { WrapperProps } from './Wrapper';
-import { StaticWrapperProps } from './StaticWrapper';
-import { InnerMobileWrapperProps } from './MobileWrapper';
-import { InnerDesktopWrapperProps } from './DesktopWrapper';
 import { WrapperVariantContext } from './WrapperVariantContext';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { executeInTheNextEventLoopTick } from '../utils';
-import { ExportedPickerPopperProps, PickersPopper } from '../PickersPopper';
+import { PickersPopper } from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
+import { PrivateWrapperProps, DesktopWrapperProps } from './WrapperProps';
 
-export interface InnerDesktopTooltipWrapperProps extends ExportedPickerPopperProps {}
-
-export interface DesktopTooltipWrapperProps
-  extends InnerDesktopTooltipWrapperProps,
-    WrapperProps,
-    Partial<InnerMobileWrapperProps & StaticWrapperProps & InnerDesktopWrapperProps> {}
-
-export const DesktopTooltipWrapper: React.FC<DesktopTooltipWrapperProps> = (props) => {
+export const DesktopTooltipWrapper: React.FC<PrivateWrapperProps & DesktopWrapperProps> = (
+  props,
+) => {
   const {
     open,
     children,
@@ -68,3 +60,5 @@ export const DesktopTooltipWrapper: React.FC<DesktopTooltipWrapperProps> = (prop
     </WrapperVariantContext.Provider>
   );
 };
+
+export default DesktopTooltipWrapper;

@@ -147,7 +147,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       { keyCode: 40, key: 'ArrowDown', expectFocusedDay: 'Aug 20, 2020' },
     ].forEach(({ key, keyCode, expectFocusedDay }) => {
       it(key, () => {
-        fireEvent.keyDown(document.activeElement, { force: true, keyCode, key });
+        fireEvent.keyDown(document.body, { force: true, keyCode, key });
 
         expect(document.activeElement).toHaveAccessibleName(expectFocusedDay);
       });
@@ -248,7 +248,8 @@ describe('<DatePicker /> keyboard interactions', () => {
     });
   });
 
-  // TODO figure out why keydown doesn't work
+  //  TODO figure out why keydown doesn't work
+  /* eslint-disable-next-line */
   it.skip('Opens calendar by keydown on the open button', () => {
     render(<TestKeyboardDatePicker />);
     const openButton = screen.getByLabelText(/choose date/i);

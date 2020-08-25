@@ -1,14 +1,17 @@
 import * as React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { IS_TOUCH_DEVICE_MEDIA } from '../constants/dimensions';
-import { MobileWrapperProps, MobileWrapper } from './MobileWrapper';
-import { DesktopWrapperProps, DesktopWrapper } from './DesktopWrapper';
-import { DesktopTooltipWrapperProps, DesktopTooltipWrapper } from './DesktopTooltipWrapper';
+import { MobileWrapper } from './MobileWrapper';
+import { DesktopWrapper } from './DesktopWrapper';
+import { DesktopTooltipWrapper } from './DesktopTooltipWrapper';
+import {
+  MobileWrapperProps,
+  DesktopWrapperProps,
+  WrapperProps,
+  PrivateWrapperProps,
+} from './WrapperProps';
 
-export interface ResponsiveWrapperProps
-  extends DesktopWrapperProps,
-    DesktopTooltipWrapperProps,
-    MobileWrapperProps {
+export interface ResponsiveWrapperProps extends MobileWrapperProps, DesktopWrapperProps {
   /**
    * CSS media query when `Mobile` mode will be changed to `Desktop`.
    *
@@ -19,16 +22,15 @@ export interface ResponsiveWrapperProps
 }
 
 export const makeResponsiveWrapper = (
-  DesktopWrapperComponent: React.FC<DesktopWrapperProps | DesktopTooltipWrapperProps>,
-  MobileWrapperComponent: React.FC<MobileWrapperProps>,
+  DesktopWrapperComponent: React.FC<WrapperProps>,
+  MobileWrapperComponent: React.FC<WrapperProps>,
 ) => {
-  const ResponsiveWrapper: React.FC<ResponsiveWrapperProps> = ({
+  const ResponsiveWrapper: React.FC<ResponsiveWrapperProps & PrivateWrapperProps> = ({
     cancelText,
     clearable,
     clearText,
     desktopModeMediaQuery = IS_TOUCH_DEVICE_MEDIA,
     DialogProps,
-    displayStaticWrapperAs,
     okText,
     PopperProps,
     showTodayButton,

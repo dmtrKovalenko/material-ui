@@ -1,8 +1,8 @@
 import React from 'react';
-import { StaticWrapperProps } from './StaticWrapper';
 import { BasePickerProps } from '../typings/BasePicker';
 import { ResponsiveWrapperProps } from './ResponsiveWrapper';
-import { OmitInnerWrapperProps, SomeWrapper, WrapperProps, DateInputPropsLike } from './Wrapper';
+import { SomeWrapper } from './Wrapper';
+import { StaticWrapperProps, DateInputPropsLike, WrapperProps } from './WrapperProps';
 
 interface MakePickerOptions {
   PureDateInputComponent?: React.ComponentType<DateInputPropsLike<any, any>>;
@@ -23,7 +23,8 @@ export function makeWrapperComponent<TWrapper extends SomeWrapper = any>(
   function WrapperComponent(
     props: Partial<BasePickerProps<any, any>> &
       WithWrapperProps &
-      Partial<OmitInnerWrapperProps<ResponsiveWrapperProps> & StaticWrapperProps>,
+      ResponsiveWrapperProps &
+      StaticWrapperProps,
   ) {
     const {
       disableCloseOnSelect,

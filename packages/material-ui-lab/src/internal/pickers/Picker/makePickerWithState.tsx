@@ -11,13 +11,11 @@ import { withDateAdapterProp } from '../withDateAdapterProp';
 import { makeWrapperComponent } from '../wrappers/makeWrapperComponent';
 import { PureDateInput } from '../PureDateInput';
 import { usePickerState, PickerStateValueManager } from '../hooks/usePickerState';
-import type {
-  AnyPickerView,
-  AllSharedPickerProps,
-  ToolbarComponentProps,
-} from './SharedPickerProps';
+import { AllAvailableViews } from '../typings/Views';
+import { AllSharedPickerProps } from './SharedPickerProps';
+import { ToolbarComponentProps } from '../typings/BasePicker';
 
-type AllAvailableForOverrideProps = ExportedPickerProps<AnyPickerView>;
+type AllAvailableForOverrideProps = ExportedPickerProps<AllAvailableViews>;
 
 export type AllPickerProps<T, TWrapper extends SomeWrapper = SomeWrapper> = T &
   AllSharedPickerProps &

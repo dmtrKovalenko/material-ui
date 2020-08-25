@@ -9,29 +9,21 @@ import { KeyboardDateInput } from '../KeyboardDateInput';
 import { useIsLandscape } from '../hooks/useIsLandscape';
 import { DIALOG_WIDTH, VIEW_HEIGHT } from '../constants/dimensions';
 import { WrapperVariantContext } from '../wrappers/WrapperVariantContext';
-import type { PickerSelectionState } from '../hooks/usePickerState';
-import type { DateTimePickerView } from '../../../DateTimePicker';
-import type { BasePickerProps } from '../typings/BasePicker';
-import type { DatePickerView } from '../../../DatePicker/DatePicker';
-import type {
-  WithViewsProps,
-  AnyPickerView,
-  SharedPickerProps,
-  CalendarAndClockProps,
-} from './SharedPickerProps';
+import { PickerSelectionState } from '../hooks/usePickerState';
+import { BasePickerProps, CalendarAndClockProps } from '../typings/BasePicker';
+import { WithViewsProps, SharedPickerProps } from './SharedPickerProps';
+import { AllAvailableViews, DatePickerView } from '../typings/Views';
 
-export interface ExportedPickerProps<TView extends AnyPickerView>
+export interface ExportedPickerProps<TView extends AllAvailableViews>
   extends Omit<BasePickerProps, 'value' | 'onChange'>,
     CalendarAndClockProps<unknown>,
     WithViewsProps<TView> {
-  // TODO move out, cause it is DateTimePickerOnly
-  hideTabs?: boolean;
   dateRangeIcon?: React.ReactNode;
   timeIcon?: React.ReactNode;
 }
 
 export type PickerProps<
-  TView extends AnyPickerView,
+  TView extends AllAvailableViews,
   TInputValue = any,
   TDateValue = any
 > = ExportedPickerProps<TView> & SharedPickerProps<TInputValue, TDateValue>;
@@ -71,7 +63,7 @@ export const useStyles = makeStyles(
 
 const MobileKeyboardTextFieldProps = { fullWidth: true };
 
-const isDatePickerView = (view: DateTimePickerView) =>
+const isDatePickerView = (view: AllAvailableViews) =>
   view === 'year' || view === 'month' || view === 'date';
 
 function Picker({
@@ -90,7 +82,7 @@ function Picker({
   toolbarTitle,
   views = ['year', 'month', 'date', 'hours', 'minutes', 'seconds'],
   ...other
-}: PickerProps<AnyPickerView>) {
+}: PickerProps<AllAvailableViews>) {
   const classes = useStyles();
   const isLandscape = useIsLandscape(views, orientation);
   const wrapperVariant = React.useContext(WrapperVariantContext);

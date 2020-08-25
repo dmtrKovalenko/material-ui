@@ -1,27 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog';
+
 import { PureDateInput } from '../PureDateInput';
-import type { WrapperProps } from './Wrapper';
-import type { StaticWrapperProps } from './StaticWrapper';
-import type { InnerDesktopWrapperProps } from './DesktopWrapper';
 import { WrapperVariantContext } from './WrapperVariantContext';
-import PickersModalDialog, { ExportedPickerModalProps } from '../PickersModalDialog';
+import PickersModalDialog from '../PickersModalDialog';
+import { MobileWrapperProps, PrivateWrapperProps } from './WrapperProps';
 
-export interface InnerMobileWrapperProps extends ExportedPickerModalProps {
-  /**
-   * Props to be passed directly to material-ui Dialog
-   * @type {Partial<MuiDialogProps>}
-   */
-  DialogProps?: Partial<MuiDialogProps>;
-}
-
-export interface MobileWrapperProps
-  extends InnerMobileWrapperProps,
-    WrapperProps,
-    Partial<InnerDesktopWrapperProps & StaticWrapperProps> {}
-
-export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
+export const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> = (props) => {
   const {
     cancelText,
     children,
@@ -29,7 +14,6 @@ export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
     clearText,
     DateInputProps,
     DialogProps,
-    displayStaticWrapperAs,
     KeyboardDateInputComponent,
     okText,
     onAccept,
@@ -37,15 +21,14 @@ export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
     onDismiss,
     onSetToday,
     open,
-    PopperProps,
     PureDateInputComponent = PureDateInput,
     showTabs,
     showTodayButton,
     todayText,
     wider,
-    TransitionComponent,
     ...other
   } = props;
+
   return (
     <WrapperVariantContext.Provider value="mobile">
       <PureDateInputComponent {...other} {...DateInputProps} />
@@ -63,7 +46,6 @@ export const MobileWrapper: React.FC<MobileWrapperProps> = (props) => {
         cancelText={cancelText}
         clearable={clearable}
         showTodayButton={showTodayButton}
-        TransitionComponent={TransitionComponent}
         data-mui-test="mobile-wrapper-dialog"
         {...DialogProps}
       >
@@ -82,3 +64,5 @@ MobileWrapper.propTypes = {
   showTodayButton: PropTypes.bool,
   todayText: PropTypes.node,
 };
+
+export default MobileWrapper;

@@ -6,8 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import TimeIcon from '../internal/svg-icons/Time';
 import DateRangeIcon from '../internal/svg-icons/DateRange';
-import type { DateTimePickerView } from './DateTimePicker';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
+import { DateTimePickerView } from '../internal/pickers/typings/Views';
 
 const viewToTabIndex = (openView: DateTimePickerView) => {
   if (openView === 'date' || openView === 'year') {

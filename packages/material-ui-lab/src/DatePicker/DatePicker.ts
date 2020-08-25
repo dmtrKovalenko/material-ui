@@ -96,7 +96,7 @@ export const DesktopDatePicker = makePickerWithStateAndWrapper<BaseDatePickerPro
     name: 'MuiDesktopDatePicker',
     ...datePickerConfig,
   },
-) as DatePickerComponent<typeof MobileWrapper>;
+) as DatePickerComponent<typeof DesktopWrapper>;
 
 export type DesktopDatePickerProps = React.ComponentProps<typeof DesktopDatePicker>;
 

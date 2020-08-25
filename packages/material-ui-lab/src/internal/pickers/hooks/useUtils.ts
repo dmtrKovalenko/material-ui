@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { IUtils } from '@date-io/core/IUtils';
-import { MuiPickersAdapterContext } from '../../../LocalizationProvider';
-
-export type MuiPickersAdapter<TDate = unknown> = IUtils<TDate>;
+import { MuiPickersAdapterContext, MuiPickersAdapter } from '../../../LocalizationProvider';
 
 // TODO uncomment when syntax will be allowed by next babel
 function checkUtils(utils: MuiPickersAdapter | null) /* :asserts utils is MuiPickersAdapter */ {
@@ -26,3 +23,5 @@ export function useNow<TDate = unknown>() {
 
   return now.current!;
 }
+
+export { MuiPickersAdapter };

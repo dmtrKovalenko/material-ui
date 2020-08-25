@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIsomorphicEffect } from './useKeyDown';
 import { arrayIncludes } from '../utils';
-import type { DateTimePickerView } from '../../../DateTimePicker';
 import { BasePickerProps } from '../typings/BasePicker';
+import { AllAvailableViews } from '../typings/Views';
 
 // tslint:disable deprecation
 const getOrientation = () => {
@@ -23,7 +23,7 @@ const getOrientation = () => {
 };
 
 export function useIsLandscape(
-  views: DateTimePickerView[],
+  views: AllAvailableViews[],
   customOrientation?: BasePickerProps['orientation'],
 ): boolean {
   const [orientation, setOrientation] = React.useState<BasePickerProps['orientation']>(

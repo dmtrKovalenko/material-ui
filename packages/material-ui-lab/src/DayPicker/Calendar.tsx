@@ -7,7 +7,7 @@ import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { useDefaultProps } from '../internal/pickers/withDefaultProps';
-import type { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
+import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
 import { SlideTransition, SlideDirection, SlideTransitionProps } from './SlideTransition';
 

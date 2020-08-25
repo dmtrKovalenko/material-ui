@@ -8,7 +8,7 @@ import Toolbar, { ToolbarProps } from '@material-ui/core/Toolbar';
 import { ExtendMui } from './typings/helpers';
 import PenIcon from '../svg-icons/Pen';
 import CalendarIcon from '../svg-icons/CalendarIcon';
-import type { ToolbarComponentProps } from './Picker/SharedPickerProps';
+import { ToolbarComponentProps } from './typings/BasePicker';
 
 export const useStyles = makeStyles(
   (theme) => {

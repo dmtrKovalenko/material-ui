@@ -5,7 +5,6 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import type { DatePickerView } from '../DatePicker';
 import { SlideDirection } from './SlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';
@@ -16,6 +15,7 @@ import {
   usePreviousMonthDisabled,
   useNextMonthDisabled,
 } from '../internal/pickers/hooks/date-helpers-hooks';
+import { DatePickerView } from '../internal/pickers/typings/Views';
 
 export type ExportedCalendarHeaderProps<TDate> = Pick<
   CalendarHeaderProps<TDate>,

@@ -27,8 +27,6 @@ import {
   defaultMaxDate,
 } from '../internal/pickers/constants/prop-types';
 
-export type DateTimePickerView = 'year' | 'date' | 'month' | 'hours' | 'minutes' | 'seconds';
-
 type DateTimePickerViewsProps<TDate> = OverrideParsableDateProps<
   TDate,
   ExportedClockViewProps<TDate> & ExportedDayPickerProps<TDate>,

@@ -60,7 +60,7 @@ describe('<DatePicker />', () => {
       <MobileDatePicker
         value={adapterToUse.date('01-01-2019')}
         onChange={onChangeMock}
-        TransitionComponent={FakeTransitionComponent}
+        DialogProps={{ TransitionComponent: FakeTransitionComponent }}
         renderInput={(props) => <TextField {...props} />}
       />,
     );
@@ -193,9 +193,9 @@ describe('<DatePicker />', () => {
     render(
       <MobileDatePicker
         clearable
-        TransitionComponent={FakeTransitionComponent}
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
+        DialogProps={{ TransitionComponent: FakeTransitionComponent }}
         renderInput={(props) => <TextField {...props} />}
       />,
     );
@@ -337,6 +337,7 @@ describe('<DatePicker />', () => {
         onClose={onCloseMock}
         onChange={onChangeMock}
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
+        DialogProps={{ TransitionComponent: FakeTransitionComponent }}
       />,
     );
 

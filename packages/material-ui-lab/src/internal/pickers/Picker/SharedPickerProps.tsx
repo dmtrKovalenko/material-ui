@@ -1,14 +1,10 @@
-import type { DateTimePickerView } from '../../../DateTimePicker';
-import type { BasePickerProps } from '../typings/BasePicker';
-import type { PickerOnChangeFn } from '../hooks/useViews';
-import type { ExportedDateInputProps } from '../PureDateInput';
-import type { ExportedClockViewProps } from '../../../ClockPicker/ClockPicker';
-import type { WithDateAdapterProps } from '../withDateAdapterProp';
-import type { PickerSelectionState } from '../hooks/usePickerState';
-import type { DateInputPropsLike, WrapperVariant } from '../wrappers/Wrapper';
-import type { ExportedDayPickerProps } from '../../../DayPicker/DayPicker';
-
-export type AnyPickerView = DateTimePickerView;
+import { BasePickerProps } from '../typings/BasePicker';
+import { ExportedDateInputProps } from '../PureDateInput';
+import { WithDateAdapterProps } from '../withDateAdapterProp';
+import { PickerSelectionState } from '../hooks/usePickerState';
+import { DateInputPropsLike } from '../wrappers/WrapperProps';
+import { AllAvailableViews } from '../typings/Views';
+import { WrapperVariant } from '../wrappers/Wrapper';
 
 export type AllSharedPickerProps<TInputValue = any, TDateValue = any> = BasePickerProps<
   TInputValue,
@@ -33,7 +29,7 @@ export interface SharedPickerProps<
   ) => void;
 }
 
-export interface WithViewsProps<T extends AnyPickerView> {
+export interface WithViewsProps<T extends AllAvailableViews> {
   /**
    * Array of views to show.
    */
@@ -43,29 +39,3 @@ export interface WithViewsProps<T extends AnyPickerView> {
    */
   openTo?: T;
 }
-
-export type CalendarAndClockProps<TDate> = ExportedDayPickerProps<TDate> &
-  ExportedClockViewProps<TDate>;
-
-export type ToolbarComponentProps<
-  TDate = unknown,
-  TView extends AnyPickerView = AnyPickerView
-> = CalendarAndClockProps<TDate> & {
-  ampmInClock?: boolean;
-  date: TDate;
-  dateRangeIcon?: React.ReactNode;
-  getMobileKeyboardInputViewButtonText?: () => string;
-  // TODO move out, cause it is DateTimePickerOnly
-  hideTabs?: boolean;
-  isLandscape: boolean;
-  isMobileKeyboardViewOpen: boolean;
-  onChange: PickerOnChangeFn<TDate>;
-  openView: TView;
-  setOpenView: (view: TView) => void;
-  timeIcon?: React.ReactNode;
-  toggleMobileKeyboardView: () => void;
-  toolbarFormat?: string;
-  toolbarPlaceholder?: React.ReactNode;
-  toolbarTitle?: React.ReactNode;
-  views: TView[];
-};

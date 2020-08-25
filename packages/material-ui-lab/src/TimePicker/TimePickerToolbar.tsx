@@ -7,9 +7,8 @@ import PickerToolbar from '../internal/pickers/PickerToolbar';
 import { arrayIncludes } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { withDefaultProps } from '../internal/pickers/withDefaultProps';
-import { convertToMeridiem, getMeridiem } from '../internal/pickers/time-utils';
-import type { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import type { ToolbarComponentProps } from '../internal/pickers/Picker/SharedPickerProps';
+import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
+import { ToolbarComponentProps } from '../internal/pickers/typings/BasePicker';
 
 const muiComponentConfig = { name: 'MuiPickersTimePickerToolbar' };
 
@@ -52,25 +51,6 @@ export const useStyles = makeStyles(
   },
   muiComponentConfig,
 );
-
-export function useMeridiemMode<TDate>(
-  date: TDate,
-  ampm: boolean | undefined,
-  onChange: PickerOnChangeFn<TDate>,
-) {
-  const utils = useUtils<TDate>();
-  const meridiemMode = getMeridiem(date, utils);
-
-  const handleMeridiemChange = React.useCallback(
-    (mode: 'am' | 'pm') => {
-      const timeWithMeridiem = convertToMeridiem<TDate>(date, mode, Boolean(ampm), utils);
-      onChange(timeWithMeridiem, 'partial');
-    },
-    [ampm, date, onChange, utils],
-  );
-
-  return { meridiemMode, handleMeridiemChange };
-}
 
 const clockTypographyVariant = 'h3';
 
