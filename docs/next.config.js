@@ -125,7 +125,7 @@ module.exports = {
           },
           // required to transpile ../packages/
           {
-            test: /\.(js|mjs|jsx|ts)$/,
+            test: /\.(js|mjs|jsx|ts|tsx)$/,
             include: [workspaceRoot],
             exclude: /node_modules/,
             use: options.defaultLoaders.babel,

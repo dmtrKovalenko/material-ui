@@ -1,18 +1,14 @@
 import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { StaticTimePicker } from '@material-ui/pickers';
+import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import { StaticTimePicker } from '@material-ui/lab/TimePicker';
 
-export default function StaticTimePickerExample() {
+export default function StaticTimePickerLandscape() {
   const [value, setValue] = React.useState<Date | null>(new Date());
 
   return (
-    <React.Fragment>
-      <StaticTimePicker
-        openTo="hours"
-        value={value}
-        onChange={(newValue) => setValue(newValue)}
-        renderInput={(props) => <TextField {...props} />}
-      />
+    <LocalizationProvider dateAdapter={DateFnsAdapter}>
       <StaticTimePicker
         ampm
         orientation="landscape"
@@ -21,6 +17,6 @@ export default function StaticTimePickerExample() {
         onChange={(newValue) => setValue(newValue)}
         renderInput={(props) => <TextField {...props} />}
       />
-    </React.Fragment>
+    </LocalizationProvider>
   );
 }

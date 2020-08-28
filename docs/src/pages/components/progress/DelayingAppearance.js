@@ -27,7 +27,9 @@ export default function DelayingAppearance() {
 
   React.useEffect(
     () => () => {
-      clearTimeout(timerRef.current);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     },
     [],
   );
@@ -37,7 +39,9 @@ export default function DelayingAppearance() {
   };
 
   const handleClickQuery = () => {
-    clearTimeout(timerRef.current);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
 
     if (query !== 'idle') {
       setQuery('idle');

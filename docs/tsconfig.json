@@ -10,7 +10,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": false,
     "esModuleInterop": true,
-    "types": ["react"]
+    "types": ["react", "node"]
   },
   "exclude": ["node_modules"]
 }

@@ -109,6 +109,6 @@ export type MobileTimePickerProps = React.ComponentProps<typeof MobileTimePicker
 export const StaticTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(StaticWrapper, {
   name: 'MuiStaticTimePicker',
   ...timePickerConfig,
-});
+}) as TimePickerComponent<typeof StaticWrapper>;
 
 export type StaticTimePickerProps = React.ComponentProps<typeof StaticTimePicker>;

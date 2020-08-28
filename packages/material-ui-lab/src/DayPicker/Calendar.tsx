@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { PickersDay, DayProps } from '../PickersDay/PickersDay';
+import { PickersDay, PickersDayProps } from '../PickersDay/PickersDay';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
@@ -13,7 +13,7 @@ import { SlideTransition, SlideDirection, SlideTransitionProps } from './SlideTr
 
 export interface ExportedCalendarProps<TDate>
   extends Pick<
-    DayProps<TDate>,
+    PickersDayProps<TDate>,
     'disableHighlightToday' | 'showDaysOutsideCurrentMonth' | 'allowSameDateSelection'
   > {
   /**
@@ -26,7 +26,7 @@ export interface ExportedCalendarProps<TDate>
   renderDay?: (
     day: TDate,
     selectedDates: Array<TDate | null>,
-    DayComponentProps: DayProps<TDate>,
+    DayComponentProps: PickersDayProps<TDate>,
   ) => JSX.Element;
   /**
    * Enables keyboard listener for moving between days in calendar.
@@ -200,7 +200,7 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
                   const disabled = isDateDisabled(day);
                   const isDayInCurrentMonth = utils.getMonth(day) === currentMonthNumber;
 
-                  const dayProps: DayProps<TDate> = {
+                  const dayProps: PickersDayProps<TDate> = {
                     key: (day as any)?.toString(),
                     day,
                     role: 'cell',

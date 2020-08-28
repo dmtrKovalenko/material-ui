@@ -73,7 +73,7 @@ export const useStyles = makeStyles(
   muiComponentConfig,
 );
 
-export interface DayProps<TDate> extends ExtendMui<ButtonBaseProps> {
+export interface PickersDayProps<TDate> extends ExtendMui<ButtonBaseProps> {
   /**
    * The date to show.
    */
@@ -136,7 +136,7 @@ export interface DayProps<TDate> extends ExtendMui<ButtonBaseProps> {
   onDaySelect: (day: TDate, isFinish: PickerSelectionState) => void;
 }
 
-function PureDay<TDate>(props: DayProps<TDate>) {
+function PureDay<TDate>(props: PickersDayProps<TDate>) {
   const {
     allowKeyboardControl,
     allowSameDateSelection = false,
@@ -243,7 +243,10 @@ function PureDay<TDate>(props: DayProps<TDate>) {
   );
 }
 
-export const areDayPropsEqual = (prevProps: DayProps<any>, nextProps: DayProps<any>) => {
+export const areDayPropsEqual = (
+  prevProps: PickersDayProps<any>,
+  nextProps: PickersDayProps<any>,
+) => {
   return (
     prevProps.focused === nextProps.focused &&
     prevProps.focusable === nextProps.focusable &&
@@ -272,3 +275,5 @@ PureDay.propTypes = {
 
 // keep typings of original component and not loose generic
 export const PickersDay = (React.memo(PureDay, areDayPropsEqual) as unknown) as typeof PureDay;
+
+export default PickersDay;

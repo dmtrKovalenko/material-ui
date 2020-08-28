@@ -35,6 +35,7 @@ export type ExtendWrapper<TWrapper extends SomeWrapper> =
   ? MobileWrapperProps
   : {};
 
-export { WrapperVariant } from './WrapperVariantContext';
+// Required for babel https://github.com/vercel/next.js/issues/7882. Replace with `export type` in future
+export type WrapperVariant = import('./WrapperVariantContext').WrapperVariant;
 
 export { StaticWrapper, MobileWrapper, DesktopWrapper };

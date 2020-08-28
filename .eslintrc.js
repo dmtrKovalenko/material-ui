@@ -49,6 +49,7 @@ module.exports = {
         patterns: [
           '@material-ui/*/*/*',
           '!@material-ui/utils/macros/*.macro',
+          '!@material-ui/lab/dateAdapter/*',
           // public API: https://next.material-ui-pickers.dev/getting-started/installation#peer-library
           '!@material-ui/pickers/adapter/*',
         ],

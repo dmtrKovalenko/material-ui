@@ -52,7 +52,9 @@ export default function CircularIntegration() {
 
   React.useEffect(() => {
     return () => {
-      clearTimeout(timer.current);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
     };
   }, []);
 

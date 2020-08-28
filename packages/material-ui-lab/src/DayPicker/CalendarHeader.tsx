@@ -9,6 +9,7 @@ import { SlideDirection } from './SlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { FadeTransitionGroup } from './FadeTransitionGroup';
 import { DateValidationProps } from '../internal/pickers/date-utils';
+// tslint:disable-next-line no-relative-import-in-test
 import ArrowDropDownIcon from '../internal/svg-icons/ArrowDropDown';
 import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
 import {
