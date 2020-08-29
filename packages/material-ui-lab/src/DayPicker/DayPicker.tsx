@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { MonthPicker } from '../MonthPicker/MonthPicker';
+import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import MonthPicker from '../MonthPicker/MonthPicker';
 import { useCalendarState } from './useCalendarState';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { FadeTransitionGroup } from './FadeTransitionGroup';
-import { Calendar, ExportedCalendarProps } from './Calendar';
+import FadeTransitionGroup from './FadeTransitionGroup';
+import Calendar, { ExportedCalendarProps } from './Calendar';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
-import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import { CalendarHeader, ExportedCalendarHeaderProps } from './CalendarHeader';
-import { YearPicker, ExportedYearPickerProps } from '../YearPicker/YearPicker';
+import CalendarHeader, { ExportedCalendarHeaderProps } from './CalendarHeader';
+import YearPicker, { ExportedYearPickerProps } from '../YearPicker/YearPicker';
 import { defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 import { IsStaticVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
 import { DateValidationProps, findClosestEnabledDate } from '../internal/pickers/date-utils';
@@ -42,35 +41,31 @@ export type ExportedDayPickerProps<TDate> = Omit<
   'date' | 'view' | 'views' | 'onChange' | 'changeView' | 'slideDirection' | 'currentMonth'
 >;
 
-const muiComponentConfig = { name: 'MuiPickersCalendarView' };
-
-export const useStyles = makeStyles(
-  {
-    viewTransitionContainer: {
-      overflowY: 'auto',
-    },
-    fullHeightContainer: {
-      flex: 1,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: (DAY_SIZE + DAY_MARGIN * 4) * 7,
-      height: '100%',
-    },
+export const styles = createStyles({
+  viewTransitionContainer: {
+    overflowY: 'auto',
   },
-  muiComponentConfig,
-);
+  fullHeightContainer: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: (DAY_SIZE + DAY_MARGIN * 4) * 7,
+    height: '100%',
+  },
+});
 
 export const defaultReduceAnimations =
   typeof navigator !== 'undefined' && /(android)/i.test(navigator.userAgent);
 
-export function DayPicker<TDate>(props: DayPickerProps<TDate>) {
+function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl: allowKeyboardControlProp,
     changeView,
     date,
     disableFuture,
     disablePast,
+    classes,
     loading,
     maxDate: maxDateProp,
     minDate: minDateProp,
@@ -82,10 +77,9 @@ export function DayPicker<TDate>(props: DayPickerProps<TDate>) {
     shouldDisableYear,
     view,
     ...other
-  } = useDefaultProps(props, muiComponentConfig);
+  } = props;
 
   const utils = useUtils<TDate>();
-  const classes = useStyles();
   const isStatic = React.useContext(IsStaticVariantContext);
   const allowKeyboardControl = allowKeyboardControlProp ?? !isStatic;
 
@@ -197,3 +191,7 @@ export function DayPicker<TDate>(props: DayPickerProps<TDate>) {
     </React.Fragment>
   );
 }
+
+export default withStyles(styles, { name: 'MuiPickersCalendarView' })(DayPicker) as <TDate>(
+  props: DayPickerProps<TDate>,
+) => JSX.Element;

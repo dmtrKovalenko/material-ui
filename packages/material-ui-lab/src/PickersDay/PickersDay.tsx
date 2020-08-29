@@ -2,19 +2,16 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ButtonBase, { ButtonBaseProps } from '@material-ui/core/ButtonBase';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme, fade } from '@material-ui/core/styles';
 import { ExtendMui } from '../internal/pickers/typings/helpers';
 import { onSpaceOrEnter } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { useCanAutoFocus } from '../internal/pickers/hooks/useCanAutoFocus';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 
-const muiComponentConfig = { name: 'MuiPickersDay' };
-
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       ...theme.typography.caption,
       width: DAY_SIZE,
@@ -69,9 +66,7 @@ export const useStyles = makeStyles(
     },
     selected: {},
     disabled: {},
-  }),
-  muiComponentConfig,
-);
+  });
 
 export interface PickersDayProps<TDate> extends ExtendMui<ButtonBaseProps> {
   /**
@@ -136,10 +131,11 @@ export interface PickersDayProps<TDate> extends ExtendMui<ButtonBaseProps> {
   onDaySelect: (day: TDate, isFinish: PickerSelectionState) => void;
 }
 
-function PureDay<TDate>(props: PickersDayProps<TDate>) {
+function PickersDay<TDate>(props: PickersDayProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl,
     allowSameDateSelection = false,
+    classes,
     className,
     day,
     disabled = false,
@@ -159,10 +155,9 @@ function PureDay<TDate>(props: PickersDayProps<TDate>) {
     showDaysOutsideCurrentMonth = false,
     today: isToday = false,
     ...other
-  } = useDefaultProps(props, muiComponentConfig);
+  } = props;
 
   const utils = useUtils();
-  const classes = useStyles();
   const canAutoFocus = useCanAutoFocus();
   const ref = React.useRef<HTMLButtonElement>(null);
 
@@ -265,15 +260,12 @@ export const areDayPropsEqual = (
   );
 };
 
-PureDay.displayName = 'PickersDay';
-
-PureDay.propTypes = {
+PickersDay.propTypes = {
   disabled: PropTypes.bool,
   selected: PropTypes.bool,
   today: PropTypes.bool,
 };
 
-// keep typings of original component and not loose generic
-export const PickersDay = (React.memo(PureDay, areDayPropsEqual) as unknown) as typeof PureDay;
-
-export default PickersDay;
+export default withStyles(styles, { name: 'MuiPickersDay' })(
+  React.memo(PickersDay, areDayPropsEqual),
+) as <TDate>(props: PickersDayProps<TDate>) => JSX.Element;

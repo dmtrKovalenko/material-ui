@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
 import { DatePicker } from '@material-ui/lab/DatePicker';
-import { PickersDay, PickersDayProps } from '@material-ui/lab/PickersDay';
+import PickersDay, { PickersDayProps } from '@material-ui/lab/PickersDay';
 import clsx from 'clsx';
 import endOfWeek from 'date-fns/endOfWeek';
 import isSameDay from 'date-fns/isSameDay';

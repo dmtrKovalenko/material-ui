@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Dialog, { DialogProps } from '@material-ui/core/Dialog';
-import { makeStyles } from '@material-ui/core/styles';
+import Dialog, { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 import { DIALOG_WIDTH, DIALOG_WIDTH_WIDER } from './constants/dimensions';
 
 export interface ExportedPickerModalProps {
@@ -44,59 +44,64 @@ export interface ExportedPickerModalProps {
    * @default false
    */
   showTodayButton?: boolean;
-  showTabs?: boolean;
-  wider?: boolean;
+  /**
+   * Props to be passed directly to material-ui [Dialog](https://material-ui.com/components/dialogs)
+   * @type {Partial<MuiDialogProps>}
+   */
+  DialogProps?: Partial<MuiDialogProps>;
 }
 
-export interface PickerModalDialogProps extends ExportedPickerModalProps, DialogProps {
+export interface PickerModalDialogProps extends ExportedPickerModalProps {
   onAccept: () => void;
   onClear: () => void;
   onDismiss: () => void;
   onSetToday: () => void;
+  wider?: boolean;
+  open: boolean;
 }
 
-export const useStyles = makeStyles(
-  {
-    dialogRoot: {
-      minWidth: DIALOG_WIDTH,
-    },
-    dialogRootWider: {
-      minWidth: DIALOG_WIDTH_WIDER,
-    },
-    dialogContainer: {
-      '&:focus > $dialogRoot': {
-        outline: 'auto',
-        '@media (pointer:coarse)': {
-          outline: 0,
-        },
-      },
-    },
-    dialog: {
-      '&:first-child': {
-        padding: 0,
-      },
-    },
-    dialogAction: {
-      // requested for overrides
-    },
-    withAdditionalAction: {
-      // set justifyContent to default value to fix IE11 layout bug
-      // see https://github.com/mui-org/material-ui-pickers/pull/267
-      justifyContent: 'flex-start',
-
-      '& > *:first-child': {
-        marginRight: 'auto',
+export const styles = createStyles({
+  dialogRoot: {
+    minWidth: DIALOG_WIDTH,
+  },
+  dialogRootWider: {
+    minWidth: DIALOG_WIDTH_WIDER,
+  },
+  dialogContainer: {
+    '&:focus > $dialogRoot': {
+      outline: 'auto',
+      '@media (pointer:coarse)': {
+        outline: 0,
       },
     },
   },
-  { name: 'MuiPickersModalDialog' },
-);
+  dialog: {
+    '&:first-child': {
+      padding: 0,
+    },
+  },
+  dialogAction: {
+    // requested for overrides
+  },
+  withAdditionalAction: {
+    // set justifyContent to default value to fix IE11 layout bug
+    // see https://github.com/mui-org/material-ui-pickers/pull/267
+    justifyContent: 'flex-start',
 
-const PickersModalDialog: React.FC<PickerModalDialogProps> = (props) => {
+    '& > *:first-child': {
+      marginRight: 'auto',
+    },
+  },
+});
+
+const PickersModalDialog: React.FC<PickerModalDialogProps & WithStyles<typeof styles>> = (
+  props,
+) => {
   const {
+    open,
+    classes,
     cancelText = 'Cancel',
     children,
-    classes: MuiDialogClasses,
     clearable = false,
     clearText = 'Clear',
     okText = 'OK',
@@ -104,16 +109,16 @@ const PickersModalDialog: React.FC<PickerModalDialogProps> = (props) => {
     onClear,
     onDismiss,
     onSetToday,
-    showTabs,
     showTodayButton = false,
     todayText = 'Today',
     wider,
-    ...other
+    DialogProps,
   } = props;
-  const classes = useStyles();
 
+  const MuiDialogClasses = DialogProps?.classes;
   return (
     <Dialog
+      open={open}
       onClose={onDismiss}
       classes={{
         container: classes.dialogContainer,
@@ -122,7 +127,7 @@ const PickersModalDialog: React.FC<PickerModalDialogProps> = (props) => {
         }),
         ...MuiDialogClasses,
       }}
-      {...other}
+      {...DialogProps}
     >
       <DialogContent className={classes.dialog}>{children}</DialogContent>
       <DialogActions
@@ -155,4 +160,4 @@ const PickersModalDialog: React.FC<PickerModalDialogProps> = (props) => {
   );
 };
 
-export default PickersModalDialog;
+export default withStyles(styles, { name: 'MuiPickersModalDialog' })(PickersModalDialog);

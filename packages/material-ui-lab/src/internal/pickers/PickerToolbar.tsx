@@ -3,44 +3,40 @@ import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Toolbar, { ToolbarProps } from '@material-ui/core/Toolbar';
 import { ExtendMui } from './typings/helpers';
 import PenIcon from '../svg-icons/Pen';
 import CalendarIcon from '../svg-icons/CalendarIcon';
 import { ToolbarComponentProps } from './typings/BasePicker';
 
-export const useStyles = makeStyles(
-  (theme) => {
-    const toolbarBackground =
-      theme.palette.type === 'light'
-        ? theme.palette.primary.main
-        : theme.palette.background.default;
-    return {
-      root: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        paddingTop: 16,
-        paddingBottom: 16,
-        backgroundColor: toolbarBackground,
-        color: theme.palette.getContrastText(toolbarBackground),
-      },
-      toolbarLandscape: {
-        height: 'auto',
-        maxWidth: 160,
-        padding: 16,
-        justifyContent: 'flex-start',
-        flexWrap: 'wrap',
-      },
-      dateTitleContainer: {
-        flex: 1,
-      },
-    };
-  },
-  { name: 'MuiPickersToolbar' },
-);
+export const styles = (theme: Theme) => {
+  const toolbarBackground =
+    theme.palette.type === 'light' ? theme.palette.primary.main : theme.palette.background.default;
+
+  return createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      paddingTop: 16,
+      paddingBottom: 16,
+      backgroundColor: toolbarBackground,
+      color: theme.palette.getContrastText(toolbarBackground),
+    },
+    toolbarLandscape: {
+      height: 'auto',
+      maxWidth: 160,
+      padding: 16,
+      justifyContent: 'flex-start',
+      flexWrap: 'wrap',
+    },
+    dateTitleContainer: {
+      flex: 1,
+    },
+  });
+};
 
 interface PickerToolbarProps
   extends ExtendMui<ToolbarProps>,
@@ -62,8 +58,9 @@ function defaultGetKeyboardInputSwitchingButtonText(isKeyboardInputOpen: boolean
     : 'calendar view is open, go to text input view';
 }
 
-const PickerToolbar: React.FC<PickerToolbarProps> = ({
+const PickerToolbar: React.FC<PickerToolbarProps & WithStyles<typeof styles>> = ({
   children,
+  classes,
   className,
   getMobileKeyboardInputViewButtonText = defaultGetKeyboardInputSwitchingButtonText,
   isLandscape,
@@ -73,8 +70,6 @@ const PickerToolbar: React.FC<PickerToolbarProps> = ({
   toggleMobileKeyboardView,
   toolbarTitle,
 }) => {
-  const classes = useStyles();
-
   return (
     <Toolbar
       data-mui-test="picker-toolbar"
@@ -109,4 +104,4 @@ const PickerToolbar: React.FC<PickerToolbarProps> = ({
   );
 };
 
-export default PickerToolbar;
+export default withStyles(styles, { name: 'MuiPickersToolbar' })(PickerToolbar);

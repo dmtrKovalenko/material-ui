@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { DIALOG_WIDTH } from '../constants/dimensions';
 import { WrapperVariantContext, IsStaticVariantContext } from './WrapperVariantContext';
 import { StaticWrapperProps, PrivateWrapperProps } from './WrapperProps';
 
-const useStyles = makeStyles(
-  (theme) => ({
+const styles = (theme: Theme) =>
+  createStyles({
     root: {
       overflow: 'hidden',
       minWidth: DIALOG_WIDTH,
@@ -13,13 +13,13 @@ const useStyles = makeStyles(
       flexDirection: 'column',
       backgroundColor: theme.palette.background.paper,
     },
-  }),
-  { name: 'MuiPickersStaticWrapper' },
-);
+  });
 
-export const StaticWrapper: React.FC<PrivateWrapperProps & StaticWrapperProps> = (props) => {
-  const { displayStaticWrapperAs = 'mobile', children } = props;
-  const classes = useStyles();
+const StaticWrapper: React.FC<
+  PrivateWrapperProps & StaticWrapperProps & WithStyles<typeof styles>
+> = (props) => {
+  const { classes, displayStaticWrapperAs = 'mobile', children } = props;
+
   const isStatic = true;
 
   return (
@@ -31,4 +31,6 @@ export const StaticWrapper: React.FC<PrivateWrapperProps & StaticWrapperProps> =
   );
 };
 
-export default StaticWrapper;
+export default withStyles(styles, { name: 'MuiPickersStaticWrapper' })(StaticWrapper) as React.FC<
+  PrivateWrapperProps & StaticWrapperProps
+>;

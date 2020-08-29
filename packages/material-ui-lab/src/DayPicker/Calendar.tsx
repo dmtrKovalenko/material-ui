@@ -1,15 +1,14 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { PickersDay, PickersDayProps } from '../PickersDay/PickersDay';
+import { createStyles, WithStyles, withStyles, Theme, useTheme } from '@material-ui/core/styles';
+import PickersDay, { PickersDayProps } from '../PickersDay/PickersDay';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
-import { SlideTransition, SlideDirection, SlideTransitionProps } from './SlideTransition';
+import SlideTransition, { SlideDirection, SlideTransitionProps } from './SlideTransition';
 
 export interface ExportedCalendarProps<TDate>
   extends Pick<
@@ -63,10 +62,9 @@ export interface CalendarProps<TDate> extends ExportedCalendarProps<TDate> {
   className?: string;
 }
 
-const muiComponentConfig = { name: 'MuiPickersCalendar' };
-export const useStyles = makeStyles((theme) => {
-  const weeksContainerHeight = (DAY_SIZE + DAY_MARGIN * 4) * 6;
-  return {
+const weeksContainerHeight = (DAY_SIZE + DAY_MARGIN * 4) * 6;
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       minHeight: weeksContainerHeight,
     },
@@ -106,14 +104,14 @@ export const useStyles = makeStyles((theme) => {
       alignItems: 'center',
       color: theme.palette.text.secondary,
     },
-  };
-}, muiComponentConfig);
+  });
 
-export function Calendar<TDate>(props: CalendarProps<TDate>) {
+function Calendar<TDate>(props: CalendarProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl,
     allowSameDateSelection,
     changeFocusedDay,
+    classes,
     className,
     currentMonth,
     date,
@@ -130,12 +128,11 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
     showDaysOutsideCurrentMonth,
     slideDirection,
     TransitionProps,
-  } = useDefaultProps(props, muiComponentConfig);
+  } = props;
 
   const now = useNow<TDate>();
   const utils = useUtils<TDate>();
   const theme = useTheme();
-  const classes = useStyles();
 
   const handleDaySelect = React.useCallback(
     (day: TDate, isFinish: PickerSelectionState = 'finish') => {
@@ -182,6 +179,7 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
           </Typography>
         ))}
       </div>
+
       {loading ? (
         <div className={classes.loadingContainer}>{renderLoading()}</div>
       ) : (
@@ -242,4 +240,6 @@ export function Calendar<TDate>(props: CalendarProps<TDate>) {
   );
 }
 
-Calendar.displayName = 'Calendar';
+export default withStyles(styles, { name: 'MuiPickersCalendar' })(Calendar) as <TDate>(
+  props: CalendarProps<TDate>,
+) => JSX.Element;

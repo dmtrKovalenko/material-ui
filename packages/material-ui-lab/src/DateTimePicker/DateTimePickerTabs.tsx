@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme, useTheme } from '@material-ui/core/styles';
 import TimeIcon from '../internal/svg-icons/Time';
 import DateRangeIcon from '../internal/svg-icons/DateRange';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
@@ -32,30 +32,33 @@ export interface DateTimePickerTabsProps {
   view: DateTimePickerView;
 }
 
-export const useStyles = makeStyles(
-  (theme) => {
-    const tabsBackground =
-      theme.palette.type === 'light'
-        ? theme.palette.primary.main
-        : theme.palette.background.default;
+export const styles = (theme: Theme) => {
+  const tabsBackground =
+    theme.palette.type === 'light' ? theme.palette.primary.main : theme.palette.background.default;
 
-    return {
-      root: {},
-      modeDesktop: {
-        order: 1,
-      },
-      tabs: {
-        color: theme.palette.getContrastText(tabsBackground),
-        backgroundColor: tabsBackground,
-      },
-    };
-  },
-  { name: 'MuiDateTimePickerTabs' },
-);
+  return createStyles({
+    root: {},
+    modeDesktop: {
+      order: 1,
+    },
+    tabs: {
+      color: theme.palette.getContrastText(tabsBackground),
+      backgroundColor: tabsBackground,
+    },
+  });
+};
 
-const DateTimePickerTabs: React.FC<DateTimePickerTabsProps> = (props) => {
-  const { dateRangeIcon = <DateRangeIcon />, onChange, timeIcon = <TimeIcon />, view } = props;
-  const classes = useStyles();
+const DateTimePickerTabs: React.FC<DateTimePickerTabsProps & WithStyles<typeof styles>> = (
+  props,
+) => {
+  const {
+    classes,
+    dateRangeIcon = <DateRangeIcon />,
+    onChange,
+    timeIcon = <TimeIcon />,
+    view,
+  } = props;
+
   const theme = useTheme();
   const wrapperVariant = React.useContext(WrapperVariantContext);
   const indicatorColor = theme.palette.type === 'light' ? 'secondary' : 'primary';
@@ -90,4 +93,4 @@ const DateTimePickerTabs: React.FC<DateTimePickerTabsProps> = (props) => {
   );
 };
 
-export default DateTimePickerTabs;
+export default withStyles(styles, { name: 'MuiDateTimePickerTabs' })(DateTimePickerTabs);

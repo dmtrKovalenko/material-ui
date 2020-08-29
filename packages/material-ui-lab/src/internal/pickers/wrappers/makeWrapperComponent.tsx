@@ -43,10 +43,8 @@ export function makeWrapperComponent<TWrapper extends SomeWrapper = any>(
       onOpen,
       open,
       PopperProps,
-      showTabs,
       todayText,
       value,
-      wider,
       wrapperProps,
       ...restPropsForTextField
     } = props;
@@ -65,8 +63,6 @@ export function makeWrapperComponent<TWrapper extends SomeWrapper = any>(
         DateInputProps={DateInputProps}
         KeyboardDateInputComponent={KeyboardDateInputComponent}
         PureDateInputComponent={PureDateInputComponent}
-        wider={wider}
-        showTabs={showTabs}
         displayStaticWrapperAs={displayStaticWrapperAs}
         {...wrapperProps}
         {...restPropsForTextField}

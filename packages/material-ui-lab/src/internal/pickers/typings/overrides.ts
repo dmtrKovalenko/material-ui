@@ -1,23 +1,23 @@
 // eslint-disable-next-line no-restricted-imports
 import { StyleRules, StyleRulesCallback } from '@material-ui/core/styles/withStyles';
-import { useStyles as DayStyles } from '../../../PickersDay/PickersDay';
-import { useStyles as ClockStyles } from '../../../ClockPicker/Clock';
-import { useStyles as MuiBasePickerStyles } from '../Picker/Picker';
-import { useStyles as CalendarStyles } from '../../../DayPicker/Calendar';
-import { useStyles as MuiPickersYearStyles } from '../../../YearPicker/Year';
+import { styles as DayStyles } from '../../../PickersDay/PickersDay';
+import { styles as ClockStyles } from '../../../ClockPicker/Clock';
+import { styles as MuiBasePickerStyles } from '../Picker/Picker';
+import { styles as CalendarStyles } from '../../../DayPicker/Calendar';
+import { styles as MuiPickersYearStyles } from '../../../YearPicker/PickersYear';
 import { styles as ClockPointerStyles } from '../../../ClockPicker/ClockPointer';
-import { useStyles as ToolbarButtonStyles } from '../ToolbarButton';
-import { useStyles as PickerToolbarStyles } from '../PickerToolbar';
-import { useStyles as ClockNumberStyles } from '../../../ClockPicker/ClockNumber';
-import { useStyles as MuiPickersMonthStyles } from '../../../MonthPicker/Month';
-import { useStyles as CalendarViewStyles } from '../../../DayPicker/DayPicker';
-import { useStyles as MuiPickersToolbarTextStyles } from '../ToolbarText';
-import { useStyles as DatePickerRootStyles } from '../../../DatePicker/DatePickerToolbar';
-import { useStyles as CalendarHeaderStyles } from '../../../DayPicker/CalendarHeader';
-import { useStyles as TimePickerToolbarStyles } from '../../../TimePicker/TimePickerToolbar';
-import { useStyles as SlideTransitionStyles } from '../../../DayPicker/SlideTransition';
-import { useStyles as MuiPickersYearSelectionStyles } from '../../../YearPicker/YearPicker';
-import { useStyles as MuiPickersMonthSelectionStyles } from '../../../MonthPicker/MonthPicker';
+import { styles as ToolbarButtonStyles } from '../ToolbarButton';
+import { styles as PickerToolbarStyles } from '../PickerToolbar';
+import { styles as ClockNumberStyles } from '../../../ClockPicker/ClockNumber';
+import { styles as MuiPickersMonthStyles } from '../../../MonthPicker/PickersMonth';
+import { styles as CalendarViewStyles } from '../../../DayPicker/DayPicker';
+import { styles as MuiPickersToolbarTextStyles } from '../ToolbarText';
+import { styles as DatePickerRootStyles } from '../../../DatePicker/DatePickerToolbar';
+import { styles as CalendarHeaderStyles } from '../../../DayPicker/CalendarHeader';
+import { styles as TimePickerToolbarStyles } from '../../../TimePicker/TimePickerToolbar';
+import { styles as SlideTransitionStyles } from '../../../DayPicker/SlideTransition';
+import { styles as MuiPickersYearSelectionStyles } from '../../../YearPicker/YearPicker';
+import { styles as MuiPickersMonthSelectionStyles } from '../../../MonthPicker/MonthPicker';
 
 type StylesHook<C extends string> = (props?: any) => Record<C, string>;
 
@@ -50,16 +50,16 @@ export interface MuiPickersComponentsToClassName {
   MuiPickersToolbarText: Classes<typeof MuiPickersToolbarTextStyles>;
   MuiPickersDatePickerRoot: Classes<typeof DatePickerRootStyles>;
   MuiPickersBasePicker: Classes<typeof MuiBasePickerStyles>;
-  MuiPickersModalDialog: Classes<typeof import('../PickersModalDialog').useStyles>;
+  MuiPickersModalDialog: Classes<typeof import('../PickersModalDialog').styles>;
   MuiDateTimePickerTabs: Classes<
-    typeof import('../../../DateTimePicker/DateTimePickerTabs').useStyles
+    typeof import('../../../DateTimePicker/DateTimePickerTabs').styles
   >;
   MuiDateTimePickerToolbar: Classes<
-    typeof import('../../../DateTimePicker/DateTimePickerToolbar').useStyles
+    typeof import('../../../DateTimePicker/DateTimePickerToolbar').styles
   >;
-  MuiPickersArrowSwitcher: Classes<typeof import('../ArrowSwitcher').useStyles>;
+  MuiPickersArrowSwitcher: Classes<typeof import('../PickersArrowSwitcher').styles>;
   MuiPickersCalendarSkeleton: Classes<
-    typeof import('../../../CalendarSkeleton/CalendarSkeleton').useStyles
+    typeof import('../../../CalendarSkeleton/CalendarSkeleton').styles
   >;
-  MuiPickersPopper: Classes<typeof import('../PickersPopper').useStyles>;
+  MuiPickersPopper: Classes<typeof import('../PickersPopper').styles>;
 }

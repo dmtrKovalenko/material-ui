@@ -2,7 +2,7 @@ import * as React from 'react';
 import { WrapperVariantContext } from './WrapperVariantContext';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { executeInTheNextEventLoopTick } from '../utils';
-import { PickersPopper } from '../PickersPopper';
+import PickersPopper from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
 import { PrivateWrapperProps, DesktopWrapperProps } from './WrapperProps';
 

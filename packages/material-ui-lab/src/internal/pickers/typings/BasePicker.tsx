@@ -1,11 +1,11 @@
 import { ExportedDayPickerProps } from '@material-ui/lab/DayPicker/DayPicker';
-import { ExportedClockViewProps } from '@material-ui/lab/ClockPicker/ClockPicker';
+import { ExportedClockPickerProps } from '@material-ui/lab/ClockPicker/ClockPicker';
 import { ParsableDate } from '../constants/prop-types';
 import { AllAvailableViews } from './Views';
 import { PickerOnChangeFn } from '../hooks/useViews';
 
 export type CalendarAndClockProps<TDate> = ExportedDayPickerProps<TDate> &
-  ExportedClockViewProps<TDate>;
+  ExportedClockPickerProps<TDate>;
 
 export type ToolbarComponentProps<
   TDate = unknown,

@@ -22,10 +22,8 @@ export const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> =
     onSetToday,
     open,
     PureDateInputComponent = PureDateInput,
-    showTabs,
     showTodayButton,
     todayText,
-    wider,
     ...other
   } = props;
 
@@ -33,8 +31,6 @@ export const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> =
     <WrapperVariantContext.Provider value="mobile">
       <PureDateInputComponent {...other} {...DateInputProps} />
       <PickersModalDialog
-        wider={wider}
-        showTabs={showTabs}
         open={open}
         onClear={onClear}
         onAccept={onAccept}
@@ -46,8 +42,7 @@ export const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> =
         cancelText={cancelText}
         clearable={clearable}
         showTodayButton={showTodayButton}
-        data-mui-test="mobile-wrapper-dialog"
-        {...DialogProps}
+        DialogProps={DialogProps}
       >
         {children}
       </PickersModalDialog>

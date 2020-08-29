@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Typography, { TypographyProps } from '@material-ui/core/Typography';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme, fade } from '@material-ui/core/styles';
 import { ExtendMui } from './typings/helpers';
 
 export interface ToolbarTextProps extends ExtendMui<TypographyProps> {
@@ -9,30 +9,27 @@ export interface ToolbarTextProps extends ExtendMui<TypographyProps> {
   value: React.ReactNode;
 }
 
-export const useStyles = makeStyles(
-  (theme) => {
-    const textColor =
-      theme.palette.type === 'light'
-        ? theme.palette.primary.contrastText
-        : theme.palette.getContrastText(theme.palette.background.default);
+export const styles = (theme: Theme) => {
+  const textColor =
+    theme.palette.type === 'light'
+      ? theme.palette.primary.contrastText
+      : theme.palette.getContrastText(theme.palette.background.default);
 
-    return {
-      root: {
-        transition: theme.transitions.create('color'),
-        color: fade(textColor, 0.54),
-        '&$selected': {
-          color: textColor,
-        },
+  return createStyles({
+    root: {
+      transition: theme.transitions.create('color'),
+      color: fade(textColor, 0.54),
+      '&$selected': {
+        color: textColor,
       },
-      selected: {},
-    };
-  },
-  { name: 'MuiPickersToolbarText' },
-);
+    },
+    selected: {},
+  });
+};
 
-const ToolbarText: React.FC<ToolbarTextProps> = (props) => {
-  const { className, selected, value, ...other } = props;
-  const classes = useStyles();
+const ToolbarText: React.FC<ToolbarTextProps & WithStyles<typeof styles>> = (props) => {
+  const { className, classes, selected, value, ...other } = props;
+
   return (
     <Typography
       className={clsx(classes.root, className, {
@@ -45,4 +42,4 @@ const ToolbarText: React.FC<ToolbarTextProps> = (props) => {
   );
 };
 
-export default ToolbarText;
+export default withStyles(styles, { name: 'MuiPickersToolbarText' })(ToolbarText);

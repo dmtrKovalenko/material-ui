@@ -1,19 +1,15 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import { withDefaultProps } from '../internal/pickers/withDefaultProps';
-import { useStyles as useCalendarStyles } from '../DayPicker/Calendar';
+import { styles as calendarStyles } from '../DayPicker/Calendar';
 
 export interface CalendarSkeletonProps extends React.HTMLProps<HTMLDivElement> {}
 
-const muiComponentConfig = {
-  name: 'MuiPickersCalendarSkeleton',
-};
-
-export const useStyles = makeStyles(
-  {
+export const styles = (theme: Theme) =>
+  createStyles({
+    ...calendarStyles(theme),
     root: {
       alignSelf: 'start',
     },
@@ -23,9 +19,7 @@ export const useStyles = makeStyles(
     hidden: {
       visibility: 'hidden',
     },
-  },
-  muiComponentConfig,
-);
+  });
 
 const monthMap = [
   [0, 1, 1, 1, 1, 1, 1],
@@ -35,33 +29,30 @@ const monthMap = [
   [1, 1, 1, 1, 0, 0, 0],
 ];
 
-export const CalendarSkeleton: React.FC<CalendarSkeletonProps> = withDefaultProps(
-  muiComponentConfig,
-  (props) => {
-    const { className, ...other } = props;
-    const classes = useStyles();
-    const calendarClasses = useCalendarStyles();
+const CalendarSkeleton: React.FC<CalendarSkeletonProps & WithStyles<typeof styles>> = (props) => {
+  const { className, classes, ...other } = props;
 
-    return (
-      <div className={clsx(classes.root, className)} {...other}>
-        {monthMap.map((week, index) => (
-          <div key={index} className={calendarClasses.week}>
-            {week.map((day, index2) => (
-              <Skeleton
-                key={index2}
-                variant="circular"
-                width={DAY_SIZE}
-                height={DAY_SIZE}
-                className={clsx(classes.daySkeleton, {
-                  [classes.hidden]: day === 0,
-                })}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  },
-);
+  return (
+    <div className={clsx(classes.root, className)} {...other}>
+      {monthMap.map((week, index) => (
+        <div key={index} className={classes.week}>
+          {week.map((day, index2) => (
+            <Skeleton
+              key={index2}
+              variant="circular"
+              width={DAY_SIZE}
+              height={DAY_SIZE}
+              className={clsx(classes.daySkeleton, {
+                [classes.hidden]: day === 0,
+              })}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
 
-export default CalendarSkeleton;
+export default withStyles(styles, {
+  name: 'MuiCalendarSkeleton',
+})(CalendarSkeleton);

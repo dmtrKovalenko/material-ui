@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Button, { ButtonProps } from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 import { TypographyProps } from '@material-ui/core/Typography';
 import ToolbarText from './ToolbarText';
 import { ExtendMui } from './typings/helpers';
@@ -14,20 +14,27 @@ export interface ToolbarButtonProps extends ExtendMui<ButtonProps, 'value' | 'va
   variant: TypographyProps['variant'];
 }
 
-export const useStyles = makeStyles(
-  {
-    root: {
-      padding: 0,
-      minWidth: '16px',
-      textTransform: 'none',
-    },
+export const styles = createStyles({
+  root: {
+    padding: 0,
+    minWidth: '16px',
+    textTransform: 'none',
   },
-  { name: 'MuiPickersToolbarButton' },
-);
+});
 
-export const ToolbarButton: React.FunctionComponent<ToolbarButtonProps> = (props) => {
-  const { align, className, selected, typographyClassName, value, variant, ...other } = props;
-  const classes = useStyles();
+const ToolbarButton: React.FunctionComponent<ToolbarButtonProps & WithStyles<typeof styles>> = (
+  props,
+) => {
+  const {
+    align,
+    classes,
+    className,
+    selected,
+    typographyClassName,
+    value,
+    variant,
+    ...other
+  } = props;
 
   return (
     <Button
@@ -47,6 +54,4 @@ export const ToolbarButton: React.FunctionComponent<ToolbarButtonProps> = (props
   );
 };
 
-ToolbarButton.displayName = 'ToolbarButton';
-
-export default ToolbarButton;
+export default withStyles(styles, { name: 'MuiPickersToolbarButton' })(ToolbarButton);

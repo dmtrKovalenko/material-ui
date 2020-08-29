@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { Clock } from './Clock';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
+import Clock from './Clock';
 import { pipe } from '../internal/pickers/utils';
 import { useUtils, useNow, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
-import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { getHourNumbers, getMinutesNumbers } from './ClockNumbers';
-import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
+import ArrowSwitcher, {
+  ExportedArrowSwitcherProps,
+} from '../internal/pickers/PickersArrowSwitcher';
 import {
   convertValueToMeridiem,
   createIsAfterIgnoreDatePart,
@@ -16,7 +17,7 @@ import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
 
-export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate> {
+export interface ExportedClockPickerProps<TDate> extends TimeValidationProps<TDate> {
   /**
    * 12h/24h view for hour selection clock.
    *
@@ -52,8 +53,8 @@ export interface ExportedClockViewProps<TDate> extends TimeValidationProps<TDate
   ) => string;
 }
 
-export interface ClockViewProps<TDate>
-  extends ExportedClockViewProps<TDate>,
+interface ClockPickerProps<TDate>
+  extends ExportedClockPickerProps<TDate>,
     ExportedArrowSwitcherProps {
   /**
    * Selected date @DateIOType.
@@ -90,18 +91,13 @@ export interface ClockViewProps<TDate>
   showViewSwitcher?: boolean;
 }
 
-const muiPickersComponentConfig = { name: 'MuiPickersClockView' };
-
-export const useStyles = makeStyles(
-  () => ({
-    arrowSwitcher: {
-      position: 'absolute',
-      right: 12,
-      top: 15,
-    },
-  }),
-  muiPickersComponentConfig,
-);
+export const styles = createStyles({
+  arrowSwitcher: {
+    position: 'absolute',
+    right: 12,
+    top: 15,
+  },
+});
 
 const getDefaultClockLabelText = <TDate extends any>(
   view: 'hours' | 'minutes' | 'seconds',
@@ -115,11 +111,12 @@ const getHoursAriaText = (hour: string) => `${hour} hours`;
 
 const getSecondsAriaText = (seconds: string) => `${seconds} seconds`;
 
-export function ClockView<TDate>(props: ClockViewProps<TDate>) {
+function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl,
     ampm,
     ampmInClock,
+    classes,
     date,
     disableIgnoringDatePartForTimeValidation,
     getClockLabelText = getDefaultClockLabelText,
@@ -144,11 +141,10 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
     shouldDisableTime,
     showViewSwitcher,
     type,
-  } = useDefaultProps(props, muiPickersComponentConfig);
+  } = props;
 
   const now = useNow<TDate>();
   const utils = useUtils<TDate>();
-  const classes = useStyles();
   const dateOrNow = date || now;
 
   const { meridiemMode, handleMeridiemChange } = useMeridiemMode<TDate>(
@@ -311,12 +307,12 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
       )}
 
       <Clock<TDate>
-        // @ts-expect-error TODO figure out why `date` is missing
         date={date}
         ampmInClock={ampmInClock}
         onDateChange={onDateChange}
         type={type}
         ampm={ampm}
+        // @ts-expect-error TODO figure out this weird error
         getClockLabelText={getClockLabelText}
         minutesStep={minutesStep}
         allowKeyboardControl={allowKeyboardControl}
@@ -329,7 +325,7 @@ export function ClockView<TDate>(props: ClockViewProps<TDate>) {
   );
 }
 
-ClockView.propTypes = {
+ClockPicker.propTypes = {
   ampm: PropTypes.bool,
   date: PropTypes.object,
   minutesStep: PropTypes.number,
@@ -337,4 +333,8 @@ ClockView.propTypes = {
   type: PropTypes.oneOf(['minutes', 'hours', 'seconds']).isRequired,
 } as any;
 
-ClockView.displayName = 'ClockView';
+ClockPicker.displayName = 'ClockView';
+
+export default withStyles(styles, { name: 'MuiPickersClockView' })(ClockPicker) as <TDate>(
+  props: ClockPickerProps<TDate>,
+) => JSX.Element;

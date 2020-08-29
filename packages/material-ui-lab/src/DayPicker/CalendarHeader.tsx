@@ -2,16 +2,18 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Fade from '@material-ui/core/Fade';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { SlideDirection } from './SlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { FadeTransitionGroup } from './FadeTransitionGroup';
+import FadeTransitionGroup from './FadeTransitionGroup';
 import { DateValidationProps } from '../internal/pickers/date-utils';
 // tslint:disable-next-line no-relative-import-in-test
 import ArrowDropDownIcon from '../internal/svg-icons/ArrowDropDown';
-import { ArrowSwitcher, ExportedArrowSwitcherProps } from '../internal/pickers/ArrowSwitcher';
+import ArrowSwitcher, {
+  ExportedArrowSwitcherProps,
+} from '../internal/pickers/PickersArrowSwitcher';
 import {
   usePreviousMonthDisabled,
   useNextMonthDisabled,
@@ -44,8 +46,8 @@ export interface CalendarHeaderProps<TDate>
   onMonthChange: (date: TDate, slideDirection: SlideDirection) => void;
 }
 
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       display: 'flex',
       alignItems: 'center',
@@ -81,9 +83,7 @@ export const useStyles = makeStyles(
     monthText: {
       marginRight: 4,
     },
-  }),
-  { name: 'MuiPickersCalendarHeader' },
-);
+  });
 
 function getSwitchingViewAriaText(view: DatePickerView) {
   return view === 'year'
@@ -91,29 +91,29 @@ function getSwitchingViewAriaText(view: DatePickerView) {
     : 'calendar view is open, switch to year view';
 }
 
-export function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate>) {
+function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate> & WithStyles<typeof styles>) {
   const {
-    view: currentView,
-    views,
-    currentMonth: month,
     changeView,
-    minDate,
-    maxDate,
-    disablePast,
+    classes,
+    currentMonth: month,
     disableFuture,
+    disablePast,
+    getViewSwitchingButtonText = getSwitchingViewAriaText,
+    leftArrowButtonProps,
+    leftArrowButtonText = 'previous month',
+    leftArrowIcon,
+    maxDate,
+    minDate,
     onMonthChange,
     reduceAnimations,
-    leftArrowButtonProps,
     rightArrowButtonProps,
-    leftArrowIcon,
-    rightArrowIcon,
-    leftArrowButtonText = 'previous month',
     rightArrowButtonText = 'next month',
-    getViewSwitchingButtonText = getSwitchingViewAriaText,
+    rightArrowIcon,
+    view: currentView,
+    views,
   } = props;
 
   const utils = useUtils<TDate>();
-  const classes = useStyles();
 
   const selectNextMonth = () => onMonthChange(utils.getNextMonth(month), 'left');
   const selectPreviousMonth = () => onMonthChange(utils.getPreviousMonth(month), 'right');
@@ -201,8 +201,6 @@ export function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate>) {
   );
 }
 
-CalendarHeader.displayName = 'PickersCalendarHeader';
-
 CalendarHeader.propTypes = {
   leftArrowButtonText: PropTypes.string,
   leftArrowIcon: PropTypes.node,
@@ -210,4 +208,6 @@ CalendarHeader.propTypes = {
   rightArrowIcon: PropTypes.node,
 };
 
-export default CalendarHeader;
+export default withStyles(styles, { name: 'MuiPickersCalendarHeader' })(CalendarHeader) as <TDate>(
+  props: CalendarHeaderProps<TDate>,
+) => JSX.Element;

@@ -3,9 +3,9 @@ import Badge from '@material-ui/core/Badge';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
-import { PickersDay } from '@material-ui/lab/PickersDay';
+import PickersDay from '@material-ui/lab/PickersDay';
 import { DatePicker } from '@material-ui/lab/DatePicker';
-import { CalendarSkeleton } from '@material-ui/lab/CalendarSkeleton';
+import CalendarSkeleton from '@material-ui/lab/CalendarSkeleton';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 
 function getRandomNumber(min, max) {

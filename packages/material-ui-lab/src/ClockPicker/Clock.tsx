@@ -3,13 +3,12 @@ import * as PropTypes from 'prop-types';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, Theme, withStyles } from '@material-ui/core/styles';
 import ClockPointer from './ClockPointer';
 import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
 import { VIEW_HEIGHT } from '../internal/pickers/constants/dimensions';
 import { ClockViewType } from '../internal/pickers/constants/ClockType';
 import { getHours, getMinutes } from '../internal/pickers/time-utils';
-import { useDefaultProps } from '../internal/pickers/withDefaultProps';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
 import {
   WrapperVariantContext,
@@ -38,12 +37,8 @@ export interface ClockProps<TDate> extends ReturnType<typeof useMeridiemMode> {
   ) => string;
 }
 
-const muiComponentConfig = {
-  name: 'MuiPickersClock',
-};
-
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       display: 'flex',
       justifyContent: 'center',
@@ -100,16 +95,15 @@ export const useStyles = makeStyles(
         backgroundColor: theme.palette.primary.light,
       },
     },
-  }),
-  muiComponentConfig,
-);
+  });
 
-export function Clock<TDate>(props: ClockProps<TDate>) {
+function Clock<TDate>(props: ClockProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl,
     ampm,
     ampmInClock = false,
     children: numbersElementsArray,
+    classes,
     date,
     handleMeridiemChange,
     isTimeDisabled,
@@ -119,10 +113,9 @@ export function Clock<TDate>(props: ClockProps<TDate>) {
     type,
     value,
     getClockLabelText,
-  } = useDefaultProps(props, muiComponentConfig);
+  } = props;
 
   const utils = useUtils();
-  const classes = useStyles();
   const isStatic = React.useContext(IsStaticVariantContext);
   const wrapperVariant = React.useContext(WrapperVariantContext);
   const isMoving = React.useRef(false);
@@ -268,4 +261,6 @@ Clock.propTypes = {
   minutesStep: PropTypes.number,
 } as any;
 
-Clock.displayName = 'Clock';
+export default withStyles(styles, {
+  name: 'MuiClock',
+})(Clock) as <TDate>(props: ClockProps<TDate>) => JSX.Element;

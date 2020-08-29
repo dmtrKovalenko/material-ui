@@ -1,4 +1,4 @@
-import { StaticWrapper } from './StaticWrapper';
+import StaticWrapper from './StaticWrapper';
 import { MobileWrapper } from './MobileWrapper';
 import { DesktopWrapper } from './DesktopWrapper';
 import { ResponsiveWrapper, ResponsiveWrapperProps } from './ResponsiveWrapper';

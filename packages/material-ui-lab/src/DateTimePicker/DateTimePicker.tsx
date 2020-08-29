@@ -1,6 +1,6 @@
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { DateTimePickerToolbar } from './DateTimePickerToolbar';
-import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
+import DateTimePickerToolbar from './DateTimePickerToolbar';
+import { ExportedClockPickerProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
 import {
@@ -29,7 +29,7 @@ import {
 
 type DateTimePickerViewsProps<TDate> = OverrideParsableDateProps<
   TDate,
-  ExportedClockViewProps<TDate> & ExportedDayPickerProps<TDate>,
+  ExportedClockPickerProps<TDate> & ExportedDayPickerProps<TDate>,
   'minDate' | 'maxDate' | 'minTime' | 'maxTime'
 >;
 

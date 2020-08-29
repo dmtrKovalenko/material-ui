@@ -19,6 +19,8 @@ import loadScript from 'docs/src/modules/utils/loadScript';
 import { ThemeProvider } from 'docs/src/modules/components/ThemeContext';
 import { pathnameToLanguage, getCookie } from 'docs/src/modules/utils/helpers';
 import { ACTION_TYPES, CODE_VARIANTS } from 'docs/src/modules/constants';
+import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 
 // Configure JSS
 const jss = create({
@@ -314,7 +316,9 @@ function AppWrapper(props) {
       <ReduxProvider store={redux}>
         <PageContext.Provider value={{ activePage, pages, versions: pageProps.versions }}>
           <StylesProvider jss={jss}>
-            <ThemeProvider>{children}</ThemeProvider>
+            <LocalizationProvider dateAdapter={DateFnsAdapter}>
+              <ThemeProvider>{children}</ThemeProvider>
+            </LocalizationProvider>
           </StylesProvider>
         </PageContext.Provider>
         <LanguageNegotiation />

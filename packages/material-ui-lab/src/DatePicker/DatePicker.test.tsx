@@ -15,7 +15,7 @@ import {
   openDesktopPicker,
   openMobilePicker,
 } from '../internal/pickers/test-utils';
-import { CalendarSkeleton } from '../CalendarSkeleton';
+import CalendarSkeleton from '../CalendarSkeleton';
 
 describe('<DatePicker />', () => {
   const render = createPickerRender({ strict: false });

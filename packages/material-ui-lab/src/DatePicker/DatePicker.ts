@@ -1,5 +1,5 @@
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import { DatePickerToolbar } from './DatePickerToolbar';
+import DatePickerToolbar from './DatePickerToolbar';
 import type { WithViewsProps } from '../internal/pickers/Picker/SharedPickerProps';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import {

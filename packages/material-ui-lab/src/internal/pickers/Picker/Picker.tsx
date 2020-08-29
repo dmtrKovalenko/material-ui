@@ -1,10 +1,9 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { styled, makeStyles } from '@material-ui/core/styles';
+import { styled, createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 import { useViews } from '../hooks/useViews';
-import { ClockView } from '../../../ClockPicker/ClockPicker';
-import { DayPicker } from '../../../DayPicker/DayPicker';
-import { withDefaultProps } from '../withDefaultProps';
+import ClockView from '../../../ClockPicker/ClockPicker';
+import DayPicker from '../../../DayPicker/DayPicker';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { useIsLandscape } from '../hooks/useIsLandscape';
 import { DIALOG_WIDTH, VIEW_HEIGHT } from '../constants/dimensions';
@@ -28,8 +27,6 @@ export type PickerProps<
   TDateValue = any
 > = ExportedPickerProps<TView> & SharedPickerProps<TInputValue, TDateValue>;
 
-const muiComponentConfig = { name: 'MuiPickersBasePicker' };
-
 const MobileKeyboardInputView = styled('div')(
   {
     padding: '16px 24px',
@@ -37,29 +34,26 @@ const MobileKeyboardInputView = styled('div')(
   { name: 'MuiPickersMobileKeyboardInputView' },
 );
 
-export const useStyles = makeStyles(
-  {
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    landscape: {
-      flexDirection: 'row',
-    },
-    pickerView: {
-      overflowX: 'hidden',
-      width: DIALOG_WIDTH,
-      maxHeight: VIEW_HEIGHT,
-      display: 'flex',
-      flexDirection: 'column',
-      margin: '0 auto',
-    },
-    pickerViewLandscape: {
-      padding: '0 8px',
-    },
+export const styles = createStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
   },
-  muiComponentConfig,
-);
+  landscape: {
+    flexDirection: 'row',
+  },
+  pickerView: {
+    overflowX: 'hidden',
+    width: DIALOG_WIDTH,
+    maxHeight: VIEW_HEIGHT,
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '0 auto',
+  },
+  pickerViewLandscape: {
+    padding: '0 8px',
+  },
+});
 
 const MobileKeyboardTextFieldProps = { fullWidth: true };
 
@@ -67,6 +61,7 @@ const isDatePickerView = (view: AllAvailableViews) =>
   view === 'year' || view === 'month' || view === 'date';
 
 function Picker({
+  classes,
   className,
   date,
   DateInputProps,
@@ -82,8 +77,7 @@ function Picker({
   toolbarTitle,
   views = ['year', 'month', 'date', 'hours', 'minutes', 'seconds'],
   ...other
-}: PickerProps<AllAvailableViews>) {
-  const classes = useStyles();
+}: PickerProps<AllAvailableViews> & WithStyles<typeof styles>) {
   const isLandscape = useIsLandscape(views, orientation);
   const wrapperVariant = React.useContext(WrapperVariantContext);
 
@@ -176,4 +170,4 @@ function Picker({
   );
 }
 
-export default withDefaultProps(muiComponentConfig, Picker);
+export default withStyles(styles, { name: 'MuiPickersBasePicker' })(Picker);

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Month } from './Month';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
+import PickersMonth from './PickersMonth';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 
-export interface MonthSelectionProps<TDate> {
+export interface MonthPickerProps<TDate> {
   date: TDate | null;
   minDate: TDate;
   maxDate: TDate;
@@ -14,19 +14,17 @@ export interface MonthSelectionProps<TDate> {
   onMonthChange?: (date: TDate) => void | Promise<void>;
 }
 
-export const useStyles = makeStyles(
-  {
-    root: {
-      width: 310,
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignContent: 'stretch',
-    },
+export const styles = createStyles({
+  root: {
+    width: 310,
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignContent: 'stretch',
   },
-  { name: 'MuiPickersMonthSelection' },
-);
+});
 
-export function MonthPicker<TDate>({
+function MonthPicker<TDate>({
+  classes,
   date,
   disableFuture,
   disablePast,
@@ -34,10 +32,9 @@ export function MonthPicker<TDate>({
   minDate,
   onChange,
   onMonthChange,
-}: MonthSelectionProps<TDate>) {
+}: MonthPickerProps<TDate> & WithStyles<typeof styles>) {
   const utils = useUtils<TDate>();
   const now = useNow<TDate>();
-  const classes = useStyles();
   const currentMonth = utils.getMonth(date || now);
 
   const shouldDisableMonth = (month: TDate) => {
@@ -74,7 +71,7 @@ export function MonthPicker<TDate>({
         const monthText = utils.format(month, 'monthShort');
 
         return (
-          <Month
+          <PickersMonth
             key={monthText}
             value={monthNumber}
             selected={monthNumber === currentMonth}
@@ -82,9 +79,13 @@ export function MonthPicker<TDate>({
             disabled={shouldDisableMonth(month)}
           >
             {monthText}
-          </Month>
+          </PickersMonth>
         );
       })}
     </div>
   );
 }
+
+export default withStyles(styles, { name: 'MuiPickersMonthSelection' })(MonthPicker) as <TDate>(
+  props: MonthPickerProps<TDate>,
+) => JSX.Element;

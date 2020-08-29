@@ -1,4 +1,3 @@
-import { DialogProps as MuiDialogProps } from '@material-ui/core/Dialog';
 import { DateInputProps } from '../PureDateInput';
 import { ExportedPickerPopperProps } from '../PickersPopper';
 import { ExportedPickerModalProps } from '../PickersModalDialog';
@@ -20,13 +19,7 @@ export interface StaticWrapperProps {
   displayStaticWrapperAs?: 'desktop' | 'mobile';
 }
 
-export interface MobileWrapperProps extends ExportedPickerModalProps {
-  /**
-   * Props to be passed directly to material-ui [Dialog](https://material-ui.com/components/dialogs)
-   * @type {Partial<MuiDialogProps>}
-   */
-  DialogProps?: Partial<MuiDialogProps>;
-}
+export interface MobileWrapperProps extends ExportedPickerModalProps {}
 
 export interface DesktopWrapperProps extends ExportedPickerPopperProps {}
 

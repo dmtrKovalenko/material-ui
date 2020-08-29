@@ -1,8 +1,8 @@
 import React from 'react';
 import ClockIcon from '../internal/svg-icons/Clock';
 import { ParsableDate } from '../internal/pickers/constants/prop-types';
-import { TimePickerToolbar } from './TimePickerToolbar';
-import { ExportedClockViewProps } from '../ClockPicker/ClockPicker';
+import TimePickerToolbar from './TimePickerToolbar';
+import { ExportedClockPickerProps } from '../ClockPicker/ClockPicker';
 import { ResponsiveWrapper } from '../internal/pickers/wrappers/ResponsiveWrapper';
 import { pick12hOr24hFormat } from '../internal/pickers/text-field-helper';
 import { useUtils, MuiPickersAdapter } from '../internal/pickers/hooks/useUtils';
@@ -27,7 +27,7 @@ import {
 export interface BaseTimePickerProps<TDate = unknown>
   extends ValidationProps<TimeValidationError, ParsableDate<TDate>>,
     WithViewsProps<'hours' | 'minutes' | 'seconds'>,
-    OverrideParsableDateProps<TDate, ExportedClockViewProps<TDate>, 'minTime' | 'maxTime'> {}
+    OverrideParsableDateProps<TDate, ExportedClockPickerProps<TDate>, 'minTime' | 'maxTime'> {}
 
 export function getTextFieldAriaText(value: ParsableDate, utils: MuiPickersAdapter) {
   return value && utils.isValid(utils.date(value))

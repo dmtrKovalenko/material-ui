@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { onSpaceOrEnter } from '../internal/pickers/utils';
 
 export interface MonthProps {
@@ -12,8 +12,8 @@ export interface MonthProps {
   value: any;
 }
 
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       flex: '1 0 33.33%',
       display: 'flex',
@@ -37,13 +37,10 @@ export const useStyles = makeStyles(
       },
     },
     selected: {},
-  }),
-  { name: 'MuiPickersMonth' },
-);
+  });
 
-export const Month: React.FC<MonthProps> = (props) => {
-  const { disabled, onSelect, selected, value, ...other } = props;
-  const classes = useStyles();
+const PickersMonth: React.FC<MonthProps & WithStyles<typeof styles>> = (props) => {
+  const { classes, disabled, onSelect, selected, value, ...other } = props;
   const handleSelection = () => {
     onSelect(value);
   };
@@ -66,6 +63,4 @@ export const Month: React.FC<MonthProps> = (props) => {
   );
 };
 
-Month.displayName = 'Month';
-
-export default Month;
+export default withStyles(styles, { name: 'MuiPickersMonth' })(PickersMonth);

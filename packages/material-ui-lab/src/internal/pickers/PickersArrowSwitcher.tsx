@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme, useTheme } from '@material-ui/core/styles';
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';
 import ArrowLeftIcon from '../svg-icons/ArrowLeft';
 import ArrowRightIcon from '../svg-icons/ArrowRight';
@@ -45,8 +45,8 @@ interface ArrowSwitcherProps extends ExportedArrowSwitcherProps, React.HTMLProps
   text?: string;
 }
 
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {},
     iconButton: {
       zIndex: 1,
@@ -58,12 +58,14 @@ export const useStyles = makeStyles(
     hidden: {
       visibility: 'hidden',
     },
-  }),
-  { name: 'MuiPickersArrowSwitcher' },
-);
+  });
 
-const PureArrowSwitcher = React.forwardRef<HTMLDivElement, ArrowSwitcherProps>((props, ref) => {
+const PickersArrowSwitcher = React.forwardRef<
+  HTMLDivElement,
+  ArrowSwitcherProps & WithStyles<typeof styles>
+>((props, ref) => {
   const {
+    classes,
     className,
     isLeftDisabled,
     isLeftHidden,
@@ -80,7 +82,6 @@ const PureArrowSwitcher = React.forwardRef<HTMLDivElement, ArrowSwitcherProps>((
     text,
     ...other
   } = props;
-  const classes = useStyles();
   const theme = useTheme();
   const isRtl = theme.direction === 'rtl';
 
@@ -122,6 +123,6 @@ const PureArrowSwitcher = React.forwardRef<HTMLDivElement, ArrowSwitcherProps>((
   );
 });
 
-PureArrowSwitcher.displayName = 'ArrowSwitcher';
-
-export const ArrowSwitcher = React.memo(PureArrowSwitcher);
+export default withStyles(styles, { name: 'MuiPickersArrowSwitcher' })(
+  React.memo(PickersArrowSwitcher),
+);

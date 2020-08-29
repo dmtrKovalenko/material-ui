@@ -7,7 +7,7 @@ import TrapFocus, {
   TrapFocusProps as MuiTrapFocusProps,
 } from '@material-ui/core/Unstable_TrapFocus';
 import { useForkRef } from '@material-ui/core/utils';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { TransitionProps as MuiTransitionProps } from '@material-ui/core/transitions';
 import { useGlobalKeyDown, keycode } from './hooks/useKeyDown';
 import { IS_TOUCH_DEVICE_MEDIA } from './constants/dimensions';
@@ -33,8 +33,8 @@ export interface PickerPopperProps extends ExportedPickerPopperProps, MuiPaperPr
   onOpen: () => void;
 }
 
-export const useStyles = makeStyles(
-  (theme) => ({
+export const styles = (theme: Theme) =>
+  createStyles({
     root: {
       zIndex: theme.zIndex.modal,
     },
@@ -49,14 +49,13 @@ export const useStyles = makeStyles(
     topTransition: {
       transformOrigin: 'bottom center',
     },
-  }),
-  { name: 'MuiPickersPopper' },
-);
+  });
 
-export const PickersPopper: React.FC<PickerPopperProps> = (props) => {
+const PickersPopper: React.FC<PickerPopperProps & WithStyles<typeof styles>> = (props) => {
   const {
     anchorEl,
     children,
+    classes,
     innerRef = null,
     onClose,
     onOpen,
@@ -66,7 +65,6 @@ export const PickersPopper: React.FC<PickerPopperProps> = (props) => {
     TransitionComponent = Grow,
     TrapFocusProps,
   } = props;
-  const classes = useStyles();
   const paperRef = React.useRef<HTMLElement>(null);
   const handlePopperRef = useForkRef(paperRef, innerRef);
   const lastFocusedElementRef = React.useRef<Element | null>(null);
@@ -143,3 +141,5 @@ export const PickersPopper: React.FC<PickerPopperProps> = (props) => {
     </Popper>
   );
 };
+
+export default withStyles(styles, { name: 'MuiPickersPopper' })(PickersPopper);
