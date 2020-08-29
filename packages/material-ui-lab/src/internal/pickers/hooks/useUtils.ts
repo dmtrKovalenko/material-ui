@@ -4,7 +4,7 @@ import { MuiPickersAdapterContext } from '../../../LocalizationProvider';
 // Required for babel https://github.com/vercel/next.js/issues/7882. Replace with `export type` in future
 export type MuiPickersAdapter<
   T = unknown
-> = import('../../../LocalizationProvider').MuiPickersAdapter<T>;
+> = import('../../../LocalizationProvider/LocalizationProvider').MuiPickersAdapter<T>;
 
 // TODO uncomment when syntax will be allowed by next babel
 function checkUtils(utils: MuiPickersAdapter | null) /* :asserts utils is MuiPickersAdapter */ {

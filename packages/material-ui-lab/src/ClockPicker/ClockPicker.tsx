@@ -53,7 +53,7 @@ export interface ExportedClockPickerProps<TDate> extends TimeValidationProps<TDa
   ) => string;
 }
 
-interface ClockPickerProps<TDate>
+export interface ClockPickerProps<TDate>
   extends ExportedClockPickerProps<TDate>,
     ExportedArrowSwitcherProps {
   /**

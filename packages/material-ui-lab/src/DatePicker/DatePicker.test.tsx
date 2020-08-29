@@ -3,19 +3,24 @@ import { expect } from 'chai';
 import { spy } from 'sinon';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, waitFor } from 'test/utils';
-import { DatePicker, DesktopDatePicker, MobileDatePicker, StaticDatePicker } from './DatePicker';
+import PickersDay from '@material-ui/lab/PickersDay';
+import CalendarSkeleton from '@material-ui/lab/CalendarSkeleton';
+import {
+  DatePicker,
+  DesktopDatePicker,
+  MobileDatePicker,
+  StaticDatePicker,
+} from '@material-ui/lab/DatePicker';
 import {
   createPickerRender,
   FakeTransitionComponent,
   adapterToUse,
   getByMuiTest,
   getAllByMuiTest,
-  queryByMuiTest,
   queryAllByMuiTest,
   openDesktopPicker,
   openMobilePicker,
 } from '../internal/pickers/test-utils';
-import CalendarSkeleton from '../CalendarSkeleton';
 
 describe('<DatePicker />', () => {
   const render = createPickerRender({ strict: false });
@@ -436,7 +441,7 @@ describe('<DatePicker />', () => {
     render(
       <MobileDatePicker
         loading
-        renderLoading={() => <CalendarSkeleton data-mui-test="custom-loading" />}
+        renderLoading={() => <CalendarSkeleton data-testid="custom-loading" />}
         open
         onChange={() => {}}
         renderInput={(props) => <TextField {...props} />}
@@ -444,22 +449,37 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(queryByMuiTest(document.body, 'loading-progress')).to.equal(null);
-    expect(getByMuiTest('custom-loading')).toBeVisible();
+    expect(screen.queryByTestId('loading-progress')).to.equal(null);
+    expect(screen.getByTestId('custom-loading')).toBeVisible();
   });
 
-  it('Custom toolbar component', () => {
+  it('prop `ToolbarComponent` – render custom toolbar component', () => {
     render(
       <MobileDatePicker
         renderInput={(props) => <TextField {...props} />}
         open
-        disableHighlightToday
         value={new Date()}
         onChange={() => {}}
-        ToolbarComponent={() => <div data-mui-test="custom-toolbar" />}
+        ToolbarComponent={() => <div data-testid="custom-toolbar" />}
       />,
     );
 
-    expect(getByMuiTest('custom-toolbar')).toBeVisible();
+    expect(screen.getByTestId('custom-toolbar')).toBeVisible();
+  });
+
+  it('prop `renderDay` – renders custom day', () => {
+    render(
+      <MobileDatePicker
+        renderInput={(props) => <TextField {...props} />}
+        open
+        value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
+        onChange={() => {}}
+        renderDay={(day, _selected, DayComponentProps) => (
+          <PickersDay {...DayComponentProps} data-testid="test-day" />
+        )}
+      />,
+    );
+
+    expect(screen.getAllByTestId('test-day').length).to.equal(31);
   });
 });

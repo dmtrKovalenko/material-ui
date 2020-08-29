@@ -5,8 +5,8 @@ import deLocale from 'date-fns/locale/de';
 import enLocale from 'date-fns/locale/en-US';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen } from 'test/utils';
+import { DatePickerProps, MobileDatePicker, DesktopDatePicker } from '@material-ui/lab/DatePicker';
 import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
-import { DatePickerProps, MobileDatePicker, DesktopDatePicker } from './DatePicker';
 
 describe('<DatePicker /> localization', () => {
   const render = createPickerRender({ strict: false, locale: 'fr' });

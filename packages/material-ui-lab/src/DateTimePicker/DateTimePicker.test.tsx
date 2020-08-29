@@ -5,14 +5,14 @@ import { spy, useFakeTimers, SinonSpy, SinonFakeTimers } from 'sinon';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
-import DayJsAdapter from '../dateAdapter/dayjs';
-import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
 import {
   DateTimePicker,
   DesktopDateTimePicker,
   MobileDateTimePicker,
   StaticDateTimePicker,
-} from './DateTimePicker';
+} from '@material-ui/lab/DateTimePicker';
+import DayJsAdapter from '../dateAdapter/dayjs';
+import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
 
 describe('<DateTimePicker />', () => {
   let clock: SinonFakeTimers;

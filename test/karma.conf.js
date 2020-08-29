@@ -86,7 +86,7 @@ module.exports = function setKarmaConfig(config) {
           '@testing-library/react/pure':
             '@testing-library/react/dist/@testing-library/react.pure.esm',
         },
-        extensions: ['.js', '.ts'],
+        extensions: ['.js', '.ts', '.tsx'],
       },
     },
     webpackMiddleware: {

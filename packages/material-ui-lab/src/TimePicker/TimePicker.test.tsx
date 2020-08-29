@@ -3,8 +3,13 @@ import TextField from '@material-ui/core/TextField';
 import { spy } from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, screen } from 'test/utils';
+import {
+  MobileTimePicker,
+  DesktopTimePicker,
+  TimePicker,
+  TimePickerProps,
+} from '@material-ui/lab/TimePicker';
 import { createPickerRender, adapterToUse, getByMuiTest } from '../internal/pickers/test-utils';
-import { MobileTimePicker, DesktopTimePicker, TimePicker, TimePickerProps } from './TimePicker';
 
 describe('<TimePicker />', () => {
   const render = createPickerRender({ strict: false });
