@@ -86,6 +86,6 @@ function MonthPicker<TDate>({
   );
 }
 
-export default withStyles(styles, { name: 'MuiPickersMonthSelection' })(MonthPicker) as <TDate>(
+export default withStyles(styles, { name: 'MuiMonthPicker' })(MonthPicker) as <TDate>(
   props: MonthPickerProps<TDate>,
 ) => JSX.Element;

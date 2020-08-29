@@ -8,7 +8,7 @@ import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useGlobalKeyDown, keycode } from '../internal/pickers/hooks/useKeyDown';
-import SlideTransition, { SlideDirection, SlideTransitionProps } from './SlideTransition';
+import SlideTransition, { SlideDirection, SlideTransitionProps } from './PickersSlideTransition';
 
 export interface ExportedCalendarProps<TDate>
   extends Pick<
@@ -48,7 +48,7 @@ export interface ExportedCalendarProps<TDate>
   renderLoading?: () => React.ReactNode;
 }
 
-export interface CalendarProps<TDate> extends ExportedCalendarProps<TDate> {
+export interface PickersCalendarProps<TDate> extends ExportedCalendarProps<TDate> {
   date: TDate | null | Array<TDate | null>;
   isDateDisabled: (day: TDate) => boolean;
   slideDirection: SlideDirection;
@@ -106,7 +106,7 @@ export const styles = (theme: Theme) =>
     },
   });
 
-function Calendar<TDate>(props: CalendarProps<TDate> & WithStyles<typeof styles>) {
+function PickersCalendar<TDate>(props: PickersCalendarProps<TDate> & WithStyles<typeof styles>) {
   const {
     allowKeyboardControl,
     allowSameDateSelection,
@@ -240,6 +240,6 @@ function Calendar<TDate>(props: CalendarProps<TDate> & WithStyles<typeof styles>
   );
 }
 
-export default withStyles(styles, { name: 'MuiPickersCalendar' })(Calendar) as <TDate>(
-  props: CalendarProps<TDate>,
+export default withStyles(styles, { name: 'MuiPickersCalendar' })(PickersCalendar) as <TDate>(
+  props: PickersCalendarProps<TDate>,
 ) => JSX.Element;

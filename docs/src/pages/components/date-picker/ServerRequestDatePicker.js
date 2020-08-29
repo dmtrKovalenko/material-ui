@@ -5,7 +5,7 @@ import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
 import PickersDay from '@material-ui/lab/PickersDay';
 import { DatePicker } from '@material-ui/lab/DatePicker';
-import CalendarSkeleton from '@material-ui/lab/CalendarSkeleton';
+import PickersCalendarSkeleton from '@material-ui/lab/PickersCalendarSkeleton';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 
 function getRandomNumber(min, max) {
@@ -82,7 +82,7 @@ export default function ServerRequest() {
         onChange={(newValue) => setValue(newValue)}
         onMonthChange={handleMonthChange}
         renderInput={(props) => <TextField {...props} />}
-        renderLoading={() => <CalendarSkeleton />}
+        renderLoading={() => <PickersCalendarSkeleton />}
         renderDay={(day, _value, DayComponentProps) => {
           const isSelected =
             DayComponentProps.inCurrentMonth &&

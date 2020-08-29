@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import { styles as calendarStyles } from '../DayPicker/Calendar';
+import { styles as calendarStyles } from '../DayPicker/PickersCalendar';
 
-export interface CalendarSkeletonProps extends React.HTMLProps<HTMLDivElement> {}
+export interface PickersCalendarSkeletonProps extends React.HTMLProps<HTMLDivElement> {}
 
 export const styles = (theme: Theme) =>
   createStyles({
@@ -29,7 +29,9 @@ const monthMap = [
   [1, 1, 1, 1, 0, 0, 0],
 ];
 
-const CalendarSkeleton: React.FC<CalendarSkeletonProps & WithStyles<typeof styles>> = (props) => {
+const PickersCalendarSkeleton: React.FC<
+  PickersCalendarSkeletonProps & WithStyles<typeof styles>
+> = (props) => {
   const { className, classes, ...other } = props;
 
   return (
@@ -55,4 +57,4 @@ const CalendarSkeleton: React.FC<CalendarSkeletonProps & WithStyles<typeof style
 
 export default withStyles(styles, {
   name: 'MuiCalendarSkeleton',
-})(CalendarSkeleton);
+})(PickersCalendarSkeleton);

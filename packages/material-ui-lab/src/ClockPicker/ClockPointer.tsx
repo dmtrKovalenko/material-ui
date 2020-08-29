@@ -103,5 +103,5 @@ class ClockPointer extends React.Component<ClockPointerProps> {
 }
 
 export default withStyles(styles, {
-  name: 'MuiPickersClockPointer',
+  name: 'MuiClockPointer',
 })(ClockPointer);

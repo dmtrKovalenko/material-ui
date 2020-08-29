@@ -38,7 +38,7 @@ export const styles = (theme: Theme) => {
   });
 };
 
-interface PickerToolbarProps
+export interface PickersToolbarProps
   extends ExtendMui<ToolbarProps>,
     Pick<
       ToolbarComponentProps,
@@ -58,7 +58,7 @@ function defaultGetKeyboardInputSwitchingButtonText(isKeyboardInputOpen: boolean
     : 'calendar view is open, go to text input view';
 }
 
-const PickerToolbar: React.FC<PickerToolbarProps & WithStyles<typeof styles>> = ({
+const PickerToolbar: React.FC<PickersToolbarProps & WithStyles<typeof styles>> = ({
   children,
   classes,
   className,

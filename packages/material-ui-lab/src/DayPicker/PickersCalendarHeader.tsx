@@ -5,9 +5,9 @@ import Fade from '@material-ui/core/Fade';
 import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { SlideDirection } from './SlideTransition';
+import { SlideDirection } from './PickersSlideTransition';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import FadeTransitionGroup from './FadeTransitionGroup';
+import FadeTransitionGroup from './PickersFadeTransitionGroup';
 import { DateValidationProps } from '../internal/pickers/date-utils';
 // tslint:disable-next-line no-relative-import-in-test
 import ArrowDropDownIcon from '../internal/svg-icons/ArrowDropDown';
@@ -21,7 +21,7 @@ import {
 import { DatePickerView } from '../internal/pickers/typings/Views';
 
 export type ExportedCalendarHeaderProps<TDate> = Pick<
-  CalendarHeaderProps<TDate>,
+  PickersCalendarHeaderProps<TDate>,
   | 'leftArrowIcon'
   | 'rightArrowIcon'
   | 'leftArrowButtonProps'
@@ -31,7 +31,7 @@ export type ExportedCalendarHeaderProps<TDate> = Pick<
   | 'getViewSwitchingButtonText'
 >;
 
-export interface CalendarHeaderProps<TDate>
+export interface PickersCalendarHeaderProps<TDate>
   extends ExportedArrowSwitcherProps,
     Omit<DateValidationProps<TDate>, 'shouldDisableDate'> {
   view: DatePickerView;
@@ -91,7 +91,9 @@ function getSwitchingViewAriaText(view: DatePickerView) {
     : 'calendar view is open, switch to year view';
 }
 
-function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate> & WithStyles<typeof styles>) {
+function PickersCalendarHeader<TDate>(
+  props: PickersCalendarHeaderProps<TDate> & WithStyles<typeof styles>,
+) {
   const {
     changeView,
     classes,
@@ -201,13 +203,15 @@ function CalendarHeader<TDate>(props: CalendarHeaderProps<TDate> & WithStyles<ty
   );
 }
 
-CalendarHeader.propTypes = {
+PickersCalendarHeader.propTypes = {
   leftArrowButtonText: PropTypes.string,
   leftArrowIcon: PropTypes.node,
   rightArrowButtonText: PropTypes.string,
   rightArrowIcon: PropTypes.node,
 };
 
-export default withStyles(styles, { name: 'MuiPickersCalendarHeader' })(CalendarHeader) as <TDate>(
-  props: CalendarHeaderProps<TDate>,
+export default withStyles(styles, { name: 'MuiPickersCalendarHeader' })(PickersCalendarHeader) as <
+  TDate
+>(
+  props: PickersCalendarHeaderProps<TDate>,
 ) => JSX.Element;

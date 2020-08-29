@@ -4,7 +4,7 @@ import { spy } from 'sinon';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, waitFor } from 'test/utils';
 import PickersDay from '@material-ui/lab/PickersDay';
-import CalendarSkeleton from '@material-ui/lab/CalendarSkeleton';
+import CalendarSkeleton from '@material-ui/lab/PickersCalendarSkeleton';
 import {
   DatePicker,
   DesktopDatePicker,

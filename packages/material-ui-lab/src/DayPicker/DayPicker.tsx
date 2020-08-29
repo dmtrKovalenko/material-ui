@@ -3,11 +3,11 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import MonthPicker from '../MonthPicker/MonthPicker';
 import { useCalendarState } from './useCalendarState';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
-import FadeTransitionGroup from './FadeTransitionGroup';
-import Calendar, { ExportedCalendarProps } from './Calendar';
+import FadeTransitionGroup from './PickersFadeTransitionGroup';
+import Calendar, { ExportedCalendarProps } from './PickersCalendar';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
-import CalendarHeader, { ExportedCalendarHeaderProps } from './CalendarHeader';
+import CalendarHeader, { ExportedCalendarHeaderProps } from './PickersCalendarHeader';
 import YearPicker, { ExportedYearPickerProps } from '../YearPicker/YearPicker';
 import { defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/prop-types';
 import { IsStaticVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
@@ -192,6 +192,6 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
   );
 }
 
-export default withStyles(styles, { name: 'MuiPickersCalendarView' })(DayPicker) as <TDate>(
+export default withStyles(styles, { name: 'MuiDayPicker' })(DayPicker) as <TDate>(
   props: DayPickerProps<TDate>,
 ) => JSX.Element;

@@ -170,4 +170,4 @@ function Picker({
   );
 }
 
-export default withStyles(styles, { name: 'MuiPickersBasePicker' })(Picker);
+export default withStyles(styles, { name: 'MuiPicker' })(Picker);

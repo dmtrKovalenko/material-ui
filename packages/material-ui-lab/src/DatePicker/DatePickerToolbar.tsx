@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
-import PickerToolbar from '../internal/pickers/PickerToolbar';
+import PickerToolbar from '../internal/pickers/PickersToolbar';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { isYearAndMonthViews, isYearOnlyView } from '../internal/pickers/date-utils';
 import { DatePickerView } from '../internal/pickers/typings/Views';
@@ -81,4 +81,4 @@ const DatePickerToolbar: React.FC<ToolbarComponentProps & WithStyles<typeof styl
   );
 };
 
-export default withStyles(styles, { name: 'MuiPickersDatePickerToolbar' })(DatePickerToolbar);
+export default withStyles(styles, { name: 'MuiDatePickerToolbar' })(DatePickerToolbar);

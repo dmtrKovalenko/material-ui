@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SlideDirection } from './SlideTransition';
+import { SlideDirection } from './PickersSlideTransition';
 import { validateDate } from '../internal/pickers/date-utils';
 import { MuiPickersAdapter, useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { useTheme, createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
-import ToolbarText from '../internal/pickers/ToolbarText';
-import ToolbarButton from '../internal/pickers/ToolbarButton';
-import PickerToolbar from '../internal/pickers/PickerToolbar';
+import ToolbarText from '../internal/pickers/PickersToolbarText';
+import ToolbarButton from '../internal/pickers/PickersToolbarButton';
+import PickerToolbar from '../internal/pickers/PickersToolbar';
 import { arrayIncludes } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
@@ -159,4 +159,4 @@ const TimePickerToolbar: React.FC<ToolbarComponentProps & WithStyles<typeof styl
   );
 };
 
-export default withStyles(styles, { name: 'MuiPickersTimePickerToolbar' })(TimePickerToolbar);
+export default withStyles(styles, { name: 'MuiTimePickerToolbar' })(TimePickerToolbar);

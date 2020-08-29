@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
-import ToolbarText from '../internal/pickers/ToolbarText';
-import PickerToolbar from '../internal/pickers/PickerToolbar';
-import ToolbarButton from '../internal/pickers/ToolbarButton';
+import ToolbarText from '../internal/pickers/PickersToolbarText';
+import PickerToolbar from '../internal/pickers/PickersToolbar';
+import ToolbarButton from '../internal/pickers/PickersToolbarButton';
 import DateTimePickerTabs from './DateTimePickerTabs';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import { WrapperVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
