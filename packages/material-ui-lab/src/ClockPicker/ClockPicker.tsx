@@ -61,14 +61,6 @@ export interface ClockPickerProps<TDate>
    */
   date: TDate | null;
   /**
-   * Clock type.
-   */
-  type: 'hours' | 'minutes' | 'seconds';
-  /**
-   * On change date without moving between views @DateIOType.
-   */
-  onDateChange: PickerOnChangeFn<TDate>;
-  /**
    * On change callback @DateIOType.
    */
   onChange: PickerOnChangeFn<TDate>;
@@ -86,6 +78,7 @@ export interface ClockPickerProps<TDate>
   getSecondsClockNumberText?: (secondsText: string) => string;
   openNextView: () => void;
   openPreviousView: () => void;
+  view: 'hours' | 'minutes' | 'seconds';
   nextViewAvailable: boolean;
   previousViewAvailable: boolean;
   showViewSwitcher?: boolean;
@@ -131,7 +124,6 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
     minutesStep = 1,
     nextViewAvailable,
     onChange,
-    onDateChange,
     openNextView,
     openPreviousView,
     previousViewAvailable,
@@ -140,18 +132,14 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
     rightArrowIcon,
     shouldDisableTime,
     showViewSwitcher,
-    type,
+    view,
   } = props;
 
   const now = useNow<TDate>();
   const utils = useUtils<TDate>();
   const dateOrNow = date || now;
 
-  const { meridiemMode, handleMeridiemChange } = useMeridiemMode<TDate>(
-    dateOrNow,
-    ampm,
-    onDateChange,
-  );
+  const { meridiemMode, handleMeridiemChange } = useMeridiemMode<TDate>(dateOrNow, ampm, onChange);
 
   const isTimeDisabled = React.useCallback(
     (rawValue: number, viewType: 'hours' | 'minutes' | 'seconds') => {
@@ -212,7 +200,7 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
   );
 
   const viewProps = React.useMemo(() => {
-    switch (type) {
+    switch (view) {
       case 'hours': {
         const handleHoursChange = (value: number, isFinish?: PickerSelectionState) => {
           const valueWithMeridiem = convertValueToMeridiem(value, meridiemMode, Boolean(ampm));
@@ -275,7 +263,7 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
         throw new Error('You must provide the type for ClockView');
     }
   }, [
-    type,
+    view,
     utils,
     date,
     ampm,
@@ -309,8 +297,7 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
       <Clock<TDate>
         date={date}
         ampmInClock={ampmInClock}
-        onDateChange={onDateChange}
-        type={type}
+        type={view}
         ampm={ampm}
         // @ts-expect-error TODO figure out this weird error
         getClockLabelText={getClockLabelText}
@@ -330,10 +317,8 @@ ClockPicker.propTypes = {
   date: PropTypes.object,
   minutesStep: PropTypes.number,
   onChange: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(['minutes', 'hours', 'seconds']).isRequired,
+  view: PropTypes.oneOf(['minutes', 'hours', 'seconds']).isRequired,
 } as any;
-
-ClockPicker.displayName = 'ClockView';
 
 export default withStyles(styles, { name: 'MuiPickersClockView' })(ClockPicker) as <TDate>(
   props: ClockPickerProps<TDate>,

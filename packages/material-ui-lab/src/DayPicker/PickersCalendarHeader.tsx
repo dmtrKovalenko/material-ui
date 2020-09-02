@@ -34,7 +34,7 @@ export type ExportedCalendarHeaderProps<TDate> = Pick<
 export interface PickersCalendarHeaderProps<TDate>
   extends ExportedArrowSwitcherProps,
     Omit<DateValidationProps<TDate>, 'shouldDisableDate'> {
-  view: DatePickerView;
+  openView: DatePickerView;
   views: DatePickerView[];
   currentMonth: TDate;
   /**
@@ -42,7 +42,7 @@ export interface PickersCalendarHeaderProps<TDate>
    */
   getViewSwitchingButtonText?: (currentView: DatePickerView) => string;
   reduceAnimations: boolean;
-  changeView: (view: DatePickerView) => void;
+  onViewChange: (view: DatePickerView) => void;
   onMonthChange: (date: TDate, slideDirection: SlideDirection) => void;
 }
 
@@ -95,7 +95,7 @@ function PickersCalendarHeader<TDate>(
   props: PickersCalendarHeaderProps<TDate> & WithStyles<typeof styles>,
 ) {
   const {
-    changeView,
+    onViewChange,
     classes,
     currentMonth: month,
     disableFuture,
@@ -111,7 +111,7 @@ function PickersCalendarHeader<TDate>(
     rightArrowButtonProps,
     rightArrowButtonText = 'next month',
     rightArrowIcon,
-    view: currentView,
+    openView: currentView,
     views,
   } = props;
 
@@ -129,11 +129,11 @@ function PickersCalendarHeader<TDate>(
     }
 
     if (views.length === 2) {
-      changeView(views.find((view) => view !== currentView) || views[0]);
+      onViewChange(views.find((view) => view !== currentView) || views[0]);
     } else {
       // switching only between first 2
       const nextIndexToOpen = views.indexOf(currentView) !== 0 ? 0 : 1;
-      changeView(views[nextIndexToOpen]);
+      onViewChange(views[nextIndexToOpen]);
     }
   };
 

@@ -48,8 +48,7 @@ const PickersMonth: React.FC<MonthProps & WithStyles<typeof styles>> = (props) =
   return (
     <Typography
       data-mui-test="month"
-      role="button"
-      component="div"
+      component="button"
       className={clsx(classes.root, {
         [classes.selected]: selected,
       })}

@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import clsx from 'clsx';
 import ButtonBase, { ButtonBaseProps } from '@material-ui/core/ButtonBase';
 import { createStyles, WithStyles, withStyles, Theme, fade } from '@material-ui/core/styles';
+import { useForkRef } from '@material-ui/core';
 import { ExtendMui } from '../internal/pickers/typings/helpers';
 import { onSpaceOrEnter } from '../internal/pickers/utils';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
@@ -74,64 +75,64 @@ export interface PickersDayProps<TDate> extends ExtendMui<ButtonBaseProps> {
    */
   day: TDate;
   /**
-   * Is focused by keyboard navigation.
+   * If `true`, the day element will be focused during the first mount.
    */
   focused?: boolean;
   /**
-   * Can be focused by tabbing in.
+   * If `true`, allows to focus by tabbing.
    */
   focusable?: boolean;
   /**
-   * Is day in current month.
+   * If `true`, day is outside of month and will be hidden.
    */
-  inCurrentMonth: boolean;
+  outsideCurrentMonth: boolean;
   /**
-   * Is switching month animation going on right now.
-   */
-  isAnimating?: boolean;
-  /**
-   * Is today?
+   * If `true`, renders as today date.
    */
   today?: boolean;
   /**
-   * Disabled?.
+   * If `true`, renders as disabled.
    */
   disabled?: boolean;
   /**
-   * Selected?
+   * If `true`, renders as selected.
    */
   selected?: boolean;
   /**
-   * Is keyboard control and focus management enabled.
+   * If `true`, keyboard control and focus management is enabled.
    */
   allowKeyboardControl?: boolean;
   /**
-   * Disable margin between days, useful for displaying range of days.
+   * If `true`, days are rendering without margin. Useful for displaying linked range of days.
    */
   disableMargin?: boolean;
   /**
-   * Display disabled dates outside the current month.
+   * If `true`, days that have `outsideCurrentMonth={true}` are displayed.
    *
    * @default false
    */
   showDaysOutsideCurrentMonth?: boolean;
   /**
-   * Disable highlighting today date with a circle.
+   * If `true`, todays date is rendering without highlighting with circle.
    *
    * @default false
    */
   disableHighlightToday?: boolean;
   /**
-   * Allow selecting the same date (fire onChange even if same date is selected).
+   * If `true`, will fire `onChange` on click even if same date is selected.
    *
    * @default false
    */
   allowSameDateSelection?: boolean;
+  isAnimating?: boolean;
   onDayFocus?: (day: TDate) => void;
   onDaySelect: (day: TDate, isFinish: PickerSelectionState) => void;
 }
 
-function PickersDay<TDate>(props: PickersDayProps<TDate> & WithStyles<typeof styles>) {
+const PickersDay = React.forwardRef(function PickersDay<TDate>(
+  props: PickersDayProps<TDate> & WithStyles<typeof styles>,
+  forwardedRef: React.Ref<HTMLButtonElement>,
+) {
   const {
     allowKeyboardControl,
     allowSameDateSelection = false,
@@ -144,13 +145,13 @@ function PickersDay<TDate>(props: PickersDayProps<TDate> & WithStyles<typeof sty
     focusable = false,
     focused = false,
     hidden,
-    inCurrentMonth: isInCurrentMonth,
     isAnimating,
     onClick,
     onDayFocus,
     onDaySelect,
     onFocus,
     onKeyDown,
+    outsideCurrentMonth,
     selected = false,
     showDaysOutsideCurrentMonth = false,
     today: isToday = false,
@@ -160,20 +161,21 @@ function PickersDay<TDate>(props: PickersDayProps<TDate> & WithStyles<typeof sty
   const utils = useUtils();
   const canAutoFocus = useCanAutoFocus();
   const ref = React.useRef<HTMLButtonElement>(null);
+  const handleRef = useForkRef(ref, forwardedRef);
 
   React.useEffect(() => {
     if (
       focused &&
       !disabled &&
       !isAnimating &&
-      isInCurrentMonth &&
+      !outsideCurrentMonth &&
       ref.current &&
       allowKeyboardControl &&
       canAutoFocus
     ) {
       ref.current.focus();
     }
-  }, [allowKeyboardControl, canAutoFocus, disabled, focused, isAnimating, isInCurrentMonth]);
+  }, [allowKeyboardControl, canAutoFocus, disabled, focused, isAnimating, outsideCurrentMonth]);
 
   const handleFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
     if (!focused && onDayFocus) {
@@ -209,34 +211,33 @@ function PickersDay<TDate>(props: PickersDayProps<TDate> & WithStyles<typeof sty
       [classes.selected]: selected,
       [classes.dayWithMargin]: !disableMargin,
       [classes.today]: !disableHighlightToday && isToday,
-      [classes.dayOutsideMonth]: !isInCurrentMonth && showDaysOutsideCurrentMonth,
+      [classes.dayOutsideMonth]: outsideCurrentMonth && showDaysOutsideCurrentMonth,
     },
     className,
   );
 
-  if (!isInCurrentMonth && !showDaysOutsideCurrentMonth) {
-    // Do not render button and not attach any listeners for empty days
+  if (outsideCurrentMonth && !showDaysOutsideCurrentMonth) {
     return <div aria-hidden className={clsx(dayClassName, classes.hiddenDaySpacingFiller)} />;
   }
 
   return (
     <ButtonBase
-      ref={ref}
+      ref={handleRef}
       centerRipple
       data-mui-test="day"
       disabled={disabled}
       aria-label={utils.format(day, 'fullDate')}
       tabIndex={focused || focusable ? 0 : -1}
       className={dayClassName}
-      {...other}
       onFocus={handleFocus}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
+      {...other}
     >
       <span className={classes.dayLabel}>{utils.format(day, 'dayOfMonth')}</span>
     </ButtonBase>
   );
-}
+});
 
 export const areDayPropsEqual = (
   prevProps: PickersDayProps<any>,
@@ -254,7 +255,7 @@ export const areDayPropsEqual = (
     prevProps.showDaysOutsideCurrentMonth === nextProps.showDaysOutsideCurrentMonth &&
     prevProps.disableHighlightToday === nextProps.disableHighlightToday &&
     prevProps.className === nextProps.className &&
-    prevProps.inCurrentMonth === nextProps.inCurrentMonth &&
+    prevProps.outsideCurrentMonth === nextProps.outsideCurrentMonth &&
     prevProps.onDayFocus === nextProps.onDayFocus &&
     prevProps.onDaySelect === nextProps.onDaySelect
   );

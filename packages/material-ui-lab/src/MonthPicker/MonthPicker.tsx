@@ -1,16 +1,23 @@
 import * as React from 'react';
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import PickersMonth from './PickersMonth';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 
 export interface MonthPickerProps<TDate> {
   date: TDate | null;
+  /** Minimal selectable date. */
   minDate: TDate;
+  /** Maximal selectable date. */
   maxDate: TDate;
+  /** Callback fired on date change. */
   onChange: PickerOnChangeFn<TDate>;
+  /** If `true` past days are disabled. */
   disablePast?: boolean | null;
+  /** If `true` future days are disabled. */
   disableFuture?: boolean | null;
+  className?: string;
   onMonthChange?: (date: TDate) => void | Promise<void>;
 }
 
@@ -23,16 +30,22 @@ export const styles = createStyles({
   },
 });
 
-function MonthPicker<TDate>({
-  classes,
-  date,
-  disableFuture,
-  disablePast,
-  maxDate,
-  minDate,
-  onChange,
-  onMonthChange,
-}: MonthPickerProps<TDate> & WithStyles<typeof styles>) {
+const MonthPicker = React.forwardRef(function MonthPicker<TDate>(
+  props: MonthPickerProps<TDate> & WithStyles<typeof styles>,
+  ref: React.Ref<HTMLDivElement>,
+) {
+  const {
+    className,
+    classes,
+    date,
+    disableFuture,
+    disablePast,
+    maxDate,
+    minDate,
+    onChange,
+    onMonthChange,
+  } = props;
+
   const utils = useUtils<TDate>();
   const now = useNow<TDate>();
   const currentMonth = utils.getMonth(date || now);
@@ -52,20 +65,17 @@ function MonthPicker<TDate>({
     return isBeforeFirstEnabled || isAfterLastEnabled;
   };
 
-  const onMonthSelect = React.useCallback(
-    (month: number) => {
-      const newDate = utils.setMonth(date || now, month);
+  const onMonthSelect = (month: number) => {
+    const newDate = utils.setMonth(date || now, month);
 
-      onChange(newDate, 'finish');
-      if (onMonthChange) {
-        onMonthChange(newDate);
-      }
-    },
-    [date, now, onChange, onMonthChange, utils],
-  );
+    onChange(newDate, 'finish');
+    if (onMonthChange) {
+      onMonthChange(newDate);
+    }
+  };
 
   return (
-    <div className={classes.root}>
+    <div ref={ref} className={clsx(classes.root, className)}>
       {utils.getMonthArray(date || now).map((month) => {
         const monthNumber = utils.getMonth(month);
         const monthText = utils.format(month, 'monthShort');
@@ -84,8 +94,8 @@ function MonthPicker<TDate>({
       })}
     </div>
   );
-}
+});
 
 export default withStyles(styles, { name: 'MuiMonthPicker' })(MonthPicker) as <TDate>(
-  props: MonthPickerProps<TDate>,
+  props: MonthPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,
 ) => JSX.Element;

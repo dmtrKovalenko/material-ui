@@ -1,4 +1,5 @@
 module.exports = {
+  extension: ['js', 'ts', 'tsx'],
   recursive: true,
   reporter: 'dot',
   require: [

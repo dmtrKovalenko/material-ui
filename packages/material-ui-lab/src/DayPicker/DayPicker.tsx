@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import MonthPicker from '../MonthPicker/MonthPicker';
 import { useCalendarState } from './useCalendarState';
 import { useUtils } from '../internal/pickers/hooks/useUtils';
 import FadeTransitionGroup from './PickersFadeTransitionGroup';
 import Calendar, { ExportedCalendarProps } from './PickersCalendar';
-import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
+import { PickerOnChangeFn, useViews } from '../internal/pickers/hooks/useViews';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import CalendarHeader, { ExportedCalendarHeaderProps } from './PickersCalendarHeader';
 import YearPicker, { ExportedYearPickerProps } from '../YearPicker/YearPicker';
@@ -13,16 +14,23 @@ import { defaultMinDate, defaultMaxDate } from '../internal/pickers/constants/pr
 import { IsStaticVariantContext } from '../internal/pickers/wrappers/WrapperVariantContext';
 import { DateValidationProps, findClosestEnabledDate } from '../internal/pickers/date-utils';
 import { DatePickerView } from '../internal/pickers/typings/Views';
+import PickerView from '../internal/pickers/Picker/PickerView';
 
-export interface DayPickerProps<TDate>
+export interface DayPickerProps<TDate, TView extends DatePickerView = DatePickerView>
   extends DateValidationProps<TDate>,
     ExportedCalendarProps<TDate>,
     ExportedYearPickerProps<TDate>,
     ExportedCalendarHeaderProps<TDate> {
   date: TDate;
-  view: DatePickerView;
-  views: DatePickerView[];
-  changeView: (view: DatePickerView) => void;
+  /** Views for day picker. */
+  views?: TView[];
+  /** Controlled open view. */
+  view?: TView;
+  /** Initially open view. */
+  openTo?: TView;
+  /** Callback fired on view change. */
+  onViewChange?: (view: TView) => void;
+  /** Callback fired on date change */
   onChange: PickerOnChangeFn<TDate>;
   /**
    * Disable heavy animations.
@@ -34,14 +42,27 @@ export interface DayPickerProps<TDate>
    * Callback firing on month change. @DateIOType
    */
   onMonthChange?: (date: TDate) => void;
+  className?: string;
 }
 
 export type ExportedDayPickerProps<TDate> = Omit<
   DayPickerProps<TDate>,
-  'date' | 'view' | 'views' | 'onChange' | 'changeView' | 'slideDirection' | 'currentMonth'
+  | 'date'
+  | 'view'
+  | 'views'
+  | 'openTo'
+  | 'onChange'
+  | 'changeView'
+  | 'slideDirection'
+  | 'currentMonth'
+  | 'className'
 >;
 
 export const styles = createStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   viewTransitionContainer: {
     overflowY: 'auto',
   },
@@ -58,10 +79,13 @@ export const styles = createStyles({
 export const defaultReduceAnimations =
   typeof navigator !== 'undefined' && /(android)/i.test(navigator.userAgent);
 
-function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof styles>) {
+const DayPicker = React.forwardRef(function DayPicker<
+  TDate extends any,
+  TView extends DatePickerView = DatePickerView
+>(props: DayPickerProps<TDate, TView> & WithStyles<typeof styles>, ref: React.Ref<HTMLDivElement>) {
   const {
     allowKeyboardControl: allowKeyboardControlProp,
-    changeView,
+    onViewChange,
     date,
     disableFuture,
     disablePast,
@@ -76,6 +100,9 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
     shouldDisableDate,
     shouldDisableYear,
     view,
+    views = ['year', 'date'] as TView[],
+    openTo = 'date' as TView,
+    className,
     ...other
   } = props;
 
@@ -85,6 +112,14 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
 
   const minDate = minDateProp || utils.date(defaultMinDate)!;
   const maxDate = maxDateProp || utils.date(defaultMaxDate)!;
+
+  const { openView, setOpenView } = useViews({
+    view,
+    views,
+    openTo,
+    onChange,
+    onViewChange,
+  });
 
   const {
     calendarState,
@@ -127,12 +162,13 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
   }, [date]); // eslint-disable-line
 
   return (
-    <React.Fragment>
+    <PickerView ref={ref} className={clsx(classes.root, className)}>
       <CalendarHeader
         {...other}
-        view={view}
+        views={views}
+        openView={openView}
         currentMonth={calendarState.currentMonth}
-        changeView={changeView}
+        onViewChange={setOpenView as (view: DatePickerView) => void}
         onMonthChange={(newMonth, direction) => handleChangeMonth({ newMonth, direction })}
         minDate={minDate}
         maxDate={maxDate}
@@ -143,10 +179,10 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
       <FadeTransitionGroup
         reduceAnimations={reduceAnimations}
         className={classes.viewTransitionContainer}
-        transKey={view}
+        transKey={openView}
       >
         <div>
-          {view === 'year' && (
+          {openView === 'year' && (
             <YearPicker
               {...other}
               date={date}
@@ -158,10 +194,10 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
               isDateDisabled={isDateDisabled}
               allowKeyboardControl={allowKeyboardControl}
               shouldDisableYear={shouldDisableYear}
-              changeFocusedDay={changeFocusedDay}
+              onFocusedDayChange={changeFocusedDay}
             />
           )}
-          {view === 'month' && (
+          {openView === 'month' && (
             <MonthPicker
               {...other}
               date={date}
@@ -171,12 +207,12 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
               onMonthChange={onMonthChange}
             />
           )}
-          {view === 'date' && (
+          {openView === 'date' && (
             <Calendar
               {...other}
               {...calendarState}
               onMonthSwitchingAnimationEnd={onMonthSwitchingAnimationEnd}
-              changeFocusedDay={changeFocusedDay}
+              onFocusedDayChange={changeFocusedDay}
               reduceAnimations={reduceAnimations}
               date={date}
               onChange={onChange}
@@ -188,10 +224,10 @@ function DayPicker<TDate>(props: DayPickerProps<TDate> & WithStyles<typeof style
           )}
         </div>
       </FadeTransitionGroup>
-    </React.Fragment>
+    </PickerView>
   );
-}
+});
 
 export default withStyles(styles, { name: 'MuiDayPicker' })(DayPicker) as <TDate>(
-  props: DayPickerProps<TDate>,
+  props: DayPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,
 ) => JSX.Element;

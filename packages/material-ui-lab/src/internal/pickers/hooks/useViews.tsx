@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useControlled } from '@material-ui/core';
 import { arrayIncludes } from '../utils';
 import { PickerSelectionState } from './usePickerState';
 import { AllAvailableViews } from '../typings/Views';
@@ -8,45 +9,50 @@ export type PickerOnChangeFn<TDate> = (
   selectionState?: PickerSelectionState,
 ) => void;
 
-export function useViews({
+interface UseViewsOptions<TDate, TView extends AllAvailableViews> {
+  onChange: PickerOnChangeFn<TDate>;
+  views: TView[];
+  view: TView | undefined;
+  openTo?: TView;
+  onViewChange?: (newView: TView) => void;
+}
+
+export function useViews<TDate, TView extends AllAvailableViews>({
+  view,
   views,
   openTo,
   onChange,
-  isMobileKeyboardViewOpen,
-  toggleMobileKeyboardView,
-}: {
-  views: AllAvailableViews[];
-  openTo: AllAvailableViews;
-  onChange: PickerOnChangeFn<unknown>;
-  isMobileKeyboardViewOpen: boolean;
-  toggleMobileKeyboardView: () => void;
-}) {
-  const [openView, setOpenView] = React.useState(
-    openTo && arrayIncludes(views, openTo) ? openTo : views[0],
-  );
+  onViewChange,
+}: UseViewsOptions<TDate, TView>) {
+  const [openView, setOpenView] = useControlled<TView>({
+    name: 'Picker',
+    state: 'view',
+    controlled: view,
+    default: openTo && arrayIncludes(views, openTo) ? openTo : views[0],
+  });
 
-  const setOpenViewEnhanced = React.useCallback(
-    (...args: Parameters<typeof setOpenView>) => {
-      if (isMobileKeyboardViewOpen) {
-        toggleMobileKeyboardView();
+  const previousView: TView | null = views[views.indexOf(openView) - 1] ?? null;
+  const nextView: TView | null = views[views.indexOf(openView) + 1] ?? null;
+
+  const changeView = React.useCallback(
+    (newView: TView) => {
+      setOpenView(newView);
+
+      if (onViewChange) {
+        onViewChange(newView);
       }
-
-      setOpenView(...args);
     },
-    [isMobileKeyboardViewOpen, toggleMobileKeyboardView],
+    [setOpenView, onViewChange],
   );
-
-  const previousView = views[views.indexOf(openView) - 1];
-  const nextView = views[views.indexOf(openView) + 1];
 
   const openNext = React.useCallback(() => {
     if (nextView) {
-      setOpenViewEnhanced(nextView);
+      changeView(nextView);
     }
-  }, [nextView, setOpenViewEnhanced]);
+  }, [nextView, changeView]);
 
   const handleChangeAndOpenNext = React.useCallback(
-    (date: unknown, currentViewSelectionState?: PickerSelectionState) => {
+    (date: TDate, currentViewSelectionState?: PickerSelectionState) => {
       const isSelectionFinishedOnCurrentView = currentViewSelectionState === 'finish';
       const globalSelectionState =
         isSelectionFinishedOnCurrentView && Boolean(nextView)
@@ -67,6 +73,6 @@ export function useViews({
     openNext,
     handleChangeAndOpenNext,
     openView,
-    setOpenView: setOpenViewEnhanced,
+    setOpenView: changeView,
   };
 }

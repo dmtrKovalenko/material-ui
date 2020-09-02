@@ -36,7 +36,7 @@ describe('<DatePicker />', () => {
 
     expect(screen.getByText('January')).toBeVisible();
     expect(screen.getByText('2019')).toBeVisible();
-    expect(getAllByMuiTest('day').length).to.equal(31);
+    expect(getAllByMuiTest('day')).to.have.length(31);
   });
 
   it('Desktop Mode – Accepts date on day button click', () => {
@@ -433,7 +433,7 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(queryAllByMuiTest(document.body, 'day').length).to.equal(0);
+    expect(queryAllByMuiTest(document.body, 'day')).to.have.length(0);
     expect(getByMuiTest('loading-progress')).toBeVisible();
   });
 
@@ -480,6 +480,6 @@ describe('<DatePicker />', () => {
       />,
     );
 
-    expect(screen.getAllByTestId('test-day').length).to.equal(31);
+    expect(screen.getAllByTestId('test-day')).to.have.length(31);
   });
 });

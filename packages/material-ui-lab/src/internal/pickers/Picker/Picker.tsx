@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { styled, createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 import { useViews } from '../hooks/useViews';
-import ClockView from '../../../ClockPicker/ClockPicker';
+import ClockPicker from '../../../ClockPicker/ClockPicker';
 import DayPicker from '../../../DayPicker/DayPicker';
 import { KeyboardDateInput } from '../KeyboardDateInput';
 import { useIsLandscape } from '../hooks/useIsLandscape';
@@ -12,6 +12,7 @@ import { PickerSelectionState } from '../hooks/usePickerState';
 import { BasePickerProps, CalendarAndClockProps } from '../typings/BasePicker';
 import { WithViewsProps, SharedPickerProps } from './SharedPickerProps';
 import { AllAvailableViews, DatePickerView } from '../typings/Views';
+import PickerView from './PickerView';
 
 export interface ExportedPickerProps<TView extends AllAvailableViews>
   extends Omit<BasePickerProps, 'value' | 'onChange'>,
@@ -49,9 +50,6 @@ export const styles = createStyles({
     display: 'flex',
     flexDirection: 'column',
     margin: '0 auto',
-  },
-  pickerViewLandscape: {
-    padding: '0 8px',
   },
 });
 
@@ -92,12 +90,18 @@ function Picker({
   );
 
   const { openView, nextView, previousView, setOpenView, handleChangeAndOpenNext } = useViews({
+    view: undefined,
     views,
     openTo,
     onChange: handleDateChange,
-    isMobileKeyboardViewOpen,
-    toggleMobileKeyboardView,
   });
+
+  React.useEffect(() => {
+    if (isMobileKeyboardViewOpen && toggleMobileKeyboardView) {
+      toggleMobileKeyboardView();
+    }
+    // React on `openView` change
+  }, [openView]); // eslint-disable-line
 
   return (
     <div
@@ -122,11 +126,7 @@ function Picker({
         />
       )}
 
-      <div
-        className={clsx(classes.pickerView, {
-          [classes.pickerViewLandscape]: isLandscape,
-        })}
-      >
+      <PickerView>
         {isMobileKeyboardViewOpen ? (
           <MobileKeyboardInputView>
             <KeyboardDateInput
@@ -141,7 +141,7 @@ function Picker({
             {(openView === 'year' || openView === 'month' || openView === 'date') && (
               <DayPicker
                 date={date}
-                changeView={setOpenView}
+                onViewChange={setOpenView}
                 onChange={handleChangeAndOpenNext}
                 view={openView}
                 views={views as DatePickerView[]}
@@ -150,11 +150,10 @@ function Picker({
             )}
 
             {(openView === 'hours' || openView === 'minutes' || openView === 'seconds') && (
-              <ClockView
+              <ClockPicker
                 {...other}
                 date={date}
-                type={openView}
-                onDateChange={handleDateChange}
+                view={openView}
                 onChange={handleChangeAndOpenNext}
                 openNextView={() => setOpenView(nextView)}
                 openPreviousView={() => setOpenView(previousView)}
@@ -165,7 +164,7 @@ function Picker({
             )}
           </React.Fragment>
         )}
-      </div>
+      </PickerView>
     </div>
   );
 }

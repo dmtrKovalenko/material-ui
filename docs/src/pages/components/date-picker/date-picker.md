@@ -74,6 +74,12 @@ For ease of use the date picker will automatically change the layout between por
 
 {{"demo": "pages/components/date-picker/StaticDatePickerLandscape.js", "bg": true}}
 
+## Sub-components
+
+Some lower level sub-components (`DayPicker`, `MonthPicker` and `YearPicker`) are also exported. These are rendering without a wrapper or outer logic (masked input, date values parsing and validation, etc.).
+
+{{"demo": "pages/components/date-picker/InternalPickers.js"}}
+
 ## Custom input component
 
 You can customize rendering of the input with the `renderInput` prop. Make sure to spread `ref` and `inputProps` correctly to the custom input component.

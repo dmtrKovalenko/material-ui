@@ -85,7 +85,7 @@ export default function ServerRequest() {
         renderLoading={() => <PickersCalendarSkeleton />}
         renderDay={(day, _value, DayComponentProps) => {
           const isSelected =
-            DayComponentProps.inCurrentMonth &&
+            !DayComponentProps.outsideCurrentMonth &&
             highlightedDays.indexOf(day.getDate()) > 0;
 
           return (

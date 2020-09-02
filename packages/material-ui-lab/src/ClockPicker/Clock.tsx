@@ -14,7 +14,6 @@ import {
   WrapperVariantContext,
   IsStaticVariantContext,
 } from '../internal/pickers/wrappers/WrapperVariantContext';
-import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 import { PickerSelectionState } from '../internal/pickers/hooks/usePickerState';
 import { useMeridiemMode } from '../internal/pickers/hooks/date-helpers-hooks';
 
@@ -24,7 +23,6 @@ export interface ClockProps<TDate> extends ReturnType<typeof useMeridiemMode> {
   value: number;
   isTimeDisabled: (timeValue: number, type: ClockViewType) => boolean;
   children: React.ReactNode[];
-  onDateChange: PickerOnChangeFn<TDate>;
   onChange: (value: number, isFinish?: PickerSelectionState) => void;
   ampm?: boolean;
   minutesStep?: number;

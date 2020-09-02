@@ -55,7 +55,7 @@ export interface PickersCalendarProps<TDate> extends ExportedCalendarProps<TDate
   currentMonth: TDate;
   reduceAnimations: boolean;
   focusedDay: TDate | null;
-  changeFocusedDay: (newFocusedDay: TDate) => void;
+  onFocusedDayChange: (newFocusedDay: TDate) => void;
   isMonthSwitchingAnimating: boolean;
   onMonthSwitchingAnimationEnd: () => void;
   TransitionProps?: Partial<SlideTransitionProps>;
@@ -110,7 +110,7 @@ function PickersCalendar<TDate>(props: PickersCalendarProps<TDate> & WithStyles<
   const {
     allowKeyboardControl,
     allowSameDateSelection,
-    changeFocusedDay,
+    onFocusedDayChange: changeFocusedDay,
     classes,
     className,
     currentMonth,
@@ -195,15 +195,12 @@ function PickersCalendar<TDate>(props: PickersCalendarProps<TDate> & WithStyles<
             {utils.getWeekArray(currentMonth).map((week) => (
               <div role="row" key={`week-${week[0]}`} className={classes.week}>
                 {week.map((day) => {
-                  const disabled = isDateDisabled(day);
-                  const isDayInCurrentMonth = utils.getMonth(day) === currentMonthNumber;
-
                   const dayProps: PickersDayProps<TDate> = {
                     key: (day as any)?.toString(),
                     day,
                     role: 'cell',
                     isAnimating: isMonthSwitchingAnimating,
-                    disabled,
+                    disabled: isDateDisabled(day),
                     allowKeyboardControl,
                     allowSameDateSelection,
                     focused:
@@ -211,7 +208,7 @@ function PickersCalendar<TDate>(props: PickersCalendarProps<TDate> & WithStyles<
                       Boolean(focusedDay) &&
                       utils.isSameDay(day, nowFocusedDay),
                     today: utils.isSameDay(day, now),
-                    inCurrentMonth: isDayInCurrentMonth,
+                    outsideCurrentMonth: utils.getMonth(day) !== currentMonthNumber,
                     selected: selectedDates.some(
                       (selectedDate) => selectedDate && utils.isSameDay(selectedDate, day),
                     ),

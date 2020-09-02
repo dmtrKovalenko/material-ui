@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createStyles, WithStyles, withStyles, useTheme } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import PickersYear from './PickersYear';
 import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
@@ -22,7 +23,7 @@ export interface ExportedYearPickerProps<TDate> {
 
 export interface YearPickerProps<TDate> extends ExportedYearPickerProps<TDate> {
   allowKeyboardControl?: boolean;
-  changeFocusedDay: (day: TDate) => void;
+  onFocusedDayChange?: (day: TDate) => void;
   date: TDate;
   disableFuture?: boolean | null;
   disablePast?: boolean | null;
@@ -30,6 +31,7 @@ export interface YearPickerProps<TDate> extends ExportedYearPickerProps<TDate> {
   maxDate: TDate;
   minDate: TDate;
   onChange: PickerOnChangeFn<TDate>;
+  className?: string;
 }
 
 export const styles = createStyles({
@@ -43,25 +45,31 @@ export const styles = createStyles({
   },
 });
 
-function YearPicker<TDate>({
-  allowKeyboardControl,
-  changeFocusedDay,
-  classes,
-  date: __dateOrNull,
-  disableFuture,
-  disablePast,
-  isDateDisabled,
-  maxDate,
-  minDate,
-  onChange,
-  onYearChange,
-  shouldDisableYear,
-}: YearPickerProps<TDate> & WithStyles<typeof styles>) {
+const YearPicker = React.forwardRef(function YearPicker<TDate>(
+  props: YearPickerProps<TDate> & WithStyles<typeof styles>,
+  ref: React.Ref<HTMLDivElement>,
+) {
+  const {
+    allowKeyboardControl,
+    onFocusedDayChange,
+    classes,
+    className,
+    date,
+    disableFuture,
+    disablePast,
+    isDateDisabled,
+    maxDate,
+    minDate,
+    onChange,
+    onYearChange,
+    shouldDisableYear,
+  } = props;
+
   const now = useNow<TDate>();
   const theme = useTheme();
   const utils = useUtils<TDate>();
 
-  const selectedDate = __dateOrNull || now;
+  const selectedDate = date || now;
   const currentYear = utils.getYear(selectedDate);
   const wrapperVariant = React.useContext(WrapperVariantContext);
   const selectedYearRef = React.useRef<HTMLButtonElement>(null);
@@ -71,7 +79,10 @@ function YearPicker<TDate>({
     (year: number, isFinish: PickerSelectionState = 'finish') => {
       const submitDate = (newDate: TDate) => {
         onChange(newDate, isFinish);
-        changeFocusedDay(newDate || now);
+
+        if (onFocusedDayChange) {
+          onFocusedDayChange(newDate || now);
+        }
 
         if (onYearChange) {
           onYearChange(newDate);
@@ -101,7 +112,7 @@ function YearPicker<TDate>({
       selectedDate,
       isDateDisabled,
       onChange,
-      changeFocusedDay,
+      onFocusedDayChange,
       onYearChange,
       minDate,
       maxDate,
@@ -129,7 +140,7 @@ function YearPicker<TDate>({
   });
 
   return (
-    <div className={classes.root}>
+    <div ref={ref} className={clsx(classes.root, className)}>
       {utils.getYearRange(minDate, maxDate).map((year) => {
         const yearNumber = utils.getYear(year);
         const selected = yearNumber === currentYear;
@@ -155,8 +166,8 @@ function YearPicker<TDate>({
       })}
     </div>
   );
-}
+});
 
 export default withStyles(styles, { name: 'MuiPickersYearSelection' })(YearPicker) as <TDate>(
-  props: YearPickerProps<TDate>,
+  props: YearPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,
 ) => JSX.Element;

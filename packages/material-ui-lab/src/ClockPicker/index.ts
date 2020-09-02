@@ -1,3 +1,5 @@
-export { default } from './ClockPicker';
+export { default } from './ClockPickerStandalone';
 
-export type ClockPickerProps<TDate> = import('./ClockPicker').ClockPickerProps<TDate>;
+export type ClockPickerProps<TDate> = import('./ClockPickerStandalone').ClockPickerStandaloneProps<
+  TDate
+>;
