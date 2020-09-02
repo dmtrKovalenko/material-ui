@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import { TimePicker } from '@material-ui/lab/TimePicker';
+import TimePicker from '@material-ui/lab/TimePicker';
 
 export default function BasicTimePicker() {
   const [value, setValue] = React.useState(new Date());

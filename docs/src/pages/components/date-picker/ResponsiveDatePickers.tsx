@@ -1,18 +1,16 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
-import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
-import {
-  MobileDatePicker,
-  DesktopDatePicker,
-  DatePicker,
-} from '@material-ui/lab/DatePicker';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import DatePicker from '@material-ui/lab/DatePicker';
+import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
+import DesktopDatePicker from '@material-ui/lab/DesktopDatePicker';
 
 export default function DatePickersVariants() {
   const [value, setValue] = React.useState<Date | null>(new Date());
 
   return (
-    <LocalizaitonProvider dateAdapter={DateFnsAdapter}>
+    <LocalizationProvider dateAdapter={DateFnsAdapter}>
       <div style={{ width: 300 }}>
         <MobileDatePicker
           label="For mobile"
@@ -37,6 +35,6 @@ export default function DatePickersVariants() {
           renderInput={(props) => <TextField {...props} margin="normal" />}
         />
       </div>
-    </LocalizaitonProvider>
+    </LocalizationProvider>
   );
 }

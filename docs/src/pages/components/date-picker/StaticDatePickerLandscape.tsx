@@ -3,7 +3,7 @@ import isWeekend from 'date-fns/isWeekend';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
-import { StaticDatePicker } from '@material-ui/lab/DatePicker';
+import StaticDatePicker from '@material-ui/lab/StaticDatePicker';
 
 export default function StaticDatePickerLandscape() {
   const [value, setValue] = React.useState<Date | null>(new Date());

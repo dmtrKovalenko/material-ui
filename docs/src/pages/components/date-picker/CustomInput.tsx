@@ -2,7 +2,7 @@ import * as React from 'react';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
 import { styled } from '@material-ui/core/styles';
-import { DesktopDatePicker } from '@material-ui/lab/DatePicker';
+import DesktopDatePicker from '@material-ui/lab/DatePicker';
 
 const InputContainer = styled('div')({
   display: 'flex',

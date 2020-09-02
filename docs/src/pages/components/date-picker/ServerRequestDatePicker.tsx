@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
 import PickersDay from '@material-ui/lab/PickersDay';
-import { DatePicker } from '@material-ui/lab/DatePicker';
+import DatePicker from '@material-ui/lab/DatePicker';
 import PickersCalendarSkeleton from '@material-ui/lab/PickersCalendarSkeleton';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 

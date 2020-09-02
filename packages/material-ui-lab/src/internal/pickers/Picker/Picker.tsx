@@ -11,7 +11,7 @@ import { WrapperVariantContext } from '../wrappers/WrapperVariantContext';
 import { PickerSelectionState } from '../hooks/usePickerState';
 import { BasePickerProps, CalendarAndClockProps } from '../typings/BasePicker';
 import { WithViewsProps, SharedPickerProps } from './SharedPickerProps';
-import { AllAvailableViews, DatePickerView } from '../typings/Views';
+import { AllAvailableViews, TimePickerView, DatePickerView } from '../typings/Views';
 import PickerView from './PickerView';
 
 export interface ExportedPickerProps<TView extends AllAvailableViews>
@@ -55,8 +55,11 @@ export const styles = createStyles({
 
 const MobileKeyboardTextFieldProps = { fullWidth: true };
 
-const isDatePickerView = (view: AllAvailableViews) =>
+const isDatePickerView = (view: AllAvailableViews): view is DatePickerView =>
   view === 'year' || view === 'month' || view === 'date';
+
+const isTimePickerView = (view: AllAvailableViews): view is TimePickerView =>
+  view === 'hours' || view === 'minutes' || view === 'seconds';
 
 function Picker({
   classes,
@@ -138,18 +141,18 @@ function Picker({
           </MobileKeyboardInputView>
         ) : (
           <React.Fragment>
-            {(openView === 'year' || openView === 'month' || openView === 'date') && (
+            {isDatePickerView(openView) && (
               <DayPicker
                 date={date}
                 onViewChange={setOpenView}
                 onChange={handleChangeAndOpenNext}
                 view={openView}
-                views={views as DatePickerView[]}
+                views={views.filter(isDatePickerView)}
                 {...other}
               />
             )}
 
-            {(openView === 'hours' || openView === 'minutes' || openView === 'seconds') && (
+            {isTimePickerView(openView) && (
               <ClockPicker
                 {...other}
                 date={date}

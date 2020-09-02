@@ -47,7 +47,7 @@ export type SharedPickerProps<TDate, TWrapper extends SomeWrapper> = ExtendWrapp
 type PickerComponent<
   TViewProps extends AllAvailableForOverrideProps,
   TWrapper extends SomeWrapper
-> = <TDate>(props: TViewProps & SharedPickerProps<TDate, TWrapper>) => JSX.Element;
+> = (props: TViewProps & SharedPickerProps<unknown, TWrapper>) => JSX.Element;
 
 export function makePickerWithStateAndWrapper<
   T extends AllAvailableForOverrideProps,

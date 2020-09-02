@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
@@ -53,6 +54,25 @@ const PickersCalendarSkeleton: React.FC<
       ))}
     </div>
   );
+};
+
+(PickersCalendarSkeleton as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * @ignore
+   */
+  children: PropTypes.node,
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * @ignore
+   */
+  className: PropTypes.string,
 };
 
 export default withStyles(styles, {

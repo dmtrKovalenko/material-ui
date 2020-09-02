@@ -173,6 +173,12 @@ export function parseFromProgram(
       return t.createObjectType();
     }
 
+    const defaultGenericType = type.getDefault();
+    // This is generic type – use default type <T = SomeDefaultType>
+    if (defaultGenericType) {
+      return checkType(defaultGenericType, typeStack, name);
+    }
+
     {
       const typeNode = type as any;
 
@@ -195,6 +201,12 @@ export function parseFromProgram(
         case 'Element':
         case 'HTMLElement': {
           return t.createDOMElementType();
+        }
+        case 'RegExp': {
+          return t.createInstanceOfType('RegExp');
+        }
+        case 'Date': {
+          return t.createInstanceOfType('Date');
         }
         default:
           // continue with function execution
@@ -246,6 +258,11 @@ export function parseFromProgram(
     }
 
     if (type.getCallSignatures().length) {
+      return t.createFunctionType();
+    }
+
+    // () => new ClassInstance
+    if (type.getConstructSignatures().length) {
       return t.createFunctionType();
     }
 
@@ -483,7 +500,15 @@ export function parseFromProgram(
 
   function visit(node: ts.Node) {
     // function x(props: type) { return <div/> }
-    if (ts.isFunctionDeclaration(node) && node.name && node.parameters.length === 1) {
+    if (
+      ts.isFunctionDeclaration(node) &&
+      node.name &&
+      node.parameters.length === 1 &&
+      checker
+        .getTypeAtLocation(node.name)
+        .getCallSignatures()
+        .some((signature) => isTypeJSXElementLike(signature.getReturnType()))
+    ) {
       parseFunctionComponent(node);
     }
     // const x = ...
@@ -537,6 +562,18 @@ export function parseFromProgram(
                   checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration),
                   node.getSourceFile(),
                 );
+              }
+            }
+          }
+          // handle component factories: x = createComponent()
+          else if (variableNode.initializer) {
+            if (checkDeclarations && type.aliasSymbol && type.aliasTypeArguments) {
+              if (
+                type
+                  .getCallSignatures()
+                  .some((signature) => isTypeJSXElementLike(signature.getReturnType()))
+              ) {
+                parseFunctionComponent(variableNode);
               }
             }
           }

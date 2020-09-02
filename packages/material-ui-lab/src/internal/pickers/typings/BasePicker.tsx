@@ -1,11 +1,10 @@
-import { ExportedDayPickerProps } from '@material-ui/lab/DayPicker/DayPicker';
-import { ExportedClockPickerProps } from '@material-ui/lab/ClockPicker/ClockPicker';
 import { ParsableDate } from '../constants/prop-types';
 import { AllAvailableViews } from './Views';
-import { PickerOnChangeFn } from '../hooks/useViews';
 
-export type CalendarAndClockProps<TDate> = ExportedDayPickerProps<TDate> &
-  ExportedClockPickerProps<TDate>;
+export type CalendarAndClockProps<
+  TDate
+> = import('@material-ui/lab/DayPicker/DayPicker').ExportedDayPickerProps<TDate> &
+  import('@material-ui/lab/ClockPicker/ClockPicker').ExportedClockPickerProps<TDate>;
 
 export type ToolbarComponentProps<
   TDate = unknown,
@@ -18,7 +17,7 @@ export type ToolbarComponentProps<
   hideTabs?: boolean;
   isLandscape: boolean;
   isMobileKeyboardViewOpen: boolean;
-  onChange: PickerOnChangeFn<TDate>;
+  onChange: import('../hooks/useViews').PickerOnChangeFn<TDate>;
   openView: TView;
   setOpenView: (view: TView) => void;
   timeIcon?: React.ReactNode;

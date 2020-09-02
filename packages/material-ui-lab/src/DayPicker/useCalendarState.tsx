@@ -6,7 +6,7 @@ import { MuiPickersAdapter, useUtils, useNow } from '../internal/pickers/hooks/u
 interface CalendarState<TDate> {
   isMonthSwitchingAnimating: boolean;
   currentMonth: TDate;
-  focusedDay: TDate;
+  focusedDay: TDate | null;
   slideDirection: SlideDirection;
 }
 

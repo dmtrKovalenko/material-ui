@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PickersMonth from './PickersMonth';
@@ -6,6 +7,7 @@ import { useUtils, useNow } from '../internal/pickers/hooks/useUtils';
 import { PickerOnChangeFn } from '../internal/pickers/hooks/useViews';
 
 export interface MonthPickerProps<TDate> {
+  /** Date value for the MonthPicker */
   date: TDate | null;
   /** Minimal selectable date. */
   minDate: TDate;
@@ -95,6 +97,49 @@ const MonthPicker = React.forwardRef(function MonthPicker<TDate>(
     </div>
   );
 });
+
+(MonthPicker as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * @ignore
+   */
+  className: PropTypes.string,
+  /**
+   * Date value for the MonthPicker
+   */
+  date: PropTypes.any,
+  /**
+   * If `true` future days are disabled.
+   */
+  disableFuture: PropTypes.bool,
+  /**
+   * If `true` past days are disabled.
+   */
+  disablePast: PropTypes.bool,
+  /**
+   * Maximal selectable date.
+   */
+  maxDate: PropTypes.any.isRequired,
+  /**
+   * Minimal selectable date.
+   */
+  minDate: PropTypes.any.isRequired,
+  /**
+   * Callback fired on date change.
+   */
+  onChange: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  onMonthChange: PropTypes.func,
+};
 
 export default withStyles(styles, { name: 'MuiMonthPicker' })(MonthPicker) as <TDate>(
   props: MonthPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,

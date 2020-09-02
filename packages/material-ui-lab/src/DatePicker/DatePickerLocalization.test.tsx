@@ -4,8 +4,9 @@ import 'dayjs/locale/de';
 import deLocale from 'date-fns/locale/de';
 import enLocale from 'date-fns/locale/en-US';
 import TextField from '@material-ui/core/TextField';
+import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
+import DesktopDatePicker, { DesktopDatePickerProps } from '@material-ui/lab/DesktopDatePicker';
 import { fireEvent, screen } from 'test/utils';
-import { DatePickerProps, MobileDatePicker, DesktopDatePicker } from '@material-ui/lab/DatePicker';
 import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
 
 describe('<DatePicker /> localization', () => {
@@ -61,8 +62,8 @@ describe('<DatePicker /> localization', () => {
 
   describe('input validation', () => {
     interface FormProps {
-      Picker: React.ElementType<DatePickerProps>;
-      PickerProps: Partial<DatePickerProps>;
+      Picker: React.ElementType<DesktopDatePickerProps>;
+      PickerProps: Partial<DesktopDatePickerProps>;
     }
 
     const Form = (props: FormProps) => {

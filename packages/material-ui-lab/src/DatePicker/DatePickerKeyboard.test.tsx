@@ -4,11 +4,8 @@ import { spy } from 'sinon';
 import { isWeekend } from 'date-fns';
 import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, act } from 'test/utils';
-import {
-  StaticDatePicker,
-  DesktopDatePicker,
-  DesktopDatePickerProps,
-} from '@material-ui/lab/DatePicker';
+import DesktopDatePicker, { DesktopDatePickerProps } from '@material-ui/lab/DesktopDatePicker';
+import StaticDatePicker from '@material-ui/lab/StaticDatePicker';
 import { createPickerRender } from '../internal/pickers/test-utils';
 import { MakeOptional } from '../internal/pickers/typings/helpers';
 

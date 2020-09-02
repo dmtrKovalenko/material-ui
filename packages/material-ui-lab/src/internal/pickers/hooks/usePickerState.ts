@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useOpenState } from './useOpenState';
 import { WrapperVariant } from '../wrappers/Wrapper';
-import type { BasePickerProps } from '../typings/BasePicker';
+import { BasePickerProps } from '../typings/BasePicker';
 import { useUtils, useNow, MuiPickersAdapter } from './useUtils';
 
 export interface PickerStateValueManager<TInput, TDateValue> {

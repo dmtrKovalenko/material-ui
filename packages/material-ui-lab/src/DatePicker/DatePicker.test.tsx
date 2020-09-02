@@ -5,12 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import { fireEvent, screen, waitFor } from 'test/utils';
 import PickersDay from '@material-ui/lab/PickersDay';
 import CalendarSkeleton from '@material-ui/lab/PickersCalendarSkeleton';
-import {
-  DatePicker,
-  DesktopDatePicker,
-  MobileDatePicker,
-  StaticDatePicker,
-} from '@material-ui/lab/DatePicker';
+import DatePicker from '@material-ui/lab/DatePicker';
+import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
+import DesktopDatePicker from '@material-ui/lab/DesktopDatePicker';
+import StaticDatePicker from '@material-ui/lab/StaticDatePicker';
 import {
   createPickerRender,
   FakeTransitionComponent,

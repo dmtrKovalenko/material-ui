@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizaitonProvider from '@material-ui/lab/LocalizationProvider';
-import { DatePicker } from '@material-ui/lab/DatePicker';
+import DatePicker from '@material-ui/lab/DatePicker';
 
 export default function YearDatePicker() {
   const [value, setValue] = React.useState<Date | null>(new Date());

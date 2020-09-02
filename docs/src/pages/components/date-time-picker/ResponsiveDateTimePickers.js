@@ -2,11 +2,9 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import {
-  MobileDateTimePicker,
-  DesktopDateTimePicker,
-  DateTimePicker,
-} from '@material-ui/lab/DateTimePicker';
+import DateTimePicker from '@material-ui/lab/DateTimePicker';
+import MobileDateTimePicker from '@material-ui/lab/MobileDateTimePicker';
+import DesktopDateTimePicker from '@material-ui/lab/DesktopDateTimePicker';
 
 export default function ResponsiveDateTimePickers() {
   const [value, setValue] = React.useState(

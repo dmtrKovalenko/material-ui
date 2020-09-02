@@ -2,7 +2,9 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { ReactWrapper } from 'enzyme';
 import { mount } from './test-utils';
-import { DesktopDatePicker, DatePickerProps } from '../DatePicker/DatePicker';
+import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
+import DesktopDatePicker from '@material-ui/lab/DesktopDatePicker';
+import StaticDatePicker from '@material-ui/lab/StaticDatePicker';
 
 describe('e2e -- DatePicker keyboard input', () => {
   // Doesn't work

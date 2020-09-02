@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import MonthPicker from '../MonthPicker/MonthPicker';
@@ -21,7 +22,7 @@ export interface DayPickerProps<TDate, TView extends DatePickerView = DatePicker
     ExportedCalendarProps<TDate>,
     ExportedYearPickerProps<TDate>,
     ExportedCalendarHeaderProps<TDate> {
-  date: TDate;
+  date: TDate | null;
   /** Views for day picker. */
   views?: TView[];
   /** Controlled open view. */
@@ -158,7 +159,9 @@ const DayPicker = React.forwardRef(function DayPicker<
   }, []); // eslint-disable-line
 
   React.useEffect(() => {
-    changeMonth(date);
+    if (date) {
+      changeMonth(date);
+    }
   }, [date]); // eslint-disable-line
 
   return (
@@ -197,6 +200,7 @@ const DayPicker = React.forwardRef(function DayPicker<
               onFocusedDayChange={changeFocusedDay}
             />
           )}
+
           {openView === 'month' && (
             <MonthPicker
               {...other}
@@ -207,6 +211,7 @@ const DayPicker = React.forwardRef(function DayPicker<
               onMonthChange={onMonthChange}
             />
           )}
+
           {openView === 'date' && (
             <Calendar
               {...other}
@@ -227,6 +232,107 @@ const DayPicker = React.forwardRef(function DayPicker<
     </PickerView>
   );
 });
+
+(DayPicker as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * Enables keyboard listener for moving between days in calendar.
+   *
+   * @default currentWrapper !== 'static'
+   */
+  allowKeyboardControl: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * @ignore
+   */
+  className: PropTypes.string,
+  /**
+   * @ignore
+   */
+  date: PropTypes.any,
+  /**
+   * Disable future dates.
+   *
+   * @default false
+   */
+  disableFuture: PropTypes.bool,
+  /**
+   * Disable past dates.
+   *
+   * @default false
+   */
+  disablePast: PropTypes.bool,
+  /**
+   * If `true` renders `LoadingComponent` in calendar instead of calendar view.
+   * Can be used to preload information and show it in calendar.
+   *
+   * @default false
+   */
+  loading: PropTypes.bool,
+  /**
+   * Max selectable date. @DateIOType
+   *
+   * @default Date(2099-31-12)
+   */
+  maxDate: PropTypes.any,
+  /**
+   * Min selectable date. @DateIOType
+   *
+   * @default Date(1900-01-01)
+   */
+  minDate: PropTypes.any,
+  /**
+   * Callback fired on date change
+   */
+  onChange: PropTypes.func.isRequired,
+  /**
+   * Callback firing on month change. @DateIOType
+   */
+  onMonthChange: PropTypes.func,
+  /**
+   * Callback fired on view change.
+   */
+  onViewChange: PropTypes.func,
+  /**
+   * Initially open view.
+   */
+  openTo: PropTypes.oneOf(['date', 'month', 'year']),
+  /**
+   * Disable heavy animations.
+   *
+   * @default /(android)/i.test(window.navigator.userAgent).
+   */
+  reduceAnimations: PropTypes.bool,
+  /**
+   * Component displaying when passed `loading` true.
+   *
+   * @default () => "..."
+   */
+  renderLoading: PropTypes.func,
+  /**
+   * Disable specific date. @DateIOType
+   */
+  shouldDisableDate: PropTypes.func,
+  /**
+   * Disable specific years dynamically.
+   * Works like `shouldDisableDate` but for year selection view. @DateIOType.
+   */
+  shouldDisableYear: PropTypes.func,
+  /**
+   * Controlled open view.
+   */
+  view: PropTypes.oneOf(['date', 'month', 'year']),
+  /**
+   * Views for day picker.
+   */
+  views: PropTypes.arrayOf(PropTypes.oneOf(['date', 'month', 'year']).isRequired),
+};
 
 export default withStyles(styles, { name: 'MuiDayPicker' })(DayPicker) as <TDate>(
   props: DayPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,

@@ -312,13 +312,136 @@ function ClockPicker<TDate>(props: ClockPickerProps<TDate> & WithStyles<typeof s
   );
 }
 
-ClockPicker.propTypes = {
+(ClockPicker as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * Enables keyboard listener for moving between days in calendar.
+   *
+   * @default currentWrapper !== 'static'
+   */
+  allowKeyboardControl: PropTypes.bool,
+  /**
+   * 12h/24h view for hour selection clock.
+   *
+   * @default true
+   */
   ampm: PropTypes.bool,
-  date: PropTypes.object,
+  /**
+   * Display ampm controls under the clock (instead of in the toolbar).
+   *
+   * @default false
+   */
+  ampmInClock: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * Selected date @DateIOType.
+   */
+  date: PropTypes.any,
+  /**
+   * Do not ignore date part when validating min/max time.
+   *
+   * @default false
+   */
+  disableIgnoringDatePartForTimeValidation: PropTypes.bool,
+  /**
+   * Accessible text that helps user to understand which time and view is selected.
+   * @default (view, time) => `Select ${view}. Selected time is ${format(time, 'fullTime')}`
+   */
+  getClockLabelText: PropTypes.func,
+  /**
+   * Get clock number aria-text for hours.
+   */
+  getHoursClockNumberText: PropTypes.func,
+  /**
+   * Get clock number aria-text for minutes.
+   */
+  getMinutesClockNumberText: PropTypes.func,
+  /**
+   * Get clock number aria-text for seconds.
+   */
+  getSecondsClockNumberText: PropTypes.func,
+  /**
+   * Props to pass to left arrow button.
+   * @type {Partial<IconButtonProps>}
+   */
+  leftArrowButtonProps: PropTypes.object,
+  /**
+   * Left arrow icon aria-label text.
+   */
+  leftArrowButtonText: PropTypes.string,
+  /**
+   * Left arrow icon.
+   */
+  leftArrowIcon: PropTypes.node,
+  /**
+   * Max time acceptable time.
+   * For input validation date part of passed object will be ignored if `disableIgnoringDatePartForTimeValidation` not specified.
+   */
+  maxTime: PropTypes.any,
+  /**
+   * Min time acceptable time.
+   * For input validation date part of passed object will be ignored if `disableIgnoringDatePartForTimeValidation` not specified.
+   */
+  minTime: PropTypes.any,
+  /**
+   * Step over minutes.
+   *
+   * @default 1
+   */
   minutesStep: PropTypes.number,
+  /**
+   * @ignore
+   */
+  nextViewAvailable: PropTypes.bool.isRequired,
+  /**
+   * On change callback @DateIOType.
+   */
   onChange: PropTypes.func.isRequired,
-  view: PropTypes.oneOf(['minutes', 'hours', 'seconds']).isRequired,
-} as any;
+  /**
+   * @ignore
+   */
+  openNextView: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  openPreviousView: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  previousViewAvailable: PropTypes.bool.isRequired,
+  /**
+   * Props to pass to right arrow button.
+   * @type {Partial<IconButtonProps>}
+   */
+  rightArrowButtonProps: PropTypes.object,
+  /**
+   * Right arrow icon aria-label text.
+   */
+  rightArrowButtonText: PropTypes.string,
+  /**
+   * Right arrow icon.
+   */
+  rightArrowIcon: PropTypes.node,
+  /**
+   * Dynamically check if time is disabled or not.
+   * If returns `false` appropriate time point will ot be acceptable.
+   */
+  shouldDisableTime: PropTypes.func,
+  /**
+   * @ignore
+   */
+  showViewSwitcher: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  view: PropTypes.oneOf(['hours', 'minutes', 'seconds']).isRequired,
+};
 
 export default withStyles(styles, { name: 'MuiPickersClockView' })(ClockPicker) as <TDate>(
   props: ClockPickerProps<TDate>,

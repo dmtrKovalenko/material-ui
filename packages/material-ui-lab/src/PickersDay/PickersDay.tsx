@@ -261,9 +261,104 @@ export const areDayPropsEqual = (
   );
 };
 
-PickersDay.propTypes = {
+(PickersDay as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * If `true`, keyboard control and focus management is enabled.
+   */
+  allowKeyboardControl: PropTypes.bool,
+  /**
+   * If `true`, will fire `onChange` on click even if same date is selected.
+   *
+   * @default false
+   */
+  allowSameDateSelection: PropTypes.bool,
+  /**
+   * The content of the component.
+   */
+  children: PropTypes.node,
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * @ignore
+   */
+  className: PropTypes.string,
+  /**
+   * The date to show.
+   */
+  day: PropTypes.any.isRequired,
+  /**
+   * If `true`, renders as disabled.
+   */
   disabled: PropTypes.bool,
+  /**
+   * If `true`, todays date is rendering without highlighting with circle.
+   *
+   * @default false
+   */
+  disableHighlightToday: PropTypes.bool,
+  /**
+   * If `true`, days are rendering without margin. Useful for displaying linked range of days.
+   */
+  disableMargin: PropTypes.bool,
+  /**
+   * If `true`, allows to focus by tabbing.
+   */
+  focusable: PropTypes.bool,
+  /**
+   * If `true`, the day element will be focused during the first mount.
+   */
+  focused: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  hidden: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  isAnimating: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  onClick: PropTypes.func,
+  /**
+   * @ignore
+   */
+  onDayFocus: PropTypes.func,
+  /**
+   * @ignore
+   */
+  onDaySelect: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  onFocus: PropTypes.func,
+  /**
+   * @ignore
+   */
+  onKeyDown: PropTypes.func,
+  /**
+   * If `true`, day is outside of month and will be hidden.
+   */
+  outsideCurrentMonth: PropTypes.bool.isRequired,
+  /**
+   * If `true`, renders as selected.
+   */
   selected: PropTypes.bool,
+  /**
+   * If `true`, days that have `outsideCurrentMonth={true}` are displayed.
+   *
+   * @default false
+   */
+  showDaysOutsideCurrentMonth: PropTypes.bool,
+  /**
+   * If `true`, renders as today date.
+   */
   today: PropTypes.bool,
 };
 

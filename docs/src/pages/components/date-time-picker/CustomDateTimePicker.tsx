@@ -5,10 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import ClockIcon from '@material-ui/icons/AccessTime';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import {
-  DateTimePicker,
-  MobileDateTimePicker,
-} from '@material-ui/lab/DateTimePicker';
+import DateTimePicker from '@material-ui/lab/DateTimePicker';
+import MobileDateTimePicker from '@material-ui/lab/MobileDateTimePicker';
 
 export default function CustomDateTimePicker() {
   const [clearedDate, setClearedDate] = React.useState<Date | null>(null);

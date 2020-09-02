@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { createStyles, WithStyles, withStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PickersYear from './PickersYear';
@@ -24,7 +25,7 @@ export interface ExportedYearPickerProps<TDate> {
 export interface YearPickerProps<TDate> extends ExportedYearPickerProps<TDate> {
   allowKeyboardControl?: boolean;
   onFocusedDayChange?: (day: TDate) => void;
-  date: TDate;
+  date: TDate | null;
   disableFuture?: boolean | null;
   disablePast?: boolean | null;
   isDateDisabled: (day: TDate) => boolean;
@@ -167,6 +168,66 @@ const YearPicker = React.forwardRef(function YearPicker<TDate>(
     </div>
   );
 });
+
+(YearPicker as any).propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |    To update them edit typescript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * @ignore
+   */
+  allowKeyboardControl: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  classes: PropTypes.object.isRequired,
+  /**
+   * @ignore
+   */
+  className: PropTypes.string,
+  /**
+   * @ignore
+   */
+  date: PropTypes.any,
+  /**
+   * @ignore
+   */
+  disableFuture: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  disablePast: PropTypes.bool,
+  /**
+   * @ignore
+   */
+  isDateDisabled: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  maxDate: PropTypes.any.isRequired,
+  /**
+   * @ignore
+   */
+  minDate: PropTypes.any.isRequired,
+  /**
+   * @ignore
+   */
+  onChange: PropTypes.func.isRequired,
+  /**
+   * @ignore
+   */
+  onFocusedDayChange: PropTypes.func,
+  /**
+   * Callback firing on year change @DateIOType.
+   */
+  onYearChange: PropTypes.func,
+  /**
+   * Disable specific years dynamically.
+   * Works like `shouldDisableDate` but for year selection view. @DateIOType.
+   */
+  shouldDisableYear: PropTypes.func,
+};
 
 export default withStyles(styles, { name: 'MuiPickersYearSelection' })(YearPicker) as <TDate>(
   props: YearPickerProps<TDate> & React.RefAttributes<HTMLDivElement>,

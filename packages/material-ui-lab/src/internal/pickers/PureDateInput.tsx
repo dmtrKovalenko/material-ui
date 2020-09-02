@@ -35,7 +35,7 @@ export interface DateInputProps<TInputValue = ParsableDate, TDateValue = unknown
    * renderInput={props => <TextField {...props} />}
    * ````
    */
-  renderInput: (props: MuiTextFieldProps) => React.ReactElement;
+  renderInput: (props: MuiTextFieldPropsType) => React.ReactElement;
   /**
    * Icon displaying for open picker button.
    */
@@ -140,6 +140,7 @@ export const PureDateInput: React.FC<DateInputProps & DateInputRefs> = ({
     InputProps: PureDateInputProps,
     inputProps: {
       disabled,
+      readOnly: true,
       'aria-readonly': true,
       'aria-label': getOpenDialogAriaText(rawValue, utils),
       value: inputValue,

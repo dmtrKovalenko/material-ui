@@ -7,7 +7,7 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import TextField from '@material-ui/core/TextField';
 import DateFnsAdapter from '@material-ui/lab/dateAdapter/date-fns';
-import { DatePicker } from '@material-ui/lab/DatePicker';
+import DatePicker from '@material-ui/lab/DatePicker';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 
 const localeMap = {
