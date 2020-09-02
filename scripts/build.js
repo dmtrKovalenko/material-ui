@@ -44,12 +44,12 @@ async function run(argv) {
     '--config-file',
     babelConfigPath,
     '--extensions',
-    '".js,.ts"',
+    '".js,.ts,.tsx"',
     srcDir,
     '--out-dir',
     outDir,
     '--ignore',
-    '"**/*.test.js","**/*.spec.ts","**/*.d.ts"',
+    '"**/*.test.js","**/*.test.ts","**/*.test.tsx","**/*.spec.ts","**/*.spec.tsx","**/*.d.ts"',
   ].join(' ');
 
   if (verbose) {

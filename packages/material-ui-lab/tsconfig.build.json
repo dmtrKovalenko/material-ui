@@ -5,8 +5,7 @@
     "declaration": true,
     "rootDir": "./src",
     "outDir": "./build",
-    "emitDeclarationOnly": true,
-    "importsNotUsedAsValues": "remove"
+    "emitDeclarationOnly": true
   },
   "include": ["src/**/*.ts*"],
   "exclude": ["src/**/*.d.ts", "src/**/*.test.*", "./**/*.spec.*", "**/test-utils.tsx"]

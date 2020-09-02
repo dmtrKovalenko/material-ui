@@ -54,4 +54,6 @@ export default React.forwardRef(function ClockPickerStandalone<TDate>(
       />
     </PickerView>
   );
-});
+}) as <TDate>(
+  props: ClockPickerStandaloneProps<TDate> & React.RefAttributes<HTMLDivElement>,
+) => JSX.Element;
