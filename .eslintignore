@@ -21,6 +21,3 @@
 /tmp
 build
 node_modules
-
-# TODO remove after pickers migration 
-/packages/pickers/
