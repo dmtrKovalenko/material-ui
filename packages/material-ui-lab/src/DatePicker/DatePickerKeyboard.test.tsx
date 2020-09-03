@@ -30,7 +30,7 @@ describe('<DatePicker /> keyboard interactions', () => {
   const render = createPickerRender({ strict: false });
 
   context('input', () => {
-    it('Allows to change selected date from the input according to `format`', () => {
+    it('allows to change selected date from the input according to `format`', () => {
       const onChangeMock = spy();
       render(<TestKeyboardDatePicker onChange={onChangeMock} inputFormat="dd/MM/yyyy" />);
 
@@ -42,7 +42,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(onChangeMock.callCount).to.equal(1);
     });
 
-    it("Doesn't accept invalid date format", () => {
+    it("doesn't accept invalid date format", () => {
       render(<TestKeyboardDatePicker />);
 
       fireEvent.change(screen.getByRole('textbox'), {
@@ -51,7 +51,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(screen.getByRole('textbox')).to.have.attr('aria-invalid', 'true');
     });
 
-    it('Removes invalid state when chars are cleared from invalid input', () => {
+    it('removes invalid state when chars are cleared from invalid input', () => {
       render(<TestKeyboardDatePicker />);
 
       fireEvent.change(screen.getByRole('textbox'), {
@@ -64,7 +64,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(screen.getByRole('textbox')).to.have.attr('aria-invalid', 'false');
     });
 
-    it('Renders correct format helper text and placeholder', () => {
+    it('renders correct format helper text and placeholder', () => {
       render(
         <TestKeyboardDatePicker
           mask="____"
@@ -79,7 +79,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(screen.getByRole('textbox')).to.have.attr('placeholder', 'yyyy');
     });
 
-    it('Correctly input dates according to the input mask', () => {
+    it('correctly input dates according to the input mask', () => {
       render(<TestKeyboardDatePicker />);
       const input = screen.getByRole('textbox');
 
@@ -94,7 +94,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(input).to.have.value('01/10/2019');
     });
 
-    it('Prop `disableMaskedInput` – disables mask and allows to input anything to the field', () => {
+    it('prop `disableMaskedInput` – disables mask and allows to input anything to the field', () => {
       render(<TestKeyboardDatePicker disableMaskedInput />);
 
       fireEvent.change(screen.getByRole('textbox'), {
@@ -106,7 +106,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       expect(input).to.have.attr('aria-invalid', 'true');
     });
 
-    it('Prop `disableMaskedInput` – correctly parses date string when mask is disabled', () => {
+    it('prop `disableMaskedInput` – correctly parses date string when mask is disabled', () => {
       const onChangeMock = spy();
       render(<TestKeyboardDatePicker onChange={onChangeMock} disableMaskedInput />);
 
@@ -135,7 +135,7 @@ describe('<DatePicker /> keyboard interactions', () => {
       );
     });
 
-    it('Autofocus selected day on mount', () => {
+    it('autofocus selected day on mount', () => {
       expect(screen.getByLabelText('Aug 13, 2020')).toHaveFocus();
     });
 
@@ -155,7 +155,7 @@ describe('<DatePicker /> keyboard interactions', () => {
     });
   });
 
-  it("Doesn't allow to select disabled date from keyboard", async () => {
+  it("doesn't allow to select disabled date from keyboard", async () => {
     render(
       <StaticDatePicker
         allowKeyboardControl

@@ -23,7 +23,7 @@ import {
 describe('<DatePicker />', () => {
   const render = createPickerRender({ strict: false });
 
-  it('Render proper month', () => {
+  it('render proper month', () => {
     render(
       <StaticDatePicker
         value={adapterToUse.date('01-01-2019')}
@@ -37,7 +37,7 @@ describe('<DatePicker />', () => {
     expect(getAllByMuiTest('day')).to.have.length(31);
   });
 
-  it('Desktop Mode – Accepts date on day button click', () => {
+  it('desktop Mode – Accepts date on day button click', () => {
     const onChangeMock = spy();
 
     render(
@@ -57,7 +57,7 @@ describe('<DatePicker />', () => {
     expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
-  it('Mobile mode – Accepts date on `OK` button click', () => {
+  it('mobile mode – Accepts date on `OK` button click', () => {
     const onChangeMock = spy();
     render(
       <MobileDatePicker
@@ -80,7 +80,7 @@ describe('<DatePicker />', () => {
     expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
-  it('Switches between months', () => {
+  it('switches between months', () => {
     render(
       <StaticDatePicker
         reduceAnimations
@@ -102,7 +102,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('calendar-month-text')).to.have.text('December');
   });
 
-  it('Selects the closest enabled date if selected date is disabled', () => {
+  it('selects the closest enabled date if selected date is disabled', () => {
     const onChangeMock = spy();
 
     render(
@@ -122,7 +122,7 @@ describe('<DatePicker />', () => {
     expect(onChangeMock.calledWith(adapterToUse.date('01-01-2018'))).to.be.equal(true);
   });
 
-  it('Allows to change only year', () => {
+  it('allows to change only year', () => {
     const onChangeMock = spy();
     render(
       <MobileDatePicker
@@ -140,7 +140,7 @@ describe('<DatePicker />', () => {
     expect(onChangeMock.callCount).to.equal(1);
   });
 
-  it('Allows to select edge years from list', () => {
+  it('allows to select edge years from list', () => {
     render(
       <DatePicker
         open
@@ -158,7 +158,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('datepicker-toolbar-date')).to.have.text('Fri, Jan 1');
   });
 
-  it("Doesn't close picker on selection in Mobile mode", () => {
+  it("doesn't close picker on selection in Mobile mode", () => {
     render(
       <MobileDatePicker
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
@@ -173,7 +173,7 @@ describe('<DatePicker />', () => {
     expect(screen.queryByRole('dialog')).toBeVisible();
   });
 
-  it('Closes picker on selection in Desktop mode', async () => {
+  it('closes picker on selection in Desktop mode', async () => {
     render(
       <DesktopDatePicker
         TransitionComponent={FakeTransitionComponent}
@@ -191,7 +191,7 @@ describe('<DatePicker />', () => {
     expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
-  it('Prop `clearable` - renders clear button in Mobile mode', () => {
+  it('prop `clearable` - renders clear button in Mobile mode', () => {
     const onChangeMock = spy();
     render(
       <MobileDatePicker
@@ -210,7 +210,7 @@ describe('<DatePicker />', () => {
     expect(screen.queryByRole('dialog')).to.equal(null);
   });
 
-  it("Prop `disableCloseOnSelect` – if `true` doesn't close picker", () => {
+  it("prop `disableCloseOnSelect` – if `true` doesn't close picker", () => {
     render(
       <DesktopDatePicker
         TransitionComponent={FakeTransitionComponent}
@@ -246,7 +246,7 @@ describe('<DatePicker />', () => {
     expect(onChangeMock.callCount).to.equal(0);
   });
 
-  it('Allows to change selected date from the input according to `format`', () => {
+  it('allows to change selected date from the input according to `format`', () => {
     const onChangeMock = spy();
     render(
       <DesktopDatePicker
@@ -271,7 +271,7 @@ describe('<DatePicker />', () => {
     expect(onChangeMock.callCount).to.equal(1);
   });
 
-  it('Prop `showToolbar` – renders toolbar in desktop mode', () => {
+  it('prop `showToolbar` – renders toolbar in desktop mode', () => {
     render(
       <DesktopDatePicker
         open
@@ -286,7 +286,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('picker-toolbar')).toBeVisible();
   });
 
-  it('Prop `toolbarTitle` – should render title from the prop', () => {
+  it('prop `toolbarTitle` – should render title from the prop', () => {
     render(
       <MobileDatePicker
         renderInput={(props) => <TextField {...props} />}
@@ -301,7 +301,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('picker-toolbar-title').textContent).to.equal('test');
   });
 
-  it('Prop `toolbarTitle` – should use label if no toolbar title', () => {
+  it('prop `toolbarTitle` – should use label if no toolbar title', () => {
     render(
       <MobileDatePicker
         open
@@ -315,7 +315,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('picker-toolbar-title').textContent).to.equal('Default label');
   });
 
-  it('Prop `toolbarFormat` – should format toolbar according to passed format', () => {
+  it('prop `toolbarFormat` – should format toolbar according to passed format', () => {
     render(
       <MobileDatePicker
         renderInput={(props) => <TextField {...props} />}
@@ -329,7 +329,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('datepicker-toolbar-date').textContent).to.equal('January');
   });
 
-  it('Prop `showTodayButton` – accept current date when "today" button is clicked', () => {
+  it('prop `showTodayButton` – accept current date when "today" button is clicked', () => {
     const onCloseMock = spy();
     const onChangeMock = spy();
     render(
@@ -382,7 +382,7 @@ describe('<DatePicker />', () => {
     fireEvent.click(screen.getByText('test'));
   });
 
-  it('Prop `shouldDisableYear` – disables years dynamically', () => {
+  it('prop `shouldDisableYear` – disables years dynamically', () => {
     render(
       <StaticDatePicker
         renderInput={(props) => <TextField {...props} />}
@@ -404,7 +404,7 @@ describe('<DatePicker />', () => {
     expect(getYearButton(2031)).not.to.have.attribute('disabled');
   });
 
-  it('Prop `onMonthChange` – dispatches callback when months switching', () => {
+  it('prop `onMonthChange` – dispatches callback when months switching', () => {
     const onMonthChangeMock = spy();
     render(
       <MobileDatePicker
@@ -420,7 +420,7 @@ describe('<DatePicker />', () => {
     expect(onMonthChangeMock.callCount).to.equal(1);
   });
 
-  it('Prop `loading` – displays default loading indicator', () => {
+  it('prop `loading` – displays default loading indicator', () => {
     render(
       <MobileDatePicker
         open
@@ -435,7 +435,7 @@ describe('<DatePicker />', () => {
     expect(getByMuiTest('loading-progress')).toBeVisible();
   });
 
-  it('Prop `renderLoading` – displays custom loading indicator', () => {
+  it('prop `renderLoading` – displays custom loading indicator', () => {
     render(
       <MobileDatePicker
         loading

@@ -27,7 +27,7 @@ describe('<TimePicker />', () => {
     return event;
   }
 
-  it('Accepts time on clock mouse move', () => {
+  it('accepts time on clock mouse move', () => {
     const onChangeMock = spy();
     render(
       <MobileTimePicker
@@ -52,7 +52,7 @@ describe('<TimePicker />', () => {
     expect(onChangeMock.callCount).to.equal(1);
   });
 
-  it('Accepts time on clock touch move', () => {
+  it('accepts time on clock touch move', () => {
     const onChangeMock = spy();
     render(
       <MobileTimePicker
@@ -77,7 +77,7 @@ describe('<TimePicker />', () => {
     expect(getByMuiTest('minutes')).to.have.text('53');
   });
 
-  it('Allows to navigate between timepicker views using arrow switcher', () => {
+  it('allows to navigate between timepicker views using arrow switcher', () => {
     render(
       <DesktopTimePicker
         open
@@ -105,7 +105,7 @@ describe('<TimePicker />', () => {
     expect(nextViewButton).to.have.attribute('disabled');
   });
 
-  it('Allows to select full date from empty', () => {
+  it('allows to select full date from empty', () => {
     function TimePickerWithState() {
       const [time, setTime] = React.useState(null);
 
@@ -188,12 +188,12 @@ describe('<TimePicker />', () => {
       );
     });
 
-    it('Should select enabled hour', () => {
+    it('should select enabled hour', () => {
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
       expect(getByMuiTest('hours')).to.have.text('13');
     });
 
-    it('Should select enabled minute', () => {
+    it('should select enabled minute', () => {
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
       fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['13:--']);
 
@@ -202,26 +202,26 @@ describe('<TimePicker />', () => {
       expect(getByMuiTest('minutes')).to.have.text('20');
     });
 
-    it('Should not select minute when hour is disabled ', () => {
+    it('should not select minute when hour is disabled ', () => {
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['20:--']);
       fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['20:--']);
 
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
     });
 
-    it('Should not select disabled hour', () => {
+    it('should not select disabled hour', () => {
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['20:--']);
       expect(getByMuiTest('hours')).to.have.text('00');
     });
 
-    it('Should not select disabled second', () => {
+    it('should not select disabled second', () => {
       fireEvent.click(getByMuiTest('seconds'));
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
 
       expect(getByMuiTest('seconds')).to.have.text('00');
     });
 
-    it('Should select enabled second', () => {
+    it('should select enabled second', () => {
       fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
       fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['13:--']);
 

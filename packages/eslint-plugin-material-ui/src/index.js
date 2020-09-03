@@ -4,4 +4,5 @@ module.exports.rules = {
   'docgen-ignore-before-comment': require('./rules/docgen-ignore-before-comment'),
   'no-hardcoded-labels': require('./rules/no-hardcoded-labels'),
   'rules-of-use-theme-variants': require('./rules/rules-of-use-theme-variants'),
+  'lower-case-test-name': require('./rules/lower-case-test-name'),
 };
