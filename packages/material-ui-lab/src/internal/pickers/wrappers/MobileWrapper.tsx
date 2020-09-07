@@ -6,7 +6,7 @@ import { WrapperVariantContext } from './WrapperVariantContext';
 import PickersModalDialog from '../PickersModalDialog';
 import { MobileWrapperProps, PrivateWrapperProps } from './WrapperProps';
 
-export const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> = (props) => {
+const MobileWrapper: React.FC<MobileWrapperProps & PrivateWrapperProps> = (props) => {
   const {
     cancelText,
     children,

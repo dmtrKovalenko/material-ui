@@ -49,6 +49,24 @@ export * from './MobileDateTimePicker';
 export { default as StaticDateTimePicker } from './StaticDateTimePicker';
 export * from './StaticDateTimePicker';
 
+export { default as DateRangePicker } from './DateRangePicker';
+export * from './DateRangePicker';
+
+export {
+  default as DesktopDateRangePicker,
+  DesktopDateRangePickerProps,
+} from './DesktopDateRangePicker';
+
+export {
+  default as MobileDateRangePicker,
+  MobileDateRangePickerProps,
+} from './MobileDateRangePicker';
+
+export {
+  default as StaticDateRangePicker,
+  StaticDateRangePickerProps,
+} from './StaticDateRangePicker';
+
 export { default as ClockPicker } from './ClockPicker';
 export * from './ClockPicker';
 

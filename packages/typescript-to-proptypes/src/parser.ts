@@ -221,6 +221,14 @@ export function parseFromProgram(
       return t.createArrayType(checkType(arrayType, typeStack, name));
     }
 
+    // @ts-ignore Potentially dangerous undocumented stuff
+    if (checker.isTupleType(type)) {
+      return t.createArrayType(
+        // @ts-ignore
+        t.createUnionType(type.typeArguments.map((x) => checkType(x, typeStack, name))),
+      );
+    }
+
     if (type.isUnion()) {
       const node = t.createUnionType(type.types.map((x) => checkType(x, typeStack, name)));
 
@@ -543,7 +551,7 @@ export function parseFromProgram(
           ) {
             parseFunctionComponent(variableNode);
           }
-          // x = react.memo((props:type) { return <div/> })
+          //  x = react.memo((props:type) { return <div/> })
           else if (
             ts.isCallExpression(variableNode.initializer) &&
             variableNode.initializer.arguments.length > 0
@@ -566,7 +574,7 @@ export function parseFromProgram(
             }
           }
           // handle component factories: x = createComponent()
-          else if (variableNode.initializer) {
+          if (variableNode.initializer) {
             if (checkDeclarations && type.aliasSymbol && type.aliasTypeArguments) {
               if (
                 type

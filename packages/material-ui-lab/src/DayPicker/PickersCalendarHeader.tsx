@@ -42,7 +42,7 @@ export interface PickersCalendarHeaderProps<TDate>
    */
   getViewSwitchingButtonText?: (currentView: DatePickerView) => string;
   reduceAnimations: boolean;
-  onViewChange: (view: DatePickerView) => void;
+  onViewChange?: (view: DatePickerView) => void;
   onMonthChange: (date: TDate, slideDirection: SlideDirection) => void;
 }
 
@@ -124,7 +124,7 @@ function PickersCalendarHeader<TDate>(
   const isPreviousMonthDisabled = usePreviousMonthDisabled(month, { disablePast, minDate });
 
   const toggleView = () => {
-    if (views.length === 1) {
+    if (views.length === 1 || !onViewChange) {
       return;
     }
 

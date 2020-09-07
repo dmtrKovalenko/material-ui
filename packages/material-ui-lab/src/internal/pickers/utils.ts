@@ -62,3 +62,5 @@ export function mergeRefs<T>(refs: Array<React.Ref<T | null> | undefined>) {
     });
   };
 }
+
+export const doNothing = () => {};

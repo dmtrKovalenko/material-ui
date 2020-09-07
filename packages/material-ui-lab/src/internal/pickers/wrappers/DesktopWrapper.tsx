@@ -6,7 +6,7 @@ import PickersPopper from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
 import { PrivateWrapperProps, DesktopWrapperProps } from './WrapperProps';
 
-export const DesktopWrapper: React.FC<PrivateWrapperProps & DesktopWrapperProps> = (props) => {
+const DesktopWrapper: React.FC<PrivateWrapperProps & DesktopWrapperProps> = (props) => {
   const {
     children,
     DateInputProps,

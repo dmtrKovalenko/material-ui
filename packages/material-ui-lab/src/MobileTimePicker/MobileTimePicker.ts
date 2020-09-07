@@ -77,13 +77,13 @@ const MobileTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(Mobi
    */
   DialogProps: PropTypes.object,
   /**
-   * If `true` picker will immediately close after submitting full date.
+   * If `true` the popup or dialog will immediately close after submitting full date.
    *
    * @default `true` for Desktop, `false` for Mobile (based on the chosen wrapper and `desktopModeMediaQuery` prop).
    */
   disableCloseOnSelect: PropTypes.bool,
   /**
-   * Disable picker and text field.
+   * If `true`, the picker and text field are disabled.
    */
   disabled: PropTypes.bool,
   /**
@@ -180,11 +180,12 @@ const MobileTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(Mobi
    */
   onAccept: PropTypes.func,
   /**
-   * onChange callback @DateIOType.
+   * Callback fired when the value (the selected date) changes. @DateIOType.
    */
   onChange: PropTypes.func.isRequired,
   /**
-   * On close callback.
+   * Callback fired when the popup requests to be closed.
+   * Use in controlled mode (see open).
    */
   onClose: PropTypes.func,
   /**
@@ -197,11 +198,12 @@ const MobileTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(Mobi
    */
   onError: PropTypes.func,
   /**
-   * On open callback.
+   * Callback fired when the popup requests to be opened.
+   * Use in controlled mode (see open).
    */
   onOpen: PropTypes.func,
   /**
-   * Controlled picker open state.
+   * Control the popup or dialog open state.
    */
   open: PropTypes.bool,
   /**
@@ -251,7 +253,7 @@ const MobileTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(Mobi
    */
   showTodayButton: PropTypes.bool,
   /**
-   * Show toolbar even in desktop mode.
+   * If `true`, show the toolbar even in desktop mode.
    */
   showToolbar: PropTypes.bool,
   /**
@@ -281,7 +283,7 @@ const MobileTimePicker = makePickerWithStateAndWrapper<BaseTimePickerProps>(Mobi
    */
   toolbarTitle: PropTypes.node,
   /**
-   * Picker value.
+   * The value of the picker.
    */
   value: PropTypes.oneOfType([
     PropTypes.any,

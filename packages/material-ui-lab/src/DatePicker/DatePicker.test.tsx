@@ -480,4 +480,18 @@ describe('<DatePicker />', () => {
 
     expect(screen.getAllByTestId('test-day')).to.have.length(31);
   });
+
+  it('prop `defaultCalendarMonth` – opens on provided month if date is `null`', () => {
+    render(
+      <MobileDatePicker
+        renderInput={(props) => <TextField {...props} />}
+        open
+        value={null}
+        onChange={() => {}}
+        defaultCalendarMonth={new Date('2018-07-01T00:00:00.000Z')}
+      />,
+    );
+
+    expect(screen.getByText('July')).toBeVisible();
+  });
 });

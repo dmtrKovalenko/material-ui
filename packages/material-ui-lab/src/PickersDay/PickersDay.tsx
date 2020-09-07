@@ -108,19 +108,16 @@ export interface PickersDayProps<TDate> extends ExtendMui<ButtonBaseProps> {
   disableMargin?: boolean;
   /**
    * If `true`, days that have `outsideCurrentMonth={true}` are displayed.
-   *
    * @default false
    */
   showDaysOutsideCurrentMonth?: boolean;
   /**
    * If `true`, todays date is rendering without highlighting with circle.
-   *
    * @default false
    */
   disableHighlightToday?: boolean;
   /**
-   * If `true`, will fire `onChange` on click even if same date is selected.
-   *
+   * If `true`, `onChange` is fired on click even if the same date is selected.
    * @default false
    */
   allowSameDateSelection?: boolean;
@@ -271,8 +268,7 @@ export const areDayPropsEqual = (
    */
   allowKeyboardControl: PropTypes.bool,
   /**
-   * If `true`, will fire `onChange` on click even if same date is selected.
-   *
+   * If `true`, `onChange` is fired on click even if the same date is selected.
    * @default false
    */
   allowSameDateSelection: PropTypes.bool,
@@ -298,7 +294,6 @@ export const areDayPropsEqual = (
   disabled: PropTypes.bool,
   /**
    * If `true`, todays date is rendering without highlighting with circle.
-   *
    * @default false
    */
   disableHighlightToday: PropTypes.bool,
@@ -352,7 +347,6 @@ export const areDayPropsEqual = (
   selected: PropTypes.bool,
   /**
    * If `true`, days that have `outsideCurrentMonth={true}` are displayed.
-   *
    * @default false
    */
   showDaysOutsideCurrentMonth: PropTypes.bool,
@@ -364,4 +358,4 @@ export const areDayPropsEqual = (
 
 export default withStyles(styles, { name: 'MuiPickersDay' })(
   React.memo(PickersDay, areDayPropsEqual),
-) as <TDate>(props: PickersDayProps<TDate>) => JSX.Element;
+) as <TDate>(props: PickersDayProps<TDate> & React.RefAttributes<HTMLButtonElement>) => JSX.Element;

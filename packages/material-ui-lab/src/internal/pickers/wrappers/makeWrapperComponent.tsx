@@ -5,13 +5,13 @@ import { SomeWrapper } from './Wrapper';
 import { StaticWrapperProps, DateInputPropsLike, WrapperProps } from './WrapperProps';
 
 interface MakePickerOptions {
-  PureDateInputComponent?: React.ComponentType<DateInputPropsLike<any, any>>;
-  KeyboardDateInputComponent?: React.ComponentType<DateInputPropsLike<any, any>>;
+  PureDateInputComponent?: React.ComponentType<DateInputPropsLike>;
+  KeyboardDateInputComponent?: React.ComponentType<DateInputPropsLike>;
 }
 
 interface WithWrapperProps {
   children: React.ReactNode;
-  DateInputProps: DateInputPropsLike<any, any>;
+  DateInputProps: DateInputPropsLike;
   wrapperProps: Omit<WrapperProps, 'DateInputProps'>;
 }
 

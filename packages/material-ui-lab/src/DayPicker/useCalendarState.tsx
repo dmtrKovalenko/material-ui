@@ -71,14 +71,16 @@ type CalendarStateInput<TDate> = Pick<
   | 'date'
   | 'reduceAnimations'
   | 'onMonthChange'
+  | 'defaultCalendarMonth'
+  | 'minDate'
+  | 'maxDate'
 > & {
-  minDate: TDate;
-  maxDate: TDate;
   disableSwitchToMonthOnDayFocus?: boolean;
 };
 
 export function useCalendarState<TDate>({
   date,
+  defaultCalendarMonth,
   disableFuture,
   disablePast,
   disableSwitchToMonthOnDayFocus = false,
@@ -90,7 +92,7 @@ export function useCalendarState<TDate>({
 }: CalendarStateInput<TDate>) {
   const now = useNow<TDate>();
   const utils = useUtils<TDate>();
-  const dateForMonth = date || now;
+
   const reducerFn = React.useRef(
     createCalendarStateReducer(Boolean(reduceAnimations), disableSwitchToMonthOnDayFocus, utils),
   ).current;
@@ -98,7 +100,7 @@ export function useCalendarState<TDate>({
   const [calendarState, dispatch] = React.useReducer(reducerFn, {
     isMonthSwitchingAnimating: false,
     focusedDay: date,
-    currentMonth: utils.startOfMonth(dateForMonth),
+    currentMonth: utils.startOfMonth(date ?? defaultCalendarMonth ?? now),
     slideDirection: 'left',
   });
 

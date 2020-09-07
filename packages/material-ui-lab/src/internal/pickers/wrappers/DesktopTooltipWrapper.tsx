@@ -6,9 +6,7 @@ import PickersPopper from '../PickersPopper';
 import { CanAutoFocusContext, useAutoFocusControl } from '../hooks/useCanAutoFocus';
 import { PrivateWrapperProps, DesktopWrapperProps } from './WrapperProps';
 
-export const DesktopTooltipWrapper: React.FC<PrivateWrapperProps & DesktopWrapperProps> = (
-  props,
-) => {
+const DesktopTooltipWrapper: React.FC<PrivateWrapperProps & DesktopWrapperProps> = (props) => {
   const {
     open,
     children,
@@ -19,7 +17,7 @@ export const DesktopTooltipWrapper: React.FC<PrivateWrapperProps & DesktopWrappe
     KeyboardDateInputComponent = KeyboardDateInput,
   } = props;
   const inputRef = React.useRef<HTMLDivElement>(null);
-  const popperRef = React.useRef<HTMLElement>(null);
+  const popperRef = React.useRef<HTMLDivElement>(null);
   const { canAutoFocus, onOpen } = useAutoFocusControl(open);
 
   const handleBlur = () => {
@@ -46,7 +44,7 @@ export const DesktopTooltipWrapper: React.FC<PrivateWrapperProps & DesktopWrappe
         <PickersPopper
           role="tooltip"
           open={open}
-          innerRef={popperRef}
+          containerRef={popperRef}
           anchorEl={inputRef.current}
           TransitionComponent={TransitionComponent}
           PopperProps={PopperProps}

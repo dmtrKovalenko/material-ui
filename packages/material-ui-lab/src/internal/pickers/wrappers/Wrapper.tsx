@@ -1,8 +1,8 @@
 import StaticWrapper from './StaticWrapper';
-import { MobileWrapper } from './MobileWrapper';
-import { DesktopWrapper } from './DesktopWrapper';
+import MobileWrapper from './MobileWrapper';
+import DesktopWrapper from './DesktopWrapper';
 import { ResponsiveWrapper, ResponsiveWrapperProps } from './ResponsiveWrapper';
-import { DesktopTooltipWrapper } from './DesktopTooltipWrapper';
+import DesktopTooltipWrapper from './DesktopTooltipWrapper';
 import {
   StaticWrapperProps,
   MobileWrapperProps,

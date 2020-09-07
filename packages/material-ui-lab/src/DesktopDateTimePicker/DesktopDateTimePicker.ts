@@ -34,8 +34,7 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   allowKeyboardControl: PropTypes.bool,
   /**
-   * If `true`, will fire `onChange` on click even if same date is selected.
-   *
+   * If `true`, `onChange` is fired on click even if the same date is selected.
    * @default false
    */
   allowSameDateSelection: PropTypes.bool,
@@ -67,13 +66,18 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   dateRangeIcon: PropTypes.node,
   /**
-   * If `true` picker will immediately close after submitting full date.
+   * Default calendar month displayed when `value={null}`.
+   * @default `new Date()`
+   */
+  defaultCalendarMonth: PropTypes.any,
+  /**
+   * If `true` the popup or dialog will immediately close after submitting full date.
    *
    * @default `true` for Desktop, `false` for Mobile (based on the chosen wrapper and `desktopModeMediaQuery` prop).
    */
   disableCloseOnSelect: PropTypes.bool,
   /**
-   * Disable picker and text field.
+   * If `true`, the picker and text field are disabled.
    */
   disabled: PropTypes.bool,
   /**
@@ -84,7 +88,6 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
   disableFuture: PropTypes.bool,
   /**
    * If `true`, todays date is rendering without highlighting with circle.
-   *
    * @default false
    */
   disableHighlightToday: PropTypes.bool,
@@ -246,11 +249,12 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   onAccept: PropTypes.func,
   /**
-   * onChange callback @DateIOType.
+   * Callback fired when the value (the selected date) changes. @DateIOType.
    */
   onChange: PropTypes.func.isRequired,
   /**
-   * On close callback.
+   * Callback fired when the popup requests to be closed.
+   * Use in controlled mode (see open).
    */
   onClose: PropTypes.func,
   /**
@@ -267,7 +271,8 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   onMonthChange: PropTypes.func,
   /**
-   * On open callback.
+   * Callback fired when the popup requests to be opened.
+   * Use in controlled mode (see open).
    */
   onOpen: PropTypes.func,
   /**
@@ -279,7 +284,7 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   onYearChange: PropTypes.func,
   /**
-   * Controlled picker open state.
+   * Control the popup or dialog open state.
    */
   open: PropTypes.bool,
   /**
@@ -366,12 +371,11 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
   shouldDisableYear: PropTypes.func,
   /**
    * If `true`, days that have `outsideCurrentMonth={true}` are displayed.
-   *
    * @default false
    */
   showDaysOutsideCurrentMonth: PropTypes.bool,
   /**
-   * Show toolbar even in desktop mode.
+   * If `true`, show the toolbar even in desktop mode.
    */
   showToolbar: PropTypes.bool,
   /**
@@ -403,7 +407,7 @@ const DesktopDateTimePicker = makePickerWithStateAndWrapper<BaseDateTimePickerPr
    */
   TransitionComponent: PropTypes.elementType,
   /**
-   * Picker value.
+   * The value of the picker.
    */
   value: PropTypes.oneOfType([
     PropTypes.any,

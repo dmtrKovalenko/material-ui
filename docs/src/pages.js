@@ -119,6 +119,7 @@ const pages = [
           { pathname: '/components/alert' },
           { pathname: '/components/autocomplete' },
           { pathname: '/components/date-picker' },
+          { pathname: '/components/date-range-picker' },
           { pathname: '/components/date-time-picker' },
           { pathname: '/components/time-picker' },
           { pathname: '/components/pagination' },

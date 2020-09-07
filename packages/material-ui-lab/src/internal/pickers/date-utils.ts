@@ -1,3 +1,4 @@
+import { RangeInput, NonEmptyDateRange, DateRange } from '../../DateRangePicker/RangeTypes';
 import { arrayIncludes } from './utils';
 import { ParsableDate } from './constants/prop-types';
 import { BasePickerProps } from './typings/BasePicker';
@@ -114,6 +115,46 @@ export function parsePickerInputValue(
   return utils.isValid(parsedValue) ? parsedValue : null;
 }
 
+export function parseRangeInputValue<TDate>(
+  utils: MuiPickersAdapter,
+  { value = [null, null] }: BasePickerProps<RangeInput<TDate>, DateRange<TDate>>,
+) {
+  return value.map((date) =>
+    !utils.isValid(date) || date === null ? null : utils.startOfDay(utils.date(date)),
+  ) as DateRange<TDate>;
+}
+
+export const isRangeValid = <TDate>(
+  utils: MuiPickersAdapter<TDate>,
+  range: DateRange<TDate> | null,
+): range is NonEmptyDateRange<TDate> => {
+  return Boolean(range && range[0] && range[1] && utils.isBefore(range[0], range[1]));
+};
+
+export const isWithinRange = <TDate>(
+  utils: MuiPickersAdapter<TDate>,
+  day: TDate,
+  range: DateRange<TDate> | null,
+) => {
+  return isRangeValid(utils, range) && utils.isWithinRange(day, range);
+};
+
+export const isStartOfRange = <TDate>(
+  utils: MuiPickersAdapter<TDate>,
+  day: TDate,
+  range: DateRange<TDate> | null,
+) => {
+  return isRangeValid(utils, range) && utils.isSameDay(day, range[0]!);
+};
+
+export const isEndOfRange = <TDate>(
+  utils: MuiPickersAdapter<TDate>,
+  day: TDate,
+  range: DateRange<TDate> | null,
+) => {
+  return isRangeValid(utils, range) && utils.isSameDay(day, range[1]!);
+};
+
 export interface DateValidationProps<TDate> {
   /**
    * Min selectable date. @DateIOType
@@ -185,7 +226,32 @@ export type DateValidationError = ReturnType<typeof validateDate>;
 
 type DateRangeValidationErrorValue = DateValidationError | 'invalidRange' | null;
 
-export type DateRangeValidationError = [
-  DateRangeValidationErrorValue,
-  DateRangeValidationErrorValue,
-];
+export const validateDateRange = <TDate>(
+  utils: MuiPickersAdapter<TDate>,
+  value: RangeInput<TDate>,
+  dateValidationProps: DateValidationProps<TDate>,
+): [DateRangeValidationErrorValue, DateRangeValidationErrorValue] => {
+  const [start, end] = value;
+
+  // for partial input
+  if (start === null || end === null) {
+    return [null, null];
+  }
+
+  const dateValidations = [
+    validateDate(utils, start, dateValidationProps),
+    validateDate(utils, end, dateValidationProps),
+  ] as [DateRangeValidationErrorValue, DateRangeValidationErrorValue];
+
+  if (dateValidations[0] || dateValidations[1]) {
+    return dateValidations;
+  }
+
+  if (!isRangeValid(utils, [utils.date(start), utils.date(end)])) {
+    return ['invalidRange', 'invalidRange'];
+  }
+
+  return [null, null];
+};
+
+export type DateRangeValidationError = ReturnType<typeof validateDateRange>;

@@ -88,8 +88,8 @@ const PickersArrowSwitcher = React.forwardRef<
   return (
     <div className={clsx(classes.root, className)} ref={ref} {...other}>
       <IconButton
-        data-mui-test="previous-arrow-button"
         size="small"
+        aria-hidden={isLeftHidden}
         aria-label={leftArrowButtonText}
         {...leftArrowButtonProps}
         disabled={isLeftDisabled}
@@ -107,14 +107,14 @@ const PickersArrowSwitcher = React.forwardRef<
         </Typography>
       )}
       <IconButton
-        data-mui-test="next-arrow-button"
         size="small"
+        aria-hidden={isRightHidden}
         aria-label={rightArrowButtonText}
         {...rightArrowButtonProps}
         disabled={isRightDisabled}
         onClick={onRightClick}
         className={clsx(classes.iconButton, rightArrowButtonProps?.className, {
-          [classes.hidden]: Boolean(isRightHidden),
+          [classes.hidden]: isRightHidden,
         })}
       >
         {isRtl ? leftArrowIcon : rightArrowIcon}

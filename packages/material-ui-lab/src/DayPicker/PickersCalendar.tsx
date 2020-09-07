@@ -191,7 +191,7 @@ function PickersCalendar<TDate>(props: PickersCalendarProps<TDate> & WithStyles<
           className={clsx(classes.root, className)}
           {...TransitionProps}
         >
-          <div role="grid" className={classes.weekContainer}>
+          <div data-mui-test="pickers-calendar" role="grid" className={classes.weekContainer}>
             {utils.getWeekArray(currentMonth).map((week) => (
               <div role="row" key={`week-${week[0]}`} className={classes.week}>
                 {week.map((day) => {

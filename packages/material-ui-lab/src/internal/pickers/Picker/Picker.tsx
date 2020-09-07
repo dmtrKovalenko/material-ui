@@ -28,7 +28,7 @@ export type PickerProps<
   TDateValue = any
 > = ExportedPickerProps<TView> & SharedPickerProps<TInputValue, TDateValue>;
 
-const MobileKeyboardInputView = styled('div')(
+export const MobileKeyboardInputView = styled('div')(
   {
     padding: '16px 24px',
   },

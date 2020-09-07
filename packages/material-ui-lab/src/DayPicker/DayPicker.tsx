@@ -43,6 +43,11 @@ export interface DayPickerProps<TDate, TView extends DatePickerView = DatePicker
    * Callback firing on month change. @DateIOType
    */
   onMonthChange?: (date: TDate) => void;
+  /**
+   * Default calendar month displayed when `value={null}`.
+   * @default `new Date()`
+   */
+  defaultCalendarMonth?: TDate;
   className?: string;
 }
 
@@ -90,6 +95,7 @@ const DayPicker = React.forwardRef(function DayPicker<
     date,
     disableFuture,
     disablePast,
+    defaultCalendarMonth,
     classes,
     loading,
     maxDate: maxDateProp,
@@ -131,6 +137,7 @@ const DayPicker = React.forwardRef(function DayPicker<
     onMonthSwitchingAnimationEnd,
   } = useCalendarState({
     date,
+    defaultCalendarMonth,
     reduceAnimations,
     onMonthChange,
     minDate,
@@ -256,6 +263,11 @@ const DayPicker = React.forwardRef(function DayPicker<
    * @ignore
    */
   date: PropTypes.any,
+  /**
+   * Default calendar month displayed when `value={null}`.
+   * @default `new Date()`
+   */
+  defaultCalendarMonth: PropTypes.any,
   /**
    * Disable future dates.
    *

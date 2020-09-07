@@ -30,15 +30,15 @@ export type ToolbarComponentProps<
 
 export interface BasePickerProps<TInputValue = ParsableDate, TDateValue = unknown> {
   /**
-   * Picker value.
+   * The value of the picker.
    */
   value: TInputValue;
   /**
-   * onChange callback @DateIOType.
+   * Callback fired when the value (the selected date) changes. @DateIOType.
    */
   onChange: (date: TDateValue, keyboardInputValue?: string) => void;
   /**
-   * If `true` picker will immediately close after submitting full date.
+   * If `true` the popup or dialog will immediately close after submitting full date.
    *
    * @default `true` for Desktop, `false` for Mobile (based on the chosen wrapper and `desktopModeMediaQuery` prop).
    */
@@ -48,7 +48,7 @@ export interface BasePickerProps<TInputValue = ParsableDate, TDateValue = unknow
    */
   inputFormat?: string;
   /**
-   * Disable picker and text field.
+   * If `true`, the picker and text field are disabled.
    */
   disabled?: boolean;
   /**
@@ -60,19 +60,21 @@ export interface BasePickerProps<TInputValue = ParsableDate, TDateValue = unknow
    */
   onAccept?: (date: TDateValue | null) => void;
   /**
-   * On open callback.
+   * Callback fired when the popup requests to be opened.
+   * Use in controlled mode (see open).
    */
   onOpen?: () => void;
   /**
-   * On close callback.
+   * Callback fired when the popup requests to be closed.
+   * Use in controlled mode (see open).
    */
   onClose?: () => void;
   /**
-   * Controlled picker open state.
+   * Control the popup or dialog open state.
    */
   open?: boolean;
   /**
-   * Show toolbar even in desktop mode.
+   * If `true`, show the toolbar even in desktop mode.
    */
   showToolbar?: boolean;
   /**

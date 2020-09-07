@@ -13,11 +13,7 @@ export type AllSharedPickerProps<TInputValue = any, TDateValue = any> = BasePick
   ExportedDateInputProps<TInputValue, TDateValue> &
   WithDateAdapterProps<TDateValue>;
 
-export interface SharedPickerProps<
-  TInputValue,
-  TDateValue,
-  TInputProps = DateInputPropsLike<TInputValue, TDateValue>
-> {
+export interface SharedPickerProps<TInputValue, TDateValue, TInputProps = DateInputPropsLike> {
   isMobileKeyboardViewOpen: boolean;
   toggleMobileKeyboardView: () => void;
   DateInputProps: TInputProps;

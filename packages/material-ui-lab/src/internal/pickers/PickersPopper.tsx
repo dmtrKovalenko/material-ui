@@ -29,6 +29,7 @@ export interface PickerPopperProps extends ExportedPickerPopperProps, MuiPaperPr
   TrapFocusProps?: Partial<MuiTrapFocusProps>;
   anchorEl: MuiPopperProps['anchorEl'];
   open: MuiPopperProps['open'];
+  containerRef?: React.Ref<HTMLDivElement>;
   onClose: () => void;
   onOpen: () => void;
 }
@@ -56,7 +57,7 @@ const PickersPopper: React.FC<PickerPopperProps & WithStyles<typeof styles>> = (
     anchorEl,
     children,
     classes,
-    innerRef = null,
+    containerRef = null,
     onClose,
     onOpen,
     open,
@@ -66,7 +67,7 @@ const PickersPopper: React.FC<PickerPopperProps & WithStyles<typeof styles>> = (
     TrapFocusProps,
   } = props;
   const paperRef = React.useRef<HTMLElement>(null);
-  const handlePopperRef = useForkRef(paperRef, innerRef);
+  const handlePopperRef = useForkRef(paperRef, containerRef);
   const lastFocusedElementRef = React.useRef<Element | null>(null);
   const popperOptions = React.useMemo(() => ({ onCreate: onOpen }), [onOpen]);
 
