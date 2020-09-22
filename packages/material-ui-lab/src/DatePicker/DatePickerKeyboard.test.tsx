@@ -264,8 +264,6 @@ describe('<DatePicker /> keyboard interactions', () => {
       keyCode: 13,
     });
 
-    screen.debug();
-
     expect(screen.queryByRole('dialog')).toBeVisible();
   });
 });
