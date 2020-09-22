@@ -1,6 +1,7 @@
 ---
 title: Hidden React component
 components: Hidden
+githubLabel: 'component: Hidden'
 ---
 
 # Hidden
@@ -11,6 +12,8 @@ All elements are visible unless **they are explicitly hidden**.
 To ease integration with Material-UI's [responsive breakpoints](/customization/breakpoints/),
 this component can be used to hide any content,
 or you can use it in conjunction with the [`Grid`](/components/grid/) component.
+
+{{"component": "modules/components/ComponentLinkHeader.js", "design": false}}
 
 ## How it works
 
@@ -41,21 +44,21 @@ If you are using server-side rendering, you can set `implementation="css"` if yo
 
 ## Breakpoint up
 
-Using any breakpoint `up` property, the given _children_ will be hidden _at or above_ the breakpoint.
+Using any breakpoint `up` prop, the given _children_ will be hidden _at or above_ the breakpoint.
 
 {{"demo": "pages/components/hidden/BreakpointUp.js", "bg": true}}
 
 ## Breakpoint down
 
-Using any breakpoint `down` property, the given _children_ will be hidden _at or below_ the breakpoint.
+Using any breakpoint `down` prop, the given _children_ will be hidden _at or below_ the breakpoint.
 
 {{"demo": "pages/components/hidden/BreakpointDown.js", "bg": true}}
 
 ## Breakpoint only
 
-Using the breakpoint `only` property, the given _children_ will be hidden _at_ the specified breakpoint(s).
+Using the breakpoint `only` prop, the given _children_ will be hidden _at_ the specified breakpoint(s).
 
-The `only` property can be used in two ways:
+The `only` prop can be used in two ways:
 
 - list a single breakpoint
 - list an array of breakpoints

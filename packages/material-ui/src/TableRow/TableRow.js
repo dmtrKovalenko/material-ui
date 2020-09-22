@@ -76,7 +76,6 @@ TableRow.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -90,10 +89,12 @@ TableRow.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the table row will shade on hover.
+   * @default false
    */
   hover: PropTypes.bool,
   /**
    * If `true`, the table row will have the selected shading.
+   * @default false
    */
   selected: PropTypes.bool,
 };

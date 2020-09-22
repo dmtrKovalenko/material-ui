@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Head from 'docs/src/modules/components/Head';
@@ -13,7 +13,7 @@ const styles = (theme) => ({
   },
   container: {
     marginBottom: theme.spacing(20),
-    maxWidth: 680 + theme.spacing(8 + 4),
+    maxWidth: `calc(680px + ${theme.spacing(12)})`,
     '& .markdownElement': {
       [theme.breakpoints.up('md')]: {
         paddingRight: theme.spacing(4),

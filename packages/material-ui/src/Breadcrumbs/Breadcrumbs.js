@@ -62,13 +62,16 @@ const Breadcrumbs = React.forwardRef(function Breadcrumbs(props, ref) {
 
   const [expanded, setExpanded] = React.useState(false);
 
+  const listRef = React.useRef(null);
   const renderItemsBeforeAndAfter = (allItems) => {
-    const handleClickExpand = (event) => {
+    const handleClickExpand = () => {
       setExpanded(true);
 
       // The clicked element received the focus but gets removed from the DOM.
       // Let's keep the focus in the component after expanding.
-      const focusable = event.currentTarget.parentNode.querySelector('a[href],button,[tabindex]');
+      // Moving it the the <ol> or <nav> does not cause any announcement in NVDA.
+      // By moving it to some link/button at least we have some announcement.
+      const focusable = listRef.current.querySelector('a[href],button,[tabindex]');
       if (focusable) {
         focusable.focus();
       }
@@ -124,7 +127,7 @@ const Breadcrumbs = React.forwardRef(function Breadcrumbs(props, ref) {
       className={clsx(classes.root, className)}
       {...other}
     >
-      <ol className={classes.ol}>
+      <ol className={classes.ol} ref={listRef}>
         {insertSeparators(
           expanded || (maxItems && allItems.length <= maxItems)
             ? allItems
@@ -148,7 +151,6 @@ Breadcrumbs.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -164,24 +166,29 @@ Breadcrumbs.propTypes = {
    * Override the default label for the expand button.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'Show path'
    */
   expandText: PropTypes.string,
   /**
    * If max items is exceeded, the number of items to show after the ellipsis.
+   * @default 1
    */
   itemsAfterCollapse: PropTypes.number,
   /**
    * If max items is exceeded, the number of items to show before the ellipsis.
+   * @default 1
    */
   itemsBeforeCollapse: PropTypes.number,
   /**
    * Specifies the maximum number of breadcrumbs to display. When there are more
    * than the maximum number, only the first `itemsBeforeCollapse` and last `itemsAfterCollapse`
    * will be shown, with an ellipsis in between.
+   * @default 8
    */
   maxItems: PropTypes.number,
   /**
    * Custom separator node.
+   * @default '/'
    */
   separator: PropTypes.node,
 };

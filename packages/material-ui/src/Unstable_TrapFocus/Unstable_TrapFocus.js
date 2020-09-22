@@ -54,6 +54,14 @@ function Unstable_TrapFocus(props) {
     }
 
     activated.current = !disableAutoFocus;
+  }, [disableAutoFocus, open]);
+
+  React.useEffect(() => {
+    // We might render an empty child.
+    if (!open || !rootRef.current) {
+      return;
+    }
+
     const doc = ownerDocument(rootRef.current);
 
     if (!rootRef.current.contains(doc.activeElement)) {
@@ -75,7 +83,42 @@ function Unstable_TrapFocus(props) {
       }
     }
 
+    return () => {
+      // restoreLastFocus()
+      if (!disableRestoreFocus) {
+        // In IE 11 it is possible for document.activeElement to be null resulting
+        // in nodeToRestore.current being null.
+        // Not all elements in IE 11 have a focus method.
+        // Once IE 11 support is dropped the focus() call can be unconditional.
+        if (nodeToRestore.current && nodeToRestore.current.focus) {
+          ignoreNextEnforceFocus.current = true;
+          nodeToRestore.current.focus();
+        }
+
+        nodeToRestore.current = null;
+      }
+    };
+    // Missing `disableRestoreFocus` which is fine.
+    // We don't support changing that prop on an open TrapFocus
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  React.useEffect(() => {
+    // We might render an empty child.
+    if (!open || !rootRef.current) {
+      return;
+    }
+
+    const doc = ownerDocument(rootRef.current);
+
     const contain = (nativeEvent) => {
+      const { current: rootElement } = rootRef;
+      // Cleanup functions are executed lazily in React 17.
+      // Contain can be called between the component being unmounted and its cleanup function being run.
+      if (rootElement === null) {
+        return;
+      }
+
       if (
         !doc.hasFocus() ||
         disableEnforceFocus ||
@@ -86,11 +129,7 @@ function Unstable_TrapFocus(props) {
         return;
       }
 
-      if (!activated.current) {
-        nodeToRestore.current = doc.activeElement;
-      }
-
-      if (!rootRef.current.contains(doc.activeElement)) {
+      if (!rootElement.contains(doc.activeElement)) {
         // if the focus event is not coming from inside the children's react tree, reset the refs
         if (
           (nativeEvent && reactFocusEventTarget.current !== nativeEvent.target) ||
@@ -105,15 +144,14 @@ function Unstable_TrapFocus(props) {
           return;
         }
 
-        rootRef.current.focus();
+        rootElement.focus();
       } else {
         activated.current = true;
       }
     };
 
     const loopFocus = (nativeEvent) => {
-      // 9 = Tab
-      if (disableEnforceFocus || !isEnabled() || nativeEvent.keyCode !== 9) {
+      if (disableEnforceFocus || !isEnabled() || nativeEvent.key !== 'Tab') {
         return;
       }
 
@@ -130,7 +168,7 @@ function Unstable_TrapFocus(props) {
       }
     };
 
-    doc.addEventListener('focus', contain, true);
+    doc.addEventListener('focusin', contain);
     doc.addEventListener('keydown', loopFocus, true);
 
     // With Edge, Safari and Firefox, no focus related events are fired when the focused area stops being a focused area.
@@ -148,25 +186,15 @@ function Unstable_TrapFocus(props) {
     return () => {
       clearInterval(interval);
 
-      doc.removeEventListener('focus', contain, true);
+      doc.removeEventListener('focusin', contain);
       doc.removeEventListener('keydown', loopFocus, true);
-
-      // restoreLastFocus()
-      if (!disableRestoreFocus) {
-        // In IE 11 it is possible for document.activeElement to be null resulting
-        // in nodeToRestore.current being null.
-        // Not all elements in IE 11 have a focus method.
-        // Once IE 11 support is dropped the focus() call can be unconditional.
-        if (nodeToRestore.current && nodeToRestore.current.focus) {
-          nodeToRestore.current.focus();
-        }
-
-        nodeToRestore.current = null;
-      }
     };
   }, [disableAutoFocus, disableEnforceFocus, disableRestoreFocus, isEnabled, open]);
 
   const onFocus = (event) => {
+    if (!activated.current) {
+      nodeToRestore.current = event.relatedTarget;
+    }
     activated.current = true;
     reactFocusEventTarget.current = event.target;
 
@@ -201,6 +229,7 @@ Unstable_TrapFocus.propTypes = {
    *
    * Generally this should never be set to `true` as it makes the trap focus less
    * accessible to assistive technologies, like screen readers.
+   * @default false
    */
   disableAutoFocus: PropTypes.bool,
   /**
@@ -208,11 +237,13 @@ Unstable_TrapFocus.propTypes = {
    *
    * Generally this should never be set to `true` as it makes the trap focus less
    * accessible to assistive technologies, like screen readers.
+   * @default false
    */
   disableEnforceFocus: PropTypes.bool,
   /**
    * If `true`, the trap focus will not restore focus to previously focused element once
    * trap focus is hidden.
+   * @default false
    */
   disableRestoreFocus: PropTypes.bool,
   /**

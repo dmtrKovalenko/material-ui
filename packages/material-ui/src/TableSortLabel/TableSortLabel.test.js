@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { expect } from 'chai';
 import { createClientRender, getClasses, createMount, describeConformance } from 'test/utils';
-import Sort from '@material-ui/icons/Sort';
+import SortIcon from '@material-ui/icons/Sort';
 import TableSortLabel from './TableSortLabel';
 import ButtonBase from '../ButtonBase';
 
@@ -57,9 +57,8 @@ describe('<TableSortLabel />', () => {
     });
 
     it('should accept a custom icon for the sort icon', () => {
-      const { container } = render(<TableSortLabel IconComponent={Sort} />);
-      const icon = container.querySelector(`svg.${classes.icon}[data-mui-test="SortIcon"]`);
-      expect(icon).to.not.equal(null);
+      const { getAllByTestId } = render(<TableSortLabel IconComponent={SortIcon} />);
+      expect(getAllByTestId('SortIcon')).to.not.equal(null);
     });
   });
 

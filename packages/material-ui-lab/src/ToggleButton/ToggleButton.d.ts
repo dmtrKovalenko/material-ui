@@ -11,11 +11,30 @@ export type ToggleButtonTypeMap<
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Pseudo-class applied to the root element if `disabled={true}`. */
+      disabled?: string;
+      /** Pseudo-class applied to the root element if `selected={true}`. */
+      selected?: string;
+      /** Styles applied to the `label` wrapper element. */
+      label?: string;
+      /** Styles applied to the root element if `size="small"`. */
+      sizeSmall?: string;
+      /** Styles applied to the root element if `size="large"`. */
+      sizeLarge?: string;
+    };
+    /**
      * If `true`, the button will be disabled.
+     * @default false
      */
     disabled?: boolean;
     /**
      * If `true`, the  keyboard focus ripple will be disabled.
+     * @default false
      */
     disableFocusRipple?: boolean;
     /**
@@ -25,6 +44,7 @@ export type ToggleButtonTypeMap<
     /**
      * The size of the button.
      * The prop defaults to the value injected by the parent ToggleButtonGroup component.
+     * @default 'medium'
      */
     size?: 'small' | 'medium' | 'large';
     /**
@@ -34,7 +54,6 @@ export type ToggleButtonTypeMap<
     value: NonNullable<unknown>;
   };
   defaultComponent: D;
-  classKey: ToggleButtonClassKey;
 }>;
 
 /**
@@ -55,12 +74,6 @@ export type ToggleButtonProps<
   P = {}
 > = OverrideProps<ToggleButtonTypeMap<P, D>, D>;
 
-export type ToggleButtonClassKey =
-  | 'root'
-  | 'disabled'
-  | 'selected'
-  | 'label'
-  | 'sizeSmall'
-  | 'sizeLarge';
+export type ToggleButtonClassKey = keyof NonNullable<ToggleButtonTypeMap['props']['classes']>;
 
 export default ToggleButton;

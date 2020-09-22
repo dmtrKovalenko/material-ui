@@ -42,6 +42,7 @@ Timeline.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * The position where the timeline's content should appear.
+   * @default 'left'
    */
   align: PropTypes.oneOf(['alternate', 'left', 'right']),
   /**
@@ -50,7 +51,6 @@ Timeline.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**

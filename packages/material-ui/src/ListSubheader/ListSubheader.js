@@ -82,7 +82,6 @@ ListSubheader.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -91,6 +90,7 @@ ListSubheader.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'default'
    */
   color: PropTypes.oneOf(['default', 'inherit', 'primary']),
   /**
@@ -100,14 +100,17 @@ ListSubheader.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the List Subheader will not have gutters.
+   * @default false
    */
   disableGutters: PropTypes.bool,
   /**
    * If `true`, the List Subheader will not stick to the top during scroll.
+   * @default false
    */
   disableSticky: PropTypes.bool,
   /**
    * If `true`, the List Subheader will be indented.
+   * @default false
    */
   inset: PropTypes.bool,
 };

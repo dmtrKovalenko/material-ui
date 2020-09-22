@@ -21,7 +21,7 @@ A function which returns [a class name generator function](https://cssinjs.org/j
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import {
   StylesProvider,
   createGenerateClassName,
@@ -88,13 +88,13 @@ Link a style sheet with a function component using the **hook** pattern.
 ### Returns
 
 `hook`: A hook. This hook can be used in a function component. The documentation often calls this returned hook `useStyles`.
-It accepts one argument: the properties that will be used for "interpolation" in
+It accepts one argument: the props that will be used for "interpolation" in
 the style sheet.
 
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -169,7 +169,7 @@ Link a style sheet with a function component using the **styled components** pat
 3. `options` (_Object_ [optional]):
 
 - `options.defaultTheme` (_Object_ [optional]): The default theme to use if a theme isn't supplied through a Theme Provider.
-- `options.withTheme` (_Boolean_ [optional]): Defaults to `false`. Provide the `theme` object to the component as a property.
+- `options.withTheme` (_Boolean_ [optional]): Defaults to `false`. Provide the `theme` object to the component as a prop.
 - `options.name` (_String_ [optional]): The name of the style sheet. Useful for debugging.
   If the value isn't provided, it will try to fallback to the name of the component.
 - `options.flip` (_Boolean_ [optional]): When set to `false`, this sheet will opt-out the `rtl` transformation. When set to `true`, the styles are inversed. When set to `null`, it follows `theme.direction`.
@@ -182,7 +182,7 @@ Link a style sheet with a function component using the **styled components** pat
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { styled } from '@material-ui/core/styles';
 
 const MyComponent = styled('div')({
@@ -210,18 +210,18 @@ It should preferably be used at **the root of your component tree**.
 
 ### Props
 
-| Name              | Type   | Default | Description                                                                                                                                                                                                                                                                                                                          |
-| :---------------- | :----- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| children&nbsp;\*  | node   |         | Your component tree.                                                                                                                                                                                                                                                                                                                 |
-| disableGeneration | bool   | false   | You can disable the generation of the styles with this option. It can be useful when traversing the React tree outside of the HTML rendering step on the server. Let's say you are using react-apollo to extract all the queries made by the interface server-side. You can significantly speed up the traversal with this property. |
-| generateClassName | func   |         | JSS's class name generator.                                                                                                                                                                                                                                                                                                          |
-| injectFirst       | bool   | false   | By default, the styles are injected last in the `<head>` element of the page. As a result, they gain more specificity than any other style sheet. If you want to override Material-UI's styles, set this prop.                                                                                                                       |
-| jss               | object |         | JSS's instance.                                                                                                                                                                                                                                                                                                                      |
+| Name              | Type   | Default | Description                                                                                                                                                                                                                                                                                                                      |
+| :---------------- | :----- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| children&nbsp;\*  | node   |         | Your component tree.                                                                                                                                                                                                                                                                                                             |
+| disableGeneration | bool   | false   | You can disable the generation of the styles with this option. It can be useful when traversing the React tree outside of the HTML rendering step on the server. Let's say you are using react-apollo to extract all the queries made by the interface server-side. You can significantly speed up the traversal with this prop. |
+| generateClassName | func   |         | JSS's class name generator.                                                                                                                                                                                                                                                                                                      |
+| injectFirst       | bool   | false   | By default, the styles are injected last in the `<head>` element of the page. As a result, they gain more specificity than any other style sheet. If you want to override Material-UI's styles, set this prop.                                                                                                                   |
+| jss               | object |         | JSS's instance.                                                                                                                                                                                                                                                                                                                  |
 
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { StylesProvider } from '@material-ui/core/styles';
 
@@ -234,7 +234,7 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 
 ## `ThemeProvider`
 
-This component takes a `theme` property, and makes it available down the React tree thanks to the context.
+This component takes a `theme` prop, and makes it available down the React tree thanks to the context.
 It should preferably be used at **the root of your component tree**.
 
 ### Props
@@ -247,7 +247,7 @@ It should preferably be used at **the root of your component tree**.
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 
@@ -271,7 +271,7 @@ This hook returns the `theme` object so it can be used inside a function compone
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 
 export default function MyComponent() {
@@ -284,12 +284,12 @@ export default function MyComponent() {
 ## `withStyles(styles, [options]) => higher-order component`
 
 Link a style sheet with a component using the **higher-order component** pattern.
-It does not modify the component passed to it; instead, it returns a new component with a `classes` property.
+It does not modify the component passed to it; instead, it returns a new component with a `classes` prop.
 This `classes` object contains the name of the class names injected in the DOM.
 
 Some implementation details that might be interesting to being aware of:
 
-- It adds a `classes` property so you can override the injected class names from the outside.
+- It adds a `classes` prop so you can override the injected class names from the outside.
 - It forwards refs to the inner component.
 - The `innerRef` prop is deprecated. Use `ref` instead.
 - It does **not** copy over statics.
@@ -303,7 +303,7 @@ Some implementation details that might be interesting to being aware of:
 2. `options` (_Object_ [optional]):
 
 - `options.defaultTheme` (_Object_ [optional]): The default theme to use if a theme isn't supplied through a Theme Provider.
-- `options.withTheme` (_Boolean_ [optional]): Defaults to `false`. Provide the `theme` object to the component as a property.
+- `options.withTheme` (_Boolean_ [optional]): Defaults to `false`. Provide the `theme` object to the component as a prop.
 - `options.name` (_String_ [optional]): The name of the style sheet. Useful for debugging.
   If the value isn't provided, it will try to fallback to the name of the component.
 - `options.flip` (_Boolean_ [optional]): When set to `false`, this sheet will opt-out the `rtl` transformation. When set to `true`, the styles are inversed. When set to `null`, it follows `theme.direction`.
@@ -316,7 +316,7 @@ Some implementation details that might be interesting to being aware of:
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -335,7 +335,7 @@ export default withStyles(styles)(MyComponent);
 Also, you can use as [decorators](https://babeljs.io/docs/en/babel-plugin-proposal-decorators) like so:
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -356,7 +356,7 @@ export default MyComponent;
 
 ## `withTheme(Component) => Component`
 
-Provide the `theme` object as a property of the input component so it can be used
+Provide the `theme` object as a prop of the input component so it can be used
 in the render method.
 
 ### Arguments
@@ -370,7 +370,7 @@ in the render method.
 ### Examples
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { withTheme } from '@material-ui/core/styles';
 
 function MyComponent(props) {

@@ -3,11 +3,13 @@ import { getDependencies } from './helpers';
 
 function jsDemo(demoData) {
   return {
-    dependencies: getDependencies(demoData.raw),
+    dependencies: getDependencies(demoData.raw, {
+      muiCommitRef: process.env.PULL_REQUEST ? process.env.COMMIT_REF : undefined,
+    }),
     files: {
       'demo.js': demoData.raw,
       'index.js': `
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Demo from './demo';
 
@@ -19,11 +21,14 @@ ReactDOM.render(<Demo />, document.querySelector('#root'));
 
 function tsDemo(demoData) {
   return {
-    dependencies: getDependencies(demoData.raw, { codeLanguage: CODE_VARIANTS.TS }),
+    dependencies: getDependencies(demoData.raw, {
+      codeLanguage: CODE_VARIANTS.TS,
+      muiCommitRef: process.env.PULL_REQUEST ? process.env.COMMIT_REF : undefined,
+    }),
     files: {
       'demo.tsx': demoData.raw,
       'index.tsx': `
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Demo from './demo';
 

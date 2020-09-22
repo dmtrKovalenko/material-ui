@@ -11,7 +11,24 @@ export interface LinkTypeMap<P = {}, D extends React.ElementType = 'a'> {
        */
       children?: React.ReactNode;
       /**
+       */
+      classes?: {
+        /** Styles applied to the root element. */
+        root?: string;
+        /** Styles applied to the root element if `underline="none"`. */
+        underlineNone?: string;
+        /** Styles applied to the root element if `underline="hover"`. */
+        underlineHover?: string;
+        /** Styles applied to the root element if `underline="always"`. */
+        underlineAlways?: string;
+        /** Styles applied to the root element if `component="button"`. */
+        button?: string;
+        /** Pseudo-class applied to the root element if the link is keyboard focused. */
+        focusVisible?: string;
+      };
+      /**
        * The color of the link.
+       * @default 'primary'
        */
       color?: TypographyProps['color'];
       /**
@@ -20,15 +37,16 @@ export interface LinkTypeMap<P = {}, D extends React.ElementType = 'a'> {
       TypographyClasses?: TypographyProps['classes'];
       /**
        * Controls when the link should have an underline.
+       * @default 'hover'
        */
       underline?: 'none' | 'hover' | 'always';
       /**
        * Applies the theme typography styles.
+       * @default 'inherit'
        */
       variant?: TypographyProps['variant'];
     };
   defaultComponent: D;
-  classKey: LinkClassKey;
 }
 
 /**
@@ -45,15 +63,9 @@ export interface LinkTypeMap<P = {}, D extends React.ElementType = 'a'> {
  */
 declare const Link: OverridableComponent<LinkTypeMap>;
 
-export type LinkClassKey =
-  | 'root'
-  | 'underlineNone'
-  | 'underlineHover'
-  | 'underlineAlways'
-  | 'button'
-  | 'focusVisible';
+export type LinkClassKey = keyof NonNullable<LinkTypeMap['props']['classes']>;
 
-export type LinkBaseProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
+export type LinkBaseProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'color'> &
   Omit<TypographyProps, 'children' | 'component' | 'color' | 'variant'>;
 
 export type LinkProps<

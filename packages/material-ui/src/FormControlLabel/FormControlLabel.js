@@ -122,7 +122,6 @@ FormControlLabel.propTypes = {
   checked: PropTypes.bool,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -147,6 +146,7 @@ FormControlLabel.propTypes = {
   label: PropTypes.node,
   /**
    * The position of the label.
+   * @default 'end'
    */
   labelPlacement: PropTypes.oneOf(['bottom', 'end', 'start', 'top']),
   /**

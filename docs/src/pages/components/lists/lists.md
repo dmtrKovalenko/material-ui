@@ -1,13 +1,17 @@
 ---
 title: List React component
 components: Collapse, Divider, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader
+githubLabel: 'component: List'
+materialDesign: https://material.io/components/lists
 ---
 
 # Lists
 
 <p class="description">Lists are continuous, vertical indexes of text or images.</p>
 
-[Lists](https://material.io/design/components/lists.html) are a continuous group of text or images. They are composed of items containing primary and supplemental actions, which are represented by icons and text.
+Lists are a continuous group of text or images. They are composed of items containing primary and supplemental actions, which are represented by icons and text.
+
+{{"component": "modules/components/ComponentLinkHeader.js"}}
 
 ## Simple List
 
@@ -49,7 +53,7 @@ Below is an interactive demo that lets you explore the visual results of the dif
 
 ## Align list items
 
-You should change the list item alignment when displaying 3 lines or more, set the `alignItems="flex-start"` property.
+You should change the list item alignment when displaying 3 lines or more, set the `alignItems` prop to "flex-start".
 
 {{"demo": "pages/components/lists/AlignItemsList.js", "bg": true}}
 

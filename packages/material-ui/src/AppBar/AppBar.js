@@ -114,7 +114,6 @@ AppBar.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -123,12 +122,14 @@ AppBar.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'primary'
    */
   color: PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary', 'transparent']),
   /**
    * The positioning type. The behavior of the different options is described
    * [in the MDN web docs](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning).
    * Note: `sticky` is not universally supported and will fall back to `static` when unavailable.
+   * @default 'fixed'
    */
   position: PropTypes.oneOf(['absolute', 'fixed', 'relative', 'static', 'sticky']),
 };

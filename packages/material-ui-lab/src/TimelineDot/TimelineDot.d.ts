@@ -1,29 +1,51 @@
 import * as React from 'react';
-import { StandardProps } from '@material-ui/core';
+import { OverridableStringUnion } from '@material-ui/types';
+import { InternalStandardProps as StandardProps } from '@material-ui/core';
 
-export interface TimelineDotProps extends StandardProps<{}, TimelineDotClassKey> {
+export interface TimelineDotPropsVariantOverrides {}
+export type TimelineDotVariantDefaults = Record<'filled' | 'outlined', true>;
+
+export interface TimelineDotProps extends StandardProps<React.HTMLAttributes<HTMLSpanElement>> {
   /**
    * The content of the component.
    */
   children?: React.ReactNode;
   /**
-   * The dot can appear filled or outlined.
+   * Override or extend the styles applied to the component.
    */
-  variant?: 'filled' | 'outlined';
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the root element if `variant="filled"`. */
+    filled?: string;
+    /** Styles applied to the root element if `variant="outlined"`. */
+    outlined?: string;
+    /** Styles applied to the root element if `color="grey"` and `variant="filled"`. */
+    filledGrey?: string;
+    /** Styles applied to the root element if `color="grey"` and `variant="outlined"`. */
+    outlinedGrey?: string;
+    /** Styles applied to the root element if `color="primary"` and `variant="filled"`. */
+    filledPrimary?: string;
+    /** Styles applied to the root element if `color="primary"` and `variant="outlined"`. */
+    outlinedPrimary?: string;
+    /** Styles applied to the root element if `color="secondary"` and `variant="filled"`. */
+    filledSecondary?: string;
+    /** Styles applied to the root element if `color="secondary"` and `variant="outlined"`. */
+    outlinedSecondary?: string;
+  };
   /**
    * The dot can have a different colors.
+   * @default 'grey'
    */
   color?: 'inherit' | 'primary' | 'secondary' | 'grey';
+  /**
+   * The dot can appear filled or outlined.
+   * @default 'filled'
+   */
+  variant?: OverridableStringUnion<TimelineDotVariantDefaults, TimelineDotPropsVariantOverrides>;
 }
 
-export type TimelineDotClassKey =
-  | 'root'
-  | 'defaultDefault'
-  | 'defaultPrimary'
-  | 'defaultSecondary'
-  | 'outlinedDefault'
-  | 'outlinedPrimary'
-  | 'outlinedSecondary';
+export type TimelineDotClassKey = keyof NonNullable<TimelineDotProps['classes']>;
 
 /**
  *

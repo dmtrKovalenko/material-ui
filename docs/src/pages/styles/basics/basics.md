@@ -8,7 +8,7 @@ You can use it, but you don't have to, since Material-UI is also [interoperable 
 
 ## Why use Material-UI's styling solution?
 
-In previous versions, Material-UI has used LESS, then a custom inline-style solution to write the component styles, but these approaches have proven to be limited.
+In previous versions, Material-UI has used [Less](http://lesscss.org/), and then a custom inline-style solution to write the component styles, but these approaches proved to be limited.
 [A _CSS-in-JS_ solution](https://github.com/oliviertassinari/a-journey-toward-better-style) overcomes many of those limitations,
 and **unlocks many great features** (theme nesting, dynamic styles, self-support, etc.).
 
@@ -41,7 +41,7 @@ There are 3 possible APIs you can use to generate and apply styles, however they
 ### Hook API
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -71,7 +71,7 @@ Note: this only applies to the calling syntax – style definitions still use a 
 You can also [change this behavior](/styles/advanced/#string-templates), with some limitations.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { styled } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -95,7 +95,7 @@ export default function StyledComponents() {
 ### Higher-order component API
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -178,7 +178,7 @@ function MyComponent() {
 }
 ```
 
-This button component has a color property that changes its color:
+This button component has a `color` prop that changes its color:
 
 ### Adapting the hook API
 
@@ -216,7 +216,7 @@ To reduce the number of packages to install when using Material-UI, and to simpl
 
 To remove the need to systematically supply a theme, the default Material-UI theme is applied to the re-exported `makeStyles`, `styled`, `withTheme`, `useTheme`, and `withStyles` modules.
 
-For instance:
+For example:
 
 ```js
 // Re-export with a default theme

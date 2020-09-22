@@ -60,7 +60,7 @@ const SelectInput = React.forwardRef(function SelectInput(props, ref) {
     ...other
   } = props;
 
-  const [value, setValue] = useControlled({
+  const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: defaultValue,
     name: 'Select',
@@ -152,7 +152,7 @@ const SelectInput = React.forwardRef(function SelectInput(props, ref) {
     }
 
     const child = childrenArray[index];
-    setValue(child.props.value);
+    setValueState(child.props.value);
 
     if (onChange) {
       onChange(event, child);
@@ -179,7 +179,7 @@ const SelectInput = React.forwardRef(function SelectInput(props, ref) {
     }
 
     if (value !== newValue) {
-      setValue(newValue);
+      setValueState(newValue);
 
       if (onChange) {
         event.persist();
@@ -501,7 +501,7 @@ SelectInput.propTypes = {
    */
   onBlur: PropTypes.func,
   /**
-   * Callback function fired when a menu item is selected.
+   * Callback fired when a menu item is selected.
    *
    * @param {object} event The event source of the callback.
    * You can pull out the new value by accessing `event.target.value` (any).

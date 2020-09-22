@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
@@ -60,7 +60,7 @@ const styles = (theme) => ({
     paddingTop: 1,
     paddingBottom: 1,
     color: 'rgba(255, 255, 255, 0.7)',
-    '&:hover,&:focus': {
+    '&:hover, &:focus': {
       backgroundColor: 'rgba(255, 255, 255, 0.08)',
     },
   },

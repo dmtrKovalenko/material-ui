@@ -17,8 +17,8 @@ export type InjectOptions = {
   removeExistingPropTypes?: boolean;
   /**
    * Used to control which props are includes in the result
-   * @return true to include the prop, false to skip it, or undefined to
-   * use the default behaviour
+   * @returns true to include the prop, false to skip it, or undefined to
+   * use the default behavior
    * @default includeUnusedProps ? true : data.usedProps.includes(data.prop.name)
    */
   shouldInclude?(data: {
@@ -26,7 +26,6 @@ export type InjectOptions = {
     prop: t.PropTypeDefinition;
     usedProps: string[];
   }): boolean | undefined;
-
   /**
    * You can override the order of literals in unions based on the proptype.
    *
@@ -41,7 +40,6 @@ export type InjectOptions = {
     component: t.Component,
     propType: t.PropTypeDefinition,
   ) => ((a: t.LiteralType, b: t.LiteralType) => number) | undefined;
-
   /**
    * Options passed to babel.transformSync
    */

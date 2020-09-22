@@ -10,6 +10,7 @@ import {
   queries,
   render as testingLibraryRender,
   prettyDOM,
+  within,
 } from '@testing-library/react/pure';
 
 // holes are *All* selectors which aren't necessary for id selectors
@@ -72,7 +73,6 @@ const customQueries = {
  */
 
 /**
- *
  * @param {React.ReactElement} element
  * @param {RenderOptions} [options]
  * @returns {import('@testing-library/react').RenderResult<typeof queries & typeof customQueries> & { setProps(props: object): void}}
@@ -146,10 +146,8 @@ export function createClientRender(globalOptions = {}) {
       error.stack = createClientRenderStack;
       throw error;
     }
-    // If this issues an act() warning you probably didn't
-    // wait for an async event in your test (or didn't wrap it in act() at all).
-    // please wait for every update in your test and make appropriate assertions
-    await cleanup();
+
+    cleanup();
   });
 
   return function configuredClientRender(element, options = {}) {
@@ -240,6 +238,9 @@ const fireEvent = Object.assign(rtlFireEvent, {
 
 export * from '@testing-library/react/pure';
 export { act, cleanup, fireEvent };
+// We import from `@testing-library/react` and `@testing-library/dom` before creating a JSDOM.
+// At this point a global document isn't available yet. Now it is.
+export const screen = within(document.body);
 
 export function render() {
   throw new Error(

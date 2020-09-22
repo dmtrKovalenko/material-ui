@@ -51,13 +51,132 @@ Support for non-ref-forwarding class components in the `component` prop or as an
 Otherwise check out the ["Caveat with refs" section in our composition guide](/guides/composition/#caveat-with-refs) to find out how to migrate.
 This change affects almost all components where you're using the `component` prop or passing `children` to components that require `children` to be elements (e.g. `<MenuList><CustomMenuItem /></MenuList>`)
 
+### Theme
+
+For a smoother transition, the `adaptV4Theme` helper allows you to iteratively upgrade to the new theme structure.
+
+```diff
+-import { createMuiTheme } from '@material-ui/core/styles';
++import { createMuiTheme, adaptV4Theme } from '@material-ui/core/styles';
+
+-const theme = createMuitheme({
++const theme = createMuitheme(adaptV4Theme({
+  // v4 theme
+-});
++}));
+```
+
+#### Changes
+
+- The "gutters" abstraction hasn't proven to be used frequently enough to be valuable.
+
+  ```diff
+  -theme.mixins.gutters(),
+  +paddingLeft: theme.spacing(2),
+  +paddingRight: theme.spacing(2),
+  +[theme.breakpoints.up('sm')]: {
+  +  paddingLeft: theme.spacing(3),
+  +  paddingRight: theme.spacing(3),
+  +},
+  ```
+
+- `theme.spacing` now returns single values with px units by default.
+  This change improves the integration with styled-components & emotion.
+
+  Before:
+
+  ```
+  theme.spacing(2) => 16
+  ```
+
+  After:
+
+  ```
+  theme.spacing(2) => '16px'
+  ```
+
+  You can restore the previous behavior with:
+
+  ```diff
+  -const theme = createMuiTheme();
+  +const theme = createMuiTheme({
+  +  spacing: x => x * 8,
+  +});
+  ```
+
+- The `theme.palette.text.hint` key was unused in Material-UI components, and has been removed.
+
+```diff
+import { createMuiTheme } from '@material-ui/core/styles';
+
+-const theme = createMuitheme(),
++const theme = createMuitheme({
++  palette: { text: { hint: 'rgba(0, 0, 0, 0.38)' } },
++});
+```
+
+```diff
+import { createMuiTheme } from '@material-ui/core/styles';
+
+-const theme = createMuitheme({palette: { type: 'dark' }}),
++const theme = createMuitheme({
++  palette: { type: 'dark', text: { hint: 'rgba(0, 0, 0, 0.38)' } },
++});
+```
+
+- The components' definition inside the theme were restructure under the `components` key, to allow people easier discoverability about the definitions regarding one component.
+
+1. `props`
+
+```diff
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuitheme({
+-  props: {
+-    MuiButton: {
+-      disableRipple: true,
+-    },
+-  },
++  components: {
++    MuiButton: {
++      defaultProps: {
++        disableRipple: true,
++      },
++    },
++  },
+});
+```
+
+2. `overrides`
+
+```diff
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuitheme({
+-  overrides: {
+-    MuiButton: {
+-      root: { padding: 0 },
+-    },
+-  },
++  components: {
++    MuiButton: {
++      styleOverrides: {
++        root: { padding: 0 },
++      },
++    },
++  },
+});
+```
+
 ### Avatar
 
 - Rename `circle` to `circular` for consistency. The possible values should be adjectives, not nouns:
 
   ```diff
   -<Avatar variant="circle">
+  -<Avatar classes={{ circle: 'className' }}>
   +<Avatar variant="circular">
+  +<Avatar classes={{ circular: 'className' }}>
   ```
 
 ### Badge
@@ -69,6 +188,22 @@ This change affects almost all components where you're using the `component` pro
   -<Badge overlap="rectangle">
   +<Badge overlap="circular">
   +<Badge overlap="rectangular">
+  <Badge classes={{
+  - anchorOriginTopRightRectangle: 'className'
+  - anchorOriginBottomRightRectangle: 'className'
+  - anchorOriginTopLeftRectangle: 'className'
+  - anchorOriginBottomLeftRectangle: 'className'
+  - anchorOriginTopRightCircle: 'className'
+  - anchorOriginBottomRightCircle: 'className'
+  - anchorOriginTopLeftCircle: 'className'
+  + anchorOriginTopRightRectangular: 'className'
+  + anchorOriginBottomRightRectangular: 'className'
+  + anchorOriginTopLeftRectangular: 'className'
+  + anchorOriginBottomLeftRectangular: 'className'
+  + anchorOriginTopRightCircular: 'className'
+  + anchorOriginBottomRightCircular: 'className'
+  + anchorOriginTopLeftCircular: 'className'
+  }}>
   ```
 
 ### BottomNavigation
@@ -91,6 +226,22 @@ This change affects almost all components where you're using the `component` pro
   +<Button />
   ```
 
+### CircularProgress
+
+- The `static` variant has been merged into the `determinate` variant, with the latter assuming the appearance of the former.
+  The removed variant was rarely useful. It was an exception to Material Design, and was removed from the specification.
+
+  ```diff
+  -<CircularProgress variant="determinate" />
+  ```
+
+  ```diff
+  -<CircularProgress variant="static" classes={{ static: 'className' }} />
+  +<CircularProgress variant="determinate" classes={{ determinate: 'className' }} />
+  ```
+
+> NB: If you had previously customized determinate, your customizations are probably no longer valid. Please remove them.
+
 ### Collapse
 
 - The `collapsedHeight` prop was renamed `collapsedSize` to support the horizontal direction.
@@ -107,6 +258,29 @@ This change affects almost all components where you're using the `component` pro
   +<Collapse classes={{ root: 'collapse' }}>
   ```
 
+### Dialog
+
+- The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Dialog
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
+  ```
+
 ### Divider
 
 - Use border instead of background color. It prevents inconsistent height on scaled screens. For people customizing the color of the border, the change requires changing the override CSS property:
@@ -118,9 +292,9 @@ This change affects almost all components where you're using the `component` pro
   }
   ```
 
-### Expansion Panel
+### ExpansionPanel
 
-- Rename the `ExpansionPanel` components with `Accordion` to use a more common naming convention:
+- Rename the `ExpansionPanel` components to `Accordion` to use a more common naming convention:
 
   ```diff
   -import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -164,6 +338,17 @@ This change affects almost all components where you're using the `component` pro
   +<Accordion onChange={(event: React.SyntheticEvent, expanded: boolean) => {}} />
   ```
 
+- Rename `focused` to `focusVisible` for consistency:
+
+  ```diff
+  <Accordion
+    classes={{
+  -    focused: 'custom-focus-visible-classname',
+  +    focusVisible: 'custom-focus-visible-classname',
+    }}
+  />
+  ```
+
 ### Fab
 
 - Rename `round` to `circular` for consistency. The possible values should be adjectives, not nouns:
@@ -171,6 +356,14 @@ This change affects almost all components where you're using the `component` pro
   ```diff
   -<Fab variant="round">
   +<Fab variant="circular">
+  ```
+
+### Chip
+
+- Rename `default` variant to `filled` for consistency.
+  ```diff
+  -<Chip variant="default">
+  +<Chip variant="filled">
   ```
 
 ### Grid
@@ -181,6 +374,68 @@ This change affects almost all components where you're using the `component` pro
   -<Grid justify="center">
   +<Grid justifyContent="center">
   ```
+
+### GridList
+
+- Rename the `GridList` components to `ImageList` to align with the current Material Design naming.
+- Rename the GridList `spacing` prop to `gap` to align with the CSS attribute.
+- Rename the GridList `cellHeight` prop to `rowHieght`.
+- Add the `variant` prop to GridList.
+- Rename the GridListItemBar `actionPosition` prop to `position`. (Note also the related classname changes.)
+- Use CSS object-fit. For IE11 support either use a polyfill such as
+  https://www.npmjs.com/package/object-fit-images, or continue to use the v4 component.
+
+```diff
+-import GridList from '@material-ui/core/GridList';
+-import GridListTile from '@material-ui/core/GridListTile';
+-import GridListTileBar from '@material-ui/core/GridListTileBar';
++import ImageList from '@material-ui/core/ImageList';
++import ImageListItem from '@material-ui/core/ImageListItem';
++import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+
+-<GridList spacing={8} cellHeight={200}>
+-  <GridListTile>
++<ImageList gap={8} rowHeight={200}>
++  <ImageListItem>
+     <img src="file.jpg" alt="Image title" />
+-    <GridListTileBar
++    <ImageListItemBar
+       title="Title"
+       subtitle="Subtitle"
+     />
+-  </GridListTile>
+-</GridList>
++  </ImageListItem>
++</ImageList>
+```
+
+### Menu
+
+- The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Menu
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  >
+  ```
+
+### Modal
+
+- Remove `onRendered` prop.
+  Depending on your use case either use a [callback ref](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) on the child element or an effect hook in the child component.
 
 ### Pagination
 
@@ -200,7 +455,45 @@ This change affects almost all components where you're using the `component` pro
   +<PaginationItem shape="circular">
   ```
 
+  ### Popover
+
+- The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Popover
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
+  ```
+
+### Portal
+
+- Remove `onRendered` prop.
+  Depending on your use case either use a [callback ref](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) on the child element or an effect hook in the child component.
+
 ### Rating
+
+- Change the default empty icon to improve accessibility.
+  If you have a custom `icon` prop but no `emptyIcon` prop, you can restore the previous behavior with:
+
+  ```diff
+  <Rating
+    icon={customIcon}
+  + emptyIcon={null}
+  />
+  ```
 
 - Rename `visuallyhidden` to `visuallyHidden` for consistency:
 
@@ -226,6 +519,19 @@ This change affects almost all components where you're using the `component` pro
   +<Button ref={ref} />
   ```
 
+### Skeleton
+
+- Rename `circle` to `circular` and `rect` to `rectangular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Skeleton variant="circle" />
+  -<Skeleton variant="rect" />
+  -<Skeleton classes={{ circle: 'custom-circle-classname', rect: 'custom-rect-classname',  }} />
+  +<Skeleton variant="circular" />
+  +<Skeleton variant="rectangular" />
+  +<Skeleton classes={{ circular: 'custom-circle-classname', rectangular: 'custom-rect-classname',  }} />
+  ```
+
 ### Slider
 
 - TypeScript: The `event` in `onChange` is no longer typed as a `React.ChangeEvent` but `React.SyntheticEvent`.
@@ -238,7 +544,7 @@ This change affects almost all components where you're using the `component` pro
 ### Snackbar
 
 - The notification now displays at the bottom left on large screens.
-  It better matches the behavior of Gmail, Google Keep, material.io, etc.
+  This better matches the behavior of Gmail, Google Keep, material.io, etc.
   You can restore the previous behavior with:
 
   ```diff
@@ -246,18 +552,60 @@ This change affects almost all components where you're using the `component` pro
   +<Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} />
   ```
 
-  ### Skeleton
-
-- Rename `circle` to `circular` and `rect` to `rectangular` for consistency. The possible values should be adjectives, not nouns:
+- The onE\* transition props were removed. Use TransitionProps instead.
 
   ```diff
-  -<Skeleton variant="circle" />
-  -<Skeleton variant="rect" />
-  -<Skeleton classes={{ circle: 'custom-circle-classname', rect: 'custom-rect-classname',  }} />
-  +<Skeleton variant="circular" />
-  +<Skeleton variant="rectangular" />
-  -<Skeleton classes={{ circular: 'custom-circle-classname', rectangular: 'custom-rect-classname',  }} />
+  <Snackbar
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
   ```
+
+### Stepper
+
+- The root component (Paper) was replaced with a div. Stepper no longer has elevation, nor inherits Paper's props. This change is meant to encourage composition.
+
+```diff
+-<Stepper elevation={2}>
+-  <Step>
+-    <StepLabel>Hello world</StepLabel>
+-  </Step>
+-</Stepper>
++<Paper square elevation={2}>
++  <Stepper>
++    <Step>
++      <StepLabel>Hello world</StepLabel>
++    </Step>
++  </Stepper>
++<Paper>
+```
+
+- Remove the built-in 24px padding.
+
+```diff
+-<Stepper>
+-  <Step>
+-    <StepLabel>Hello world</StepLabel>
+-  </Step>
+-</Stepper>
++<Stepper style={{ padding: 24 }}>
++  <Step>
++    <StepLabel>Hello world</StepLabel>
++  </Step>
++</Stepper>
+```
 
 ### TablePagination
 
@@ -273,6 +621,7 @@ This change affects almost all components where you're using the `component` pro
 ### Tabs
 
 - TypeScript: The `event` in `onChange` is no longer typed as a `React.ChangeEvent` but `React.SyntheticEvent`.
+
   ```diff
   -<Tabs onChange={(event: React.ChangeEvent<{}>, value: unknown) => {}} />
   +<Tabs onChange={(event: React.SyntheticEvent, value: unknown) => {}} />

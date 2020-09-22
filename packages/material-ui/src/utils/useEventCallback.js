@@ -1,10 +1,8 @@
 import * as React from 'react';
-
-const useEnhancedEffect = typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
+import useEnhancedEffect from './useEnhancedEffect';
 
 /**
  * https://github.com/facebook/react/issues/14099#issuecomment-440013892
- *
  * @param {function} fn
  */
 export default function useEventCallback(fn) {

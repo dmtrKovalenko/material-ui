@@ -1,8 +1,30 @@
+diff --git a/babel.config.js b/babel.config.js
+index 162d469804..f4b17916a4 100644
+--- a/babel.config.js
++++ b/babel.config.js
+@@ -45,7 +45,16 @@ const productionPlugins = [
+ ];
+ 
+ module.exports = {
+-  presets: defaultPresets.concat(['@babel/preset-react', '@babel/preset-typescript']),
++  presets: defaultPresets.concat([
++    [
++      '@babel/preset-react',
++      {
++        // default in Babel 8
++        runtime: 'automatic',
++      },
++    ],
++    '@babel/preset-typescript',
++  ]),
+   plugins: [
+     [
+       'babel-plugin-macros',
 diff --git a/packages/material-ui-lab/src/Autocomplete/Autocomplete.test.js b/packages/material-ui-lab/src/Autocomplete/Autocomplete.test.js
-index af7e296af..144de6de4 100644
+index 8addf692fb..86ea6e6dfa 100644
 --- a/packages/material-ui-lab/src/Autocomplete/Autocomplete.test.js
 +++ b/packages/material-ui-lab/src/Autocomplete/Autocomplete.test.js
-@@ -1109,8 +1109,6 @@ describe('<Autocomplete />', () => {
+@@ -1139,8 +1139,6 @@ describe('<Autocomplete />', () => {
          fireEvent.change(textbox, { target: { value: 'a' } });
          fireEvent.keyDown(textbox, { key: 'Enter' });
        }).toErrorDev([
@@ -11,7 +33,7 @@ index af7e296af..144de6de4 100644
          'Material-UI: The `getOptionLabel` method of Autocomplete returned undefined instead of a string',
          'Material-UI: The `getOptionLabel` method of Autocomplete returned undefined instead of a string',
          'Material-UI: The `getOptionLabel` method of Autocomplete returned undefined instead of a string',
-@@ -1165,9 +1163,6 @@ describe('<Autocomplete />', () => {
+@@ -1195,9 +1193,6 @@ describe('<Autocomplete />', () => {
            />,
          );
        }).toWarnDev([
@@ -21,7 +43,7 @@ index af7e296af..144de6de4 100644
          'None of the options match with `"not a good value"`',
          'None of the options match with `"not a good value"`',
        ]);
-@@ -1193,11 +1188,7 @@ describe('<Autocomplete />', () => {
+@@ -1223,11 +1218,7 @@ describe('<Autocomplete />', () => {
              groupBy={(option) => option.group}
            />,
          );
@@ -35,7 +57,7 @@ index af7e296af..144de6de4 100644
        expect(options).to.have.length(7);
        expect(options).to.deep.equal(['A', 'D', 'E', 'B', 'G', 'F', 'C']);
 diff --git a/packages/material-ui-styles/src/ThemeProvider/ThemeProvider.test.js b/packages/material-ui-styles/src/ThemeProvider/ThemeProvider.test.js
-index 46238825d..bcf275893 100644
+index 197b2f77a3..f1ead08079 100644
 --- a/packages/material-ui-styles/src/ThemeProvider/ThemeProvider.test.js
 +++ b/packages/material-ui-styles/src/ThemeProvider/ThemeProvider.test.js
 @@ -127,11 +127,7 @@ describe('ThemeProvider', () => {
@@ -64,24 +86,27 @@ index 46238825d..bcf275893 100644
      });
    });
  });
-diff --git a/packages/material-ui-styles/src/makeStyles/makeStyles.test.js b/packages/material-ui-styles/src/makeStyles/makeStyles.test.js
-index cce608f6b..19cab2d18 100644
---- a/packages/material-ui-styles/src/makeStyles/makeStyles.test.js
-+++ b/packages/material-ui-styles/src/makeStyles/makeStyles.test.js
-@@ -213,7 +213,7 @@ describe('makeStyles', () => {
-       expect(sheetsRegistry.registry[0].classes).to.deep.equal({ root: 'makeStyles-root-2' });
- 
-       wrapper.unmount();
--      expect(sheetsRegistry.registry.length).to.equal(0);
-+      expect(sheetsRegistry.registry.length).to.equal(1);
-     });
- 
-     it('should work when depending on a theme', () => {
+diff --git a/packages/material-ui-styles/src/useThemeVariants/useThemeVariants.test.js b/packages/material-ui-styles/src/useThemeVariants/useThemeVariants.test.js
+index 2ab151c6c8..6db6326d77 100644
+--- a/packages/material-ui-styles/src/useThemeVariants/useThemeVariants.test.js
++++ b/packages/material-ui-styles/src/useThemeVariants/useThemeVariants.test.js
+@@ -135,11 +135,6 @@ describe('useThemeVariants', () => {
+         </ThemeProvider>,
+       ),
+     ).toErrorDev([
+-      // strict mode renders twice
+-      [
+-        `Material-UI: You are using a variant value \`test\` for which you didn't define styles.`,
+-        `Please create a new variant matcher in your theme for this variant. To learn more about matchers visit https://next.material-ui.com/r/custom-component-variants.`,
+-      ].join('\n'),
+       [
+         `Material-UI: You are using a variant value \`test\` for which you didn't define styles.`,
+         `Please create a new variant matcher in your theme for this variant. To learn more about matchers visit https://next.material-ui.com/r/custom-component-variants.`,
 diff --git a/packages/material-ui/src/Breadcrumbs/Breadcrumbs.test.js b/packages/material-ui/src/Breadcrumbs/Breadcrumbs.test.js
-index f5c603b45..2f18cca5c 100644
+index 273e3a009d..2a6c4b1379 100644
 --- a/packages/material-ui/src/Breadcrumbs/Breadcrumbs.test.js
 +++ b/packages/material-ui/src/Breadcrumbs/Breadcrumbs.test.js
-@@ -93,7 +93,6 @@ describe('<Breadcrumbs />', () => {
+@@ -100,7 +100,6 @@ describe('<Breadcrumbs />', () => {
        );
      }).toErrorDev([
        'Material-UI: You have provided an invalid combination of props to the Breadcrumbs.\nitemsAfterCollapse={2} + itemsBeforeCollapse={2} >= maxItems={3}',
@@ -89,11 +114,25 @@ index f5c603b45..2f18cca5c 100644
      ]);
      expect(screen.getAllByRole('listitem', { hidden: false })).to.have.length(4);
      expect(screen.getByRole('list')).to.have.text('first/second/third/fourth');
+diff --git a/packages/material-ui/src/ClickAwayListener/ClickAwayListener.test.js b/packages/material-ui/src/ClickAwayListener/ClickAwayListener.test.js
+index d78203151f..72ac37571b 100644
+--- a/packages/material-ui/src/ClickAwayListener/ClickAwayListener.test.js
++++ b/packages/material-ui/src/ClickAwayListener/ClickAwayListener.test.js
+@@ -132,8 +132,7 @@ describe('<ClickAwayListener />', () => {
+       expect(handleClickAway.callCount).to.equal(0);
+ 
+       fireEvent.click(getByText('Stop inside a portal'));
+-      // True-negative, we don't have enough information to do otherwise.
+-      expect(handleClickAway.callCount).to.equal(1);
++      expect(handleClickAway.callCount).to.equal(0);
+     });
+   });
+ 
 diff --git a/packages/material-ui/src/Tabs/Tabs.test.js b/packages/material-ui/src/Tabs/Tabs.test.js
-index 733b29a97..37b52ab4d 100644
+index e1365185fb..a34c50ebaa 100644
 --- a/packages/material-ui/src/Tabs/Tabs.test.js
 +++ b/packages/material-ui/src/Tabs/Tabs.test.js
-@@ -85,9 +85,6 @@ describe('<Tabs />', () => {
+@@ -90,9 +90,6 @@ describe('<Tabs />', () => {
        expect(() => {
          render(<Tabs value={0} centered variant="scrollable" />);
        }).toErrorDev([
@@ -104,10 +143,10 @@ index 733b29a97..37b52ab4d 100644
          'Material-UI: You can not use the `centered={true}` and `variant="scrollable"`',
        ]);
 diff --git a/packages/material-ui/src/TextareaAutosize/TextareaAutosize.test.js b/packages/material-ui/src/TextareaAutosize/TextareaAutosize.test.js
-index e22016776..03db8933d 100644
+index 9cd267a0c0..7323483c87 100644
 --- a/packages/material-ui/src/TextareaAutosize/TextareaAutosize.test.js
 +++ b/packages/material-ui/src/TextareaAutosize/TextareaAutosize.test.js
-@@ -253,12 +253,7 @@ describe('<TextareaAutosize />', () => {
+@@ -255,12 +255,7 @@ describe('<TextareaAutosize />', () => {
  
          expect(() => {
            forceUpdate();
@@ -121,41 +160,22 @@ index e22016776..03db8933d 100644
        });
      });
    });
-diff --git a/packages/material-ui/src/Unstable_TrapFocus/Unstable_TrapFocus.js b/packages/material-ui/src/Unstable_TrapFocus/Unstable_TrapFocus.js
-index 97fac726d..bd6b758db 100644
---- a/packages/material-ui/src/Unstable_TrapFocus/Unstable_TrapFocus.js
-+++ b/packages/material-ui/src/Unstable_TrapFocus/Unstable_TrapFocus.js
-@@ -163,7 +163,13 @@ function Unstable_TrapFocus(props) {
-         // in nodeToRestore.current being null.
-         // Not all elements in IE 11 have a focus method.
-         // Once IE 11 support is dropped the focus() call can be unconditional.
--        if (nodeToRestore.current && nodeToRestore.current.focus) {
-+        if (
-+          nodeToRestore.current &&
-+          nodeToRestore.current.focus &&
-+          // TODO: Can be removed after https://github.com/jsdom/jsdom/pull/3005 is released.
-+          // We technically only want a WeakRef to nodeToRestore anyway.
-+          nodeToRestore.current.isConnected
-+        ) {
-           nodeToRestore.current.focus();
-         }
- 
 diff --git a/packages/material-ui/src/internal/SwitchBase.test.js b/packages/material-ui/src/internal/SwitchBase.test.js
-index 27b143abf..7c321b14a 100644
+index 8c8f59a9d8..657a5e57bc 100644
 --- a/packages/material-ui/src/internal/SwitchBase.test.js
 +++ b/packages/material-ui/src/internal/SwitchBase.test.js
-@@ -360,7 +360,7 @@ describe('<SwitchBase />', () => {
-       expect(() => {
+@@ -366,7 +366,7 @@ describe('<SwitchBase />', () => {
          setProps({ checked: true });
+         global['didWarnControlledToUncontrolled'] = true;
        }).toErrorDev([
 -        'Warning: A component is changing an uncontrolled input of type checkbox to be controlled.',
 +        'Warning: A component is changing an uncontrolled input to be controlled.',
          'Material-UI: A component is changing the uncontrolled checked state of SwitchBase to be controlled.',
        ]);
      });
-@@ -380,7 +380,7 @@ describe('<SwitchBase />', () => {
-       expect(() => {
+@@ -387,7 +387,7 @@ describe('<SwitchBase />', () => {
          setProps({ checked: undefined });
+         global['didWarnControlledToUncontrolled'] = true;
        }).toErrorDev([
 -        'Warning: A component is changing a controlled input of type checkbox to be uncontrolled.',
 +        'Warning: A component is changing a controlled input to be uncontrolled',
@@ -163,10 +183,10 @@ index 27b143abf..7c321b14a 100644
        ]);
      });
 diff --git a/packages/material-ui/src/useMediaQuery/useMediaQuery.test.js b/packages/material-ui/src/useMediaQuery/useMediaQuery.test.js
-index e5733f826..61333a172 100644
+index 25dc48c4c1..b33af6309c 100644
 --- a/packages/material-ui/src/useMediaQuery/useMediaQuery.test.js
 +++ b/packages/material-ui/src/useMediaQuery/useMediaQuery.test.js
-@@ -276,11 +276,7 @@ describe('useMediaQuery', () => {
+@@ -277,11 +277,7 @@ describe('useMediaQuery', () => {
  
        expect(() => {
          render(<MyComponent />);
@@ -179,22 +199,3 @@ index e5733f826..61333a172 100644
      });
    });
  });
-diff --git a/test/utils/createClientRender.js b/test/utils/createClientRender.js
-index 2b6184ff9..cc38b14ab 100644
---- a/test/utils/createClientRender.js
-+++ b/test/utils/createClientRender.js
-@@ -87,6 +87,14 @@ function clientRender(element, options = {}) {
-     return result;
-   };
- 
-+  // TODO: Remove once we switch to `@testing-library/react@10.4.7`
-+  const testingLibraryUnmount = result.unmount;
-+  result.unmount = function unmountActing() {
-+    act(() => {
-+      testingLibraryUnmount();
-+    });
-+  };
-+
-   return result;
- }
- 

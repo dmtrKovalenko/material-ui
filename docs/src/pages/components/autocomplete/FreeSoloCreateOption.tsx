@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, {
   createFilterOptions,
@@ -57,7 +57,7 @@ export default function FreeSoloCreateOption() {
         // Regular option
         return option.title;
       }}
-      renderOption={(option) => option.title}
+      renderOption={(props, option) => <li {...props}>{option.title}</li>}
       style={{ width: 300 }}
       freeSolo
       renderInput={(params) => (

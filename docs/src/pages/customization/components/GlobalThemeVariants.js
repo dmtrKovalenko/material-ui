@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   createMuiTheme,
   makeStyles,
@@ -17,36 +17,38 @@ const useStyles = makeStyles((theme) => ({
 const defaultTheme = createMuiTheme();
 
 const theme = createMuiTheme({
-  variants: {
-    MuiButton: [
-      {
-        props: { variant: 'dashed' },
-        styles: {
-          textTransform: 'none',
-          border: `2px dashed ${defaultTheme.palette.primary.main}`,
-          color: defaultTheme.palette.primary.main,
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: 'dashed' },
+          style: {
+            textTransform: 'none',
+            border: `2px dashed ${defaultTheme.palette.primary.main}`,
+            color: defaultTheme.palette.primary.main,
+          },
         },
-      },
-      {
-        props: { variant: 'dashed', color: 'secondary' },
-        styles: {
-          border: `2px dashed ${defaultTheme.palette.secondary.main}`,
-          color: defaultTheme.palette.secondary.main,
+        {
+          props: { variant: 'dashed', color: 'secondary' },
+          style: {
+            border: `2px dashed ${defaultTheme.palette.secondary.main}`,
+            color: defaultTheme.palette.secondary.main,
+          },
         },
-      },
-      {
-        props: { variant: 'dashed', size: 'large' },
-        styles: {
-          borderWidth: 4,
+        {
+          props: { variant: 'dashed', size: 'large' },
+          style: {
+            borderWidth: 4,
+          },
         },
-      },
-      {
-        props: { variant: 'dashed', color: 'secondary', size: 'large' },
-        styles: {
-          fontSize: 18,
+        {
+          props: { variant: 'dashed', color: 'secondary', size: 'large' },
+          style: {
+            fontSize: 18,
+          },
         },
-      },
-    ],
+      ],
+    },
   },
 });
 

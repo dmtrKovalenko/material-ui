@@ -6,6 +6,7 @@ import withStyles from '../styles/withStyles';
 import { fade } from '../styles/colorManipulator';
 import ButtonBase from '../ButtonBase';
 import isMuiElement from '../utils/isMuiElement';
+import useEnhancedEffect from '../utils/useEnhancedEffect';
 import useForkRef from '../utils/useForkRef';
 import ListContext from '../List/ListContext';
 
@@ -98,8 +99,6 @@ export const styles = (theme) => ({
   /* Pseudo-class applied to the root element if `selected={true}`. */
   selected: {},
 });
-
-const useEnhancedEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
 /**
  * Uses an additional container component if `ListItemSecondaryAction` is the last child.
@@ -220,16 +219,19 @@ ListItem.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * Defines the `align-items` style property.
+   * @default 'center'
    */
   alignItems: PropTypes.oneOf(['center', 'flex-start']),
   /**
    * If `true`, the list item will be focused during the first mount.
    * Focus will also be triggered if the value changes from false to true.
+   * @default false
    */
   autoFocus: PropTypes.bool,
   /**
    * If `true`, the list item will be a button (using `ButtonBase`). Props intended
    * for `ButtonBase` can then be applied to `ListItem`.
+   * @default false
    */
   button: PropTypes.bool,
   /**
@@ -262,7 +264,6 @@ ListItem.propTypes = {
   }),
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -276,26 +277,32 @@ ListItem.propTypes = {
   component: PropTypes.elementType,
   /**
    * The container component used when a `ListItemSecondaryAction` is the last child.
+   * @default 'li'
    */
   ContainerComponent: elementTypeAcceptingRef,
   /**
    * Props applied to the container component if used.
+   * @default {}
    */
   ContainerProps: PropTypes.object,
   /**
    * If `true`, compact vertical padding designed for keyboard and mouse input will be used.
+   * @default false
    */
   dense: PropTypes.bool,
   /**
    * If `true`, the list item will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, the left and right padding is removed.
+   * @default false
    */
   disableGutters: PropTypes.bool,
   /**
    * If `true`, a 1px light border is added to the bottom of the list item.
+   * @default false
    */
   divider: PropTypes.bool,
   /**
@@ -304,6 +311,7 @@ ListItem.propTypes = {
   focusVisibleClassName: PropTypes.string,
   /**
    * Use to apply selected styling.
+   * @default false
    */
   selected: PropTypes.bool,
 };

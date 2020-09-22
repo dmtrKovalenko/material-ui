@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import {
   ThemeProvider as MuiThemeProvider,
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { enUS, zhCN, faIR, ruRU, ptBR, esES, frFR, deDE, jaJP } from '@material-ui/core/locale';
 import { blue, pink } from '@material-ui/core/colors';
+import { unstable_useEnhancedEffect as useEnhancedEffect } from '@material-ui/core/utils';
 import { getCookie } from 'docs/src/modules/utils/helpers';
 import useLazyCSS from 'docs/src/modules/utils/useLazyCSS';
 
@@ -35,54 +36,78 @@ const themeInitialOptions = {
 };
 
 const highDensity = {
-  props: {
+  components: {
     MuiButton: {
-      size: 'small',
+      defaultProps: {
+        size: 'small',
+      },
     },
     MuiFilledInput: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiFormControl: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiFormHelperText: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiIconButton: {
-      size: 'small',
+      defaultProps: {
+        size: 'small',
+      },
+      styleOverrides: {
+        sizeSmall: {
+          // minimal touch target hit spacing
+          marginLeft: 4,
+          marginRight: 4,
+          padding: 12,
+        },
+      },
     },
     MuiInputBase: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiInputLabel: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiListItem: {
-      dense: true,
+      defaultProps: {
+        dense: true,
+      },
     },
     MuiOutlinedInput: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiFab: {
-      size: 'small',
+      defaultProps: {
+        size: 'small',
+      },
     },
     MuiTable: {
-      size: 'small',
+      defaultProps: {
+        size: 'small',
+      },
     },
     MuiTextField: {
-      margin: 'dense',
+      defaultProps: {
+        margin: 'dense',
+      },
     },
     MuiToolbar: {
-      variant: 'dense',
-    },
-  },
-  overrides: {
-    MuiIconButton: {
-      sizeSmall: {
-        // minimal touch target hit spacing
-        marginLeft: 4,
-        marginRight: 4,
-        padding: 12,
+      defaultProps: {
+        variant: 'dense',
       },
     },
   },
@@ -95,8 +120,6 @@ export const DispatchContext = React.createContext(() => {
 if (process.env.NODE_ENV !== 'production') {
   DispatchContext.displayName = 'ThemeDispatchContext';
 }
-
-const useEnhancedEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
 let createMuiTheme;
 if (process.env.REACT_MODE === 'legacy') {
@@ -222,6 +245,7 @@ export function ThemeProvider(props) {
     // Expose the theme as a global variable so people can play with it.
     if (process.browser) {
       window.theme = theme;
+      window.createMuiTheme = createMuiTheme;
     }
   }, [theme]);
 

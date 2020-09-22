@@ -1,17 +1,20 @@
 ---
 components: CssBaseline, ScopedCssBaseline
+githubLabel: 'component: CssBaseline'
 ---
 
 # CSS Baseline
 
 <p class="description">Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.</p>
 
+{{"component": "modules/components/ComponentLinkHeader.js", "design": false}}
+
 ## Global reset
 
 You might be familiar with [normalize.css](https://github.com/necolas/normalize.css), a collection of HTML element and attribute style-normalizations.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 export default function MyApp() {
@@ -30,7 +33,7 @@ However, you might be progressively migrating a website to Material-UI, using a 
 It's possible to apply the baseline only to the children by using the `ScopedCssBaseline` component.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import MyApp from './MyApp';
 

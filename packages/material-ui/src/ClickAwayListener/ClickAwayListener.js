@@ -44,7 +44,7 @@ function ClickAwayListener(props) {
 
   // The handler doesn't take event.defaultPrevented into account:
   //
-  // event.preventDefault() is meant to stop default behaviours like
+  // event.preventDefault() is meant to stop default behaviors like
   // clicking a checkbox to check it, hitting a button to submit a form,
   // and hitting left arrow to move the cursor in a text input etc.
   // Only special HTML elements have these default behaviors.
@@ -155,10 +155,12 @@ ClickAwayListener.propTypes = {
   /**
    * If `true`, the React tree is ignored and only the DOM tree is considered.
    * This prop changes how portaled elements are handled.
+   * @default false
    */
   disableReactTree: PropTypes.bool,
   /**
    * The mouse event to listen to. You can disable the listener by providing `false`.
+   * @default 'onClick'
    */
   mouseEvent: PropTypes.oneOf(['onClick', 'onMouseDown', 'onMouseUp', false]),
   /**
@@ -167,6 +169,7 @@ ClickAwayListener.propTypes = {
   onClickAway: PropTypes.func.isRequired,
   /**
    * The touch event to listen to. You can disable the listener by providing `false`.
+   * @default 'onTouchEnd'
    */
   touchEvent: PropTypes.oneOf(['onTouchEnd', 'onTouchStart', false]),
 };

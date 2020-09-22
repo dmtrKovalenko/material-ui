@@ -4,7 +4,7 @@ import FormGroup from '../FormGroup';
 import useForkRef from '../utils/useForkRef';
 import useControlled from '../utils/useControlled';
 import RadioGroupContext from './RadioGroupContext';
-import useId from '../utils/unstable_useId';
+import useId from '../utils/useId';
 
 const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
   const {
@@ -19,7 +19,7 @@ const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
   } = props;
   const rootRef = React.useRef(null);
 
-  const [value, setValue] = useControlled({
+  const [value, setValueState] = useControlled({
     controlled: valueProp,
     default: props.defaultValue,
     name: 'RadioGroup',
@@ -46,7 +46,7 @@ const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
   const handleRef = useForkRef(ref, rootRef);
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setValueState(event.target.value);
 
     if (onChange) {
       onChange(event, event.target.value);

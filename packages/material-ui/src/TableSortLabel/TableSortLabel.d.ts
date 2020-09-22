@@ -9,6 +9,7 @@ export type TableSortLabelTypeMap<
   props: P & {
     /**
      * If `true`, the label will have the active styling (should be true for the sorted column).
+     * @default false
      */
     active?: boolean;
     /**
@@ -16,20 +17,37 @@ export type TableSortLabelTypeMap<
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Pseudo-class applied to the root element if `active={true}`. */
+      active?: string;
+      /** Styles applied to the icon component. */
+      icon?: string;
+      /** Styles applied to the icon component if `direction="desc"`. */
+      iconDirectionDesc?: string;
+      /** Styles applied to the icon component if `direction="asc"`. */
+      iconDirectionAsc?: string;
+    };
+    /**
      * The current sort direction.
+     * @default 'asc'
      */
     direction?: 'asc' | 'desc';
     /**
      * Hide sort icon when active is false.
+     * @default false
      */
     hideSortIcon?: boolean;
     /**
      * Sort icon to use.
+     * @default ArrowDownwardIcon
      */
     IconComponent?: React.ComponentType<{ className: string }>;
   };
   defaultComponent: D;
-  classKey: TableSortLabelClassKey;
 }>;
 
 /**
@@ -45,12 +63,7 @@ export type TableSortLabelTypeMap<
  */
 declare const TableSortLabel: ExtendButtonBase<TableSortLabelTypeMap>;
 
-export type TableSortLabelClassKey =
-  | 'root'
-  | 'active'
-  | 'icon'
-  | 'iconDirectionDesc'
-  | 'iconDirectionAsc';
+export type TableSortLabelClassKey = keyof NonNullable<TableSortLabelTypeMap['props']['classes']>;
 
 export type TableSortLabelProps<
   D extends React.ElementType = TableSortLabelTypeMap['defaultComponent'],

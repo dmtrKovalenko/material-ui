@@ -68,7 +68,6 @@ BottomNavigation.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -90,6 +89,7 @@ BottomNavigation.propTypes = {
   /**
    * If `true`, all `BottomNavigationAction`s will show their labels.
    * By default, only the selected `BottomNavigationAction` will show its label.
+   * @default false
    */
   showLabels: PropTypes.bool,
   /**

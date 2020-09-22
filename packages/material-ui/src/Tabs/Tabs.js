@@ -50,9 +50,18 @@ export const styles = (theme) => ({
     overflowX: 'hidden',
     width: '100%',
   },
-  /* Styles applied to the tablist element if `variant="scrollable"`. */
-  scrollable: {
-    overflowX: 'scroll',
+  /* Styles applied to the tablist element if `variant="scrollable"` and `orientation="horizontal"`. */
+  scrollableX: {
+    overflowX: 'auto',
+    overflowY: 'hidden',
+  },
+  /* Styles applied to the tablist element if `variant="scrollable"` and `orientation="vertical"`. */
+  scrollableY: {
+    overflowY: 'auto',
+    overflowX: 'hidden',
+  },
+  /* Styles applied to the tablist element if `variant="scrollable"` and `visibleScrollbar={false}`. */
+  hideScrollbar: {
     // Hide dimensionless scrollbar on MacOS
     scrollbarWidth: 'none', // Firefox
     '&::-webkit-scrollbar': {
@@ -92,6 +101,7 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
     textColor = 'inherit',
     value,
     variant = 'standard',
+    visibleScrollbar = false,
     ...other
   } = props;
   const theme = useTheme();
@@ -123,7 +133,7 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
 
   const [scrollerStyle, setScrollerStyle] = React.useState({
     overflow: 'hidden',
-    marginBottom: null,
+    scrollbarWidth: 0,
   });
 
   const valueToIndex = new Map();
@@ -229,25 +239,46 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
     scroll(scrollValue);
   };
 
+  const getScrollSize = () => {
+    const containerSize = tabsRef.current[clientSize];
+    let totalSize = 0;
+    const children = Array.from(tabListRef.current.children);
+
+    for (let i = 0; i < children.length; i += 1) {
+      const tab = children[i];
+      if (totalSize + tab[clientSize] > containerSize) {
+        break;
+      }
+      totalSize += tab[clientSize];
+    }
+    return totalSize;
+  };
+
   const handleStartScrollClick = () => {
-    moveTabsScroll(-tabsRef.current[clientSize]);
+    moveTabsScroll(-1 * getScrollSize());
   };
 
   const handleEndScrollClick = () => {
-    moveTabsScroll(tabsRef.current[clientSize]);
+    moveTabsScroll(getScrollSize());
   };
 
-  const handleScrollbarSizeChange = React.useCallback((scrollbarHeight) => {
+  // TODO Remove <ScrollbarSize /> as browser support for hidding the scrollbar
+  // with CSS improves.
+  const handleScrollbarSizeChange = React.useCallback((scrollbarWidth) => {
     setScrollerStyle({
       overflow: null,
-      marginBottom: -scrollbarHeight,
+      scrollbarWidth,
     });
   }, []);
 
   const getConditionalElements = () => {
     const conditionalElements = {};
+
     conditionalElements.scrollbarSizeListener = scrollable ? (
-      <ScrollbarSize className={classes.scrollable} onChange={handleScrollbarSizeChange} />
+      <ScrollbarSize
+        onChange={handleScrollbarSizeChange}
+        className={clsx(classes.scrollableX, classes.hideScrollbar)}
+      />
     ) : null;
 
     const scrollButtonsActive = displayScroll.start || displayScroll.end;
@@ -419,6 +450,7 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
       onChange,
       textColor,
       value: childValue,
+      ...(childIndex === 1 && value === false && !child.props.tabIndex ? { tabIndex: 0 } : {}),
     });
   });
 
@@ -483,9 +515,16 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
       <div
         className={clsx(classes.scroller, {
           [classes.fixed]: !scrollable,
-          [classes.scrollable]: scrollable,
+          [classes.hideScrollbar]: scrollable && !visibleScrollbar,
+          [classes.scrollableX]: scrollable && !vertical,
+          [classes.scrollableY]: scrollable && vertical,
         })}
-        style={scrollerStyle}
+        style={{
+          overflow: scrollerStyle.overflow,
+          [vertical ? `margin${isRtl ? 'Left' : 'Right'}` : 'marginBottom']: visibleScrollbar
+            ? undefined
+            : -scrollerStyle.scrollbarWidth,
+        }}
         ref={tabsRef}
         onScroll={handleTabsScroll}
       >
@@ -494,6 +533,7 @@ const Tabs = React.forwardRef(function Tabs(props, ref) {
         <div
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
+          aria-orientation={orientation === 'vertical' ? 'vertical' : null}
           className={clsx(classes.flexContainer, {
             [classes.flexContainerVertical]: vertical,
             [classes.centered]: centered && !scrollable,
@@ -535,7 +575,8 @@ Tabs.propTypes = {
   'aria-labelledby': PropTypes.string,
   /**
    * If `true`, the tabs will be centered.
-   * This property is intended for large views.
+   * This prop is intended for large views.
+   * @default false
    */
   centered: PropTypes.bool,
   /**
@@ -544,7 +585,6 @@ Tabs.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -558,6 +598,7 @@ Tabs.propTypes = {
   component: PropTypes.elementType,
   /**
    * Determines the color of the indicator.
+   * @default 'secondary'
    */
   indicatorColor: PropTypes.oneOf(['primary', 'secondary']),
   /**
@@ -569,10 +610,12 @@ Tabs.propTypes = {
   onChange: PropTypes.func,
   /**
    * The tabs orientation (layout flow direction).
+   * @default 'horizontal'
    */
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   /**
    * The component used to render the scroll buttons.
+   * @default TabScrollButton
    */
   ScrollButtonComponent: PropTypes.elementType,
   /**
@@ -582,6 +625,7 @@ Tabs.propTypes = {
    * - `desktop` will only present them on medium and larger viewports.
    * - `on` will always present them.
    * - `off` will never present them.
+   * @default 'auto'
    */
   scrollButtons: PropTypes.oneOf(['auto', 'desktop', 'off', 'on']),
   /**
@@ -591,6 +635,7 @@ Tabs.propTypes = {
   selectionFollowsFocus: PropTypes.bool,
   /**
    * Props applied to the tab indicator element.
+   * @default  {}
    */
   TabIndicatorProps: PropTypes.object,
   /**
@@ -599,11 +644,12 @@ Tabs.propTypes = {
   TabScrollButtonProps: PropTypes.object,
   /**
    * Determines the color of the `Tab`.
+   * @default 'inherit'
    */
   textColor: PropTypes.oneOf(['inherit', 'primary', 'secondary']),
   /**
    * The value of the currently selected `Tab`.
-   * If you don't want any selected `Tab`, you can set this property to `false`.
+   * If you don't want any selected `Tab`, you can set this prop to `false`.
    */
   value: PropTypes.any,
   /**
@@ -614,8 +660,15 @@ Tabs.propTypes = {
    *  -`fullWidth` will make the tabs grow to use all the available space,
    *  which should be used for small views, like on mobile.
    *  - `standard` will render the default state.
+   * @default 'standard'
    */
   variant: PropTypes.oneOf(['fullWidth', 'scrollable', 'standard']),
+  /**
+   * If `true`, the scrollbar will be visible. It can be useful when displaying
+   * a long vertical list of tabs.
+   * @default false
+   */
+  visibleScrollbar: PropTypes.bool,
 };
 
 export default withStyles(styles, { name: 'MuiTabs' })(Tabs);

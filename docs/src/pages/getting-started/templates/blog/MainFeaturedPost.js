@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainFeaturedPost(props) {
+function MainFeaturedPost(props) {
   const classes = useStyles();
   const { post } = props;
 
@@ -52,6 +52,7 @@ export default function MainFeaturedPost(props) {
           alt={post.imageText}
         />
       }
+
       <div className={classes.overlay} />
       <Grid container>
         <Grid item md={6}>
@@ -78,5 +79,13 @@ export default function MainFeaturedPost(props) {
 }
 
 MainFeaturedPost.propTypes = {
-  post: PropTypes.object,
+  post: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    imageText: PropTypes.string.isRequired,
+    linkText: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
 };
+
+export default MainFeaturedPost;

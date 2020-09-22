@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useThemeVariants } from '@material-ui/styles';
 import { capitalize } from '@material-ui/core/utils';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -16,6 +17,11 @@ export const styles = (theme) => ({
     boxShadow: theme.shadows[1],
     margin: '11.5px 0',
   },
+  /* Styles applied to the root element if `variant="filled"`. */
+  filled: {},
+  /* Styles applied to the root element if `variant="outlined"`. */
+
+  outlined: {},
   /* Styles applied to the root element if `color="grey"` and `variant="filled"`. */
   filledGrey: {
     borderColor: 'transparent',
@@ -58,13 +64,24 @@ export const styles = (theme) => ({
 const TimelineDot = React.forwardRef(function TimelineDot(props, ref) {
   const { classes, className, color = 'grey', variant = 'filled', ...other } = props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      color,
+      variant,
+    },
+    'MuiTimelineDot',
+  );
+
   return (
     <span
       className={clsx(
         classes.root,
+        classes[variant],
         {
           [classes[`${variant}${capitalize(color)}`]]: color !== 'inherit',
         },
+        themeVariantsClasses,
         className,
       )}
       ref={ref}
@@ -84,7 +101,6 @@ TimelineDot.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -93,12 +109,17 @@ TimelineDot.propTypes = {
   className: PropTypes.string,
   /**
    * The dot can have a different colors.
+   * @default 'grey'
    */
   color: PropTypes.oneOf(['grey', 'inherit', 'primary', 'secondary']),
   /**
    * The dot can appear filled or outlined.
+   * @default 'filled'
    */
-  variant: PropTypes.oneOf(['filled', 'outlined']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['filled', 'outlined']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiTimelineDot' })(TimelineDot);

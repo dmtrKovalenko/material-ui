@@ -6,7 +6,7 @@ import createTypography from './createTypography';
 import shadows from './shadows';
 import shape from './shape';
 import createSpacing from './createSpacing';
-import transitions from './transitions';
+import { duration, easing, create, getAutoHeightDuration } from './transitions';
 import zIndex from './zIndex';
 
 function createMuiTheme(options = {}, ...args) {
@@ -28,16 +28,15 @@ function createMuiTheme(options = {}, ...args) {
       breakpoints,
       direction: 'ltr',
       mixins: createMixins(breakpoints, spacing, mixinsInput),
-      overrides: {}, // Inject custom styles
+      components: {}, // Inject component definitions
       palette,
-      props: {}, // Provide default props
-      shadows,
+      // Don't use [...shadows] until you've verified its transpiled code is not invoking the iterator protocol.
+      shadows: shadows.slice(),
       typography: createTypography(palette, typographyInput),
       spacing,
-      shape,
-      transitions,
-      variants: {},
-      zIndex,
+      shape: { ...shape },
+      transitions: { duration, easing, create, getAutoHeightDuration },
+      zIndex: { ...zIndex },
     },
     other,
   );
@@ -55,21 +54,17 @@ function createMuiTheme(options = {}, ...args) {
       'expanded',
       'selected',
     ];
-    const traverse = (node, parentKey, depth = 1) => {
+    const traverse = (node, component) => {
       let key;
 
       // eslint-disable-next-line guard-for-in, no-restricted-syntax
       for (key in node) {
         const child = node[key];
-        if (depth === 1) {
-          if (key.indexOf('Mui') === 0 && child) {
-            traverse(child, key, depth + 1);
-          }
-        } else if (pseudoClasses.indexOf(key) !== -1 && Object.keys(child).length > 0) {
+        if (pseudoClasses.indexOf(key) !== -1 && Object.keys(child).length > 0) {
           if (process.env.NODE_ENV !== 'production') {
             console.error(
               [
-                `Material-UI: The \`${parentKey}\` component increases ` +
+                `Material-UI: The \`${component}\` component increases ` +
                   `the CSS specificity of the \`${key}\` internal state.`,
                 'You can not override it like this: ',
                 JSON.stringify(node, null, 2),
@@ -95,7 +90,13 @@ function createMuiTheme(options = {}, ...args) {
       }
     };
 
-    traverse(muiTheme.overrides);
+    Object.keys(muiTheme.components).forEach((component) => {
+      const styleOverrides = muiTheme.components[component].styleOverrides;
+
+      if (styleOverrides && component.indexOf('Mui') === 0) {
+        traverse(styleOverrides, component);
+      }
+    });
   }
 
   return muiTheme;

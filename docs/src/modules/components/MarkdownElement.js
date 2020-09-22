@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -95,6 +95,11 @@ const styles = (theme) => ({
       '& .anchor-link-style': {
         // To prevent the link to get the focus.
         display: 'none',
+      },
+      '& a:not(.anchor-link-style):hover': {
+        color: 'currentColor',
+        borderBottom: '1px solid currentColor',
+        textDecoration: 'none',
       },
       '&:hover .anchor-link-style': {
         display: 'inline-block',

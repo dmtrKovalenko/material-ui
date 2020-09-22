@@ -68,12 +68,17 @@ const Link = React.forwardRef(function Link(props, ref) {
     ...other
   } = props;
 
-  const { isFocusVisible, onBlurVisible, ref: focusVisibleRef } = useIsFocusVisible();
+  const {
+    isFocusVisibleRef,
+    onBlur: handleBlurVisible,
+    onFocus: handleFocusVisible,
+    ref: focusVisibleRef,
+  } = useIsFocusVisible();
   const [focusVisible, setFocusVisible] = React.useState(false);
   const handlerRef = useForkRef(ref, focusVisibleRef);
   const handleBlur = (event) => {
-    if (focusVisible) {
-      onBlurVisible();
+    handleBlurVisible(event);
+    if (isFocusVisibleRef.current === false) {
       setFocusVisible(false);
     }
     if (onBlur) {
@@ -81,7 +86,8 @@ const Link = React.forwardRef(function Link(props, ref) {
     }
   };
   const handleFocus = (event) => {
-    if (isFocusVisible(event)) {
+    handleFocusVisible(event);
+    if (isFocusVisibleRef.current === true) {
       setFocusVisible(true);
     }
     if (onFocus) {
@@ -123,7 +129,6 @@ Link.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -132,6 +137,7 @@ Link.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the link.
+   * @default 'primary'
    */
   color: PropTypes.oneOf([
     'error',
@@ -161,26 +167,31 @@ Link.propTypes = {
   TypographyClasses: PropTypes.object,
   /**
    * Controls when the link should have an underline.
+   * @default 'hover'
    */
   underline: PropTypes.oneOf(['always', 'hover', 'none']),
   /**
    * Applies the theme typography styles.
+   * @default 'inherit'
    */
-  variant: PropTypes.oneOf([
-    'body1',
-    'body2',
-    'button',
-    'caption',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'inherit',
-    'overline',
-    'subtitle1',
-    'subtitle2',
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf([
+      'body1',
+      'body2',
+      'button',
+      'caption',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'inherit',
+      'overline',
+      'subtitle1',
+      'subtitle2',
+    ]),
+    PropTypes.string,
   ]),
 };
 

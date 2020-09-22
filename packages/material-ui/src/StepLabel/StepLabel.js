@@ -24,6 +24,7 @@ export const styles = (theme) => ({
   /* Styles applied to the root element if `orientation="vertical"`. */
   vertical: {
     textAlign: 'left',
+    padding: '8px 0',
   },
   /* Styles applied to the `Typography` component which wraps `children`. */
   label: {
@@ -153,7 +154,6 @@ StepLabel.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -162,6 +162,7 @@ StepLabel.propTypes = {
   className: PropTypes.string,
   /**
    * Mark the step as failed.
+   * @default false
    */
   error: PropTypes.bool,
   /**

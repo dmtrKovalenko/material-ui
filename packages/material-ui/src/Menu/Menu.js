@@ -44,12 +44,12 @@ const Menu = React.forwardRef(function Menu(props, ref) {
     disableAutoFocusItem = false,
     MenuListProps = {},
     onClose,
-    onEntering,
     open,
     PaperProps = {},
     PopoverClasses,
     transitionDuration = 'auto',
     variant = 'selectedMenu',
+    TransitionProps: { onEntering, ...TransitionProps } = {},
     ...other
   } = props;
   const theme = useTheme();
@@ -133,7 +133,6 @@ const Menu = React.forwardRef(function Menu(props, ref) {
       getContentAnchorEl={getContentAnchorEl}
       classes={PopoverClasses}
       onClose={onClose}
-      onEntering={handleEntering}
       anchorOrigin={theme.direction === 'rtl' ? RTL_ORIGIN : LTR_ORIGIN}
       transformOrigin={theme.direction === 'rtl' ? RTL_ORIGIN : LTR_ORIGIN}
       PaperProps={{
@@ -146,6 +145,7 @@ const Menu = React.forwardRef(function Menu(props, ref) {
       open={open}
       ref={ref}
       transitionDuration={transitionDuration}
+      TransitionProps={{ onEntering: handleEntering, ...TransitionProps }}
       {...other}
     >
       <MenuList
@@ -182,6 +182,7 @@ Menu.propTypes = {
    * children are not focusable. If you set this prop to `false` focus will be placed
    * on the parent modal container. This has severe accessibility implications
    * and should only be considered if you manage focus otherwise.
+   * @default true
    */
   autoFocus: PropTypes.bool,
   /**
@@ -190,7 +191,6 @@ Menu.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -198,10 +198,12 @@ Menu.propTypes = {
    * unless `autoFocus` is also set to `false`. Not using the default means not
    * following WAI-ARIA authoring practices. Please be considerate about possible
    * accessibility implications.
+   * @default false
    */
   disableAutoFocusItem: PropTypes.bool,
   /**
    * Props applied to the [`MenuList`](/api/menu-list/) element.
+   * @default {}
    */
   MenuListProps: PropTypes.object,
   /**
@@ -211,30 +213,6 @@ Menu.propTypes = {
    * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`.
    */
   onClose: PropTypes.func,
-  /**
-   * Callback fired before the Menu enters.
-   */
-  onEnter: PropTypes.func,
-  /**
-   * Callback fired when the Menu has entered.
-   */
-  onEntered: PropTypes.func,
-  /**
-   * Callback fired when the Menu is entering.
-   */
-  onEntering: PropTypes.func,
-  /**
-   * Callback fired before the Menu exits.
-   */
-  onExit: PropTypes.func,
-  /**
-   * Callback fired when the Menu has exited.
-   */
-  onExited: PropTypes.func,
-  /**
-   * Callback fired when the Menu is exiting.
-   */
-  onExiting: PropTypes.func,
   /**
    * If `true`, the menu is visible.
    */
@@ -249,6 +227,7 @@ Menu.propTypes = {
   PopoverClasses: PropTypes.object,
   /**
    * The length of the transition in `ms`, or 'auto'
+   * @default 'auto'
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.oneOf(['auto']),
@@ -260,8 +239,15 @@ Menu.propTypes = {
     }),
   ]),
   /**
+   * Props applied to the transition element.
+   * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+   * @default {}
+   */
+  TransitionProps: PropTypes.object,
+  /**
    * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
    * and the vertical alignment relative to the anchor element.
+   * @default 'selectedMenu'
    */
   variant: PropTypes.oneOf(['menu', 'selectedMenu']),
 };

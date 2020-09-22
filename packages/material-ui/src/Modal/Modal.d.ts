@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { StandardProps } from '..';
+import { InternalStandardProps as StandardProps } from '..';
 import { BackdropProps } from '../Backdrop';
 import { PortalProps } from '../Portal';
 
 export interface ModalProps
-  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, never, 'children'> {
+  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
    * A backdrop component. This prop enables custom backdrop rendering.
+   * @default SimpleBackdrop
    */
   BackdropComponent?: React.ElementType<BackdropProps>;
   /**
@@ -17,9 +18,9 @@ export interface ModalProps
    * A single child content element.
    */
   children: React.ReactElement;
-
   /**
    * When set to true the Modal waits until a nested Transition is completed before closing.
+   * @default false
    */
   closeAfterTransition?: boolean;
   /**
@@ -37,10 +38,12 @@ export interface ModalProps
    *
    * Generally this should never be set to `true` as it makes the modal less
    * accessible to assistive technologies, like screen readers.
+   * @default false
    */
   disableAutoFocus?: boolean;
   /**
    * If `true`, clicking the backdrop will not fire `onClose`.
+   * @default false
    */
   disableBackdropClick?: boolean;
   /**
@@ -48,33 +51,40 @@ export interface ModalProps
    *
    * Generally this should never be set to `true` as it makes the modal less
    * accessible to assistive technologies, like screen readers.
+   * @default false
    */
   disableEnforceFocus?: boolean;
   /**
    * If `true`, hitting escape will not fire `onClose`.
+   * @default false
    */
   disableEscapeKeyDown?: boolean;
   /**
    * The `children` will be inside the DOM hierarchy of the parent component.
+   * @default false
    */
   disablePortal?: PortalProps['disablePortal'];
   /**
    * If `true`, the modal will not restore focus to previously focused element once
    * modal is hidden.
+   * @default false
    */
   disableRestoreFocus?: boolean;
   /**
    * Disable the scroll lock behavior.
+   * @default false
    */
   disableScrollLock?: boolean;
   /**
    * If `true`, the backdrop is not rendered.
+   * @default false
    */
   hideBackdrop?: boolean;
   /**
    * Always keep the children in the DOM.
    * This prop can be useful in SEO situation or
    * when you want to maximize the responsiveness of the Modal.
+   * @default false
    */
   keepMounted?: boolean;
   /**
@@ -96,13 +106,6 @@ export interface ModalProps
    * `disableEscapeKeyDown` is false and the modal is in focus.
    */
   onEscapeKeyDown?: React.ReactEventHandler<{}>;
-  /**
-   * Callback fired once the children has been mounted into the `container`.
-   * It signals that the `open={true}` prop took effect.
-   *
-   * This prop will be deprecated and removed in v5, the ref can be used instead.
-   */
-  onRendered?: PortalProps['onRendered'];
   /**
    * If `true`, the modal is open.
    */

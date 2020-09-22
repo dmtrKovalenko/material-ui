@@ -2,7 +2,7 @@
 
 <p class="description">Commencez rapidement avec React et Material-UI.</p>
 
-Les composants Material-UI fonctionnent de manière isolée. **They are self-supporting**, and will only inject the styles they need to display. Ils ne s'appuient sur aucune feuille de style globale telle que [normalize.css](https://github.com/necolas/normalize.css/).
+Les composants Material-UI fonctionnent de manière isolée. **Ils sont autonomes**, ils injecteront uniquement les styles nécessaires. Ils ne s'appuient sur aucune feuille de style globale telle que [normalize.css](https://github.com/necolas/normalize.css/).
 
 Vous pouvez utiliser n'importe lequel des composants comme indiqué dans la documentation. Veuillez vous référer à chaque [page de démonstration](/components/buttons/) pour voir comment les composants doivent être importés.
 
@@ -11,7 +11,7 @@ Vous pouvez utiliser n'importe lequel des composants comme indiqué dans la docu
 Voici un exemple rapide pour vous aider à commencer, **c'est tout ce dont vous avez besoin** :
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
 
@@ -36,7 +36,7 @@ L'expérience d'utilisation de Material-UI peut être améliorée avec une poign
 
 ### La balise meta responsive design (vue adaptative)
 
-Material-UI is developed mobile-first, a strategy in which we first write code for mobile devices, and then scale up components as necessary using CSS media queries. Pour que le rendu et le zoom tactile soient corrects pour tous les périphériques, ajoutez la balise meta viewport à votre élément `<head>`.
+Pour que le rendu et le zoom tactile soient corrects pour tous les périphériques, ajoutez la balise meta viewport à votre élément `<head>`. Material-UI is developed mobile-first, a strategy in which we first write code for mobile devices, and then scale up components as necessary using CSS media queries.
 
 ```html
 <meta

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { isFragment } from 'react-is';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useThemeVariants } from '@material-ui/styles';
 import capitalize from '../utils/capitalize';
 import { fade } from '../styles/colorManipulator';
 import withStyles from '../styles/withStyles';
@@ -21,6 +22,10 @@ export const styles = (theme) => ({
   contained: {
     boxShadow: theme.shadows[2],
   },
+  /* Styles applied to the root element if `variant="outlined"`. */
+  outlined: {},
+  /* Styles applied to the root element if `variant="text"`. */
+  text: {},
   /* Styles applied to the root element if `disableElevation={true}`. */
   disableElevation: {
     boxShadow: 'none',
@@ -180,6 +185,23 @@ const ButtonGroup = React.forwardRef(function ButtonGroup(props, ref) {
     ...other
   } = props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      color,
+      component: Component,
+      disabled,
+      disableElevation,
+      disableFocusRipple,
+      disableRipple,
+      fullWidth,
+      orientation,
+      size,
+      variant,
+    },
+    'MuiButtonGroup',
+  );
+
   const buttonClassName = clsx(
     classes.grouped,
     classes[`grouped${capitalize(orientation)}`],
@@ -202,6 +224,7 @@ const ButtonGroup = React.forwardRef(function ButtonGroup(props, ref) {
           [classes.fullWidth]: fullWidth,
           [classes.disableElevation]: disableElevation,
         },
+        themeVariantsClasses,
         className,
       )}
       ref={ref}
@@ -250,7 +273,6 @@ ButtonGroup.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -259,6 +281,7 @@ ButtonGroup.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'primary'
    */
   color: PropTypes.oneOf(['inherit', 'primary', 'secondary']),
   /**
@@ -268,37 +291,48 @@ ButtonGroup.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the buttons will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, no elevation is used.
+   * @default false
    */
   disableElevation: PropTypes.bool,
   /**
    * If `true`, the button keyboard focus ripple will be disabled.
+   * @default false
    */
   disableFocusRipple: PropTypes.bool,
   /**
    * If `true`, the button ripple effect will be disabled.
+   * @default false
    */
   disableRipple: PropTypes.bool,
   /**
    * If `true`, the buttons will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
    * The group orientation (layout flow direction).
+   * @default 'horizontal'
    */
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   /**
    * The size of the button.
    * `small` is equivalent to the dense button styling.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['large', 'medium', 'small']),
   /**
    * The variant to use.
+   * @default 'outlined'
    */
-  variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['contained', 'outlined', 'text']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiButtonGroup' })(ButtonGroup);

@@ -1,23 +1,33 @@
 import * as React from 'react';
-import { StandardProps } from '@material-ui/core';
+import { InternalStandardProps as StandardProps } from '@material-ui/core';
 
-export interface AvatarGroupProps
-  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, AvatarGroupClassKey> {
+export interface AvatarGroupProps extends StandardProps<React.HTMLAttributes<HTMLDivElement>> {
   /**
    * The avatars to stack.
    */
   children?: React.ReactNode;
   /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the avatar elements. */
+    avatar?: string;
+  };
+  /**
    * Max avatars to show before +x.
+   * @default 5
    */
   max?: number;
   /**
    * Spacing between avatars.
+   * @default 'medium'
    */
   spacing?: 'small' | 'medium' | number;
 }
 
-export type AvatarGroupClassKey = 'root' | 'avatar';
+export type AvatarGroupClassKey = keyof NonNullable<AvatarGroupProps['classes']>;
 
 /**
  *

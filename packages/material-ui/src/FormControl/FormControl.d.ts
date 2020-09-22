@@ -9,19 +9,36 @@ export interface FormControlTypeMap<P = {}, D extends React.ElementType = 'div'>
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Styles applied to the root element if `margin="normal"`. */
+      marginNormal?: string;
+      /** Styles applied to the root element if `margin="dense"`. */
+      marginDense?: string;
+      /** Styles applied to the root element if `fullWidth={true}`. */
+      fullWidth?: string;
+    };
+    /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'primary'
      */
     color?: 'primary' | 'secondary';
     /**
      * If `true`, the label, input and helper text should be displayed in a disabled state.
+     * @default false
      */
     disabled?: boolean;
     /**
      * If `true`, the label should be displayed in an error state.
+     * @default false
      */
     error?: boolean;
     /**
      * If `true`, the component will take up the full width of its container.
+     * @default false
      */
     fullWidth?: boolean;
     /**
@@ -32,14 +49,17 @@ export interface FormControlTypeMap<P = {}, D extends React.ElementType = 'div'>
      * If `true`, the label will be hidden.
      * This is used to increase density for a `FilledInput`.
      * Be sure to add `aria-label` to the `input` element.
+     * @default false
      */
     hiddenLabel?: boolean;
     /**
      * If `dense` or `normal`, will adjust vertical spacing of this and contained components.
+     * @default 'none'
      */
     margin?: PropTypes.Margin;
     /**
      * If `true`, the label will indicate that the input is required.
+     * @default false
      */
     required?: boolean;
     /**
@@ -48,11 +68,11 @@ export interface FormControlTypeMap<P = {}, D extends React.ElementType = 'div'>
     size?: 'small' | 'medium';
     /**
      * The variant to use.
+     * @default 'standard'
      */
     variant?: 'standard' | 'outlined' | 'filled';
   };
   defaultComponent: D;
-  classKey: FormControlClassKey;
 }
 
 /**
@@ -90,7 +110,7 @@ export interface FormControlTypeMap<P = {}, D extends React.ElementType = 'div'>
  */
 declare const FormControl: OverridableComponent<FormControlTypeMap>;
 
-export type FormControlClassKey = 'root' | 'marginNormal' | 'marginDense' | 'fullWidth';
+export type FormControlClassKey = keyof NonNullable<FormControlTypeMap['props']['classes']>;
 
 export type FormControlProps<
   D extends React.ElementType = FormControlTypeMap['defaultComponent'],

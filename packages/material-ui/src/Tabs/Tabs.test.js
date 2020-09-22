@@ -17,7 +17,7 @@ import Tabs from './Tabs';
 import { createMuiTheme, ThemeProvider } from '../styles';
 
 function findScrollButton(container, direction) {
-  return container.querySelector(`svg[data-mui-test="KeyboardArrow${capitalize(direction)}Icon"]`);
+  return container.querySelector(`svg[data-testid="KeyboardArrow${capitalize(direction)}Icon"]`);
 }
 
 function hasLeftScrollButton(container) {
@@ -295,6 +295,19 @@ describe('<Tabs />', () => {
       expect(handleChange.args[0][1]).to.equal(1);
     });
 
+    it('should not call onChange when already selected', () => {
+      const handleChange = spy();
+      const { getAllByRole } = render(
+        <Tabs value={0} onChange={handleChange}>
+          <Tab />
+          <Tab />
+        </Tabs>,
+      );
+
+      fireEvent.click(getAllByRole('tab')[0]);
+      expect(handleChange.callCount).to.equal(0);
+    });
+
     it('when `selectionFollowsFocus` should call if an unselected tab gets focused', () => {
       const handleChange = spy((event, value) => value);
       const { getAllByRole } = render(
@@ -351,7 +364,7 @@ describe('<Tabs />', () => {
 
     it('should render with the scrollable class', () => {
       const { container } = render(tabs);
-      const selector = `.${classes.scroller}.${classes.scrollable}`;
+      const selector = `.${classes.scroller}.${classes.scrollableX}`;
       expect(container.querySelector(selector).tagName).to.equal('DIV');
       expect(container.querySelectorAll(selector)).to.have.lengthOf(1);
     });
@@ -377,7 +390,7 @@ describe('<Tabs />', () => {
       expect(hasLeftScrollButton(container)).to.equal(true);
       expect(hasRightScrollButton(container)).to.equal(true);
       tablistContainer.scrollLeft = 0;
-      fireEvent.scroll(container.querySelector(`.${classes.scroller}.${classes.scrollable}`));
+      fireEvent.scroll(container.querySelector(`.${classes.scroller}.${classes.scrollableX}`));
       clock.tick(166);
 
       expect(hasLeftScrollButton(container)).to.equal(false);
@@ -409,7 +422,7 @@ describe('<Tabs />', () => {
         </Tabs>,
       );
       const baseSelector = `.${classes.scroller}`;
-      const selector = `.${classes.scroller}.${classes.scrollable}`;
+      const selector = `.${classes.scroller}.${classes.scrollableX}`;
       expect(container.querySelector(baseSelector)).not.to.equal(null);
       expect(container.querySelector(selector)).to.equal(null);
     });
@@ -560,8 +573,8 @@ describe('<Tabs />', () => {
       clock.restore();
     });
 
-    it('should call moveTabsScroll', () => {
-      const { container, setProps, getByRole } = render(
+    it('should scroll visible items', () => {
+      const { container, setProps, getByRole, getAllByRole } = render(
         <Tabs value={0} variant="scrollable" scrollButtons="on" style={{ width: 200 }}>
           <Tab />
           <Tab />
@@ -569,7 +582,11 @@ describe('<Tabs />', () => {
         </Tabs>,
       );
       const tablistContainer = getByRole('tablist').parentElement;
+      const tabs = getAllByRole('tab');
       Object.defineProperty(tablistContainer, 'clientWidth', { value: 120 });
+      Object.defineProperty(tabs[0], 'clientWidth', { value: 60 });
+      Object.defineProperty(tabs[1], 'clientWidth', { value: 50 });
+      Object.defineProperty(tabs[2], 'clientWidth', { value: 60 });
       Object.defineProperty(tablistContainer, 'scrollWidth', { value: 216 });
       tablistContainer.scrollLeft = 20;
       setProps();
@@ -584,9 +601,7 @@ describe('<Tabs />', () => {
       tablistContainer.scrollLeft = 0;
       fireEvent.click(findScrollButton(container, 'right'));
       clock.tick(1000);
-      expect(tablistContainer.scrollLeft).not.to.be.below(
-        tablistContainer.scrollWidth - tablistContainer.clientWidth,
-      );
+      expect(tablistContainer.scrollLeft).equal(60 + 50);
     });
   });
 
@@ -688,6 +703,18 @@ describe('<Tabs />', () => {
       style = container.querySelector(`.${classes.indicator}`).style;
       expect(style.top).to.equal('60px');
       expect(style.height).to.equal('50px');
+    });
+
+    it('does not add aria-orientation by default', () => {
+      render(<Tabs value={0} />);
+
+      expect(screen.getByRole('tablist')).not.to.have.attribute('aria-orientation');
+    });
+
+    it('adds the proper aria-orientation when vertical', () => {
+      render(<Tabs value={0} orientation="vertical" />);
+
+      expect(screen.getByRole('tablist')).to.have.attribute('aria-orientation', 'vertical');
     });
   });
 
@@ -1053,6 +1080,20 @@ describe('<Tabs />', () => {
           expect(handleKeyDown.firstCall.returnValue).to.equal(true);
         });
       });
+    });
+
+    it('should allow to focus first tab when there are no active tabs', () => {
+      const { getAllByRole } = render(
+        <Tabs value={false}>
+          <Tab />
+          <Tab />
+        </Tabs>,
+      );
+
+      expect(getAllByRole('tab').map((tab) => tab.getAttribute('tabIndex'))).to.deep.equal([
+        '0',
+        '-1',
+      ]);
     });
   });
 });

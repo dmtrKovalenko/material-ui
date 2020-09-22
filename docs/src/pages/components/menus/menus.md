@@ -1,13 +1,18 @@
 ---
 title: Menu React component
 components: Menu, MenuItem, MenuList, ClickAwayListener, Popover, Popper
+githubLabel: 'component: Menu'
+materialDesign: https://material.io/components/menus
+waiAria: https://www.w3.org/TR/wai-aria-practices/#menubutton
 ---
 
 # Menus
 
 <p class="description">Menus display a list of choices on temporary surfaces.</p>
 
-A [Menu](https://material.io/design/components/menus.html) displays a list of choices on a temporary surface. It appears when the user interacts with a button, or other control.
+A Menu displays a list of choices on a temporary surface. It appears when the user interacts with a button, or other control.
+
+{{"component": "modules/components/ComponentLinkHeader.js"}}
 
 ## Simple Menu
 
@@ -23,8 +28,8 @@ Choosing an option should immediately ideally commit the option and close the me
 
 If used for item selection, when opened, simple menus attempt to vertically align the currently selected menu item with the anchor element,
 and the initial focus will be placed on the selected menu item.
-The currently selected menu item is set using the `selected` property (from [ListItem](/api/list-item/)).
-To use a selected menu item without impacting the initial focus or the vertical positioning of the menu, set the `variant` property to `menu`.
+The currently selected menu item is set using the `selected` prop (from [ListItem](/api/list-item/)).
+To use a selected menu item without impacting the initial focus or the vertical positioning of the menu, set the `variant` prop to "menu".
 
 {{"demo": "pages/components/menus/SimpleListMenu.js"}}
 

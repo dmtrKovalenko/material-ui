@@ -1,16 +1,27 @@
 import * as React from 'react';
-import { StandardProps } from '..';
+import { InternalStandardProps as StandardProps } from '..';
 import { TransitionProps } from '../transitions/transition';
 
-export interface StepContentProps
-  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, StepContentClasskey> {
+export interface StepContentProps extends StandardProps<React.HTMLAttributes<HTMLDivElement>> {
   /**
    * Step content.
    */
   children?: React.ReactNode;
   /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the root element if `last={true}` (controlled by `Step`). */
+    last?: string;
+    /** Styles applied to the Transition component. */
+    transition?: string;
+  };
+  /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Collapse
    */
   TransitionComponent?: React.ComponentType<TransitionProps>;
   /**
@@ -18,6 +29,7 @@ export interface StepContentProps
    * Passed as a prop to the transition component.
    *
    * Set to 'auto' to automatically calculate transition time based on height.
+   * @default 'auto'
    */
   transitionDuration?: TransitionProps['timeout'] | 'auto';
   /**
@@ -27,7 +39,7 @@ export interface StepContentProps
   TransitionProps?: TransitionProps;
 }
 
-export type StepContentClasskey = 'root' | 'last' | 'transition';
+export type StepContentClasskey = keyof NonNullable<StepContentProps['classes']>;
 
 /**
  *

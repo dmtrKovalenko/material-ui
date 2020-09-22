@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header(props) {
+function Header(props) {
   const classes = useStyles();
   const { sections, title } = props;
 
@@ -73,6 +73,13 @@ export default function Header(props) {
 }
 
 Header.propTypes = {
-  sections: PropTypes.array,
-  title: PropTypes.string,
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  title: PropTypes.string.isRequired,
 };
+
+export default Header;

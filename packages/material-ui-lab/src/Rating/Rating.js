@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core/utils';
 import { visuallyHidden } from '@material-ui/system';
 import Star from '../internal/svg-icons/Star';
+import StarBorder from '../internal/svg-icons/StarBorder';
 
 function clamp(value, min, max) {
   if (value < min) {
@@ -41,14 +42,15 @@ export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
     display: 'inline-flex',
+    // Required to position the pristine input absolutely
     position: 'relative',
     fontSize: theme.typography.pxToRem(24),
-    color: '#ffb400',
+    color: '#faaf00',
     cursor: 'pointer',
     textAlign: 'left',
     WebkitTapHighlightColor: 'transparent',
     '&$disabled': {
-      opacity: 0.5,
+      opacity: theme.palette.action.disabledOpacity,
       pointerEvents: 'none',
     },
     '&$focusVisible $iconActive': {
@@ -73,22 +75,21 @@ export const styles = (theme) => ({
   focusVisible: {},
   /* Visually hide an element. */
   visuallyHidden,
-  /* Styles applied to the pristine label. */
-  pristine: {
-    'input:focus + &': {
-      top: 0,
-      bottom: 0,
-      position: 'absolute',
-      outline: '1px solid #999',
-      width: '100%',
-    },
-  },
   /* Styles applied to the label elements. */
   label: {
     cursor: 'inherit',
   },
+  /* Styles applied to the label of the "no value" input when it is active. */
+  labelEmptyValueActive: {
+    top: 0,
+    bottom: 0,
+    position: 'absolute',
+    outline: '1px solid #999',
+    width: '100%',
+  },
   /* Styles applied to the icon wrapping elements. */
   icon: {
+    // Fit wrapper to actual icon size.
     display: 'flex',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
@@ -127,6 +128,7 @@ IconContainer.propTypes = {
 };
 
 const defaultIcon = <Star fontSize="inherit" />;
+const defaultEmptyIcon = <StarBorder fontSize="inherit" />;
 
 function defaultLabelText(value) {
   return `${value} Star${value !== 1 ? 's' : ''}`;
@@ -138,7 +140,7 @@ const Rating = React.forwardRef(function Rating(props, ref) {
     className,
     defaultValue = null,
     disabled = false,
-    emptyIcon,
+    emptyIcon = defaultEmptyIcon,
     emptyLabelText = 'Empty',
     getLabelText = defaultLabelText,
     icon = defaultIcon,
@@ -179,7 +181,12 @@ const Rating = React.forwardRef(function Rating(props, ref) {
     value = focus;
   }
 
-  const { isFocusVisible, onBlurVisible, ref: focusVisibleRef } = useIsFocusVisible();
+  const {
+    isFocusVisibleRef,
+    onBlur: handleBlurVisible,
+    onFocus: handleFocusVisible,
+    ref: focusVisibleRef,
+  } = useIsFocusVisible();
   const [focusVisible, setFocusVisible] = React.useState(false);
 
   const rootRef = React.useRef();
@@ -267,7 +274,8 @@ const Rating = React.forwardRef(function Rating(props, ref) {
   };
 
   const handleFocus = (event) => {
-    if (isFocusVisible(event)) {
+    handleFocusVisible(event);
+    if (isFocusVisibleRef.current === true) {
       setFocusVisible(true);
     }
 
@@ -287,9 +295,9 @@ const Rating = React.forwardRef(function Rating(props, ref) {
       return;
     }
 
-    if (focusVisible !== false) {
+    handleBlurVisible(event);
+    if (isFocusVisibleRef.current === false) {
       setFocusVisible(false);
-      onBlurVisible();
     }
 
     const newFocus = -1;
@@ -302,6 +310,8 @@ const Rating = React.forwardRef(function Rating(props, ref) {
       onChangeActive(event, newFocus);
     }
   };
+
+  const [emptyValueFocused, setEmptyValueFocused] = React.useState(false);
 
   const item = (state, labelProps) => {
     const id = `${name}-${String(state.value).replace('.', '-')}`;
@@ -427,7 +437,7 @@ const Rating = React.forwardRef(function Rating(props, ref) {
         });
       })}
       {!readOnly && !disabled && valueRounded == null && (
-        <React.Fragment>
+        <label className={clsx({ [classes.labelEmptyValueActive]: emptyValueFocused })}>
           <input
             value=""
             id={`${name}-empty`}
@@ -435,11 +445,11 @@ const Rating = React.forwardRef(function Rating(props, ref) {
             name={name}
             defaultChecked
             className={classes.visuallyHidden}
+            onFocus={() => setEmptyValueFocused(true)}
+            onBlur={() => setEmptyValueFocused(false)}
           />
-          <label className={classes.pristine} htmlFor={`${name}-empty`}>
-            <span className={classes.visuallyHidden}>{emptyLabelText}</span>
-          </label>
-        </React.Fragment>
+          <span className={classes.visuallyHidden}>{emptyLabelText}</span>
+        </label>
       )}
     </span>
   );
@@ -452,7 +462,6 @@ Rating.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -461,18 +470,22 @@ Rating.propTypes = {
   className: PropTypes.string,
   /**
    * The default value. Use when the component is not controlled.
+   * @default null
    */
   defaultValue: PropTypes.number,
   /**
    * If `true`, the rating will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * The icon to display when empty.
+   * @default <StarBorder fontSize="inherit" />
    */
   emptyIcon: PropTypes.node,
   /**
    * The label read when the rating input is empty.
+   * @default 'Empty'
    */
   emptyLabelText: PropTypes.node,
   /**
@@ -482,36 +495,36 @@ Rating.propTypes = {
    *
    * @param {number} value The rating label's value to format.
    * @returns {string}
+   *
+   * @default function defaultLabelText(value) {
+   *   return `${value} Star${value !== 1 ? 's' : ''}`;
+   * }
    */
   getLabelText: PropTypes.func,
   /**
    * The icon to display.
+   * @default <Star fontSize="inherit" />
    */
   icon: PropTypes.node,
   /**
    * The component containing the icon.
+   * @default function IconContainer(props) {
+   *   const { value, ...other } = props;
+   *   return <span {...other} />;
+   * }
    */
   IconContainerComponent: PropTypes.elementType,
   /**
    * Maximum rating.
+   * @default 5
    */
   max: PropTypes.number,
   /**
    * The name attribute of the radio `input` elements.
-   * If `readOnly` is false, the prop is required,
-   * this input name`should be unique within the parent form.
+   * This input `name` should be unique within the page.
+   * Being unique within a form is insufficient since the `name` is used to generated IDs.
    */
-  name: chainPropTypes(PropTypes.string, (props) => {
-    if (!props.readOnly && !props.name) {
-      return new Error(
-        [
-          'Material-UI: The prop `name` is required (when `readOnly` is false).',
-          'Additionally, the input name should be unique within the parent form.',
-        ].join('\n'),
-      );
-    }
-    return null;
-  }),
+  name: PropTypes.string,
   /**
    * Callback fired when the value changes.
    *
@@ -536,6 +549,7 @@ Rating.propTypes = {
   onMouseMove: PropTypes.func,
   /**
    * The minimum increment value change allowed.
+   * @default 1
    */
   precision: chainPropTypes(PropTypes.number, (props) => {
     if (props.precision < 0.1) {
@@ -550,10 +564,12 @@ Rating.propTypes = {
   }),
   /**
    * Removes all hover effects and pointer events.
+   * @default false
    */
   readOnly: PropTypes.bool,
   /**
    * The size of the rating.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['large', 'medium', 'small']),
   /**

@@ -37,7 +37,7 @@ Nothing fancy, just plain CSS.
 **PlainCssButton.js**
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import './PlainCssButton.css';
 
@@ -92,7 +92,7 @@ The following example overrides the `label` style of `Button` in addition to the
 **PlainCssButtonDeep.js**
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import './PlainCssButtonDeep.css';
 
@@ -139,7 +139,7 @@ Explicitly providing the class names to the component is too much effort?
 **GlobalCssButton.js**
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import './GlobalCssButton.css';
 
@@ -171,7 +171,7 @@ The `styled()` method works perfectly on all of the components.
 [![Edit Button](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/styled-components-r1fsr)
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
@@ -214,15 +214,15 @@ Another approach is to use the `&&` characters in styled-components to [bump up 
 If you attempt to style a Drawer with variant permanent,
 you will likely need to affect the Drawer's child paper element.
 However, the paper is not the root element of Drawer and therefore styled-components customization as above will not work.
-You need to use the [`classes`](/styles/advanced/#overriding-styles-classes-prop) API of Material-UI.
+You need to use the Material-UI [`classes`](/styles/advanced/#overriding-styles-classes-prop) API.
 
 The following example overrides the `label` style of `Button` in addition to the custom styles on the button itself.
-It also works around [this styled-components issue](https://github.com/styled-components/styled-components/issues/439) by "consuming" properties that should not be passed on to the underlying component.
+It also works around [this styled-components issue](https://github.com/styled-components/styled-components/issues/439) by "consuming" props that should not be passed on to the underlying component.
 
 {{"demo": "pages/guides/interoperability/StyledComponentsDeep.js"}}
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
@@ -251,7 +251,7 @@ export default function StyledComponentsDeep() {
 The above demo relies on the [default `classes` values](/styles/advanced/#with-material-ui-core) but you can provide your own class name: `.label`.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
@@ -312,12 +312,12 @@ const StyledButton = styled(Button)`
 The [Portal](/components/portal/) provides a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
 Because of the way styled-components scopes its CSS, you may run into issues where styling is not applied.
 
-For example, if you attempt to style the [Menu](/components/menus/) of a [Select](/components/selects/) component using the property `MenuProps`,
-you will need to pass along the `className` property to the element being rendered outside of it's DOM hierarchy.
+For example, if you attempt to style the [Menu](/components/menus/) of a [Select](/components/selects/) component using the `MenuProps` prop,
+you will need to pass along the `className` prop to the element being rendered outside of it's DOM hierarchy.
 The following example shows a workaround:
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -365,7 +365,7 @@ bundling solution people are using.
 **CssModulesButton.js**
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 // webpack, parcel or else will inject the CSS into the page
 import styles from './CssModulesButton.css';
 import Button from '@material-ui/core/Button';
@@ -421,7 +421,7 @@ The following example overrides the `label` style of `Button` in addition to the
 **CssModulesButtonDeep.js**
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 // webpack, parcel or else will inject the CSS into the page
 import styles from './CssModulesButtonDeep.css';
 import Button from '@material-ui/core/Button';

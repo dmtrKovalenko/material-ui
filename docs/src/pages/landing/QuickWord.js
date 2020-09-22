@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -23,10 +23,15 @@ const backers = [
     title: 'Text-Em-All - Mass Text Messaging & Automated Calling',
   },
   {
+    href: 'https://octopus.com/?utm_source=materialui&utm_medium=referral',
+    alt: 'octopus',
+    title: 'Octopus - Repeatable, reliable deployments',
+  },
+  {
     href:
-      'https://www.sencha.com/products/extreact/extreact-for-material-ui/?utm_source=materialui&utm_medium=referral&utm_content=product-200429-extreactmaterialui',
-    alt: 'sencha',
-    title: 'Sencha - UI Components for Productive Dev Teams',
+      'https://www.doit-intl.com/?utm_source=materialui&utm_medium=referral',
+    alt: 'doit-intl',
+    title: 'DoiT - Management Platform for Google Cloud and AWS',
   },
 ];
 

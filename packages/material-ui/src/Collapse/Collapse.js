@@ -116,7 +116,7 @@ const Collapse = React.forwardRef(function Collapse(props, ref) {
     wrapperRef.current ? wrapperRef.current[isHorizontal ? 'clientWidth' : 'clientHeight'] : 0;
 
   const handleEnter = normalizedTransitionCallback((node, isAppearing) => {
-    if (wrapperRef.current) {
+    if (wrapperRef.current && isHorizontal) {
       // Set absolute position to get the size of collapsed content
       wrapperRef.current.style.position = 'absolute';
     }
@@ -130,7 +130,7 @@ const Collapse = React.forwardRef(function Collapse(props, ref) {
   const handleEntering = normalizedTransitionCallback((node, isAppearing) => {
     const wrapperSize = getWrapperSize();
 
-    if (wrapperRef.current) {
+    if (wrapperRef.current && isHorizontal) {
       // After the size is read reset the position back to default
       wrapperRef.current.style.position = '';
     }
@@ -272,7 +272,6 @@ Collapse.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -281,6 +280,7 @@ Collapse.propTypes = {
   className: PropTypes.string,
   /**
    * The width (horizontal) or height (vertical) of the container when collapsed.
+   * @default '0px'
    */
   collapsedSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
@@ -318,6 +318,7 @@ Collapse.propTypes = {
   onExiting: PropTypes.func,
   /**
    * The collapse transition orientation.
+   * @default 'vertical'
    */
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   /**
@@ -329,6 +330,7 @@ Collapse.propTypes = {
    * You may specify a single timeout for all transitions, or individually with an object.
    *
    * Set to 'auto' to automatically calculate transition time based on height.
+   * @default duration.standard
    */
   timeout: PropTypes.oneOfType([
     PropTypes.oneOf(['auto']),

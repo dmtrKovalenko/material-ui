@@ -1,8 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { chainPropTypes } from '@material-ui/utils';
+import { useThemeVariants } from '@material-ui/styles';
 import withStyles from '../styles/withStyles';
+import useTheme from '../styles/useTheme';
 
 export const styles = (theme) => {
   const elevations = {};
@@ -27,6 +28,8 @@ export const styles = (theme) => {
     outlined: {
       border: `1px solid ${theme.palette.divider}`,
     },
+    /* Styles applied to the root element if `variant="elevation"`. */
+    elevation: {},
     ...elevations,
   };
 };
@@ -42,15 +45,40 @@ const Paper = React.forwardRef(function Paper(props, ref) {
     ...other
   } = props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      component: Component,
+      square,
+      elevation,
+      variant,
+    },
+    'MuiPaper',
+  );
+
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const theme = useTheme();
+    if (theme.shadows[elevation] === undefined) {
+      console.error(
+        [
+          `Material-UI: The elevation provided <Paper elevation={${elevation}}> is not available in the theme.`,
+          `Please make sure that \`theme.shadows[${elevation}]\` is defined.`,
+        ].join('\n'),
+      );
+    }
+  }
+
   return (
     <Component
       className={clsx(
         classes.root,
+        classes[variant],
         {
           [classes.rounded]: !square,
           [classes[`elevation${elevation}`]]: variant === 'elevation',
-          [classes.outlined]: variant === 'outlined',
         },
+        themeVariantsClasses,
         className,
       )}
       ref={ref}
@@ -70,7 +98,6 @@ Paper.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -85,26 +112,22 @@ Paper.propTypes = {
   /**
    * Shadow depth, corresponds to `dp` in the spec.
    * It accepts values between 0 and 24 inclusive.
+   * @default 1
    */
-  elevation: chainPropTypes(PropTypes.number, (props) => {
-    const { classes, elevation } = props;
-    // in case `withStyles` fails to inject we don't need this warning
-    if (classes === undefined) {
-      return null;
-    }
-    if (elevation != null && classes[`elevation${elevation}`] === undefined) {
-      return new Error(`Material-UI: This elevation \`${elevation}\` is not implemented.`);
-    }
-    return null;
-  }),
+  elevation: PropTypes.number,
   /**
    * If `true`, rounded corners are disabled.
+   * @default false
    */
   square: PropTypes.bool,
   /**
    * The variant to use.
+   * @default 'elevation'
    */
-  variant: PropTypes.oneOf(['elevation', 'outlined']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['elevation', 'outlined']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiPaper' })(Paper);

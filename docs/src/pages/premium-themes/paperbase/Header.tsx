@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -27,9 +27,6 @@ const styles = (theme: Theme) =>
   createStyles({
     secondaryBar: {
       zIndex: 0,
-    },
-    menuButton: {
-      marginLeft: -theme.spacing(1),
     },
     iconButtonAvatar: {
       padding: 4,
@@ -64,7 +61,7 @@ function Header(props: HeaderProps) {
                   color="inherit"
                   aria-label="open drawer"
                   onClick={onDrawerToggle}
-                  className={classes.menuButton}
+                  edge="start"
                 >
                   <MenuIcon />
                 </IconButton>

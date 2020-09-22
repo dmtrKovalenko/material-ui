@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React from 'react';
+import * as React from 'react';
 import { useTheme, fade, makeStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 3px 12px rgba(27,31,35,.15)',
     borderRadius: 3,
     width: 300,
-    zIndex: 1,
+    zIndex: theme.zIndex.modal,
     fontSize: 13,
     color: '#586069',
     backgroundColor: '#f6f8fa',
@@ -200,8 +200,8 @@ export default function GitHubLabel() {
           disablePortal
           renderTags={() => null}
           noOptionsText="No labels"
-          renderOption={(option, { selected }) => (
-            <React.Fragment>
+          renderOption={(props, option, { selected }) => (
+            <li {...props}>
               <DoneIcon
                 className={classes.iconSelected}
                 style={{
@@ -223,7 +223,7 @@ export default function GitHubLabel() {
                   visibility: selected ? 'visible' : 'hidden',
                 }}
               />
-            </React.Fragment>
+            </li>
           )}
           options={[...labels].sort((a, b) => {
             // Display the selected labels first.

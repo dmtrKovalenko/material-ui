@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { StandardProps } from '..';
+import { InternalStandardProps as StandardProps } from '..';
 
 export interface InputBaseProps
   extends StandardProps<
     React.HTMLAttributes<HTMLDivElement>,
-    InputBaseClassKey,
     /*
      * `onChange`, `onKeyUp`, `onKeyDown`, `onBlur`, `onFocus` are applied to the inner `InputComponent`,
      * which by default is an input or textarea. Since these handlers differ from the
@@ -23,6 +22,49 @@ export interface InputBaseProps
    * If `true`, the `input` element will be focused during the first mount.
    */
   autoFocus?: boolean;
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the root element if the component is a descendant of `FormControl`. */
+    formControl?: string;
+    /** Styles applied to the root element if the component is focused. */
+    focused?: string;
+    /** Styles applied to the root element if `disabled={true}`. */
+    disabled?: string;
+    /** Styles applied to the root element if `startAdornment` is provided. */
+    adornedStart?: string;
+    /** Styles applied to the root element if `endAdornment` is provided. */
+    adornedEnd?: string;
+    /** Pseudo-class applied to the root element if `error={true}`. */
+    error?: string;
+    /** Styles applied to the `input` element if `margin="dense"`. */
+    marginDense?: string;
+    /** Styles applied to the root element if `multiline={true}`. */
+    multiline?: string;
+    /** Styles applied to the root element if the color is secondary. */
+    colorSecondary?: string;
+    /** Styles applied to the root element if `fullWidth={true}`. */
+    fullWidth?: string;
+    /** Styles applied to the root element if `hiddenLabel={true}`. */
+    hiddenLabel?: string;
+    /** Styles applied to the `input` element. */
+    input?: string;
+    /** Styles applied to the `input` element if `margin="dense"`. */
+    inputMarginDense?: string;
+    /** Styles applied to the `input` element if `multiline={true}`. */
+    inputMultiline?: string;
+    /** Styles applied to the `input` element if `type="search"`. */
+    inputTypeSearch?: string;
+    /** Styles applied to the `input` element if `startAdornment` is provided. */
+    inputAdornedStart?: string;
+    /** Styles applied to the `input` element if `endAdornment` is provided. */
+    inputAdornedEnd?: string;
+    /** Styles applied to the `input` element if `hiddenLabel={true}`. */
+    inputHiddenLabel?: string;
+  };
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
@@ -46,6 +88,7 @@ export interface InputBaseProps
   error?: boolean;
   /**
    * If `true`, the input will take up the full width of its container.
+   * @default false
    */
   fullWidth?: boolean;
   /**
@@ -55,10 +98,12 @@ export interface InputBaseProps
   /**
    * The component used for the `input` element.
    * Either a string to use a HTML element or a component.
+   * @default 'input'
    */
   inputComponent?: React.ElementType<InputBaseComponentProps>;
   /**
    * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+   * @default {}
    */
   inputProps?: InputBaseComponentProps;
   /**
@@ -72,6 +117,7 @@ export interface InputBaseProps
   margin?: 'dense' | 'none';
   /**
    * If `true`, a textarea element will be rendered.
+   * @default false
    */
   multiline?: boolean;
   /**
@@ -134,6 +180,7 @@ export interface InputBaseProps
   startAdornment?: React.ReactNode;
   /**
    * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+   * @default 'text'
    */
   type?: string;
   /**
@@ -148,25 +195,7 @@ export interface InputBaseComponentProps
   [arbitrary: string]: any;
 }
 
-export type InputBaseClassKey =
-  | 'root'
-  | 'formControl'
-  | 'focused'
-  | 'disabled'
-  | 'adornedEnd'
-  | 'adornedStart'
-  | 'error'
-  | 'marginDense'
-  | 'multiline'
-  | 'fullWidth'
-  | 'colorSecondary'
-  | 'input'
-  | 'inputMarginDense'
-  | 'inputMultiline'
-  | 'inputTypeSearch'
-  | 'inputAdornedStart'
-  | 'inputAdornedEnd'
-  | 'inputHiddenLabel';
+export type InputBaseClassKey = keyof NonNullable<InputBaseProps['classes']>;
 
 /**
  * `InputBase` contains as few styles as possible.

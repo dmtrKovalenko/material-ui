@@ -2,12 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import debounce from '../utils/debounce';
 import useForkRef from '../utils/useForkRef';
+import useEnhancedEffect from '../utils/useEnhancedEffect';
+import ownerWindow from '../utils/ownerWindow';
 
 function getStyleValue(computedStyle, property) {
   return parseInt(computedStyle[property], 10) || 0;
 }
-
-const useEnhancedEffect = typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
 
 const styles = {
   /* Styles applied to the shadow textarea element. */
@@ -38,7 +38,8 @@ const TextareaAutosize = React.forwardRef(function TextareaAutosize(props, ref) 
 
   const syncHeight = React.useCallback(() => {
     const input = inputRef.current;
-    const computedStyle = window.getComputedStyle(input);
+    const containerWindow = ownerWindow(input);
+    const computedStyle = containerWindow.getComputedStyle(input);
 
     const inputShallow = shadowRef.current;
     inputShallow.style.width = computedStyle.width;
@@ -116,10 +117,11 @@ const TextareaAutosize = React.forwardRef(function TextareaAutosize(props, ref) 
       syncHeight();
     });
 
-    window.addEventListener('resize', handleResize);
+    const containerWindow = ownerWindow(inputRef.current);
+    containerWindow.addEventListener('resize', handleResize);
     return () => {
       handleResize.clear();
-      window.removeEventListener('resize', handleResize);
+      containerWindow.removeEventListener('resize', handleResize);
     };
   }, [syncHeight]);
 
@@ -187,6 +189,7 @@ TextareaAutosize.propTypes = {
   maxRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * Minimum number of rows to display.
+   * @default 1
    */
   minRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**

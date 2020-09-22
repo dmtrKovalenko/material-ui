@@ -1,13 +1,16 @@
 ---
 title: Button React component
 components: Button, IconButton, ButtonBase, LoadingButton
+materialDesign: https://material.io/components/buttons
+githubLabel: 'component: Button'
+waiAria: https://www.w3.org/TR/wai-aria-practices/#button
 ---
 
 # Button
 
 <p class="description">Buttons allow users to take actions, and make choices, with a single tap.</p>
 
-[Buttons](https://material.io/design/components/buttons.html) communicate actions that users can take. They are typically placed throughout your UI, in places like:
+Buttons communicate actions that users can take. They are typically placed throughout your UI, in places like:
 
 - Dialogs
 - Modal windows
@@ -15,9 +18,11 @@ components: Button, IconButton, ButtonBase, LoadingButton
 - Cards
 - Toolbars
 
+{{"component": "modules/components/ComponentLinkHeader.js"}}
+
 ## Contained Buttons
 
-[Contained buttons](https://material.io/design/components/buttons.html#contained-button)
+[Contained buttons](https://material.io/components/buttons#contained-button)
 are high-emphasis, distinguished by their use of elevation and fill.
 They contain actions that are primary to your app.
 
@@ -29,7 +34,7 @@ You can remove the elevation with the `disableElevation` prop.
 
 ## Text Buttons
 
-[Text buttons](https://material.io/design/components/buttons.html#text-button)
+[Text buttons](https://material.io/components/buttons#text-button)
 are typically used for less-pronounced actions, including those located:
 
 - In dialogs
@@ -41,7 +46,7 @@ In cards, text buttons help maintain an emphasis on card content.
 
 ## Outlined Buttons
 
-[Outlined buttons](https://material.io/design/components/buttons.html#outlined-button)
+[Outlined buttons](https://material.io/components/buttons#outlined-button)
 are medium-emphasis buttons. They contain actions that are important,
 but aren’t the primary action in an app.
 
@@ -72,7 +77,7 @@ Note that the documentation [avoids](/guides/api/#native-properties) mentioning 
 
 ## Sizes
 
-Fancy larger or smaller buttons? Use the `size` property.
+For larger or smaller buttons use the `size` prop.
 
 {{"demo": "pages/components/buttons/ButtonSizes.js"}}
 
@@ -120,7 +125,7 @@ You can take advantage of this lower level component to build custom interaction
 ## Third-party routing library
 
 One common use case is to use the button to trigger navigation to a new page.
-The `ButtonBase` component provides a property to handle this use case: `component`.
+The `ButtonBase` component provides the `component` prop to handle this use case.
 However for certain focus polyfills `ButtonBase` requires the DOM node of the provided
 component. This is achieved by attaching a ref to the component and expecting that the
 component forwards this ref to the underlying DOM node.

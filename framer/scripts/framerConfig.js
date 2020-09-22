@@ -17,7 +17,15 @@ export const componentSettings = {
     ],
   },
   Avatar: {
-    ignoredProps: ['alt', 'imgProps', 'sizes', 'src', 'srcSet'],
+    ignoredProps: [
+      'alt',
+      'imgProps',
+      'sizes',
+      'src',
+      'srcSet',
+      // FIXME: `Union`
+      'variant',
+    ],
     propValues: {
       // Note: MUI Avatar doesn't have the normal `color` prop.
       backgroundColor: "'#4154af'",
@@ -39,6 +47,8 @@ export const componentSettings = {
       'disableFocusRipple',
       'invisible',
       'overlap',
+      // FIXME: `Union`
+      'variant',
     ],
     propValues: {
       icon: "''",
@@ -105,7 +115,13 @@ export const componentSettings = {
     template: 'selection_control.txt',
   },
   Chip: {
-    ignoredProps: ['avatar', 'children', 'onDelete'],
+    ignoredProps: [
+      'avatar',
+      'children',
+      'onDelete',
+      // FIXME: `Union`
+      'variant',
+    ],
     propValues: {
       avatarImageFile: "''",
       avatarImageUrl: "''",
@@ -128,7 +144,7 @@ export const componentSettings = {
       size: 44,
       thickness: 4,
       progressValue: 75,
-      variant: "'static'",
+      variant: "'determinate'",
     },
     style: {
       width: 'width',
@@ -137,7 +153,12 @@ export const componentSettings = {
     template: 'circular_progress.txt',
   },
   Fab: {
-    ignoredProps: ['children', 'disableFocusRipple'],
+    ignoredProps: [
+      'children',
+      'disableFocusRipple',
+      // FIXME: `Union`
+      'variant',
+    ],
     propValues: {
       icon: "'add'",
       iconTheme: 'Filled',
@@ -198,7 +219,10 @@ export const componentSettings = {
     template: 'self_closing.txt',
   },
   Paper: {
-    ignoredProps: [],
+    ignoredProps: [
+      // FIXME: `Union`
+      'variant',
+    ],
     propValues: {
       width: 100,
       height: 100,

@@ -47,7 +47,7 @@ describe('<Modal />', () => {
     }),
   );
 
-  describe('props', () => {
+  describe('props:', () => {
     let container;
 
     before(() => {
@@ -60,7 +60,7 @@ describe('<Modal />', () => {
     });
 
     it('should consume theme default props', () => {
-      const theme = createMuiTheme({ props: { MuiModal: { container } } });
+      const theme = createMuiTheme({ components: { MuiModal: { defaultProps: { container } } } });
       render(
         <ThemeProvider theme={theme}>
           <Modal open>
@@ -332,7 +332,7 @@ describe('<Modal />', () => {
 
     it('does not include the children in the a11y tree', () => {
       const modalRef = React.createRef();
-      const wrapper = mount(
+      const { setProps } = render(
         <Modal keepMounted open={false} ref={modalRef}>
           <div>ModalContent</div>
         </Modal>,
@@ -340,7 +340,7 @@ describe('<Modal />', () => {
       const modalNode = modalRef.current;
       expect(modalNode).toBeAriaHidden();
 
-      wrapper.setProps({ open: true });
+      setProps({ open: true });
       expect(modalNode).not.toBeAriaHidden();
     });
 
@@ -528,20 +528,6 @@ describe('<Modal />', () => {
 
         expect(getByTestId('foreign-input')).toHaveFocus();
       });
-    });
-  });
-
-  describe('prop: onRendered', () => {
-    it('should fire', () => {
-      const handleRendered = spy();
-
-      render(
-        <Modal open onRendered={handleRendered}>
-          <div />
-        </Modal>,
-      );
-
-      expect(handleRendered).to.have.property('callCount', 1);
     });
   });
 

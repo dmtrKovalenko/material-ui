@@ -79,7 +79,7 @@ function isInKarma() {
 // chai#utils.elToString that looks like stringified elements in testing-library
 function elementToString(element: Element | null | undefined) {
   if (typeof element?.nodeType === 'number') {
-    return prettyDOM(element, undefined, { highlight: true, maxDepth: 1 });
+    return prettyDOM(element, undefined, { highlight: !isInKarma(), maxDepth: 1 });
   }
   return String(element);
 }
@@ -90,7 +90,8 @@ chai.use((chaiAPI, utils) => {
 
     this.assert(
       element === document.activeElement,
-      'expected element to have focus',
+      // karma does not show the diff like mocha does
+      `expected element to have focus${isInKarma() ? '\nexpected #{exp}\nactual: #{act}' : ''}`,
       `expected element to NOT have focus \n${elementToString(element)}`,
       elementToString(element),
       elementToString(document.activeElement),
@@ -101,16 +102,19 @@ chai.use((chaiAPI, utils) => {
     const element = utils.flag(this, 'object');
     const id = element.getAttribute('id');
 
-    const virutallyFocusedElementId = document.activeElement!.getAttribute('aria-activedescendant');
+    const virtuallyFocusedElementId = document.activeElement!.getAttribute('aria-activedescendant');
 
     this.assert(
-      virutallyFocusedElementId === id,
-      `expected element to be virtually focused${
-        isInKarma() ? '\nexpected #{exp}\nactual: #{act}' : ''
+      virtuallyFocusedElementId === id,
+      `expected element to be virtually focused\nexpected id #{exp}\n${
+        virtuallyFocusedElementId === null
+          ? `activeElement: ${elementToString(document.activeElement)}`
+          : 'actual id: #{act}'
       }`,
       'expected element to NOT to be virtually focused',
-      elementToString(document.getElementById(id)),
-      elementToString(document.getElementById(virutallyFocusedElementId!)),
+      id,
+      virtuallyFocusedElementId,
+      virtuallyFocusedElementId !== null,
     );
   });
 
@@ -216,6 +220,7 @@ chai.use((chaiAPI, utils) => {
     }
 
     const actualName = computeAccessibleName(root, {
+      computedStyleSupportsPseudoElements: !isInJSDOM(),
       // in local development we pretend to be visible. full getComputedStyle is
       // expensive and reserved for CI
       getComputedStyle: process.env.CI ? undefined : pretendVisibleGetComputedStyle,

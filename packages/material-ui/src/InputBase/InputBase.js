@@ -9,6 +9,7 @@ import FormControlContext, { useFormControl } from '../FormControl/FormControlCo
 import withStyles from '../styles/withStyles';
 import capitalize from '../utils/capitalize';
 import useForkRef from '../utils/useForkRef';
+import useEnhancedEffect from '../utils/useEnhancedEffect';
 import TextareaAutosize from '../TextareaAutosize';
 import { isFilled } from './utils';
 
@@ -40,7 +41,7 @@ export const styles = (theme) => {
       // Mimics the default input display property used by browsers for an input.
       ...theme.typography.body1,
       color: theme.palette.text.primary,
-      lineHeight: '1.1876em', // Reset (19px), match the native input line-height
+      lineHeight: '1.4375em', // 23px
       boxSizing: 'border-box', // Prevent padding issue with fullWidth.
       position: 'relative',
       cursor: 'text',
@@ -67,9 +68,9 @@ export const styles = (theme) => {
     marginDense: {},
     /* Styles applied to the root element if `multiline={true}`. */
     multiline: {
-      padding: `${8 - 2}px 0 ${8 - 1}px`,
+      padding: '4px 0 5px',
       '&$marginDense': {
-        paddingTop: 4 - 1,
+        paddingTop: 1,
       },
     },
     /* Styles applied to the root element if the color is secondary. */
@@ -78,16 +79,18 @@ export const styles = (theme) => {
     fullWidth: {
       width: '100%',
     },
+    /* Styles applied to the root element if `hiddenLabel={true}`. */
+    hiddenLabel: {},
     /* Styles applied to the `input` element. */
     input: {
       font: 'inherit',
       letterSpacing: 'inherit',
       color: 'currentColor',
-      padding: `${8 - 2}px 0 ${8 - 1}px`,
+      padding: '4px 0 5px',
       border: 0,
       boxSizing: 'content-box',
       background: 'none',
-      height: '1.1876em', // Reset (19px), match the native input line-height
+      height: '1.4375em', // Reset 23pxthe native input line-height
       margin: 0, // Reset for Safari
       WebkitTapHighlightColor: 'transparent',
       display: 'block',
@@ -132,7 +135,7 @@ export const styles = (theme) => {
     },
     /* Styles applied to the `input` element if `margin="dense"`. */
     inputMarginDense: {
-      paddingTop: 4 - 1,
+      paddingTop: 1,
     },
     /* Styles applied to the `input` element if `multiline={true}`. */
     inputMultiline: {
@@ -154,8 +157,6 @@ export const styles = (theme) => {
     inputHiddenLabel: {},
   };
 };
-
-const useEnhancedEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
 /**
  * `InputBase` contains as few styles as possible.
@@ -422,6 +423,7 @@ const InputBase = React.forwardRef(function InputBase(props, ref) {
           [classes.multiline]: multiline,
           [classes.adornedStart]: startAdornment,
           [classes.adornedEnd]: endAdornment,
+          [classes.hiddenLabel]: fcs.hiddenLabel,
         },
         className,
       )}
@@ -499,7 +501,6 @@ InputBase.propTypes = {
   autoFocus: PropTypes.bool,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -529,6 +530,7 @@ InputBase.propTypes = {
   error: PropTypes.bool,
   /**
    * If `true`, the input will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
@@ -538,10 +540,12 @@ InputBase.propTypes = {
   /**
    * The component used for the `input` element.
    * Either a string to use a HTML element or a component.
+   * @default 'input'
    */
   inputComponent: PropTypes.elementType,
   /**
    * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+   * @default {}
    */
   inputProps: PropTypes.object,
   /**
@@ -563,6 +567,7 @@ InputBase.propTypes = {
   minRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * If `true`, a textarea element will be rendered.
+   * @default false
    */
   multiline: PropTypes.bool,
   /**
@@ -625,6 +630,7 @@ InputBase.propTypes = {
   startAdornment: PropTypes.node,
   /**
    * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+   * @default 'text'
    */
   type: PropTypes.string,
   /**

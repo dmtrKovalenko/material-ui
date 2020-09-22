@@ -9,27 +9,14 @@ import {
   act,
   createClientRender,
   fireEvent,
+  screen,
+  focusVisible,
+  simulatePointerDevice,
+  programmaticFocusTriggersFocusVisible,
 } from 'test/utils';
 import * as PropTypes from 'prop-types';
 import TouchRipple from './TouchRipple';
 import ButtonBase from './ButtonBase';
-
-/**
- * @param {HTMLElement} element
- */
-function focusVisible(element) {
-  act(() => {
-    element.blur();
-    fireEvent.keyDown(document.body, { key: 'Tab' });
-    element.focus();
-  });
-}
-
-function simulatePointerDevice() {
-  // first focus on a page triggers focus visible until a pointer event
-  // has been dispatched
-  fireEvent.pointerDown(document.body);
-}
 
 describe('<ButtonBase />', () => {
   const render = createClientRender();
@@ -647,10 +634,63 @@ describe('<ButtonBase />', () => {
       simulatePointerDevice();
 
       expect(button).not.to.have.class(classes.focusVisible);
+
       button.focus();
-      expect(button).not.to.have.class(classes.focusVisible);
+
+      if (programmaticFocusTriggersFocusVisible()) {
+        expect(button).to.have.class(classes.focusVisible);
+      } else {
+        expect(button).not.to.have.class(classes.focusVisible);
+      }
+
       focusVisible(button);
+
       expect(button).to.have.class(classes.focusVisible);
+    });
+
+    it('removes foucs-visible if focus is re-targetted', () => {
+      /**
+       * @type {string[]}
+       */
+      const eventLog = [];
+      function Test() {
+        /**
+         * @type {React.Ref<HTMLButtonElement>}
+         */
+        const focusRetargetRef = React.useRef(null);
+        return (
+          <div
+            onFocus={() => {
+              const { current: focusRetarget } = focusRetargetRef;
+              if (focusRetarget === null) {
+                throw new TypeError('Nothing to focous. Test cannot work.');
+              }
+              focusRetarget.focus();
+            }}
+          >
+            <button ref={focusRetargetRef} type="button">
+              you cannot escape me
+            </button>
+            <ButtonBase
+              onBlur={() => eventLog.push('blur')}
+              onFocus={() => eventLog.push('focus')}
+              onFocusVisible={() => eventLog.push('focus-visible')}
+            >
+              Hello
+            </ButtonBase>
+          </div>
+        );
+      }
+      const { getByText } = render(<Test />);
+      const buttonBase = getByText('Hello');
+      const focusRetarget = getByText('you cannot escape me');
+      simulatePointerDevice();
+
+      focusVisible(buttonBase);
+
+      expect(focusRetarget).toHaveFocus();
+      expect(eventLog).to.deep.equal(['focus-visible', 'focus', 'blur']);
+      expect(buttonBase).not.to.have.class(classes.focusVisible);
     });
 
     it('onFocusVisibleHandler() should propagate call to onFocusVisible prop', () => {
@@ -989,6 +1029,46 @@ describe('<ButtonBase />', () => {
       expect(() => {
         render(<ButtonBase component={Component} />);
       }).toErrorDev('Please make sure the children prop is rendered in this custom component.');
+    });
+  });
+
+  describe('prop: type', () => {
+    it('is `button` by default', () => {
+      render(<ButtonBase />);
+
+      expect(screen.getByRole('button')).to.have.property('type', 'button');
+    });
+
+    it('can be changed to other button types', () => {
+      render(<ButtonBase type="submit" />);
+
+      expect(screen.getByRole('button')).to.have.property('type', 'submit');
+    });
+
+    it('allows non-standard values', () => {
+      // @ts-expect-error `@types/react` only lists standard values
+      render(<ButtonBase type="fictional-type" />);
+
+      expect(screen.getByRole('button')).to.have.attribute('type', 'fictional-type');
+      // By spec non-supported types result in the default type for `<button>` which is `submit`
+      expect(screen.getByRole('button')).to.have.property('type', 'submit');
+    });
+
+    it('is forwarded to anchor components', () => {
+      render(<ButtonBase component="a" href="some-recording.ogg" download type="audio/ogg" />);
+
+      expect(screen.getByRole('link')).to.have.attribute('type', 'audio/ogg');
+      expect(screen.getByRole('link')).to.have.property('type', 'audio/ogg');
+    });
+
+    it('is forwarded to custom components', () => {
+      /**
+       * @type {React.ForwardRefExoticComponent<React.ButtonHTMLAttributes<HTMLButtonElement>>}
+       */
+      const CustomButton = React.forwardRef((props, ref) => <button ref={ref} {...props} />);
+      render(<ButtonBase component={CustomButton} type="reset" />);
+
+      expect(screen.getByRole('button')).to.have.property('type', 'reset');
     });
   });
 });

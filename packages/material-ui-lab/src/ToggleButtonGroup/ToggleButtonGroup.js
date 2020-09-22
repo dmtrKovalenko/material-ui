@@ -143,7 +143,6 @@ ToggleButtonGroup.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -152,6 +151,7 @@ ToggleButtonGroup.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, only allow one of the child ToggleButton values to be selected.
+   * @default false
    */
   exclusive: PropTypes.bool,
   /**
@@ -165,10 +165,12 @@ ToggleButtonGroup.propTypes = {
   onChange: PropTypes.func,
   /**
    * The group orientation (layout flow direction).
+   * @default 'horizontal'
    */
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   /**
    * The size of the buttons.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['large', 'medium', 'small']),
   /**

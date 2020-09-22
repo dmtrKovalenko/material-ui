@@ -104,6 +104,7 @@ Select.propTypes = {
   /**
    * If `true`, the width of the popover will automatically be set according to the items inside the
    * menu, otherwise it will be at least the width of the select input.
+   * @default false
    */
   autoWidth: PropTypes.bool,
   /**
@@ -115,7 +116,6 @@ Select.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -125,12 +125,17 @@ Select.propTypes = {
   /**
    * If `true`, a value is displayed even if no items are selected.
    *
-   * In order to display a meaningful value, a function should be passed to the `renderValue` prop which returns the value to be displayed when no items are selected.
-   * You can only use it when the `native` prop is `false` (default).
+   * In order to display a meaningful value, a function can be passed to the `renderValue` prop which
+   * returns the value to be displayed when no items are selected.
+   *
+   * ⚠️ When using this prop, make sure the label doesn't overlap with the empty displayed value.
+   * The label should either be hidden or forced to a shrunk state.
+   * @default false
    */
   displayEmpty: PropTypes.bool,
   /**
    * The icon that displays the arrow.
+   * @default ArrowDropDownIcon
    */
   IconComponent: PropTypes.elementType,
   /**
@@ -157,6 +162,7 @@ Select.propTypes = {
   labelId: PropTypes.string,
   /**
    * See [OutlinedInput#label](/api/outlined-input/#props)
+   * @default 0
    */
   labelWidth: PropTypes.number,
   /**
@@ -165,14 +171,16 @@ Select.propTypes = {
   MenuProps: PropTypes.object,
   /**
    * If `true`, `value` must be an array and the menu will support multiple selections.
+   * @default false
    */
   multiple: PropTypes.bool,
   /**
    * If `true`, the component will be using a native `select` element.
+   * @default false
    */
   native: PropTypes.bool,
   /**
-   * Callback function fired when a menu item is selected.
+   * Callback fired when a menu item is selected.
    *
    * @param {object} event The event source of the callback.
    * You can pull out the new value by accessing `event.target.value` (any).
@@ -221,6 +229,7 @@ Select.propTypes = {
   value: PropTypes.any,
   /**
    * The variant to use.
+   * @default 'standard'
    */
   variant: PropTypes.oneOf(['filled', 'outlined', 'standard']),
 };

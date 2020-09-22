@@ -39,11 +39,11 @@ import { FormGroupClassKey } from '../FormGroup';
 import { FormHelperTextClassKey } from '../FormHelperText';
 import { FormLabelClassKey } from '../FormLabel';
 import { GridClassKey } from '../Grid';
-import { GridListClassKey } from '../GridList';
-import { GridListTileBarClassKey } from '../GridListTileBar';
-import { GridListTileClassKey } from '../GridListTile';
 import { IconButtonClassKey } from '../IconButton';
 import { IconClassKey } from '../Icon';
+import { ImageListClassKey } from '../ImageList';
+import { ImageListItemBarClassKey } from '../ImageListItemBar';
+import { ImageListItemClassKey } from '../ImageListItem';
 import { InputAdornmentClassKey } from '../InputAdornment';
 import { InputBaseClassKey } from '../InputBase';
 import { InputClassKey } from '../Input';
@@ -96,7 +96,7 @@ import { TooltipClassKey } from '../Tooltip';
 import { TouchRippleClassKey } from '../ButtonBase/TouchRipple';
 import { TypographyClassKey } from '../Typography';
 
-export type Overrides = {
+export type ComponentsOverrides = {
   [Name in keyof ComponentNameToClassKey]?: Partial<StyleRules<ComponentNameToClassKey[Name]>>;
 } & {
   MuiCssBaseline?: {
@@ -151,11 +151,11 @@ export interface ComponentNameToClassKey {
   MuiFormHelperText: FormHelperTextClassKey;
   MuiFormLabel: FormLabelClassKey;
   MuiGrid: GridClassKey;
-  MuiGridList: GridListClassKey;
-  MuiGridListTile: GridListTileClassKey;
-  MuiGridListTileBar: GridListTileBarClassKey;
   MuiIcon: IconClassKey;
   MuiIconButton: IconButtonClassKey;
+  MuiImageList: ImageListClassKey;
+  MuiImageListItem: ImageListItemClassKey;
+  MuiImageListItemBar: ImageListItemBarClassKey;
   MuiInput: InputClassKey;
   MuiInputAdornment: InputAdornmentClassKey;
   MuiInputBase: InputBaseClassKey;

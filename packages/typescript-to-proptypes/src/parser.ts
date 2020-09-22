@@ -8,15 +8,15 @@ import * as t from './types';
 export interface ParserOptions {
   /**
    * Called before a PropType is added to a component/object
-   * @return true to include the PropType, false to skip it, or undefined to
-   * use the default behaviour
+   * @returns true to include the PropType, false to skip it, or undefined to
+   * use the default behavior
    * @default name !== 'ref'
    */
   shouldInclude: (data: { name: string; depth: number }) => boolean | undefined;
   /**
    * Called before the shape of an object is resolved
-   * @return true to resolve the shape of the object, false to just use a object, or undefined to
-   * use the default behaviour
+   * @returns true to resolve the shape of the object, false to just use a object, or undefined to
+   * use the default behavior
    * @default propertyCount <= 50 && depth <= 3
    */
   shouldResolveObject: (data: {
@@ -433,6 +433,11 @@ export function parseFromProgram(
       return;
     }
     const componentName = node.name.getText();
+
+    // Discriminate render functions to components
+    if (componentName[0].toUpperCase() !== componentName[0]) {
+      return;
+    }
 
     const type = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
     type.getCallSignatures().forEach((signature) => {

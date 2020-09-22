@@ -152,13 +152,7 @@ const Dialog = React.forwardRef(function Dialog(props, ref) {
     maxWidth = 'sm',
     onBackdropClick,
     onClose,
-    onEnter,
-    onEntered,
-    onEntering,
     onEscapeKeyDown,
-    onExit,
-    onExited,
-    onExiting,
     open,
     PaperComponent = Paper,
     PaperProps = {},
@@ -171,17 +165,19 @@ const Dialog = React.forwardRef(function Dialog(props, ref) {
     ...other
   } = props;
 
-  const mouseDownTarget = React.useRef();
+  const backdropClick = React.useRef();
   const handleMouseDown = (event) => {
-    mouseDownTarget.current = event.currentTarget;
+    // We don't want to close the dialog when clicking the dialog content.
+    // Make sure the event starts and ends on the same DOM element.
+    backdropClick.current = event.target === event.currentTarget;
   };
   const handleBackdropClick = (event) => {
-    // Make sure the event starts and ends on the same DOM element.
-    if (event.target !== mouseDownTarget.current) {
+    // Ignore the events not coming from the "backdrop".
+    if (!backdropClick.current) {
       return;
     }
 
-    mouseDownTarget.current = null;
+    backdropClick.current = null;
 
     if (onBackdropClick) {
       onBackdropClick(event);
@@ -214,12 +210,6 @@ const Dialog = React.forwardRef(function Dialog(props, ref) {
         appear
         in={open}
         timeout={transitionDuration}
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onEntered={onEntered}
-        onExit={onExit}
-        onExiting={onExiting}
-        onExited={onExited}
         role="none presentation"
         {...TransitionProps}
       >
@@ -279,7 +269,6 @@ Dialog.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -288,26 +277,31 @@ Dialog.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, clicking the backdrop will not fire the `onClose` callback.
+   * @default false
    */
   disableBackdropClick: PropTypes.bool,
   /**
    * If `true`, hitting escape will not fire the `onClose` callback.
+   * @default false
    */
   disableEscapeKeyDown: PropTypes.bool,
   /**
    * If `true`, the dialog will be full-screen
+   * @default false
    */
   fullScreen: PropTypes.bool,
   /**
    * If `true`, the dialog stretches to `maxWidth`.
    *
    * Notice that the dialog width grow is limited by the default margin.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
    * Determine the max-width of the dialog.
    * The dialog width grows with the size of the screen.
    * Set to `false` to disable `maxWidth`.
+   * @default 'sm'
    */
   maxWidth: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs', false]),
   /**
@@ -322,58 +316,39 @@ Dialog.propTypes = {
    */
   onClose: PropTypes.func,
   /**
-   * Callback fired before the dialog enters.
-   */
-  onEnter: PropTypes.func,
-  /**
-   * Callback fired when the dialog has entered.
-   */
-  onEntered: PropTypes.func,
-  /**
-   * Callback fired when the dialog is entering.
-   */
-  onEntering: PropTypes.func,
-  /**
    * Callback fired when the escape key is pressed,
    * `disableKeyboard` is false and the modal is in focus.
    */
   onEscapeKeyDown: PropTypes.func,
-  /**
-   * Callback fired before the dialog exits.
-   */
-  onExit: PropTypes.func,
-  /**
-   * Callback fired when the dialog has exited.
-   */
-  onExited: PropTypes.func,
-  /**
-   * Callback fired when the dialog is exiting.
-   */
-  onExiting: PropTypes.func,
   /**
    * If `true`, the Dialog is open.
    */
   open: PropTypes.bool.isRequired,
   /**
    * The component used to render the body of the dialog.
+   * @default Paper
    */
   PaperComponent: PropTypes.elementType,
   /**
    * Props applied to the [`Paper`](/api/paper/) element.
+   * @default {}
    */
   PaperProps: PropTypes.object,
   /**
    * Determine the container for scrolling the dialog.
+   * @default 'paper'
    */
   scroll: PropTypes.oneOf(['body', 'paper']),
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Fade
    */
   TransitionComponent: PropTypes.elementType,
   /**
    * The duration for the transition, in milliseconds.
    * You may specify a single timeout for all transitions, or individually with an object.
+   * @default { enter: duration.enteringScreen, exit: duration.leavingScreen }
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.number,

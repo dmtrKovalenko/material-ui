@@ -96,7 +96,7 @@ We will see how this is passed along in the `renderFullPage` function.
 
 ```jsx
 import express from 'express';
-import React from 'react';
+import * as React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
@@ -161,7 +161,7 @@ Let's take a look at the client file:
 `client.js`
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
@@ -187,11 +187,11 @@ ReactDOM.hydrate(<Main />, document.querySelector('#root'));
 
 ## Reference implementations
 
-We host different reference implementations which you can find in the [GitHub repository](https://github.com/mui-org/material-ui) under the [`/examples`](https://github.com/mui-org/material-ui/tree/master/examples) folder:
+We host different reference implementations which you can find in the [GitHub repository](https://github.com/mui-org/material-ui) under the [`/examples`](https://github.com/mui-org/material-ui/tree/next/examples) folder:
 
-- [The reference implementation of this tutorial](https://github.com/mui-org/material-ui/tree/master/examples/ssr)
-- [Gatsby](https://github.com/mui-org/material-ui/tree/master/examples/gatsby)
-- [Next.js](https://github.com/mui-org/material-ui/tree/master/examples/nextjs) ([TypeScript version](https://github.com/mui-org/material-ui/tree/master/examples/nextjs-with-typescript))
+- [The reference implementation of this tutorial](https://github.com/mui-org/material-ui/tree/next/examples/ssr)
+- [Gatsby](https://github.com/mui-org/material-ui/tree/next/examples/gatsby)
+- [Next.js](https://github.com/mui-org/material-ui/tree/next/examples/nextjs) ([TypeScript version](https://github.com/mui-org/material-ui/tree/next/examples/nextjs-with-typescript))
 
 ## Troubleshooting
 

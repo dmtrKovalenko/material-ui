@@ -70,10 +70,10 @@ export const styles = (theme) => ({
     },
     '&[class*="MuiInput-root"][class*="MuiInput-marginDense"]': {
       '& $input': {
-        padding: '4px 4px 5px',
+        padding: '2px 4px 3px',
       },
       '& $input:first-child': {
-        padding: '3px 0 6px',
+        padding: '1px 0 4px',
       },
     },
     '&[class*="MuiOutlinedInput-root"]': {
@@ -85,7 +85,7 @@ export const styles = (theme) => ({
         paddingRight: 52 + 4 + 9,
       },
       '& $input': {
-        padding: '9.5px 4px',
+        padding: '7.5px 4px',
       },
       '& $input:first-child': {
         paddingLeft: 6,
@@ -97,7 +97,7 @@ export const styles = (theme) => ({
     '&[class*="MuiOutlinedInput-root"][class*="MuiOutlinedInput-marginDense"]': {
       padding: 6,
       '& $input': {
-        padding: '4.5px 4px',
+        padding: '2.5px 4px',
       },
     },
     '&[class*="MuiFilledInput-root"]': {
@@ -110,7 +110,7 @@ export const styles = (theme) => ({
         paddingRight: 52 + 4 + 9,
       },
       '& $input': {
-        padding: '9px 4px',
+        padding: '7px 4px',
       },
       '& $endAdornment': {
         right: 9,
@@ -119,7 +119,7 @@ export const styles = (theme) => ({
     '&[class*="MuiFilledInput-root"][class*="MuiFilledInput-marginDense"]': {
       paddingBottom: 1,
       '& $input': {
-        padding: '4.5px 4px',
+        padding: '2.5px 4px',
       },
     },
   },
@@ -377,19 +377,16 @@ const Autocomplete = React.forwardRef(function Autocomplete(props, ref) {
   );
 
   const renderGroup = renderGroupProp || defaultRenderGroup;
-  const renderOption = renderOptionProp || getOptionLabel;
+  const defaultRenderOption = (props2, option) => <li {...props2}>{getOptionLabel(option)}</li>;
+  const renderOption = renderOptionProp || defaultRenderOption;
 
   const renderListOption = (option, index) => {
     const optionProps = getOptionProps({ option, index });
 
-    return (
-      <li {...optionProps} className={classes.option}>
-        {renderOption(option, {
-          selected: optionProps['aria-selected'],
-          inputValue,
-        })}
-      </li>
-    );
+    return renderOption({ ...optionProps, className: classes.option }, option, {
+      selected: optionProps['aria-selected'],
+      inputValue,
+    });
   };
 
   const hasClearIcon = !disableClearable && !disabled;
@@ -516,16 +513,19 @@ Autocomplete.propTypes = {
    * If `true`, the portion of the selected suggestion that has not been typed by the user,
    * known as the completion string, appears inline after the input cursor in the textbox.
    * The inline completion string is visually highlighted and has a selected state.
+   * @default false
    */
   autoComplete: PropTypes.bool,
   /**
    * If `true`, the first option is automatically highlighted.
+   * @default false
    */
   autoHighlight: PropTypes.bool,
   /**
    * If `true`, the selected option becomes the value of the input
    * when the Autocomplete loses focus unless the user chooses
    * a different option or changes the character string in the input.
+   * @default false
    */
   autoSelect: PropTypes.bool,
   /**
@@ -535,6 +535,7 @@ Autocomplete.propTypes = {
    * - `true` the input is always blurred.
    * - `touch` the input is blurred after a touch event.
    * - `mouse` the input is blurred after a mouse event.
+   * @default false
    */
   blurOnSelect: PropTypes.oneOfType([PropTypes.oneOf(['mouse', 'touch']), PropTypes.bool]),
   /**
@@ -543,7 +544,6 @@ Autocomplete.propTypes = {
   ChipProps: PropTypes.object,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -555,60 +555,73 @@ Autocomplete.propTypes = {
    *
    * Set to `true` if you want to help the user enter a new value.
    * Set to `false` if you want to help the user resume his search.
+   * @default !props.freeSolo
    */
   clearOnBlur: PropTypes.bool,
   /**
    * If `true`, clear all values when the user presses escape and the popup is closed.
+   * @default false
    */
   clearOnEscape: PropTypes.bool,
   /**
    * Override the default text for the *clear* icon button.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'Clear'
    */
   clearText: PropTypes.string,
   /**
    * The icon to display in place of the default close icon.
+   * @default <CloseIcon fontSize="small" />
    */
   closeIcon: PropTypes.node,
   /**
    * Override the default text for the *close popup* icon button.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'Close'
    */
   closeText: PropTypes.string,
   /**
    * If `true`, the popup will ignore the blur event if the input is filled.
    * You can inspect the popup markup with your browser tools.
    * Consider this option when you need to customize the component.
+   * @default false
    */
   debug: PropTypes.bool,
   /**
    * The default input value. Use when the component is not controlled.
+   * @default props.multiple ? [] : null
    */
   defaultValue: PropTypes.any,
   /**
    * If `true`, the input can't be cleared.
+   * @default false
    */
   disableClearable: PropTypes.bool,
   /**
    * If `true`, the popup won't close when a value is selected.
+   * @default false
    */
   disableCloseOnSelect: PropTypes.bool,
   /**
    * If `true`, the input will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, will allow focus on disabled items.
+   * @default false
    */
   disabledItemsFocusable: PropTypes.bool,
   /**
    * If `true`, the list box in the popup will not wrap focus.
+   * @default false
    */
   disableListWrap: PropTypes.bool,
   /**
    * The `Popper` content will be inside the DOM hierarchy of the parent component.
+   * @default false
    */
   disablePortal: PropTypes.bool,
   /**
@@ -621,18 +634,22 @@ Autocomplete.propTypes = {
   filterOptions: PropTypes.func,
   /**
    * If `true`, hide the selected options from the list box.
+   * @default false
    */
   filterSelectedOptions: PropTypes.bool,
   /**
    * Force the visibility display of the popup icon.
+   * @default 'auto'
    */
   forcePopupIcon: PropTypes.oneOfType([PropTypes.oneOf(['auto']), PropTypes.bool]),
   /**
    * If `true`, the Autocomplete is free solo, meaning that the user input is not bound to provided options.
+   * @default false
    */
   freeSolo: PropTypes.bool,
   /**
    * If `true`, the input will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
@@ -640,6 +657,7 @@ Autocomplete.propTypes = {
    *
    * @param {number} more The number of truncated tags.
    * @returns {ReactNode}
+   * @default (more) => `+${more}`
    */
   getLimitTagsText: PropTypes.func,
   /**
@@ -655,6 +673,7 @@ Autocomplete.propTypes = {
    *
    * @param {T} option
    * @returns {string}
+   * @default (option) => option.label ?? option
    */
   getOptionLabel: PropTypes.func,
   /**
@@ -677,6 +696,7 @@ Autocomplete.propTypes = {
   /**
    * If `true`, the component handles the "Home" and "End" keys when the popup is open.
    * It should move focus to the first option and last option, respectively.
+   * @default !props.freeSolo
    */
   handleHomeEndKeys: PropTypes.bool,
   /**
@@ -686,6 +706,7 @@ Autocomplete.propTypes = {
   id: PropTypes.string,
   /**
    * If `true`, the highlight can move to the input.
+   * @default false
    */
   includeInputInList: PropTypes.bool,
   /**
@@ -695,10 +716,12 @@ Autocomplete.propTypes = {
   /**
    * The maximum number of tags that will be visible when not focused.
    * Set `-1` to disable the limit.
+   * @default -1
    */
   limitTags: PropTypes.number,
   /**
    * The component used to render the listbox.
+   * @default 'ul'
    */
   ListboxComponent: PropTypes.elementType,
   /**
@@ -707,22 +730,26 @@ Autocomplete.propTypes = {
   ListboxProps: PropTypes.object,
   /**
    * If `true`, the component is in a loading state.
+   * @default false
    */
   loading: PropTypes.bool,
   /**
    * Text to display when in a loading state.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'Loading…'
    */
   loadingText: PropTypes.node,
   /**
    * If `true`, `value` must be an array and the menu will support multiple selections.
+   * @default false
    */
   multiple: PropTypes.bool,
   /**
    * Text to display when there are no options.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'No options'
    */
   noOptionsText: PropTypes.node,
   /**
@@ -738,7 +765,7 @@ Autocomplete.propTypes = {
    * Use in controlled mode (see open).
    *
    * @param {object} event The event source of the callback.
-   * @param {string} reason Can be: `"toggleInput"`, `"escape"`, `"select-option"`, `"blur"`.
+   * @param {string} reason Can be: `"toggleInput"`, `"escape"`, `"select-option"`, `"remove-option"`, `"blur"`.
    */
   onClose: PropTypes.func,
   /**
@@ -770,12 +797,14 @@ Autocomplete.propTypes = {
   open: PropTypes.bool,
   /**
    * If `true`, the popup will open on input focus.
+   * @default false
    */
   openOnFocus: PropTypes.bool,
   /**
    * Override the default text for the *open popup* icon button.
    *
    * For localization purposes, you can use the provided [translations](/guides/localization/).
+   * @default 'Open'
    */
   openText: PropTypes.string,
   /**
@@ -784,14 +813,17 @@ Autocomplete.propTypes = {
   options: PropTypes.array.isRequired,
   /**
    * The component used to render the body of the popup.
+   * @default Paper
    */
   PaperComponent: PropTypes.elementType,
   /**
    * The component used to position the popup.
+   * @default Popper
    */
   PopperComponent: PropTypes.elementType,
   /**
    * The icon to display in place of the default popup icon.
+   * @default <ArrowDropDownIcon />
    */
   popupIcon: PropTypes.node,
   /**
@@ -811,6 +843,7 @@ Autocomplete.propTypes = {
   /**
    * Render the option, use `getOptionLabel` by default.
    *
+   * @param {object} props The props to apply on the li element.
    * @param {T} option The option to render.
    * @param {object} state The state of the component.
    * @returns {ReactNode}
@@ -827,10 +860,12 @@ Autocomplete.propTypes = {
   /**
    * If `true`, the input's text will be selected on focus.
    * It helps the user clear the selected value.
+   * @default !props.freeSolo
    */
   selectOnFocus: PropTypes.bool,
   /**
    * The size of the autocomplete.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['medium', 'small']),
   /**

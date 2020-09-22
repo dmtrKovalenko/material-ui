@@ -184,7 +184,7 @@ function useSynchronousEffect(func, values) {
 
 export default function makeStyles(stylesOrCreator, options = {}) {
   const {
-    // alias for classNamePrefix, if provided will listen to theme (required for theme.overrides)
+    // alias for classNamePrefix, if provided will listen to theme (required for theme.components[name].styleOverrides)
     name,
     // Help with debuggability.
     classNamePrefix: classNamePrefixOption,
@@ -242,11 +242,27 @@ export default function makeStyles(stylesOrCreator, options = {}) {
       React.useDebugValue(classes);
     }
     if (process.env.NODE_ENV !== 'production') {
-      const allowlistedComponents = ['MuiButton', 'MuiTypography'];
+      const supportedComponents = [
+        'MuiAvatar',
+        'MuiBadge',
+        'MuiButton',
+        'MuiButtonGroup',
+        'MuiChip',
+        'MuiDivider',
+        'MuiFab',
+        'MuiPaper',
+        'MuiToolbar',
+        'MuiTypography',
+        'MuiAlert',
+        'MuiPagination',
+        'MuiPaginationItem',
+        'MuiSkeleton',
+        'MuiTimelineDot',
+      ];
 
       if (
         name &&
-        allowlistedComponents.indexOf(name) >= 0 &&
+        supportedComponents.indexOf(name) >= 0 &&
         props.variant &&
         !classes[props.variant]
       ) {

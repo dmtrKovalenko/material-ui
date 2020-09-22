@@ -6,7 +6,7 @@
 
 You can change the font family with the `theme.typography.fontFamily` property.
 
-For instance, this demo uses the system font instead of the default Roboto font:
+For instance, this example uses the system font instead of the default Roboto font:
 
 ```js
 const theme = createMuiTheme({
@@ -61,10 +61,12 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: 'Raleway, Arial',
   },
-  overrides: {
+  components: {
     MuiCssBaseline: {
-      '@global': {
-        '@font-face': [raleway],
+      styleOverrides: {
+        '@global': {
+          '@font-face': [raleway],
+        },
       },
     },
   },
@@ -108,7 +110,7 @@ The computed font size by the browser follows this mathematical equation:
 
 ### Responsive font sizes
 
-The typography variants properties map directly to the generated CSS.
+The `theme.typography.*` [variant](#variants) properties map directly to the generated CSS.
 You can use [media queries](/customization/breakpoints/#api) inside them:
 
 ```js
@@ -150,9 +152,9 @@ To be done: [#15251](https://github.com/mui-org/material-ui/issues/15251).
 
 You might want to change the `<html>` element default font size. For instance, when using the [10px simplification](https://www.sitepoint.com/understanding-and-using-rem-units-in-css/).
 
-> ⚠️ Changing the font size can harm accessibility ♿️. Most browsers agreed on the default size of 16 pixels, but the user can change it. For instance, someone with an impaired vision could have set their browser’s default font size to something larger.
+> ⚠️ Changing the font size can harm accessibility ♿️. Most browsers agreed on the default size of 16px, but the user can change it. For instance, someone with an impaired vision could have set their browser’s default font size to something larger.
 
-An `htmlFontSize` theme property is provided for this use case,
+The `theme.typography.htmlFontSize` property is provided for this use case,
 which tells Material-UI what the font-size on the `<html>` element is.
 This is used to adjust the `rem` value so the calculated font-size always match the specification.
 

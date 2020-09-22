@@ -18,7 +18,7 @@ There are many ways to support Material-UI:
   - Report bugs or missing features by [creating an issue](https://github.com/mui-org/material-ui/issues/new).
   - Review and comment on existing [pull requests](https://github.com/mui-org/material-ui/pulls) and [issues](https://github.com/mui-org/material-ui/issues).
   - Help [translate](https://translate.material-ui.com) the documentation.
-  - [Improve our documentation](https://github.com/mui-org/material-ui/tree/master/docs), fix bugs, or add features by [submitting a pull request](https://github.com/mui-org/material-ui/pulls).
+  - [Improve our documentation](https://github.com/mui-org/material-ui/tree/next/docs), fix bugs, or add features by [submitting a pull request](https://github.com/mui-org/material-ui/pulls).
 - **Support us financially on [OpenCollective](https://opencollective.com/material-ui)**.
   If you use Material-UI in a commercial project and would like to support its continued development by becoming a Sponsor, or in a side or hobby project and would like to become a Backer, you can do so through OpenCollective.
   All funds donated are managed transparently, and Sponsors receive recognition in the README and on the Material-UI home page.
@@ -55,11 +55,13 @@ You can disable the ripple effect globally by providing the following in your th
 import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({
-  props: {
+  components: {
     // Name of the component ⚛️
     MuiButtonBase: {
-      // The properties to apply
-      disableRipple: true, // No more ripple, on the whole application 💣!
+      defaultProps: {
+        // The props to apply
+        disableRipple: true, // No more ripple, on the whole application 💣!
+      },
     },
   },
 });
@@ -89,14 +91,16 @@ You can go one step further by disabling all transitions and animations effects:
 import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({
-  overrides: {
+  components: {
     // Name of the component ⚛️
     MuiCssBaseline: {
-      // Name of the rule
-      '@global': {
-        '*, *::before, *::after': {
-          transition: 'none !important',
-          animation: 'none !important',
+      styleOverrides: {
+        // Name of the rule
+        '@global': {
+          '*, *::before, *::after': {
+            transition: 'none !important',
+            animation: 'none !important',
+          },
         },
       },
     },
@@ -128,7 +132,7 @@ where we show how simple it is to restyle Material-UI components with alternativ
 
 ## When should I use inline-style vs CSS?
 
-As a rule of thumb, only use inline-style for dynamic style properties.
+As a rule of thumb, only use inline-styles for dynamic style properties.
 The CSS alternative provides more advantages, such as:
 
 - auto-prefixing

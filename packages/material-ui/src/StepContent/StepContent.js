@@ -9,7 +9,6 @@ import StepContext from '../Step/StepContext';
 export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
-    marginTop: 8,
     marginLeft: 12, // half icon
     paddingLeft: 8 + 12, // margin + half icon
     paddingRight: 8,
@@ -79,7 +78,6 @@ StepContent.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -89,6 +87,7 @@ StepContent.propTypes = {
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Collapse
    */
   TransitionComponent: PropTypes.elementType,
   /**
@@ -96,6 +95,7 @@ StepContent.propTypes = {
    * Passed as a prop to the transition component.
    *
    * Set to 'auto' to automatically calculate transition time based on height.
+   * @default 'auto'
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.oneOf(['auto']),

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Main(props) {
+function Main(props) {
   const classes = useStyles();
   const { posts, title } = props;
 
@@ -33,6 +33,8 @@ export default function Main(props) {
 }
 
 Main.propTypes = {
-  posts: PropTypes.array,
-  title: PropTypes.string,
+  posts: PropTypes.arrayOf(PropTypes.string).isRequired,
+  title: PropTypes.string.isRequired,
 };
+
+export default Main;

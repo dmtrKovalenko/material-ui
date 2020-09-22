@@ -39,13 +39,15 @@ export default function getStylesCreator(stylesOrCreator) {
 
       if (
         !name ||
-        ((!theme.overrides || !theme.overrides[name]) && (!theme.variants || !theme.variants[name]))
+        !theme.components ||
+        !theme.components[name] ||
+        (!theme.components[name].styleOverrides && !theme.components[name].variants)
       ) {
         return styles;
       }
 
-      const overrides = (theme.overrides && theme.overrides[name]) || {};
-      const variants = (theme.variants && theme.variants[name]) || [];
+      const overrides = theme.components[name].styleOverrides || {};
+      const variants = theme.components[name].variants || [];
       const stylesWithOverrides = { ...styles };
 
       Object.keys(overrides).forEach((key) => {
@@ -56,7 +58,7 @@ export default function getStylesCreator(stylesOrCreator) {
                 'Material-UI: You are trying to override a style that does not exist.',
                 `Fix the \`${key}\` key of \`theme.overrides.${name}\`.`,
                 '',
-                'If you intentionally wanted to add a new key, please use the theme.variants option.',
+                `If you intentionally wanted to add a new key, please use the theme.components[${name}].variants option.`,
               ].join('\n'),
             );
           }
@@ -69,7 +71,7 @@ export default function getStylesCreator(stylesOrCreator) {
         const classKey = propsToClassKey(definition.props);
         stylesWithOverrides[classKey] = deepmerge(
           stylesWithOverrides[classKey] || {},
-          definition.styles,
+          definition.style,
         );
       });
 

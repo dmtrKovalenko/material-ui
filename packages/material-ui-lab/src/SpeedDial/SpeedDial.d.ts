@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '@material-ui/core';
+import { InternalStandardProps as StandardProps } from '@material-ui/core';
 import { FabProps } from '@material-ui/core/Fab';
 import { TransitionHandlerProps, TransitionProps } from '@material-ui/core/transitions';
 
@@ -9,7 +9,6 @@ export type OpenReason = 'toggle' | 'focus' | 'mouseEnter';
 export interface SpeedDialProps
   extends StandardProps<
     React.HTMLAttributes<HTMLDivElement> & Partial<TransitionHandlerProps>,
-    SpeedDialClassKey,
     'children'
   > {
   /**
@@ -17,20 +16,44 @@ export interface SpeedDialProps
    */
   children?: React.ReactNode;
   /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the Fab component. */
+    fab?: string;
+    /** Styles applied to the root if direction="up" */
+    directionUp?: string;
+    /** Styles applied to the root if direction="down" */
+    directionDown?: string;
+    /** Styles applied to the root if direction="left" */
+    directionLeft?: string;
+    /** Styles applied to the root if direction="right" */
+    directionRight?: string;
+    /** Styles applied to the actions (`children` wrapper) element. */
+    actions?: string;
+    /** Styles applied to the actions (`children` wrapper) element if `open={false}`. */
+    actionsClosed?: string;
+  };
+  /**
    * The aria-label of the button element.
    * Also used to provide the `id` for the `SpeedDial` element and its children.
    */
   ariaLabel: string;
   /**
    * The direction the actions open relative to the floating action button.
+   * @default 'up'
    */
   direction?: 'up' | 'down' | 'left' | 'right';
   /**
    * If `true`, the SpeedDial will be hidden.
+   * @default false
    */
   hidden?: boolean;
   /**
    * Props applied to the [`Fab`](/api/fab/) element.
+   * @default {}
    */
   FabProps?: Partial<FabProps>;
   /**
@@ -55,7 +78,7 @@ export interface SpeedDialProps
   /**
    * If `true`, the SpeedDial is open.
    */
-  open: boolean;
+  open?: boolean;
   /**
    * The icon to display in the SpeedDial Fab when the SpeedDial is open.
    */
@@ -63,11 +86,16 @@ export interface SpeedDialProps
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Zoom
    */
   TransitionComponent?: React.ComponentType<TransitionProps>;
   /**
    * The duration for the transition, in milliseconds.
    * You may specify a single timeout for all transitions, or individually with an object.
+   * @default {
+   *   enter: duration.enteringScreen,
+   *   exit: duration.leavingScreen,
+   * }
    */
   transitionDuration?: TransitionProps['timeout'];
   /**
@@ -77,15 +105,7 @@ export interface SpeedDialProps
   TransitionProps?: TransitionProps;
 }
 
-export type SpeedDialClassKey =
-  | 'root'
-  | 'fab'
-  | 'directionUp'
-  | 'directionDown'
-  | 'directionLeft'
-  | 'directionRight'
-  | 'actions'
-  | 'actionsClosed';
+export type SpeedDialClassKey = keyof NonNullable<SpeedDialProps['classes']>;
 
 /**
  *

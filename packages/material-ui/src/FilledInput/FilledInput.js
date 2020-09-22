@@ -103,15 +103,21 @@ export const styles = (theme) => {
     marginDense: {},
     /* Styles applied to the root element if `multiline={true}`. */
     multiline: {
-      padding: '27px 12px 10px',
+      padding: '25px 12px 8px',
       '&$marginDense': {
-        paddingTop: 23,
-        paddingBottom: 6,
+        paddingTop: 21,
+        paddingBottom: 4,
+      },
+      '&$hiddenLabel': {
+        paddingTop: 16,
+        paddingBottom: 17,
       },
     },
+    /* Styles applied to the root element if `hiddenLabel={true}`. */
+    hiddenLabel: {},
     /* Styles applied to the `input` element. */
     input: {
-      padding: '27px 12px 10px',
+      padding: '25px 12px 8px',
       '&:-webkit-autofill': {
         WebkitBoxShadow: theme.palette.type === 'light' ? null : '0 0 0 100px #266798 inset',
         WebkitTextFillColor: theme.palette.type === 'light' ? null : '#fff',
@@ -122,16 +128,16 @@ export const styles = (theme) => {
     },
     /* Styles applied to the `input` element if `margin="dense"`. */
     inputMarginDense: {
-      paddingTop: 23,
-      paddingBottom: 6,
+      paddingTop: 21,
+      paddingBottom: 4,
     },
     /* Styles applied to the `input` if in `<FormControl hiddenLabel />`. */
     inputHiddenLabel: {
-      paddingTop: 18,
-      paddingBottom: 19,
+      paddingTop: 16,
+      paddingBottom: 17,
       '&$inputMarginDense': {
-        paddingTop: 10,
-        paddingBottom: 11,
+        paddingTop: 8,
+        paddingBottom: 9,
       },
     },
     /* Styles applied to the `input` element if `multiline={true}`. */
@@ -196,7 +202,6 @@ FilledInput.propTypes = {
   autoFocus: PropTypes.bool,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -226,6 +231,7 @@ FilledInput.propTypes = {
   error: PropTypes.bool,
   /**
    * If `true`, the input will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
@@ -235,10 +241,12 @@ FilledInput.propTypes = {
   /**
    * The component used for the `input` element.
    * Either a string to use a HTML element or a component.
+   * @default 'input'
    */
   inputComponent: PropTypes.elementType,
   /**
    * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+   * @default {}
    */
   inputProps: PropTypes.object,
   /**
@@ -260,6 +268,7 @@ FilledInput.propTypes = {
   minRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * If `true`, a textarea element will be rendered.
+   * @default false
    */
   multiline: PropTypes.bool,
   /**
@@ -296,6 +305,7 @@ FilledInput.propTypes = {
   startAdornment: PropTypes.node,
   /**
    * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+   * @default 'text'
    */
   type: PropTypes.string,
   /**

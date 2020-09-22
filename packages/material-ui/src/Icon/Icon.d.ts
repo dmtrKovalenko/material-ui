@@ -9,16 +9,40 @@ export interface IconTypeMap<P = {}, D extends React.ElementType = 'span'> {
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Styles applied to the root element if `color="primary"`. */
+      colorPrimary?: string;
+      /** Styles applied to the root element if `color="secondary"`. */
+      colorSecondary?: string;
+      /** Styles applied to the root element if `color="action"`. */
+      colorAction?: string;
+      /** Styles applied to the root element if `color="error"`. */
+      colorError?: string;
+      /** Styles applied to the root element if `color="disabled"`. */
+      colorDisabled?: string;
+      /** Styles applied to the root element if `fontSize="inherit"`. */
+      fontSizeInherit?: string;
+      /** Styles applied to the root element if `fontSize="small"`. */
+      fontSizeSmall?: string;
+      /** Styles applied to the root element if `fontSize="large"`. */
+      fontSizeLarge?: string;
+    };
+    /**
      * The color of the component. It supports those theme colors that make sense for this component.
+     * @default 'inherit'
      */
     color?: Exclude<PropTypes.Color, 'default'> | 'action' | 'disabled' | 'error';
     /**
      * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+     * @default 'default'
      */
     fontSize?: 'inherit' | 'default' | 'small' | 'large';
   };
   defaultComponent: D;
-  classKey: IconClassKey;
 }
 /**
  *
@@ -33,16 +57,7 @@ export interface IconTypeMap<P = {}, D extends React.ElementType = 'span'> {
  */
 declare const Icon: OverridableComponent<IconTypeMap>;
 
-export type IconClassKey =
-  | 'root'
-  | 'colorSecondary'
-  | 'colorAction'
-  | 'colorDisabled'
-  | 'colorError'
-  | 'colorPrimary'
-  | 'fontSizeInherit'
-  | 'fontSizeSmall'
-  | 'fontSizeLarge';
+export type IconClassKey = keyof NonNullable<IconTypeMap['props']['classes']>;
 
 export type IconProps<
   D extends React.ElementType = IconTypeMap['defaultComponent'],

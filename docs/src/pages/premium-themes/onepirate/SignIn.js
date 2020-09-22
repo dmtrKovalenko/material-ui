@@ -1,6 +1,3 @@
-/* eslint-disable import/order */
-import withRoot from './modules/withRoot';
-// --- Post bootstrap -----
 import React from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +10,7 @@ import { email, required } from './modules/form/validation';
 import RFTextField from './modules/form/RFTextField';
 import FormButton from './modules/form/FormButton';
 import FormFeedback from './modules/form/FormFeedback';
+import withRoot from './modules/withRoot';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -35,9 +33,9 @@ function SignIn() {
     const errors = required(['email', 'password'], values);
 
     if (!errors.email) {
-      const emailError = email(values.email, values);
+      const emailError = email(values.email);
       if (emailError) {
-        errors.email = email(values.email, values);
+        errors.email = emailError;
       }
     }
 
@@ -72,7 +70,7 @@ function SignIn() {
           subscription={{ submitting: true }}
           validate={validate}
         >
-          {({ handleSubmit2, submitting }) => (
+          {({ handleSubmit: handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
               <Field
                 autoComplete="email"

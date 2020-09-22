@@ -19,6 +19,7 @@ export const styles = (theme) => {
     root: {
       position: 'relative',
       transition: theme.transitions.create(['margin'], transition),
+      overflowAnchor: 'none', // Keep the same scrolling position
       '&:before': {
         position: 'absolute',
         left: 0,
@@ -177,7 +178,6 @@ Accordion.propTypes = {
   }),
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -186,10 +186,12 @@ Accordion.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, expands the accordion by default.
+   * @default false
    */
   defaultExpanded: PropTypes.bool,
   /**
    * If `true`, the accordion will be displayed in a disabled state.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
@@ -206,11 +208,13 @@ Accordion.propTypes = {
   onChange: PropTypes.func,
   /**
    * If `true`, rounded corners are disabled.
+   * @default false
    */
   square: PropTypes.bool,
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Collapse
    */
   TransitionComponent: PropTypes.elementType,
   /**

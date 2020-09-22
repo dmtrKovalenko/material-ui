@@ -1,11 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { exactProp } from '@material-ui/utils';
-
-const useEnhancedEffect =
-  typeof window !== 'undefined' && process.env.NODE_ENV !== 'test'
-    ? React.useLayoutEffect
-    : React.useEffect;
+import useEnhancedEffect from '../utils/useEnhancedEffect';
 
 /**
  * NoSsr purposely removes components from the subject of Server Side Rendering (SSR).
@@ -48,10 +44,12 @@ NoSsr.propTypes = {
   /**
    * If `true`, the component will not only prevent server-side rendering.
    * It will also defer the rendering of the children into a different screen frame.
+   * @default false
    */
   defer: PropTypes.bool,
   /**
    * The fallback content to display.
+   * @default null
    */
   fallback: PropTypes.node,
 };

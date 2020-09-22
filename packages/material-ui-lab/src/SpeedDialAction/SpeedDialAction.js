@@ -165,7 +165,6 @@ SpeedDialAction.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -174,10 +173,12 @@ SpeedDialAction.propTypes = {
   className: PropTypes.string,
   /**
    * Adds a transition delay, to allow a series of SpeedDialActions to be animated.
+   * @default 0
    */
   delay: PropTypes.number,
   /**
    * Props applied to the [`Fab`](/api/fab/) component.
+   * @default {}
    */
   FabProps: PropTypes.object,
   /**
@@ -199,10 +200,12 @@ SpeedDialAction.propTypes = {
   TooltipClasses: PropTypes.object,
   /**
    * Make the tooltip always visible when the SpeedDial is open.
+   * @default false
    */
   tooltipOpen: PropTypes.bool,
   /**
    * Placement of the tooltip.
+   * @default 'left'
    */
   tooltipPlacement: PropTypes.oneOf([
     'bottom-end',

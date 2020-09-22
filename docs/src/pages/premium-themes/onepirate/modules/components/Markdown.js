@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import ReactMarkdown from 'markdown-to-jsx';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -13,37 +13,46 @@ const styles = (theme) => ({
 const options = {
   overrides: {
     h1: {
-      component: (props) => <Typography gutterBottom variant="h4" {...props} />,
+      component: Typography,
+      props: {
+        gutterBottom: true,
+        variant: 'h4',
+      },
     },
     h2: {
-      component: (props) => <Typography gutterBottom variant="h6" {...props} />,
+      component: Typography,
+      props: { gutterBottom: true, variant: 'h6' },
     },
     h3: {
-      component: (props) => (
-        <Typography gutterBottom variant="subtitle1" {...props} />
-      ),
+      component: Typography,
+      props: { gutterBottom: true, variant: 'subtitle1' },
     },
     h4: {
-      component: (props) => (
-        <Typography gutterBottom variant="caption" paragraph {...props} />
-      ),
+      component: Typography,
+      props: {
+        gutterBottom: true,
+        variant: 'caption',
+        paragraph: true,
+      },
     },
     p: {
-      component: (props) => <Typography paragraph {...props} />,
+      component: Typography,
+      props: { paragraph: true },
     },
     a: { component: Link },
     li: {
-      component: withStyles(styles)(({ classes, ...props }) => (
-        <li className={classes.listItem}>
-          <Typography component="span" {...props} />
-        </li>
-      )),
+      component: withStyles(styles)((props) => {
+        const { classes, ...other } = props;
+        return (
+          <li className={classes.listItem}>
+            <Typography component="span" {...other} />
+          </li>
+        );
+      }),
     },
   },
 };
 
-function Markdown(props) {
+export default function Markdown(props) {
   return <ReactMarkdown options={options} {...props} />;
 }
-
-export default Markdown;

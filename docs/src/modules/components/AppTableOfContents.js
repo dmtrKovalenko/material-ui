@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import clsx from 'clsx';
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     fontSize: '.8125rem',
-    padding: theme.spacing(0.5, 0, 0.5, `${Math.max(0, theme.spacing(1) - 3)}px`),
+    padding: theme.spacing(0.5, 0, 0.5, '5px'),
     borderLeft: `3px solid transparent`,
     boxSizing: 'border-box',
     '&:hover': {

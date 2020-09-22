@@ -1,30 +1,67 @@
 import * as React from 'react';
-import { StandardProps } from '@material-ui/core';
+import { InternalStandardProps as StandardProps } from '@material-ui/core';
 
 export interface IconContainerProps extends React.HTMLAttributes<HTMLSpanElement> {
   value: number;
 }
 
 export interface RatingProps
-  extends StandardProps<
-    React.HTMLAttributes<HTMLSpanElement>,
-    RatingClassKey,
-    'children' | 'onChange'
-  > {
+  extends StandardProps<React.HTMLAttributes<HTMLSpanElement>, 'children' | 'onChange'> {
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+    /** Styles applied to the root element if `size="small"`. */
+    sizeSmall?: string;
+    /** Styles applied to the root element if `size="large"`. */
+    sizeLarge?: string;
+    /** Styles applied to the root element if `readOnly={true}`. */
+    readOnly?: string;
+    /** Pseudo-class applied to the root element if `disabled={true}`. */
+    disabled?: string;
+    /** Pseudo-class applied to the root element if keyboard focused. */
+    focusVisible?: string;
+    /** Visually hide an element. */
+    visuallyHidden?: string;
+    /** Styles applied to the label elements. */
+    label?: string;
+    /** Styles applied to the label of the "no value" input when it is active. */
+    labelEmptyValueActive?: string;
+    /** Styles applied to the icon wrapping elements. */
+    icon?: string;
+    /** Styles applied to the icon wrapping elements when empty. */
+    iconEmpty?: string;
+    /** Styles applied to the icon wrapping elements when filled. */
+    iconFilled?: string;
+    /** Styles applied to the icon wrapping elements when hover. */
+    iconHover?: string;
+    /** Styles applied to the icon wrapping elements when focus. */
+    iconFocus?: string;
+    /** Styles applied to the icon wrapping elements when active. */
+    iconActive?: string;
+    /** Styles applied to the icon wrapping elements when decimals are necessary. */
+    decimal?: string;
+  };
   /**
    * The default value. Use when the component is not controlled.
+   * @default null
    */
   defaultValue?: number;
   /**
    * If `true`, the rating will be disabled.
+   * @default false
    */
   disabled?: boolean;
   /**
    * The icon to display when empty.
+   * @default <StarBorder fontSize="inherit" />
    */
   emptyIcon?: React.ReactNode;
   /**
    * The label read when the rating input is empty.
+   * @default 'Empty'
    */
   emptyLabelText?: React.ReactNode;
   /**
@@ -34,24 +71,34 @@ export interface RatingProps
    *
    * @param {number} value The rating label's value to format.
    * @returns {string}
+   *
+   * @default function defaultLabelText(value) {
+   *   return `${value} Star${value !== 1 ? 's' : ''}`;
+   * }
    */
   getLabelText?: (value: number) => string;
   /**
    * The icon to display.
+   * @default <Star fontSize="inherit" />
    */
   icon?: React.ReactNode;
   /**
    * The component containing the icon.
+   * @default function IconContainer(props) {
+   *   const { value, ...other } = props;
+   *   return <span {...other} />;
+   * }
    */
   IconContainerComponent?: React.ElementType<IconContainerProps>;
   /**
    * Maximum rating.
+   * @default 5
    */
   max?: number;
   /**
    * The name attribute of the radio `input` elements.
-   * If `readOnly` is false, the prop is required,
-   * this input name`should be unique within the parent form.
+   * This input `name` should be unique within the page.
+   * Being unique within a form is insufficient since the `name` is used to generated IDs.
    */
   name?: string;
   /**
@@ -70,14 +117,17 @@ export interface RatingProps
   onChangeActive?: (event: React.ChangeEvent<{}>, value: number) => void;
   /**
    * The minimum increment value change allowed.
+   * @default 1
    */
   precision?: number;
   /**
    * Removes all hover effects and pointer events.
+   * @default false
    */
   readOnly?: boolean;
   /**
    * The size of the rating.
+   * @default 'medium'
    */
   size?: 'small' | 'medium' | 'large';
   /**
@@ -86,23 +136,7 @@ export interface RatingProps
   value?: number | null;
 }
 
-export type RatingClassKey =
-  | 'root'
-  | 'sizeSmall'
-  | 'sizeLarge'
-  | 'readOnly'
-  | 'disabled'
-  | 'focusVisible'
-  | 'visuallyHidden'
-  | 'pristine'
-  | 'label'
-  | 'icon'
-  | 'iconEmpty'
-  | 'iconFilled'
-  | 'iconHover'
-  | 'iconFocus'
-  | 'iconActive'
-  | 'decimal';
+export type RatingClassKey = keyof NonNullable<RatingProps['classes']>;
 
 /**
  *

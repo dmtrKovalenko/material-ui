@@ -1,12 +1,18 @@
 import * as React from 'react';
-import { StandardProps } from '@material-ui/core';
+import { InternalStandardProps as StandardProps } from '@material-ui/core';
 
-export interface TreeViewPropsBase
-  extends StandardProps<React.HTMLAttributes<HTMLUListElement>, TreeViewClassKey> {
+export interface TreeViewPropsBase extends StandardProps<React.HTMLAttributes<HTMLUListElement>> {
   /**
    * The content of the component.
    */
   children?: React.ReactNode;
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the root element. */
+    root?: string;
+  };
   /**
    * The default icon used to collapse the node.
    */
@@ -18,6 +24,7 @@ export interface TreeViewPropsBase
   defaultEndIcon?: React.ReactNode;
   /**
    * Expanded node ids. (Uncontrolled)
+   * @default []
    */
   defaultExpanded?: string[];
   /**
@@ -31,10 +38,12 @@ export interface TreeViewPropsBase
   defaultParentIcon?: React.ReactNode;
   /**
    * If `true`, will allow focus on disabled items.
+   * @default false
    */
   disabledItemsFocusable?: boolean;
   /**
    * If `true` selection is disabled.
+   * @default false
    */
   disableSelection?: boolean;
   /**
@@ -66,6 +75,7 @@ export interface MultiSelectTreeViewProps extends TreeViewPropsBase {
   /**
    * Selected node ids. (Uncontrolled)
    * When `multiSelect` is true this takes an array of strings; when false (default) a string.
+   * @default []
    */
   defaultSelected?: string[];
   /**
@@ -75,6 +85,7 @@ export interface MultiSelectTreeViewProps extends TreeViewPropsBase {
   selected?: string[];
   /**
    * If true `ctrl` and `shift` will trigger multiselect.
+   * @default false
    */
   multiSelect?: true;
   /**
@@ -91,6 +102,7 @@ export interface SingleSelectTreeViewProps extends TreeViewPropsBase {
   /**
    * Selected node ids. (Uncontrolled)
    * When `multiSelect` is true this takes an array of strings; when false (default) a string.
+   * @default []
    */
   defaultSelected?: string;
   /**
@@ -100,6 +112,7 @@ export interface SingleSelectTreeViewProps extends TreeViewPropsBase {
   selected?: string;
   /**
    * If true `ctrl` and `shift` will trigger multiselect.
+   * @default false
    */
   multiSelect?: false;
   /**
@@ -114,7 +127,7 @@ export interface SingleSelectTreeViewProps extends TreeViewPropsBase {
 
 export type TreeViewProps = SingleSelectTreeViewProps | MultiSelectTreeViewProps;
 
-export type TreeViewClassKey = 'root';
+export type TreeViewClassKey = keyof NonNullable<TreeViewProps['classes']>;
 
 /**
  *

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -143,7 +143,11 @@ export default function Virtualize() {
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="10,000 options" />
       )}
-      renderOption={(option) => <Typography noWrap>{option}</Typography>}
+      renderOption={(props, option) => (
+        <li {...props}>
+          <Typography noWrap>{option}</Typography>
+        </li>
+      )}
     />
   );
 }

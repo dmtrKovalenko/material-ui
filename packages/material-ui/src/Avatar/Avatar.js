@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useThemeVariants } from '@material-ui/styles';
 import withStyles from '../styles/withStyles';
 import Person from '../internal/svg-icons/Person';
 
@@ -106,6 +107,15 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
     ...other
   } = props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      component: Component,
+      variant,
+    },
+    'MuiAvatar',
+  );
+
   let children = null;
 
   // Use a hook instead of onError on the img element to support server-side rendering.
@@ -141,6 +151,7 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
         {
           [classes.colorDefault]: !hasImgNotFailing,
         },
+        themeVariantsClasses,
         className,
       )}
       ref={ref}
@@ -168,7 +179,6 @@ Avatar.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -200,8 +210,12 @@ Avatar.propTypes = {
   srcSet: PropTypes.string,
   /**
    * The shape of the avatar.
+   * @default 'circular'
    */
-  variant: PropTypes.oneOf(['circular', 'rounded', 'square']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['circular', 'rounded', 'square']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiAvatar' })(Avatar);

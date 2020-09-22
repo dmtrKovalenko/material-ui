@@ -1,6 +1,7 @@
 ---
 title: Popper React component
 components: Popper
+githubLabel: 'component: Popper'
 ---
 
 # Popper
@@ -20,7 +21,9 @@ Some important features of the `Popper` component:
   If you need this behavior, you can use [`ClickAwayListener`](/components/click-away-listener/) - see the example in the [menu documentation section](/components/menus/#menulist-composition).
 - The `anchorEl` is passed as the reference object to create a new `Popper.js` instance.
 
-## Simple Popper
+{{"component": "modules/components/ComponentLinkHeader.js", "design": false}}
+
+## Basic popper
 
 {{"demo": "pages/components/popper/SimplePopper.js"}}
 
@@ -52,7 +55,7 @@ Alternatively, you can use [react-spring](https://github.com/react-spring/react-
 
 ## Faked reference object
 
-The `anchorEl` property can be a reference to a fake DOM element.
+The value of the `anchorEl` prop can be a reference to a fake DOM element.
 You just need to create an object shaped like the [`ReferenceObject`](https://github.com/FezVrasta/popper.js/blob/0642ce0ddeffe3c7c033a412d4d60ce7ec8193c3/packages/popper/index.d.ts#L118-L123).
 
 Highlight part of the text to see the popper:

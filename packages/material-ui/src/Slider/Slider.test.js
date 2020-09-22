@@ -11,7 +11,9 @@ import {
   fireEvent,
 } from 'test/utils';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Slider from './Slider';
+import ValueLabel from './ValueLabel';
 
 function createTouches(touches) {
   return {
@@ -26,7 +28,7 @@ function createTouches(touches) {
 }
 
 describe('<Slider />', () => {
-  // Not support by IE 11
+  // only run in supported browsers
   if (typeof Touch === 'undefined') {
     return;
   }
@@ -98,6 +100,36 @@ describe('<Slider />', () => {
     expect(handleChangeCommitted.callCount).to.equal(1);
   });
 
+  it('should edge against a dropped mouseup event', () => {
+    const handleChange = spy();
+    const { container } = render(<Slider onChange={handleChange} value={0} />);
+    stub(container.firstChild, 'getBoundingClientRect').callsFake(() => ({
+      width: 100,
+      left: 0,
+    }));
+
+    fireEvent.mouseDown(container.firstChild, {
+      buttons: 1,
+      clientX: 1,
+    });
+    expect(handleChange.callCount).to.equal(1);
+    expect(handleChange.args[0][1]).to.equal(1);
+
+    fireEvent.mouseMove(document.body, {
+      buttons: 1,
+      clientX: 10,
+    });
+    expect(handleChange.callCount).to.equal(2);
+    expect(handleChange.args[1][1]).to.equal(10);
+
+    fireEvent.mouseMove(document.body, {
+      buttons: 0,
+      clientX: 11,
+    });
+    // The mouse's button was released, stop the dragging session.
+    expect(handleChange.callCount).to.equal(2);
+  });
+
   describe('prop: orientation', () => {
     it('should render with the vertical classes', () => {
       const { container, getByRole } = render(<Slider orientation="vertical" value={0} />);
@@ -160,7 +192,7 @@ describe('<Slider />', () => {
       const { getByRole } = render(<Slider defaultValue={30} step={10} marks />);
       const thumb = getByRole('slider');
       fireEvent.mouseDown(thumb);
-      expect(document.activeElement).to.equal(thumb);
+      expect(thumb).toHaveFocus();
     });
 
     it('should support mouse events', () => {
@@ -212,6 +244,15 @@ describe('<Slider />', () => {
     fireEvent.touchMove(document.body, createTouches([{ identifier: 1, clientX: 20, clientY: 0 }]));
   });
 
+  it('focuses the thumb on when touching', () => {
+    const { getByRole } = render(<Slider value={0} min={20} max={40} />);
+    const thumb = getByRole('slider');
+
+    fireEvent.touchStart(thumb, createTouches([{ identifier: 1, clientX: 0, clientY: 0 }]));
+
+    expect(thumb).toHaveFocus();
+  });
+
   describe('prop: step', () => {
     it('should handle a null step', () => {
       const { getByRole, container } = render(
@@ -253,6 +294,60 @@ describe('<Slider />', () => {
       const { container, getByRole } = render(<Slider disabled value={0} />);
       expect(container.firstChild).to.have.class(classes.disabled);
       expect(getByRole('slider')).to.not.have.attribute('tabIndex');
+    });
+
+    it('should not respond to drag events after becoming disabled', function test() {
+      // TODO: Don't skip once a fix for https://github.com/jsdom/jsdom/issues/3029 is released.
+      if (/jsdom/.test(window.navigator.userAgent)) {
+        this.skip();
+      }
+
+      const { getByRole, setProps, container } = render(<Slider defaultValue={0} />);
+
+      stub(container.firstChild, 'getBoundingClientRect').callsFake(() => ({
+        width: 100,
+        height: 10,
+        bottom: 10,
+        left: 0,
+      }));
+
+      fireEvent.touchStart(
+        container.firstChild,
+        createTouches([{ identifier: 1, clientX: 21, clientY: 0 }]),
+      );
+
+      const thumb = getByRole('slider');
+
+      expect(thumb).to.have.attribute('aria-valuenow', '21');
+      expect(thumb).toHaveFocus();
+
+      setProps({ disabled: true });
+      expect(thumb).not.toHaveFocus();
+      expect(thumb).to.not.have.class(classes.active);
+
+      fireEvent.touchMove(
+        container.firstChild,
+        createTouches([{ identifier: 1, clientX: 30, clientY: 0 }]),
+      );
+
+      expect(thumb).to.have.attribute('aria-valuenow', '21');
+    });
+
+    it('is not focused (visibly) after becoming disabled', function test() {
+      // TODO: Don't skip once a fix for https://github.com/jsdom/jsdom/issues/3029 is released.
+      if (/jsdom/.test(window.navigator.userAgent)) {
+        this.skip();
+      }
+
+      const { getByRole, setProps } = render(<Slider defaultValue={0} />);
+
+      const thumb = getByRole('slider');
+      act(() => {
+        thumb.focus();
+      });
+      setProps({ disabled: true });
+      expect(thumb).not.toHaveFocus();
+      expect(thumb).to.not.have.class(classes.focusVisible);
     });
   });
 
@@ -423,14 +518,53 @@ describe('<Slider />', () => {
   });
 
   describe('prop: valueLabelDisplay', () => {
-    it('should always display the value label', () => {
-      const { getByRole, setProps } = render(<Slider valueLabelDisplay="auto" value={50} />);
+    it('should always display the value label according to on and off', () => {
+      const valueLabelClasses = getClasses(<ValueLabel />);
+      const { getByRole, setProps } = render(<Slider valueLabelDisplay="on" value={50} />);
       const thumb = getByRole('slider');
-      expect(thumb.textContent).to.equal('50');
+      expect(thumb).to.have.class(valueLabelClasses.open);
+
       setProps({
         valueLabelDisplay: 'off',
       });
-      expect(thumb.textContent).to.equal('');
+
+      const newThumb = getByRole('slider');
+      expect(newThumb).not.to.have.class(valueLabelClasses.open);
+    });
+
+    it('should display the value label only on hover for auto', () => {
+      const valueLabelClasses = getClasses(<ValueLabel />);
+      const { getByRole } = render(<Slider valueLabelDisplay="auto" value={50} />);
+      const thumb = getByRole('slider');
+      expect(thumb).not.to.have.class(valueLabelClasses.open);
+
+      fireEvent.mouseOver(thumb);
+
+      expect(thumb).to.have.class(valueLabelClasses.open);
+    });
+
+    it('should be respected when using custom value label', () => {
+      function ValueLabelComponent(props) {
+        const { value, open } = props;
+        return (
+          <span data-testid="value-label" className={clsx({ open })}>
+            {value}
+          </span>
+        );
+      }
+      ValueLabelComponent.propTypes = { value: PropTypes.number };
+
+      const screen = render(
+        <Slider ValueLabelComponent={ValueLabelComponent} valueLabelDisplay="on" value={50} />,
+      );
+
+      expect(screen.queryByTestId('value-label')).to.have.class('open');
+
+      screen.setProps({
+        valueLabelDisplay: 'off',
+      });
+
+      expect(screen.queryByTestId('value-label')).to.equal(null);
     });
   });
 
@@ -605,6 +739,27 @@ describe('<Slider />', () => {
     expect(container.querySelectorAll(`.${classes.mark}`).length).to.equal(3);
     expect(container.querySelectorAll(`.${classes.markLabel}[data-index="2"]`).length).to.equal(1);
     expect(container.querySelectorAll(`.${classes.mark}[data-index="2"]`).length).to.equal(1);
+  });
+
+  it('should pass "name" and "value" as part of the event.target for onChange', () => {
+    const handleChange = stub().callsFake((event) => event.target);
+    const { getByRole } = render(
+      <Slider onChange={handleChange} name="change-testing" value={3} />,
+    );
+    const thumb = getByRole('slider');
+
+    act(() => {
+      thumb.focus();
+      fireEvent.keyDown(thumb, {
+        key: 'ArrowRight',
+      });
+    });
+
+    expect(handleChange.callCount).to.equal(1);
+    expect(handleChange.firstCall.returnValue).to.deep.equal({
+      name: 'change-testing',
+      value: 4,
+    });
   });
 
   describe('prop: ValueLabelComponent', () => {

@@ -59,7 +59,7 @@ export const styles = (theme) => {
     marginDense: {},
     /* Styles applied to the root element if `multiline={true}`. */
     multiline: {
-      padding: '18.5px 14px',
+      padding: '16.5px 14px',
       '&$marginDense': {
         paddingTop: 10.5,
         paddingBottom: 10.5,
@@ -71,7 +71,7 @@ export const styles = (theme) => {
     },
     /* Styles applied to the `input` element. */
     input: {
-      padding: '18.5px 14px',
+      padding: '16.5px 14px',
       '&:-webkit-autofill': {
         WebkitBoxShadow: theme.palette.type === 'light' ? null : '0 0 0 100px #266798 inset',
         WebkitTextFillColor: theme.palette.type === 'light' ? null : '#fff',
@@ -81,8 +81,8 @@ export const styles = (theme) => {
     },
     /* Styles applied to the `input` element if `margin="dense"`. */
     inputMarginDense: {
-      paddingTop: 10.5,
-      paddingBottom: 10.5,
+      paddingTop: 8.5,
+      paddingBottom: 8.5,
     },
     /* Styles applied to the `input` element if `multiline={true}`. */
     inputMultiline: {
@@ -158,7 +158,6 @@ OutlinedInput.propTypes = {
   autoFocus: PropTypes.bool,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -184,6 +183,7 @@ OutlinedInput.propTypes = {
   error: PropTypes.bool,
   /**
    * If `true`, the input will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
@@ -193,10 +193,12 @@ OutlinedInput.propTypes = {
   /**
    * The component used for the `input` element.
    * Either a string to use a HTML element or a component.
+   * @default 'input'
    */
   inputComponent: PropTypes.elementType,
   /**
    * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+   * @default {}
    */
   inputProps: PropTypes.object,
   /**
@@ -211,6 +213,7 @@ OutlinedInput.propTypes = {
   /**
    * The width of the label. Is ignored if `label` is provided. Prefer `label`
    * if the input label appears with a strike through.
+   * @default 0
    */
   labelWidth: PropTypes.number,
   /**
@@ -228,6 +231,7 @@ OutlinedInput.propTypes = {
   minRows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * If `true`, a textarea element will be rendered.
+   * @default false
    */
   multiline: PropTypes.bool,
   /**
@@ -268,6 +272,7 @@ OutlinedInput.propTypes = {
   startAdornment: PropTypes.node,
   /**
    * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+   * @default 'text'
    */
   type: PropTypes.string,
   /**

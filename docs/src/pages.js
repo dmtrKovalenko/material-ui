@@ -25,8 +25,8 @@ const pages = [
           { pathname: '/components/box' },
           { pathname: '/components/container' },
           { pathname: '/components/grid' },
-          { pathname: '/components/grid-list' },
           { pathname: '/components/hidden' },
+          { pathname: '/components/image-list' },
         ],
       },
       {
@@ -63,20 +63,20 @@ const pages = [
         pathname: '/components',
         subheader: '/components/surfaces',
         children: [
-          { pathname: '/components/app-bar' },
-          { pathname: '/components/paper' },
-          { pathname: '/components/cards' },
           { pathname: '/components/accordion' },
+          { pathname: '/components/app-bar' },
+          { pathname: '/components/cards' },
+          { pathname: '/components/paper' },
         ],
       },
       {
         pathname: '/components',
         subheader: '/components/feedback',
         children: [
-          { pathname: '/components/progress' },
-          { pathname: '/components/dialogs' },
-          { pathname: '/components/snackbars' },
           { pathname: '/components/backdrop' },
+          { pathname: '/components/dialogs' },
+          { pathname: '/components/progress' },
+          { pathname: '/components/snackbars' },
         ],
       },
       {
@@ -128,12 +128,64 @@ const pages = [
           { pathname: '/components/speed-dial' },
           { pathname: '/components/timeline' },
           { pathname: '/components/toggle-button' },
+          { pathname: '/components/trap-focus' },
           { pathname: '/components/tree-view' },
         ],
       },
+      {
+        pathname: '/components',
+        subheader: '/components/data-grid',
+        children:
+          process.env.CONTEXT === 'production'
+            ? [
+                {
+                  pathname: '/components/data-grid',
+                  title: 'Overview',
+                },
+                { pathname: '/components/data-grid/getting-started' },
+                { pathname: '/components/data-grid/columns' },
+                { pathname: '/components/data-grid/rows' },
+                { pathname: '/components/data-grid/filtering', title: '🚧 Filtering' },
+                { pathname: '/components/data-grid/pagination' },
+                { pathname: '/components/data-grid/selection' },
+                { pathname: '/components/data-grid/editing', title: '🚧 Editing' },
+                { pathname: '/components/data-grid/rendering' },
+                { pathname: '/components/data-grid/export', title: '🚧 Export & Import' },
+                { pathname: '/components/data-grid/localization', title: '🚧 Localization' },
+                { pathname: '/components/data-grid/group-pivot', title: '🚧 Group & Pivot' },
+                { pathname: '/components/data-grid/accessibility' },
+              ]
+            : [
+                {
+                  pathname: '/components/data-grid',
+                  title: 'Overview',
+                },
+                { pathname: '/components/data-grid/getting-started' },
+                { pathname: '/components/data-grid/columns' },
+                { pathname: '/components/data-grid/rows' },
+                { pathname: '/components/data-grid/filtering', title: '🚧 Filtering' },
+                { pathname: '/components/data-grid/pagination' },
+                { pathname: '/components/data-grid/selection' },
+                { pathname: '/components/data-grid/editing', title: '🚧 Editing' },
+                { pathname: '/components/data-grid/rendering' },
+                { pathname: '/components/data-grid/export', title: '🚧 Export & Import' },
+                { pathname: '/components/data-grid/localization', title: '🚧 Localization' },
+                { pathname: '/components/data-grid/group-pivot', title: '🚧 Group & Pivot' },
+                { pathname: '/components/data-grid/accessibility' },
+              ],
+      },
     ],
   },
-  { title: 'Component API', ...findPages[0] },
+  {
+    title: 'Component API',
+    pathname: '/api-docs',
+    children: [
+      ...findPages[0].children,
+      ...[{ pathname: '/api-docs/data-grid' }, { pathname: '/api-docs/x-grid' }],
+    ].sort((a, b) =>
+      a.pathname.replace('/api-docs/', '').localeCompare(b.pathname.replace('/api-docs/', '')),
+    ),
+  },
   {
     pathname: '/styles',
     children: [
@@ -197,6 +249,7 @@ const pages = [
       { pathname: '/guides/migration-v0x', title: 'Migration From v0.x' },
       { pathname: '/guides/testing' },
       { pathname: '/guides/localization' },
+      { pathname: '/guides/content-security-policy', title: 'Content Security Policy' },
       { pathname: '/guides/right-to-left', title: 'Right-to-left' },
       { pathname: '/guides/flow' },
     ],

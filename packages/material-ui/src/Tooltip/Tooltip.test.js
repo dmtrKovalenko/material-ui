@@ -8,24 +8,14 @@ import {
   act,
   createClientRender,
   fireEvent,
+  screen,
+  simulatePointerDevice,
+  focusVisible,
+  programmaticFocusTriggersFocusVisible,
 } from 'test/utils';
 import { camelCase } from 'lodash/string';
 import Tooltip, { testReset } from './Tooltip';
 import Input from '../Input';
-
-function focusVisible(element) {
-  act(() => {
-    element.blur();
-    fireEvent.keyDown(document.activeElement || document.body, { key: 'Tab' });
-    element.focus();
-  });
-}
-
-function simulatePointerDevice() {
-  // first focus on a page triggers focus visible until a pointer event
-  // has been dispatched
-  document.dispatchEvent(new window.Event('pointerdown'));
-}
 
 describe('<Tooltip />', () => {
   /**
@@ -233,6 +223,31 @@ describe('<Tooltip />', () => {
     // TODO: Unclear why not running triggers microtasks but runAll does not trigger microtasks
     // can be removed once Popper#update is sync
     clock.runAll();
+  });
+
+  it('is dismissable by pressing Escape', () => {
+    const transitionTimeout = 0;
+    render(
+      <Tooltip enterDelay={0} TransitionProps={{ timeout: transitionTimeout }} title="Movie quote">
+        <button autoFocus>Hello, Dave!</button>
+      </Tooltip>,
+    );
+
+    expect(screen.getByRole('tooltip')).not.toBeInaccessible();
+
+    act(() => {
+      fireEvent.keyDown(
+        // We don't care about the target. Any Escape should dismiss the tooltip
+        // eslint-disable-next-line material-ui/disallow-active-element-as-key-event-target
+        document.activeElement,
+        { key: 'Escape' },
+      );
+    });
+    act(() => {
+      clock.tick(transitionTimeout);
+    });
+
+    expect(screen.queryByRole('tooltip')).to.equal(null);
   });
 
   describe('touch screen', () => {
@@ -462,28 +477,49 @@ describe('<Tooltip />', () => {
   });
 
   describe('prop: overrides', () => {
-    [
-      'onTouchStart',
-      'onTouchEnd',
-      'onMouseEnter',
-      'onMouseOver',
-      'onMouseLeave',
-      'onFocus',
-      'onBlur',
-    ].forEach((name) => {
-      it(`should be transparent for the ${name} event`, () => {
-        const handler = spy();
-        const { getByRole } = render(
-          <Tooltip title="Hello World">
-            <button id="testChild" type="submit" {...{ [name]: handler }}>
-              Hello World
-            </button>
-          </Tooltip>,
-        );
-        const type = camelCase(name.slice(2));
-        fireEvent[type](getByRole('button'));
-        expect(handler.callCount).to.equal(1);
+    ['onTouchStart', 'onTouchEnd', 'onMouseEnter', 'onMouseOver', 'onMouseLeave'].forEach(
+      (name) => {
+        it(`should be transparent for the ${name} event`, () => {
+          const handler = spy();
+          const { getByRole } = render(
+            <Tooltip title="Hello World">
+              <button id="testChild" type="submit" {...{ [name]: handler }}>
+                Hello World
+              </button>
+            </Tooltip>,
+          );
+          const type = camelCase(name.slice(2));
+          fireEvent[type](getByRole('button'));
+          expect(handler.callCount).to.equal(1, `${name} should've been called`);
+        });
+      },
+    );
+
+    it(`should be transparent for the focus and blur event`, () => {
+      const handleBlur = spy();
+      const handleFocus = spy();
+      const { getByRole } = render(
+        <Tooltip title="Hello World">
+          <button id="testChild" type="submit" onFocus={handleFocus} onBlur={handleBlur}>
+            Hello World
+          </button>
+        </Tooltip>,
+      );
+      const button = getByRole('button');
+
+      act(() => {
+        button.focus();
       });
+
+      expect(handleBlur.callCount).to.equal(0);
+      expect(handleFocus.callCount).to.equal(1);
+
+      act(() => {
+        button.blur();
+      });
+
+      expect(handleBlur.callCount).to.equal(1);
+      expect(handleFocus.callCount).to.equal(1);
     });
 
     it('should ignore event from the tooltip', () => {
@@ -706,7 +742,11 @@ describe('<Tooltip />', () => {
 
       getByRole('button').focus();
 
-      expect(queryByRole('tooltip')).to.equal(null);
+      if (programmaticFocusTriggersFocusVisible()) {
+        expect(queryByRole('tooltip')).not.to.equal(null);
+      } else {
+        expect(queryByRole('tooltip')).to.equal(null);
+      }
     });
 
     it('opens on focus-visible', () => {

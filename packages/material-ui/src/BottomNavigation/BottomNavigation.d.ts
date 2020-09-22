@@ -8,6 +8,13 @@ export interface BottomNavigationTypeMap<P = {}, D extends React.ElementType = '
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+    };
+    /**
      * Callback fired when the value changes.
      *
      * @param {object} event The event source of the callback. **Warning**: This is a generic event not a change event.
@@ -17,6 +24,7 @@ export interface BottomNavigationTypeMap<P = {}, D extends React.ElementType = '
     /**
      * If `true`, all `BottomNavigationAction`s will show their labels.
      * By default, only the selected `BottomNavigationAction` will show its label.
+     * @default false
      */
     showLabels?: boolean;
     /**
@@ -25,7 +33,6 @@ export interface BottomNavigationTypeMap<P = {}, D extends React.ElementType = '
     value?: any;
   };
   defaultComponent: D;
-  classKey: BottomNavigationClassKey;
 }
 /**
  *
@@ -39,7 +46,9 @@ export interface BottomNavigationTypeMap<P = {}, D extends React.ElementType = '
  */
 declare const BottomNavigation: OverridableComponent<BottomNavigationTypeMap>;
 
-export type BottomNavigationClassKey = 'root';
+export type BottomNavigationClassKey = keyof NonNullable<
+  BottomNavigationTypeMap['props']['classes']
+>;
 
 export type BottomNavigationProps<
   D extends React.ElementType = BottomNavigationTypeMap['defaultComponent'],

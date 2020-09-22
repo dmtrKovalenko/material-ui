@@ -1,10 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import NoSsr from '@material-ui/core/NoSsr';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { palette, spacing, typography } from '@material-ui/system';
 
-const Box = styled.div`${palette}${spacing}${typography}`;
+const Box = styled.div`
+  ${palette}${spacing}${typography}
+`;
 // or import Box from '@material-ui/core/Box';
 
 const theme = createMuiTheme();

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useThemeVariants } from '@material-ui/styles';
 import withStyles from '../styles/withStyles';
 import ButtonBase from '../ButtonBase';
 import capitalize from '../utils/capitalize';
@@ -9,7 +10,6 @@ export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
     ...theme.typography.button,
-    boxSizing: 'border-box',
     minHeight: 36,
     transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
       duration: theme.transitions.duration.short,
@@ -30,9 +30,6 @@ export const styles = (theme) => ({
       // Reset on touch devices, it doesn't add specificity
       '@media (hover: none)': {
         backgroundColor: theme.palette.grey[300],
-      },
-      '&$disabled': {
-        backgroundColor: theme.palette.action.disabledBackground,
       },
       textDecoration: 'none',
     },
@@ -99,6 +96,8 @@ export const styles = (theme) => ({
       height: 40,
     },
   },
+  /* Styles applied to the root element if `variant="circular"`. */
+  circular: {},
   /* Pseudo-class applied to the ButtonBase root element if the button is keyboard focused. */
   focusVisible: {},
   /* Pseudo-class applied to the root element if `disabled={true}`. */
@@ -134,18 +133,32 @@ const Fab = React.forwardRef(function Fab(props, ref) {
     ...other
   } = props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      color,
+      component,
+      disabled,
+      disableFocusRipple,
+      size,
+      variant,
+    },
+    'MuiFab',
+  );
+
   return (
     <ButtonBase
       className={clsx(
         classes.root,
+        classes[variant],
         {
-          [classes.extended]: variant === 'extended',
           [classes.primary]: color === 'primary',
           [classes.secondary]: color === 'secondary',
           [classes[`size${capitalize(size)}`]]: size !== 'large',
           [classes.disabled]: disabled,
           [classes.colorInherit]: color === 'inherit',
         },
+        themeVariantsClasses,
         className,
       )}
       component={component}
@@ -168,10 +181,9 @@ Fab.propTypes = {
   /**
    * The content of the button.
    */
-  children: PropTypes /* @typescript-to-proptypes-ignore */.node.isRequired,
+  children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -180,6 +192,7 @@ Fab.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'default'
    */
   color: PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary']),
   /**
@@ -189,10 +202,12 @@ Fab.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the button will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, the  keyboard focus ripple will be disabled.
+   * @default false
    */
   disableFocusRipple: PropTypes.bool,
   /**
@@ -211,12 +226,17 @@ Fab.propTypes = {
   /**
    * The size of the button.
    * `small` is equivalent to the dense button styling.
+   * @default 'large'
    */
   size: PropTypes.oneOf(['large', 'medium', 'small']),
   /**
    * The variant to use.
+   * @default 'circular'
    */
-  variant: PropTypes.oneOf(['circular', 'extended']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['circular', 'extended']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiFab' })(Fab);

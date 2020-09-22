@@ -1,5 +1,8 @@
 ---
+title: Typography React component
 components: Typography
+githubLabel: 'component: Typography'
+materialDesign: https://material.io/design/typography/the-type-system.html
 ---
 
 # Typography
@@ -8,6 +11,8 @@ components: Typography
 
 Too many type sizes and styles at once can spoil any layout.
 A [typographic scale](https://material.io/design/typography/#type-scale) has a limited set of type sizes that work well together along with the layout grid.
+
+{{"component": "modules/components/ComponentLinkHeader.js"}}
 
 ## General
 
@@ -36,14 +41,15 @@ You can [install it](https://www.npmjs.com/package/fontsource-roboto) by typing 
 Then, you can import it in your entry-point.
 
 ```js
-import 'fontsource-roboto';
+import 'fontsource-roboto/300.css';
+import 'fontsource-roboto/400.css';
+import 'fontsource-roboto/500.css';
+import 'fontsource-roboto/700.css';
 ```
 
-For more info check out [Fontsource](https://github.com/DecliningLotus/fontsource/blob/master/packages/roboto/README.md).
+For more info check out [Fontsource](https://github.com/fontsource/fontsource).
 
-⚠️ Be careful when using this approach.
-Make sure your bundler doesn't eager load all the font variations (100/300/400/500/700/900, italic/regular, SVG/woff). Fontsource can be configured to load specific subsets, weights and styles.
-Inlining all the font files can significantly increase the size of your bundle.
+Fontsource can be configured to load specific subsets, weights and styles.
 Material-UI default typography configuration only relies on 300, 400, 500, and 700 font weights.
 
 ## Component
@@ -59,10 +65,10 @@ Hopefully, you might be able to take advantage of the [`typography`](/customizat
 
 ## Changing the semantic element
 
-The Typography component uses the `variantMapping` property to associate a UI variant with a semantic element.
-It’s important to realize that the style of a typography is independent from the semantic underlying element.
+The Typography component uses the `variantMapping` prop to associate a UI variant with a semantic element.
+It’s important to realize that the style of a typography component is independent from the semantic underlying element.
 
-- You can change the underlying element for a one time occasion with the `component` property:
+- You can change the underlying element for a one-off situation with the `component` prop:
 
 ```jsx
 {
@@ -77,19 +83,21 @@ It’s important to realize that the style of a typography is independent from t
 
 ```js
 const theme = createMuiTheme({
-  props: {
+  components: {
     MuiTypography: {
-      variantMapping: {
-        h1: 'h2',
-        h2: 'h2',
-        h3: 'h2',
-        h4: 'h2',
-        h5: 'h2',
-        h6: 'h2',
-        subtitle1: 'h2',
-        subtitle2: 'h2',
-        body1: 'span',
-        body2: 'span',
+      defaultProps: {
+        variantMapping: {
+          h1: 'h2',
+          h2: 'h2',
+          h3: 'h2',
+          h4: 'h2',
+          h5: 'h2',
+          h6: 'h2',
+          subtitle1: 'h2',
+          subtitle2: 'h2',
+          body1: 'span',
+          body2: 'span',
+        },
       },
     },
   },

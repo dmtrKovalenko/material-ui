@@ -15,6 +15,7 @@ export const styles = (theme) => ({
     // To remove at some point.
     overflow: 'hidden',
     display: 'inline-block', // allow overflow hidden to take action
+    textAlign: 'center', // support non-square icon
     flexShrink: 0,
   },
   /* Styles applied to the root element if `color="primary"`. */
@@ -90,7 +91,6 @@ Icon.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -99,6 +99,7 @@ Icon.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'inherit'
    */
   color: PropTypes.oneOf(['action', 'disabled', 'error', 'inherit', 'primary', 'secondary']),
   /**
@@ -108,6 +109,7 @@ Icon.propTypes = {
   component: PropTypes.elementType,
   /**
    * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+   * @default 'default'
    */
   fontSize: PropTypes.oneOf(['default', 'inherit', 'large', 'small']),
 };

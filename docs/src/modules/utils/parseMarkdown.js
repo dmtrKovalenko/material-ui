@@ -7,7 +7,7 @@ import prism from 'docs/src/modules/utils/prism';
 const headerRegExp = /---[\r\n]([\s\S]*)[\r\n]---/;
 const titleRegExp = /# (.*)[\r\n]/;
 const descriptionRegExp = /<p class="description">(.*)<\/p>[\r\n]/;
-const headerKeyValueRegExp = /(.*): (.*)/g;
+const headerKeyValueRegExp = /(.*?): (.*)/g;
 const emptyRegExp = /^\s*$/;
 const notEnglishMarkdownRegExp = /-([a-z]{2})\.md$/;
 
@@ -41,7 +41,9 @@ export function getHeaders(markdown) {
 
   // eslint-disable-next-line no-cond-assign
   while ((regexMatches = headerKeyValueRegExp.exec(header)) !== null) {
-    headers[regexMatches[1]] = regexMatches[2];
+    const key = regexMatches[1];
+    const value = regexMatches[2].replace(/'(.*)'/, '$1');
+    headers[key] = value;
   }
 
   if (headers.components) {
@@ -56,12 +58,10 @@ export function getHeaders(markdown) {
   return headers;
 }
 
-export const demoRegexp = /^"demo": "(.*)"/;
-
 export function getContents(markdown) {
   return markdown
     .replace(headerRegExp, '') // Remove header information
-    .split(/^{{("demo":[^}]*)}}$/gm) // Split markdown into an array, separating demos
+    .split(/^{{("(?:demo|component)":[^}]*)}}$/gm) // Split markdown into an array, separating demos
     .filter((content) => !emptyRegExp.test(content)); // Remove empty lines
 }
 
@@ -83,7 +83,6 @@ export function getDescription(markdown) {
 
 /**
  * Render markdown used in the Material-UI docs
- *
  * @param {string} markdown
  * @param {object} [options]
  * @param {function} [options.highlight] - https://marked.js.org/#/USING_ADVANCED.md#highlight
@@ -120,7 +119,6 @@ const externs = [
 ];
 
 /**
- *
  * @param {object} config
  * @param {() => string} config.requireRaw - returnvalue of require.context
  * @param {string} config.pageFilename - filename relative to nextjs pages directory
@@ -172,7 +170,7 @@ ${headers.components
       let headingIndex = -1;
 
       const rendered = contents.map((content) => {
-        if (demos && demoRegexp.test(content)) {
+        if (/^"(demo|component)": "(.*)"/.test(content)) {
           try {
             return JSON.parse(`{${content}}`);
           } catch (err) {
@@ -185,9 +183,12 @@ ${headers.components
         return render(content, {
           highlight: prism,
           heading: (headingHtml, level) => {
-            // Small title. No need for an anchor.
-            // It's reducing the risk of duplicated id and it's fewer elements in the DOM.
-            if (level >= 4) {
+            // Main title, no need for an anchor.
+            // It adds noises to the URL.
+            //
+            // Small title, no need for an anchor.
+            // It reduces the risk of duplicated id and it's fewer elements in the DOM.
+            if (level === 1 || level >= 4) {
               return `<h${level}>${headingHtml}</h${level}>`;
             }
 
@@ -284,6 +285,7 @@ ${headers.components
         rendered,
         toc,
         title,
+        headers,
       };
     } else if (filename.indexOf('.tsx') !== -1) {
       const demoName = `pages/${pageFilename}/${filename

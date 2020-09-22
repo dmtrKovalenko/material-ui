@@ -6,6 +6,7 @@ import withStyles from '../styles/withStyles';
 import useTheme from '../styles/useTheme';
 import { fade, lighten, darken } from '../styles/colorManipulator';
 import useIsFocusVisible from '../utils/useIsFocusVisible';
+import useEnhancedEffect from '../utils/useEnhancedEffect';
 import ownerDocument from '../utils/ownerDocument';
 import useEventCallback from '../utils/useEventCallback';
 import useForkRef from '../utils/useForkRef';
@@ -96,9 +97,10 @@ function setValueIndex({ values, source, newValue, index }) {
 }
 
 function focusThumb({ sliderRef, activeIndex, setActive }) {
+  const doc = ownerDocument(sliderRef.current);
   if (
-    !sliderRef.current.contains(document.activeElement) ||
-    Number(document.activeElement.getAttribute('data-index')) !== activeIndex
+    !sliderRef.current.contains(doc.activeElement) ||
+    Number(doc.activeElement.getAttribute('data-index')) !== activeIndex
   ) {
     sliderRef.current.querySelector(`[role="slider"][data-index="${activeIndex}"]`).focus();
   }
@@ -125,6 +127,24 @@ const axisProps = {
 
 const Identity = (x) => x;
 
+// TODO: remove support for Safari < 13.
+// https://caniuse.com/#search=touch-action
+//
+// Safari, on iOS, supports touch action since v13.
+// Over 80% of the iOS phones are compatible
+// in August 2020.
+let cachedSupportsTouchActionNone;
+function doesSupportTouchActionNone() {
+  if (cachedSupportsTouchActionNone === undefined) {
+    const element = document.createElement('div');
+    element.style.touchAction = 'none';
+    document.body.appendChild(element);
+    cachedSupportsTouchActionNone = window.getComputedStyle(element).touchAction === 'none';
+    element.parentElement.removeChild(element);
+  }
+  return cachedSupportsTouchActionNone;
+}
+
 export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
@@ -135,6 +155,7 @@ export const styles = (theme) => ({
     display: 'inline-block',
     position: 'relative',
     cursor: 'pointer',
+    // Disable scroll capabilities.
     touchAction: 'none',
     color: theme.palette.primary.main,
     WebkitTapHighlightColor: 'transparent',
@@ -251,7 +272,7 @@ export const styles = (theme) => ({
       right: -15,
       bottom: -15,
     },
-    '&$focusVisible,&:hover': {
+    '&:hover, &$focusVisible': {
       boxShadow: `0px 0px 0px 8px ${fade(theme.palette.primary.main, 0.16)}`,
       '@media (hover: none)': {
         boxShadow: 'none',
@@ -339,6 +360,8 @@ export const styles = (theme) => ({
   },
 });
 
+const Forward = ({ children }) => children;
+
 const Slider = React.forwardRef(function Slider(props, ref) {
   const {
     'aria-label': ariaLabel,
@@ -365,7 +388,7 @@ const Slider = React.forwardRef(function Slider(props, ref) {
     ThumbComponent = 'span',
     track = 'normal',
     value: valueProp,
-    ValueLabelComponent = ValueLabel,
+    ValueLabelComponent: ValueLabelComponentProp = ValueLabel,
     valueLabelDisplay = 'off',
     valueLabelFormat = Identity,
     ...other
@@ -384,6 +407,22 @@ const Slider = React.forwardRef(function Slider(props, ref) {
     name: 'Slider',
   });
 
+  const handleChange =
+    onChange &&
+    ((event, value) => {
+      if (!(event instanceof Event)) event.persist();
+
+      // Redefine target to allow name and value to be read.
+      // This allows seamless integration with the most popular form libraries.
+      // https://github.com/mui-org/material-ui/issues/13485#issuecomment-676048492
+      Object.defineProperty(event, 'target', {
+        writable: true,
+        value: { value, name },
+      });
+
+      onChange(event, value);
+    });
+
   const range = Array.isArray(valueDerived);
   let values = range ? valueDerived.slice().sort(asc) : [valueDerived];
   values = values.map((value) => clamp(value, min, max));
@@ -394,7 +433,12 @@ const Slider = React.forwardRef(function Slider(props, ref) {
         }))
       : marksProp || [];
 
-  const { isFocusVisible, onBlurVisible, ref: focusVisibleRef } = useIsFocusVisible();
+  const {
+    isFocusVisibleRef,
+    onBlur: handleBlurVisible,
+    onFocus: handleFocusVisible,
+    ref: focusVisibleRef,
+  } = useIsFocusVisible();
   const [focusVisible, setFocusVisible] = React.useState(-1);
 
   const sliderRef = React.useRef();
@@ -403,15 +447,16 @@ const Slider = React.forwardRef(function Slider(props, ref) {
 
   const handleFocus = useEventCallback((event) => {
     const index = Number(event.currentTarget.getAttribute('data-index'));
-    if (isFocusVisible(event)) {
+    handleFocusVisible(event);
+    if (isFocusVisibleRef.current === true) {
       setFocusVisible(index);
     }
     setOpen(index);
   });
-  const handleBlur = useEventCallback(() => {
-    if (focusVisible !== -1) {
+  const handleBlur = useEventCallback((event) => {
+    handleBlurVisible(event);
+    if (isFocusVisibleRef.current === false) {
       setFocusVisible(-1);
-      onBlurVisible();
     }
     setOpen(-1);
   });
@@ -422,6 +467,22 @@ const Slider = React.forwardRef(function Slider(props, ref) {
   const handleMouseLeave = useEventCallback(() => {
     setOpen(-1);
   });
+
+  useEnhancedEffect(() => {
+    if (disabled && sliderRef.current.contains(document.activeElement)) {
+      // This is necessary because Firefox and Safari will keep focus
+      // on a disabled element:
+      // https://codesandbox.io/s/mui-pr-22247-forked-h151h?file=/src/App.js
+      document.activeElement.blur();
+    }
+  }, [disabled]);
+
+  if (disabled && active !== -1) {
+    setActive(-1);
+  }
+  if (disabled && focusVisible !== -1) {
+    setFocusVisible(-1);
+  }
 
   const isRtl = theme.direction === 'rtl';
 
@@ -495,8 +556,8 @@ const Slider = React.forwardRef(function Slider(props, ref) {
     setValueState(newValue);
     setFocusVisible(index);
 
-    if (onChange) {
-      onChange(event, newValue);
+    if (handleChange) {
+      handleChange(event, newValue);
     }
     if (onChangeCommitted) {
       onChangeCommitted(event, newValue);
@@ -565,6 +626,13 @@ const Slider = React.forwardRef(function Slider(props, ref) {
       return;
     }
 
+    // Cancel move in case some other element consumed a mouseup event and it was not fired.
+    if (nativeEvent.type === 'mousemove' && nativeEvent.buttons === 0) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      handleTouchEnd(nativeEvent);
+      return;
+    }
+
     const { newValue, activeIndex } = getFingerNewValue({
       finger,
       move: true,
@@ -575,8 +643,8 @@ const Slider = React.forwardRef(function Slider(props, ref) {
     focusThumb({ sliderRef, activeIndex, setActive });
     setValueState(newValue);
 
-    if (onChange) {
-      onChange(nativeEvent, newValue);
+    if (handleChange) {
+      handleChange(nativeEvent, newValue);
     }
   });
 
@@ -608,8 +676,11 @@ const Slider = React.forwardRef(function Slider(props, ref) {
   });
 
   const handleTouchStart = useEventCallback((event) => {
-    // Workaround as Safari has partial support for touchAction: 'none'.
-    event.preventDefault();
+    // If touch-action: none; is not supported we need to prevent the scroll manually.
+    if (!doesSupportTouchActionNone()) {
+      event.preventDefault();
+    }
+
     const touch = event.changedTouches[0];
     if (touch != null) {
       // A number that uniquely identifies the current finger in the touch session.
@@ -621,8 +692,8 @@ const Slider = React.forwardRef(function Slider(props, ref) {
 
     setValueState(newValue);
 
-    if (onChange) {
-      onChange(event, newValue);
+    if (handleChange) {
+      handleChange(event, newValue);
     }
 
     const doc = ownerDocument(sliderRef.current);
@@ -632,17 +703,33 @@ const Slider = React.forwardRef(function Slider(props, ref) {
 
   React.useEffect(() => {
     const { current: slider } = sliderRef;
-    slider.addEventListener('touchstart', handleTouchStart);
+    slider.addEventListener('touchstart', handleTouchStart, {
+      passive: doesSupportTouchActionNone(),
+    });
+
     const doc = ownerDocument(slider);
 
     return () => {
-      slider.removeEventListener('touchstart', handleTouchStart);
+      slider.removeEventListener('touchstart', handleTouchStart, {
+        passive: doesSupportTouchActionNone(),
+      });
+
       doc.removeEventListener('mousemove', handleTouchMove);
       doc.removeEventListener('mouseup', handleTouchEnd);
       doc.removeEventListener('touchmove', handleTouchMove);
       doc.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handleTouchEnd, handleTouchMove, handleTouchStart]);
+
+  React.useEffect(() => {
+    if (disabled) {
+      const doc = ownerDocument(sliderRef.current);
+      doc.removeEventListener('mousemove', handleTouchMove);
+      doc.removeEventListener('mouseup', handleTouchEnd);
+      doc.removeEventListener('touchmove', handleTouchMove);
+      doc.removeEventListener('touchend', handleTouchEnd);
+    }
+  }, [disabled, handleTouchEnd, handleTouchMove]);
 
   const handleMouseDown = useEventCallback((event) => {
     if (onMouseDown) {
@@ -656,8 +743,8 @@ const Slider = React.forwardRef(function Slider(props, ref) {
 
     setValueState(newValue);
 
-    if (onChange) {
-      onChange(event, newValue);
+    if (handleChange) {
+      handleChange(event, newValue);
     }
 
     const doc = ownerDocument(sliderRef.current);
@@ -739,6 +826,7 @@ const Slider = React.forwardRef(function Slider(props, ref) {
       {values.map((value, index) => {
         const percent = valueToPercent(value, min, max);
         const style = axisProps[axis].offset(percent);
+        const ValueLabelComponent = valueLabelDisplay === 'off' ? Forward : ValueLabelComponentProp;
 
         return (
           <ValueLabelComponent
@@ -830,7 +918,6 @@ Slider.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -839,6 +926,7 @@ Slider.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'primary'
    */
   color: PropTypes.oneOf(['primary', 'secondary']),
   /**
@@ -852,6 +940,7 @@ Slider.propTypes = {
   defaultValue: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
   /**
    * If `true`, the slider will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
@@ -873,6 +962,7 @@ Slider.propTypes = {
    * Marks indicate predetermined values to which the user can move the slider.
    * If `true` the marks will be spaced according the value of the `step` prop.
    * If an array, it should contain objects with `value` and an optional `label` keys.
+   * @default false
    */
   marks: PropTypes.oneOfType([
     PropTypes.arrayOf(
@@ -886,11 +976,13 @@ Slider.propTypes = {
   /**
    * The maximum allowed value of the slider.
    * Should not be equal to min.
+   * @default 100
    */
   max: PropTypes.number,
   /**
    * The minimum allowed value of the slider.
    * Should not be equal to max.
+   * @default 0
    */
   min: PropTypes.number,
   /**
@@ -917,10 +1009,12 @@ Slider.propTypes = {
   onMouseDown: PropTypes.func,
   /**
    * The slider orientation.
+   * @default 'horizontal'
    */
   orientation: PropTypes.oneOf(['horizontal', 'vertical']),
   /**
    * A transformation function, to change the scale of the slider.
+   * @default (x) => x
    */
   scale: PropTypes.func,
   /**
@@ -929,10 +1023,12 @@ Slider.propTypes = {
    * We recommend (max - min) to be evenly divisible by the step.
    *
    * When step is `null`, the thumb can only be slid onto marks provided with the `marks` prop.
+   * @default 1
    */
   step: PropTypes.number,
   /**
    * The component used to display the value label.
+   * @default 'span'
    */
   ThumbComponent: PropTypes.elementType,
   /**
@@ -941,6 +1037,7 @@ Slider.propTypes = {
    * - `normal` the track will render a bar representing the slider value.
    * - `inverted` the track will render a bar representing the remaining slider value.
    * - `false` the track will render without a bar.
+   * @default 'normal'
    */
   track: PropTypes.oneOf(['inverted', 'normal', false]),
   /**
@@ -950,6 +1047,7 @@ Slider.propTypes = {
   value: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
   /**
    * The value label component.
+   * @default ValueLabel
    */
   ValueLabelComponent: PropTypes.elementType,
   /**
@@ -958,6 +1056,7 @@ Slider.propTypes = {
    * - `auto` the value label will display when the thumb is hovered or focused.
    * - `on` will display persistently.
    * - `off` will never display.
+   * @default 'off'
    */
   valueLabelDisplay: PropTypes.oneOf(['auto', 'off', 'on']),
   /**
@@ -967,6 +1066,7 @@ Slider.propTypes = {
    *
    * - {number} value The value label's value to format
    * - {number} index The value label's index to format
+   * @default (x) => x
    */
   valueLabelFormat: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 };

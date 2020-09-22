@@ -59,7 +59,7 @@ export const styles = (theme) => ({
   /* Styles applied to the select component `selectMenu` class. */
   selectMenu: {
     height: 'auto', // Resets for multpile select with chips
-    minHeight: '1.1876em', // Required for select\text-field height consistency
+    minHeight: '1.4375em', // Required for select\text-field height consistency
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -154,15 +154,16 @@ NativeSelect.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
    * The icon that displays the arrow.
+   * @default ArrowDropDownIcon
    */
   IconComponent: PropTypes.elementType,
   /**
    * An `Input` element; does not have to be a material-ui specific `Input`.
+   * @default <Input />
    */
   input: PropTypes.element,
   /**
@@ -170,7 +171,7 @@ NativeSelect.propTypes = {
    */
   inputProps: PropTypes.object,
   /**
-   * Callback function fired when a menu item is selected.
+   * Callback fired when a menu item is selected.
    *
    * @param {object} event The event source of the callback.
    * You can pull out the new value by accessing `event.target.value` (string).

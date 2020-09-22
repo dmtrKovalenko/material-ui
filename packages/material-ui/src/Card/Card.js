@@ -35,7 +35,6 @@ Card.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -44,6 +43,7 @@ Card.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, the card will use raised styling.
+   * @default false
    */
   raised: PropTypes.bool,
 };

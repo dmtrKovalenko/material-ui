@@ -1,6 +1,9 @@
 ---
 title: Autocomplete React component
 components: TextField, Popper, Autocomplete
+githubLabel: 'component: Autocomplete'
+waiAria: https://www.w3.org/TR/wai-aria-practices/#combobox
+packageName: '@material-ui/lab'
 ---
 
 # Autocomplete
@@ -13,6 +16,8 @@ The widget is useful for setting the value of a single-line textbox in one of tw
 2. The textbox may contain any arbitrary value, but it is advantageous to suggest possible values to the user, e.g., a search field may suggest similar or previous searches to save the user time: [free solo](#free-solo).
 
 It's meant to be an improved version of the "react-select" and "downshift" packages.
+
+{{"component": "modules/components/ComponentLinkHeader.js"}}
 
 ## Combo box
 
@@ -128,11 +133,24 @@ Head to the [customization](#customization) section for an example with the `Aut
 
 ## Asynchronous requests
 
+The component supports two different asynchronous use-cases:
+
+- [Load on open](#load-on-open): it waits for the component to be interacted with to load the options.
+- [Search as you type](#search-as-you-type): a new request is made for each keystroke.
+
+### Load on open
+
+It displays a progress state as long as the network request is pending.
+
 {{"demo": "pages/components/autocomplete/Asynchronous.js"}}
 
-If your logic is fetching new options on each keystroke and,
-using the current value of the textbox to filter on the server,
-you need to disable the built-in filtering of the autocomplete component:
+### Search as you type
+
+If your logic is fetching new options on each keystroke and using the current value of the textbox
+to filter on the server, you may want to consider throttling requests.
+
+Additionally, you will need to disable the built-in filtering of the `Autocomplete` component by
+overriding the `filterOptions` prop:
 
 ```jsx
 <Autocomplete filterOptions={(x) => x} />

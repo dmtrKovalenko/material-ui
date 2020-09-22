@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { StandardProps } from '..';
+import { InternalStandardProps as StandardProps } from '..';
 import { InputProps } from '../Input';
 import { MenuProps } from '../Menu';
 import { SelectInputProps } from './SelectInput';
 
 export interface SelectProps
-  extends StandardProps<InputProps, SelectClassKey, 'value' | 'onChange'>,
+  extends StandardProps<InputProps, 'value' | 'onChange'>,
     Pick<SelectInputProps, 'onChange'> {
   /**
    * If `true`, the width of the popover will automatically be set according to the items inside the
    * menu, otherwise it will be at least the width of the select input.
+   * @default false
    */
   autoWidth?: boolean;
   /**
@@ -20,18 +21,50 @@ export interface SelectProps
    */
   children?: React.ReactNode;
   /**
+   * Override or extend the styles applied to the component.
+   */
+  classes?: {
+    /** Styles applied to the select component `root` class. */
+    root?: string;
+    /** Styles applied to the select component `select` class. */
+    select?: string;
+    /** Styles applied to the select component if `variant="filled"`. */
+    filled?: string;
+    /** Styles applied to the select component if `variant="outlined"`. */
+    outlined?: string;
+    /** Styles applied to the select component `selectMenu` class. */
+    selectMenu?: string;
+    /** Pseudo-class applied to the select component `disabled` class. */
+    disabled?: string;
+    /** Styles applied to the icon component. */
+    icon?: string;
+    /** Styles applied to the icon component if the popup is open. */
+    iconOpen?: string;
+    /** Styles applied to the icon component if `variant="filled"`. */
+    iconFilled?: string;
+    /** Styles applied to the icon component if `variant="outlined"`. */
+    iconOutlined?: string;
+    /** Styles applied to the underlying native input component. */
+    nativeInput?: string;
+  };
+  /**
    * The default element value. Use when the component is not controlled.
    */
   defaultValue?: unknown;
   /**
    * If `true`, a value is displayed even if no items are selected.
    *
-   * In order to display a meaningful value, a function should be passed to the `renderValue` prop which returns the value to be displayed when no items are selected.
-   * You can only use it when the `native` prop is `false` (default).
+   * In order to display a meaningful value, a function can be passed to the `renderValue` prop which
+   * returns the value to be displayed when no items are selected.
+   *
+   * ⚠️ When using this prop, make sure the label doesn't overlap with the empty displayed value.
+   * The label should either be hidden or forced to a shrunk state.
+   * @default false
    */
   displayEmpty?: boolean;
   /**
    * The icon that displays the arrow.
+   * @default ArrowDropDownIcon
    */
   IconComponent?: React.ElementType;
   /**
@@ -58,6 +91,7 @@ export interface SelectProps
   labelId?: string;
   /**
    * See [OutlinedInput#label](/api/outlined-input/#props)
+   * @default 0
    */
   labelWidth?: number;
   /**
@@ -66,14 +100,16 @@ export interface SelectProps
   MenuProps?: Partial<MenuProps>;
   /**
    * If `true`, `value` must be an array and the menu will support multiple selections.
+   * @default false
    */
   multiple?: boolean;
   /**
    * If `true`, the component will be using a native `select` element.
+   * @default false
    */
   native?: boolean;
   /**
-   * Callback function fired when a menu item is selected.
+   * Callback fired when a menu item is selected.
    *
    * @param {object} event The event source of the callback.
    * You can pull out the new value by accessing `event.target.value` (any).
@@ -122,21 +158,12 @@ export interface SelectProps
   value?: unknown;
   /**
    * The variant to use.
+   * @default 'standard'
    */
   variant?: 'standard' | 'outlined' | 'filled';
 }
 
-export type SelectClassKey =
-  | 'root'
-  | 'select'
-  | 'filled'
-  | 'outlined'
-  | 'selectMenu'
-  | 'disabled'
-  | 'icon'
-  | 'iconOpen'
-  | 'iconFilled'
-  | 'iconOutlined';
+export type SelectClassKey = keyof NonNullable<SelectProps['classes']>;
 
 /**
  *

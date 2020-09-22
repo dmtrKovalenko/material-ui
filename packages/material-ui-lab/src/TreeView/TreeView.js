@@ -737,8 +737,11 @@ const TreeView = React.forwardRef(function TreeView(props, ref) {
   };
 
   const handleFocus = (event) => {
-    const firstSelected = Array.isArray(selected) ? selected[0] : selected;
-    focus(event, firstSelected || getNavigableChildrenIds(null)[0]);
+    // if the event bubbled (which is React specific) we don't want to steal focus
+    if (event.target === event.currentTarget) {
+      const firstSelected = Array.isArray(selected) ? selected[0] : selected;
+      focus(event, firstSelected || getNavigableChildrenIds(null)[0]);
+    }
 
     if (onFocus) {
       onFocus(event);
@@ -810,7 +813,6 @@ TreeView.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -828,6 +830,7 @@ TreeView.propTypes = {
   defaultEndIcon: PropTypes.node,
   /**
    * Expanded node ids. (Uncontrolled)
+   * @default []
    */
   defaultExpanded: PropTypes.arrayOf(PropTypes.string),
   /**
@@ -842,14 +845,17 @@ TreeView.propTypes = {
   /**
    * Selected node ids. (Uncontrolled)
    * When `multiSelect` is true this takes an array of strings; when false (default) a string.
+   * @default []
    */
   defaultSelected: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
   /**
    * If `true`, will allow focus on disabled items.
+   * @default false
    */
   disabledItemsFocusable: PropTypes.bool,
   /**
    * If `true` selection is disabled.
+   * @default false
    */
   disableSelection: PropTypes.bool,
   /**
@@ -863,6 +869,7 @@ TreeView.propTypes = {
   id: PropTypes.string,
   /**
    * If true `ctrl` and `shift` will trigger multiselect.
+   * @default false
    */
   multiSelect: PropTypes.bool,
   /**

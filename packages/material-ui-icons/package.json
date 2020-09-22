@@ -1,6 +1,6 @@
 {
   "name": "@material-ui/icons",
-  "version": "5.0.0-alpha.4",
+  "version": "5.0.0-alpha.7",
   "private": false,
   "author": "Material-UI Team",
   "description": "Material Design Svg Icons converted to Material-UI React components.",
@@ -33,12 +33,12 @@
     "release": "yarn build && npm publish build --tag next",
     "src:download": "cd ../../ && babel-node --config-file ./babel.config.js packages/material-ui-icons/scripts/download.js",
     "src:icons": "cd ../../ && UV_THREADPOOL_SIZE=64 babel-node --config-file ./babel.config.js packages/material-ui-icons/builder.js --output-dir packages/material-ui-icons/src --svg-dir packages/material-ui-icons/material-icons --renameFilter ./renameFilters/material-design-icons.js",
-    "test": "cd ../../ && cross-env NODE_ENV=test mocha 'packages/material-ui-icons/**/*.test.js' --exclude '**/node_modules/**'",
+    "test": "cd ../../ && cross-env NODE_ENV=test mocha 'packages/material-ui-icons/**/*.test.{js,ts,tsx}' --exclude '**/node_modules/**'",
     "test:built-typings": "tslint -p test/generated-types/tsconfig.json \"test/generated-types/*.{ts,tsx}\"",
     "typescript": "tslint -p tsconfig.json \"src/**/*.{ts,tsx}\""
   },
   "peerDependencies": {
-    "@material-ui/core": "^5.0.0-alpha.1",
+    "@material-ui/core": "^5.0.0-alpha.7",
     "@types/react": "^16.8.6",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
@@ -56,7 +56,7 @@
     "mustache": "^4.0.0",
     "svgo": "^1.3.0",
     "temp": "^0.9.0",
-    "yargs": "^15.0.1"
+    "yargs": "^16.0.3"
   },
   "sideEffects": false,
   "publishConfig": {

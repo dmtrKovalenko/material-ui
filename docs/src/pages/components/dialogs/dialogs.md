@@ -1,17 +1,22 @@
 ---
 title: Dialog React component
 components: Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Slide
+githubLabel: 'component: Dialog'
+materialDesign: https://material.io/components/dialogs
+waiAria: https://www.w3.org/TR/wai-aria-practices/#dialog_modal
 ---
 
 # Dialog
 
 <p class="description">Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks.</p>
 
-A [Dialog](https://material.io/design/components/dialogs.html) is a type of [modal](/components/modal/) window that appears in front of app content to provide critical information or ask for a decision. Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
+A Dialog is a type of [modal](/components/modal/) window that appears in front of app content to provide critical information or ask for a decision. Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken.
 
 Dialogs are purposefully interruptive, so they should be used sparingly.
 
-## Simple Dialogs
+{{"component": "modules/components/ComponentLinkHeader.js"}}
+
+## Basic dialog
 
 Simple dialogs can provide additional details or actions about a list item.
 For example, they can display avatars, icons, clarifying subtext, or orthogonal actions (such as adding an account).
@@ -72,7 +77,7 @@ The dialog has a close button added to aide usability.
 ## Optional sizes
 
 You can set a dialog maximum width by using the `maxWidth` enumerable in combination with the `fullWidth` boolean.
-When the `fullWidth` property is true, the dialog will adapt based on the `maxWidth` value.
+When the `fullWidth` prop is true, the dialog will adapt based on the `maxWidth` value.
 
 {{"demo": "pages/components/dialogs/MaxWidthDialog.js"}}
 

@@ -108,27 +108,29 @@ const theme = createMuiTheme({
   zIndex: {
     appBar: 42,
   },
-  overrides: {
+  components: {
     MuiButton: {
-      // Name of the styleSheet
-      root: {
-        // Name of the rule
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 48,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      defaultProps: {
+        disabled: true,
+      },
+      styleOverrides: {
+        // Name of the styleSheet
+        root: {
+          // Name of the rule
+          background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+          borderRadius: 3,
+          border: 0,
+          color: 'white',
+          height: 48,
+          padding: '0 30px',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        },
       },
     },
-  },
-  props: {
-    MuiButton: {
-      disabled: true,
-    },
     MuiAppBar: {
-      position: 'fixed',
+      defaultProps: {
+        position: 'fixed',
+      },
     },
   },
 });
@@ -139,23 +141,29 @@ const theme2 = createMuiTheme({
       main: blue[500],
     },
   },
-  props: {
+  components: {
     MuiButton: {
-      disabled: false,
-      TouchRippleProps: {
-        center: true,
+      defaultProps: {
+        disabled: false,
+        TouchRippleProps: {
+          center: true,
+        },
       },
     },
     MuiTable: {
-      cellPadding: 12,
+      defaultProps: {
+        cellPadding: 12,
+      },
     },
     MuiButtonBase: {
-      disableRipple: true,
+      defaultProps: {
+        disableRipple: true,
+      },
     },
   },
 });
 
-const t1: number = createMuiTheme().spacing(1);
+const t1: string = createMuiTheme().spacing(1);
 const t2: string = createMuiTheme().spacing(1, 2);
 const t3: string = createMuiTheme().spacing(1, 2, 3);
 const t4: string = createMuiTheme().spacing(1, 2, 3, 4);
@@ -643,7 +651,9 @@ function themeProviderTest() {
   <ThemeProvider theme={{ foo: 1 }}>{null}</ThemeProvider>;
   // @ts-expect-error
   <ThemeProvider<Theme> theme={{ foo: 1 }}>{null}</ThemeProvider>;
-  <ThemeProvider<Theme> theme={{ props: { MuiAppBar: { 'aria-atomic': 'true' } } }}>
+  <ThemeProvider<Theme>
+    theme={{ components: { MuiAppBar: { defaultProps: { 'aria-atomic': 'true' } } } }}
+  >
     {null}
   </ThemeProvider>;
 }

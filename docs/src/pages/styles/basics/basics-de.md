@@ -2,7 +2,7 @@
 
 <p class="description">Sie können die Styling-Lösung von Material-UI in Ihrer App verwenden, unabhängig davon, ob Sie Material-UI-Komponenten verwenden.</p>
 
-Material-UI hat das Ziel, solide Grundlagen für dynamische UIs zu schaffen. Der Einfachheit halber **stellen wir die in Material-UI-Komponenten verwendete Styling-Lösung** als `@material-ui/styles ` Paket zur Verfügung. Sie können es verwenden, müssen aber nicht, da Material-UI auch mit allen anderen wichtigen Styling-Lösungen [verwendbar ist](/guides/interoperability/).
+Material-UI hat das Ziel, solide Grundlagen für dynamische UIs zu schaffen. Material-UI hat das Ziel, solide Grundlagen für dynamische UIs zu schaffen. Sie können es verwenden, müssen aber nicht, da Material-UI auch mit allen anderen wichtigen Styling-Lösungen [verwendbar ist](/guides/interoperability/).
 
 ## Wieso die Styling-Lösung von Material-UI benutzten?
 
@@ -37,7 +37,7 @@ Es gibt 3 mögliche APIs, die Sie verwenden können, um Stile zu generieren und 
 ### Hook API
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -66,7 +66,7 @@ export default function Hook() {
 Hinweis: Dies gilt nur für aufrufende Syntax-Stil-Definitionen, die noch ein JSS-Objekt verwenden. Sie können dieses Verhalten auch mit einigen Einschränkungen [ändern](/styles/advanced/#string-templates).
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { styled } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -90,7 +90,7 @@ export default function StyledComponents() {
 ### Higher-order component API
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';

@@ -43,7 +43,6 @@ DialogActions.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -52,6 +51,7 @@ DialogActions.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, the actions do not have additional margin.
+   * @default false
    */
   disableSpacing: PropTypes.bool,
 };

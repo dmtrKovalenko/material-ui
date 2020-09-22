@@ -70,7 +70,6 @@ Backdrop.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -80,6 +79,7 @@ Backdrop.propTypes = {
   /**
    * If `true`, the backdrop is invisible.
    * It can be used when rendering a popover or a custom select component.
+   * @default false
    */
   invisible: PropTypes.bool,
   /**

@@ -211,7 +211,6 @@ FormControl.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -220,6 +219,7 @@ FormControl.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'primary'
    */
   color: PropTypes.oneOf(['primary', 'secondary']),
   /**
@@ -229,10 +229,12 @@ FormControl.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the label, input and helper text should be displayed in a disabled state.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, the label should be displayed in an error state.
+   * @default false
    */
   error: PropTypes.bool,
   /**
@@ -241,20 +243,24 @@ FormControl.propTypes = {
   focused: PropTypes.bool,
   /**
    * If `true`, the component will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
    * If `true`, the label will be hidden.
    * This is used to increase density for a `FilledInput`.
    * Be sure to add `aria-label` to the `input` element.
+   * @default false
    */
   hiddenLabel: PropTypes.bool,
   /**
    * If `dense` or `normal`, will adjust vertical spacing of this and contained components.
+   * @default 'none'
    */
   margin: PropTypes.oneOf(['dense', 'none', 'normal']),
   /**
    * If `true`, the label will indicate that the input is required.
+   * @default false
    */
   required: PropTypes.bool,
   /**
@@ -263,6 +269,7 @@ FormControl.propTypes = {
   size: PropTypes.oneOf(['medium', 'small']),
   /**
    * The variant to use.
+   * @default 'standard'
    */
   variant: PropTypes.oneOf(['filled', 'outlined', 'standard']),
 };

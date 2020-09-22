@@ -19,6 +19,7 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
     /**
      * If `true`, the ripples will be centered.
      * They won't start at the cursor interaction position.
+     * @default false
      */
     centerRipple?: boolean;
     /**
@@ -26,7 +27,19 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Pseudo-class applied to the root element if `disabled={true}`. */
+      disabled?: string;
+      /** Pseudo-class applied to the root element if keyboard focused. */
+      focusVisible?: string;
+    };
+    /**
      * If `true`, the base button will be disabled.
+     * @default false
      */
     disabled?: boolean;
     /**
@@ -34,14 +47,17 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
      *
      * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
      * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+     * @default false
      */
     disableRipple?: boolean;
     /**
      * If `true`, the touch ripple effect will be disabled.
+     * @default false
      */
     disableTouchRipple?: boolean;
     /**
      * If `true`, the base button will have a keyboard focus ripple.
+     * @default false
      */
     focusRipple?: boolean;
     /**
@@ -59,6 +75,9 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
      */
     onFocusVisible?: React.FocusEventHandler<any>;
     // @types/react is stricter
+    /**
+     * @default 0
+     */
     tabIndex?: string | number;
     /**
      * Props applied to the `TouchRipple` element.
@@ -66,7 +85,6 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
     TouchRippleProps?: Partial<TouchRippleProps>;
   };
   defaultComponent: D;
-  classKey: ButtonBaseClassKey;
 }
 
 /**
@@ -75,9 +93,8 @@ export interface ButtonBaseTypeMap<P = {}, D extends React.ElementType = 'button
  * can make extension quite tricky
  */
 export interface ExtendButtonBaseTypeMap<M extends OverridableTypeMap> {
-  props: M['props'] & ButtonBaseTypeMap['props'];
+  props: M['props'] & Omit<ButtonBaseTypeMap['props'], 'classes'>;
   defaultComponent: M['defaultComponent'];
-  classKey: M['classKey'];
 }
 
 export type ExtendButtonBase<M extends OverridableTypeMap> = ((
@@ -104,7 +121,7 @@ export type ButtonBaseProps<
   P = {}
 > = OverrideProps<ButtonBaseTypeMap<P, D>, D>;
 
-export type ButtonBaseClassKey = 'root' | 'disabled' | 'focusVisible';
+export type ButtonBaseClassKey = keyof NonNullable<ButtonBaseTypeMap['props']['classes']>;
 
 export interface ButtonBaseActions {
   focusVisible(): void;

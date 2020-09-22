@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import url from 'url';
@@ -36,7 +36,6 @@ function getType(value) {
 }
 
 /**
- *
  * @param {unknown} value
  * @param {ReturnType<typeof getType>} type
  */

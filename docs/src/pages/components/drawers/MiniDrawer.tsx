@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import clsx from 'clsx';
 import {
   createStyles,
@@ -69,9 +69,9 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
+      width: `calc(${theme.spacing(7)} + 1px)`,
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
+        width: `calc(${theme.spacing(9)} + 1px)`,
       },
     },
     toolbar: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -72,7 +72,7 @@ function ConfirmationDialogRaw(props: ConfirmationDialogRawProps) {
       disableBackdropClick
       disableEscapeKeyDown
       maxWidth="xs"
-      onEntering={handleEntering}
+      TransitionProps={{ onEntering: handleEntering }}
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}

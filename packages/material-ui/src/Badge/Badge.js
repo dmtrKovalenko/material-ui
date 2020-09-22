@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useThemeVariants } from '@material-ui/styles';
 import withStyles from '../styles/withStyles';
 import capitalize from '../utils/capitalize';
 
@@ -62,6 +63,8 @@ export const styles = (theme) => ({
     minWidth: RADIUS_DOT * 2,
     padding: 0,
   },
+  /* Styles applied to the root element if `variant="standard"`. */
+  standard: {},
   /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }} overlap="rectangular"`. */
   anchorOriginTopRightRectangular: {
     top: 0,
@@ -206,6 +209,22 @@ const Badge = React.forwardRef(function Badge(props, ref) {
     variant = variantProp,
   } = invisible ? prevProps : props;
 
+  const themeVariantsClasses = useThemeVariants(
+    {
+      ...props,
+      anchorOrigin,
+      badgeContent,
+      color,
+      component: ComponentProp,
+      invisible,
+      max,
+      overlap,
+      showZero,
+      variant,
+    },
+    'MuiBadge',
+  );
+
   let displayValue = '';
 
   if (variant !== 'dot') {
@@ -218,6 +237,7 @@ const Badge = React.forwardRef(function Badge(props, ref) {
       <span
         className={clsx(
           classes.badge,
+          classes[variant],
           classes[
             `anchorOrigin${capitalize(anchorOrigin.vertical)}${capitalize(
               anchorOrigin.horizontal,
@@ -226,8 +246,8 @@ const Badge = React.forwardRef(function Badge(props, ref) {
           {
             [classes[`color${capitalize(color)}`]]: color !== 'default',
             [classes.invisible]: invisible,
-            [classes.dot]: variant === 'dot',
           },
+          themeVariantsClasses,
         )}
       >
         {displayValue}
@@ -243,6 +263,10 @@ Badge.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * The anchor of the badge.
+   * @default {
+   *   vertical: 'top',
+   *   horizontal: 'right',
+   * }
    */
   anchorOrigin: PropTypes.shape({
     horizontal: PropTypes.oneOf(['left', 'right']).isRequired,
@@ -258,7 +282,6 @@ Badge.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -267,6 +290,7 @@ Badge.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'default'
    */
   color: PropTypes.oneOf(['default', 'error', 'primary', 'secondary']),
   /**
@@ -280,20 +304,27 @@ Badge.propTypes = {
   invisible: PropTypes.bool,
   /**
    * Max count to show.
+   * @default 99
    */
   max: PropTypes.number,
   /**
    * Wrapped shape the badge should overlap.
+   * @default 'rectangular'
    */
   overlap: PropTypes.oneOf(['circular', 'rectangular']),
   /**
    * Controls whether the badge is hidden when `badgeContent` is zero.
+   * @default false
    */
   showZero: PropTypes.bool,
   /**
    * The variant to use.
+   * @default 'standard'
    */
-  variant: PropTypes.oneOf(['dot', 'standard']),
+  variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    PropTypes.oneOf(['dot', 'standard']),
+    PropTypes.string,
+  ]),
 };
 
 export default withStyles(styles, { name: 'MuiBadge' })(Badge);

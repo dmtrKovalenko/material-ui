@@ -15,6 +15,7 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    boxSizing: 'border-box',
     WebkitTapHighlightColor: 'transparent',
     backgroundColor: 'transparent', // Reset default value
     // We disable the focus ring for mouse, touch and keyboard users.
@@ -82,7 +83,6 @@ const ButtonBase = React.forwardRef(function ButtonBase(props, ref) {
     onDragLeave,
     tabIndex = 0,
     TouchRippleProps,
-    type = 'button',
     ...other
   } = props;
 
@@ -90,11 +90,19 @@ const ButtonBase = React.forwardRef(function ButtonBase(props, ref) {
 
   const rippleRef = React.useRef(null);
 
+  const {
+    isFocusVisibleRef,
+    onFocus: handleFocusVisible,
+    onBlur: handleBlurVisible,
+    ref: focusVisibleRef,
+  } = useIsFocusVisible();
   const [focusVisible, setFocusVisible] = React.useState(false);
   if (disabled && focusVisible) {
     setFocusVisible(false);
   }
-  const { isFocusVisible, onBlurVisible, ref: focusVisibleRef } = useIsFocusVisible();
+  React.useEffect(() => {
+    isFocusVisibleRef.current = focusVisible;
+  }, [focusVisible, isFocusVisibleRef]);
 
   React.useImperativeHandle(
     action,
@@ -142,11 +150,12 @@ const ButtonBase = React.forwardRef(function ButtonBase(props, ref) {
   const handleTouchStart = useRippleHandler('start', onTouchStart);
   const handleTouchEnd = useRippleHandler('stop', onTouchEnd);
   const handleTouchMove = useRippleHandler('stop', onTouchMove);
+
   const handleBlur = useRippleHandler(
     'stop',
     (event) => {
-      if (focusVisible) {
-        onBlurVisible(event);
+      handleBlurVisible(event);
+      if (isFocusVisibleRef.current === false) {
         setFocusVisible(false);
       }
       if (onBlur) {
@@ -162,7 +171,8 @@ const ButtonBase = React.forwardRef(function ButtonBase(props, ref) {
       buttonRef.current = event.currentTarget;
     }
 
-    if (isFocusVisible(event)) {
+    handleFocusVisible(event);
+    if (isFocusVisibleRef.current === true) {
       setFocusVisible(true);
 
       if (onFocusVisible) {
@@ -262,7 +272,7 @@ const ButtonBase = React.forwardRef(function ButtonBase(props, ref) {
 
   const buttonProps = {};
   if (ComponentProp === 'button') {
-    buttonProps.type = type;
+    buttonProps.type = other.type === undefined ? 'button' : other.type;
     buttonProps.disabled = disabled;
   } else {
     if (ComponentProp !== 'a' || !other.href) {
@@ -354,6 +364,7 @@ ButtonBase.propTypes = {
   /**
    * If `true`, the ripples will be centered.
    * They won't start at the cursor interaction position.
+   * @default false
    */
   centerRipple: PropTypes.bool,
   /**
@@ -362,7 +373,6 @@ ButtonBase.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -376,6 +386,7 @@ ButtonBase.propTypes = {
   component: elementTypeAcceptingRef,
   /**
    * If `true`, the base button will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
@@ -383,14 +394,17 @@ ButtonBase.propTypes = {
    *
    * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
    * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   * @default false
    */
   disableRipple: PropTypes.bool,
   /**
    * If `true`, the touch ripple effect will be disabled.
+   * @default false
    */
   disableTouchRipple: PropTypes.bool,
   /**
    * If `true`, the base button will have a keyboard focus ripple.
+   * @default false
    */
   focusRipple: PropTypes.bool,
   /**
@@ -460,7 +474,7 @@ ButtonBase.propTypes = {
    */
   onTouchStart: PropTypes.func,
   /**
-   * @ignore
+   * @default 0
    */
   tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**

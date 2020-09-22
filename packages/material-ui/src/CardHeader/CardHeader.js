@@ -111,7 +111,6 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -128,6 +127,7 @@ CardHeader.propTypes = {
    * This can be useful to render an alternative Typography variant by wrapping
    * the `title` text, and optional `subheader` text
    * with the Typography component.
+   * @default false
    */
   disableTypography: PropTypes.bool,
   /**

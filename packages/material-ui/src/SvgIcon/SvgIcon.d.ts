@@ -8,12 +8,37 @@ export interface SvgIconTypeMap<P = {}, D extends React.ElementType = 'svg'> {
      */
     children?: React.ReactNode;
     /**
+     * Override or extend the styles applied to the component.
+     */
+    classes?: {
+      /** Styles applied to the root element. */
+      root?: string;
+      /** Styles applied to the root element if `color="primary"`. */
+      colorPrimary?: string;
+      /** Styles applied to the root element if `color="secondary"`. */
+      colorSecondary?: string;
+      /** Styles applied to the root element if `color="action"`. */
+      colorAction?: string;
+      /** Styles applied to the root element if `color="error"`. */
+      colorError?: string;
+      /** Styles applied to the root element if `color="disabled"`. */
+      colorDisabled?: string;
+      /** Styles applied to the root element if `fontSize="inherit"`. */
+      fontSizeInherit?: string;
+      /** Styles applied to the root element if `fontSize="small"`. */
+      fontSizeSmall?: string;
+      /** Styles applied to the root element if `fontSize="large"`. */
+      fontSizeLarge?: string;
+    };
+    /**
      * The color of the component. It supports those theme colors that make sense for this component.
      * You can use the `htmlColor` prop to apply a color attribute to the SVG element.
+     * @default 'inherit'
      */
     color?: 'inherit' | 'primary' | 'secondary' | 'action' | 'disabled' | 'error';
     /**
      * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+     * @default 'default'
      */
     fontSize?: 'inherit' | 'default' | 'small' | 'large';
     /**
@@ -37,11 +62,11 @@ export interface SvgIconTypeMap<P = {}, D extends React.ElementType = 'svg'> {
      * and you pass viewBox="0 0 50 20",
      * this means that the coordinates inside the SVG will go from the top left corner (0,0)
      * to bottom right (50,20) and each unit will be worth 10px.
+     * @default '0 0 24 24'
      */
     viewBox?: string;
   };
   defaultComponent: D;
-  classKey: SvgIconClassKey;
 }
 /**
  *
@@ -56,16 +81,7 @@ export interface SvgIconTypeMap<P = {}, D extends React.ElementType = 'svg'> {
  */
 declare const SvgIcon: OverridableComponent<SvgIconTypeMap>;
 
-export type SvgIconClassKey =
-  | 'root'
-  | 'colorSecondary'
-  | 'colorAction'
-  | 'colorDisabled'
-  | 'colorError'
-  | 'colorPrimary'
-  | 'fontSizeInherit'
-  | 'fontSizeSmall'
-  | 'fontSizeLarge';
+export type SvgIconClassKey = keyof NonNullable<SvgIconTypeMap['props']['classes']>;
 
 export type SvgIconProps<
   D extends React.ElementType = SvgIconTypeMap['defaultComponent'],

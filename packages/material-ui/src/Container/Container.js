@@ -103,10 +103,9 @@ Container.propTypes = {
   /**
    * @ignore
    */
-  children: PropTypes /* @typescript-to-proptypes-ignore */.node.isRequired,
+  children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -120,6 +119,7 @@ Container.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the left and right padding is removed.
+   * @default false
    */
   disableGutters: PropTypes.bool,
   /**
@@ -127,12 +127,14 @@ Container.propTypes = {
    * This is useful if you'd prefer to design for a fixed set of sizes
    * instead of trying to accommodate a fully fluid viewport.
    * It's fluid by default.
+   * @default false
    */
   fixed: PropTypes.bool,
   /**
    * Determine the max-width of the container.
    * The container width grows with the size of the screen.
    * Set to `false` to disable `maxWidth`.
+   * @default 'lg'
    */
   maxWidth: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs', false]),
 };

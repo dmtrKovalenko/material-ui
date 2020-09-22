@@ -72,7 +72,6 @@ List.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -88,10 +87,12 @@ List.propTypes = {
    * If `true`, compact vertical padding designed for keyboard and mouse input will be used for
    * the list and list items.
    * The prop is available to descendant components as the `dense` context.
+   * @default false
    */
   dense: PropTypes.bool,
   /**
    * If `true`, vertical padding will be removed from the list.
+   * @default false
    */
   disablePadding: PropTypes.bool,
   /**

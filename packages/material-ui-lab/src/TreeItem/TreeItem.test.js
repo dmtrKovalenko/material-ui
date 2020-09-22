@@ -39,10 +39,11 @@ describe('<TreeItem />', () => {
 
     it('should warn if an onFocus callback is supplied', () => {
       expect(() => {
-        render(
-          <TreeView>
-            <TreeItem onFocus={() => {}} nodeId="1" label="one" />
-          </TreeView>,
+        PropTypes.checkPropTypes(
+          TreeItem.Naked.propTypes,
+          { nodeId: 'one', onFocus: () => {} },
+          'prop',
+          'TreeItem',
         );
       }).toErrorDev('Failed prop type: The prop `onFocus` is not supported.');
     });
@@ -1124,7 +1125,7 @@ describe('<TreeItem />', () => {
 
     describe('Multi Selection', () => {
       describe('deselection', () => {
-        describe('mouse behaviour when multiple nodes are selected', () => {
+        describe('mouse behavior when multiple nodes are selected', () => {
           specify('clicking a selected node holding ctrl should deselect the node', () => {
             const { getByText, getByTestId } = render(
               <TreeView multiSelect defaultSelected={['one', 'two']}>
@@ -1156,7 +1157,7 @@ describe('<TreeItem />', () => {
           });
         });
 
-        describe('mouse behaviour when one node is selected', () => {
+        describe('mouse behavior when one node is selected', () => {
           it('clicking a selected node shout not deselect the node', () => {
             const { getByText, getByTestId } = render(
               <TreeView multiSelect defaultSelected={['one']}>
@@ -1473,7 +1474,7 @@ describe('<TreeItem />', () => {
           expect(getByTestId('five')).to.have.attribute('aria-selected', 'true');
         });
 
-        it('mouse behaviour after deselection', () => {
+        it('mouse behavior after deselection', () => {
           const { getByTestId, getByText } = render(
             <TreeView multiSelect>
               <TreeItem nodeId="one" label="one" data-testid="one" />

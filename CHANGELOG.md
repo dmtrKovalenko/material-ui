@@ -1,5 +1,789 @@
 ### [Versions](https://material-ui.com/versions/)
 
+## 5.0.0-alpha.10
+
+###### _Sep 15, 2020_
+
+Big thanks to the 16 contributors who made this release possible.
+Here are some highlights ✨:
+
+- Keep working on the breaking changes before v5-beta.
+  As always, you should find a clear and simple upgrade path for each of them.
+- And many more 🐛 bug fixes and 📚 improvements.
+
+### `@material-ui/core@v5.0.0-alpha.10`
+
+#### Breaking changes
+
+- [Accordion] Normalize focusVisible logic (#22567) @oliviertassinari
+  Rename `focused` to `focusVisible` for consistency with the other components:
+
+  ```diff
+  <Accordion
+    classes={{
+  -   focused: 'custom-focus-visible-classname',
+  +   focusVisible: 'custom-focus-visible-classname',
+    }}
+  />
+  ```
+
+- [Stepper] Remove Paper and built-in padding (#22564) @mbrookes
+  The root component (Paper) was replaced with a `<div>`. Stepper no longer has elevation, nor inherits Paper's props. This change is meant to encourage composition.
+
+  ```diff
+  -<Stepper elevation={2}>
+  -  <Step>
+  -    <StepLabel>Hello world</StepLabel>
+  -  </Step>
+  -</Stepper>
+  +<Paper square elevation={2}>
+  +  <Stepper>
+  +    <Step>
+  +      <StepLabel>Hello world</StepLabel>
+  +    </Step>
+  +  </Stepper>
+  +<Paper>
+  ```
+
+  Remove the built-in 24px padding for consistency with the other components that avoid reserving space anytime it's possible.
+
+  ```diff
+  -<Stepper>
+  -  <Step>
+  -    <StepLabel>Hello world</StepLabel>
+  -  </Step>
+  -</Stepper>
+  +<Stepper style={{ padding: 24 }}>
+  +  <Step>
+  +    <StepLabel>Hello world</StepLabel>
+  +  </Step>
+  +</Stepper>
+  ```
+
+- [theme] Always return default spacing value with px units (#22552) @mbrookes
+
+  `theme.spacing` now returns single values with px units by default.
+  This change improves the integration with styled-components & emotion (with the CSS template strings syntax).
+
+  Before:
+
+  ```
+  theme.spacing(2) => 16
+  ```
+
+  After:
+
+  ```
+  theme.spacing(2) => '16px'
+  ```
+
+  You can restore the previous behavior with:
+
+  ```diff
+  -const theme = createMuiTheme();
+  +const theme = createMuiTheme({
+  +  spacing: x => x * 8,
+  +});
+  ```
+
+- [theme] Remove palette.text.hint key (#22537) @mbrookes
+
+  The `theme.palette.text.hint` key was available but unused in Material-UI v4 components.
+  You can use `adaptV4Theme()` to restore the previous behavior.
+
+#### Changes
+
+- [BottomNavigation] onClick does not fire if tapped while scrolling (#22524) @EliasJorgensen
+- [Button] Remove dead code (#22566) @oliviertassinari
+- [Chip] Fix focus visible style (#22430) @alexmotoc
+- [ImageList] Refactor using CSS grid & React context (#22395) @mbrookes
+- [Slider] Improve integration with form libraries (#22548) @NoNonsense126
+- [StepIcon] Add className in render SvgIcon (#22559) @ZouYouShun
+- [SwipeableDrawer] Avoid blocking events (#22525) @JadRizk
+- [theme] Support spacing and border radius with CSS unit (#22530) @madmanwithabike
+- [theme] Fix theme object global leak (#22517) @eps1lon
+- [theme] Increase usage of the disabled design tokens (#22570) @LorenzHenk
+
+### `@material-ui/lab@v5.0.0-alpha.10`
+
+#### Breaking changes
+
+- [Rating] Use different shape for empty and filled icons (#22554) @oliviertassinari
+  Change the default empty icon to improve accessibility (1.4.1 WCAG 2.1).
+  If you have a custom `icon` prop but no `emptyIcon` prop, you can restore the previous behavior with:
+
+  ```diff
+  <Rating
+    icon={customIcon}
+  + emptyIcon={null}
+  />
+  ```
+
+#### Changes
+
+- [Autocomplete] Improve TypeScript in the Google Maps demo (#22555) @L-U-C-K-Y
+- [Rating] Explain some styles in code comments (#22571) @eps1lon
+
+### Docs
+
+- [docs] Improve Font Awesome integration (#22496) @chrislambe
+- [docs] Clarify SSG acronym in Next.js example (#22558) @leerob
+- [docs] Add redirection for links published on npm (#22575) @oliviertassinari
+- [docs] Add LightyearVPN to showcase (#22568) @lightyearvpn
+- [docs] Fix typo, extra 'you' (#22560) @jedsmit
+- [docs] Option to disable ads (#22574) @oliviertassinari
+
+### Core
+
+- [core] Remove usage of deprecated event.keyCode (#22569) @oliviertassinari
+- [core] Remove references to other objects from created theme (#22523) @eps1lon
+- [core] Batch small changes (#22565) @oliviertassinari
+
+## 5.0.0-alpha.9
+
+###### _Sep 6, 2020_
+
+Big thanks to the 14 contributors who made this release possible.
+Here are some highlights ✨:
+
+- 💎 A new diamond sponsor: [DoiT](https://www.doit-intl.com/), thank you!
+- 📚 Include the default value of the props in IntelliSense (#22447) @eps1lon
+- ⚛️ More source migrated to TypeScript and testing-library (#22441) @baterson
+- And many more 🐛 bug fixes and 📚 improvements.
+
+### `@material-ui/core@v5.0.0-alpha.9`
+
+#### Breaking changes
+
+- [Modal] Remove `onRendered` prop from Modal and Portal (#22464) @eps1lon
+  Depending on your use case either use a [callback ref](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) on the child element or an effect hook in the child component.
+
+#### Changes
+
+- [Modal] Convert ModalManager to TypeScript (#22465) @eps1lon
+- [Paper] Fix elevation warning when rendering (#22494) @nesso-pfl
+- [Slider] Edge against swallowing of mouse up event (#22401) @motiejunas
+- [Tabs] Add option to show scrollbar (#22438) @LogyLeo
+- [Tabs] Document visibleScrollBar default value (#22475) @eps1lon
+- [TextField] Remove excessive catching of hiddenLabel prop (#22444) @croraf
+
+### `@material-ui/lab@v5.0.0-alpha.9`
+
+- [docs] Include default values in IntelliSense (#22447) @eps1lon
+
+### Docs
+
+- [docs] Add DoiT diamond sponsor (#22436) @oliviertassinari
+- [docs] Bump markdown-to-jsx (#22474) @eps1lon
+- [docs] Change showcase approval process (#22398) @africanzoe
+- [docs] Fix close context menu if repeated (#22463) @eps1lon
+- [docs] Fix Next.js example (#22457) @bhati
+- [docs] Fix TypeScript deps in CodeSandbox (#22346) @oliviertassinari
+- [docs] Fix unresolved returntypes for props (#22459) @eps1lon
+- [docs] Fix usage of overrides instead of styleOverrides (#22478) @discodanne
+- [docs] Improve Backstage showcase (#22458) @stefanalund
+- [docs] Improve styles basics.md section (#22440) @bxie
+- [docs] Include default values in IntelliSense (#22447) @eps1lon
+
+### Core
+
+- [core] Batch small changes (#22461) @oliviertassinari
+- [core] Fix useEventCallback type (#22448) @kodai3
+- [core] Try out new JSX transform where available (#22455) @eps1lon
+- [test] Migrate more components to react-testing-library (#22441) @baterson
+
+## 5.0.0-alpha.8
+
+###### _Aug 31, 2020_
+
+Big thanks to the 19 contributors who made this release possible.
+Here are some highlights ✨:
+
+- 🎨 Inverse the customization API of the theme to be component-centric (#22347, #22293) @mnajdova.
+
+```jsx
+const theme = createMuiTheme({
+  components: {
+    MuiIconButton: {
+      defaultProps: {
+        size: 'small',
+      },
+      styleOverrides: {
+        sizeSmall: {
+          marginLeft: 4,
+          marginRight: 4,
+          padding: 12,
+        },
+      },
+    },
+  },
+});
+```
+
+- ✨ Add [text in divider](https://next.material-ui.com/components/dividers/#dividers-with-text) support (#22285) @ShehryarShoukat96
+
+  ```jsx
+  <Divider>{'CENTER'}</Divider>
+  ```
+
+  <img width="530" alt="divider" src="https://user-images.githubusercontent.com/3165635/91740018-01cb5e80-ebb3-11ea-9a7f-6ddb48b3f496.png">
+
+- ♿️ A bunch of accessibility fixes (#22366, #22374, #22377, #22340, #22376) @fakeharahman @alexmotoc @eps1lon @oliviertassinari
+- ⚛️ Increase adoption of TypeScript in the codebase (#22389, #22367, #22282) @Luchanso, @oliviertassinari
+
+### `@material-ui/core@v5.0.0-alpha.8`
+
+#### Breaking changes
+
+- [theme] Rename theme keys to defaultProps and styleOverrides (#22347) @mnajdova
+- [theme] Restructure component definitions (#22293) @mnajdova
+  The components' definition inside the theme were restructure under the `components` key, to allow people easier discoverability about the definitions regarding one component.
+
+  1. `props`
+
+  ```diff
+  import { createMuiTheme } from '@material-ui/core/styles';
+
+  const theme = createMuitheme({
+  -  props: {
+  -    MuiButton: {
+  -      disableRipple: true,
+  -    },
+  -  },
+  +  components: {
+  +    MuiButton: {
+  +      defaultProps: {
+  +        disableRipple: true,
+  +      },
+  +    },
+  +  },
+  });
+  ```
+
+  2. `overrides`
+
+  ```diff
+  import { createMuiTheme } from '@material-ui/core/styles';
+
+  const theme = createMuitheme({
+  -  overrides: {
+  -    MuiButton: {
+  -      root: { padding: 0 },
+  -    },
+  -  },
+  +  components: {
+  +    MuiButton: {
+  +      styleOverrides: {
+  +        root: { padding: 0 },
+  +      },
+  +    },
+  +  },
+  });
+  ```
+
+  Note that if you don't have the time to upgrade the structure of the theme, you
+  can use the `adaptV4Theme()` adapter.
+
+- [GridList] Rename to ImageList (#22311) @mbrookes
+- [GridList] Rename Tile to Item (#22385) @mbrookes
+  Rename the `GridList` components to `ImageList` to align with the current Material Design naming.
+
+  ```diff
+  -import GridList from '@material-ui/core/GridList';
+  -import GridListTile from '@material-ui/core/GridListTile';
+  -import GridListTileBar from '@material-ui/core/GridListTileBar';
+  +import ImageList from '@material-ui/core/ImageList';
+  +import ImageListItem from '@material-ui/core/ImageListItem';
+  +import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+
+  -<GridList>
+  -  <GridListTile>
+  +<ImageList>
+  +  <ImageListItem>
+      <img src="file.jpg" alt="Image title" />
+  -    <GridListTileBar
+  +    <ImageListItemBar
+        title="Title"
+        subtitle="Subtitle"
+      />
+  -  </GridListTile>
+  -</GridList>
+  +  </ImageListItem>
+  +</ImageList>
+  ```
+
+#### Changes
+
+- [Breadcrumbs] Fix wrong role usage (#22366) @fakeharahman
+- [Breadcrumbs] More robust focus capture (#22374) @eps1lon
+- [ButtonBase] Reset box-sizing to border-box (#22316) @su8ru
+- [Dialog] Fix unexpected close when releasing click on backdrop (#22310) @danbrud
+- [Divider] Add text in divider (#22285) @ShehryarShoukat96
+- [Slider] Respect disabled property when already focused (#22247) @pireads
+- [Tabs] Don't fire onChange if current value (#22381) @jjoselv
+- [Tabs] Improve focus management on list with no active tabs (#22377) @alexmotoc
+- [theme] Add theme.mixins.gutters() in adaptV4Theme (#22396) @mnajdova
+- [Tooltip] Improve readability (#22340) @oliviertassinari
+- [Tooltip] Meet dismissable WCAG criterion (#22376) @eps1lon
+- [l10n] Improve th-TH locale (#22350) @vimutti77
+
+### `@material-ui/lab@v5.0.0-alpha.8`
+
+- [docs] Add IntelliSense for each class in the `classes` prop (#22312) @eps1lon
+
+### `@material-ui/styles@v5.0.0-alpha.8`
+
+- [theme] Restructure component definitions (#22293) @mnajdova
+
+### `@material-ui/utils@v5.0.0-alpha.8`
+
+- [core] Move utils package to TypeScript (#22367) @oliviertassinari
+
+### Docs
+
+- [docs] Add Content Security Policy guide (#22383) @tjg37
+- [docs] Add IntelliSense for each class in the `classes` prop (#22312) @eps1lon
+- [docs] Add links in the header (#22210) @oliviertassinari
+- [docs] Fix Argos-ci 404 link (#22362) @brunocechet
+- [docs] Fix test README typo @mbrookes
+- [docs] Forward x data-grid (#22400) @oliviertassinari
+- [docs] Transpile demo .ts files (#22388) @eps1lon
+- [docs] Add Backstage to showcase (#22428) @stefanalund
+- [docs] Update Fontsource installation instructions (#22431) @DecliningLotus
+
+### Core
+
+- [icons] Label them as vendored for GitHub (#22397) @oliviertassinari
+- [test] DialogContent with testing-library (#22356) @baterson
+- [test] DialogContentText with testing-library (#22357) @baterson
+- [test] DialogTitle with testing-library (#22358) @baterson
+- [test] Enable tests that weren't working in JSDOM (#22360) @eps1lon
+- [test] Fix failing tests on Windows (#22369) @eps1lon
+- [test] Update react 17 patch (#22391) @eps1lon
+- [core] Add explicit dependency on `@types/yargs` (#22339) @eps1lon
+- [core] Add useEnhancedEffect module (#22317) @oliviertassinari
+- [core] Batch small changes (#22314) @oliviertassinari
+- [core] Fix setRef types (#22389) @Luchanso
+- [core] Include TypeScript definitions in GitHub source (#22282) @oliviertassinari
+- [core] Refactor how we ignore default values in docs (#22355) @eps1lon
+- [core] Update SECURITY.md to account for v5 @oliviertassinari
+
+## 5.0.0-alpha.7
+
+###### _Aug 22, 2020_
+
+Big thanks to the 22 contributors who made this release possible.
+Here are some highlights ✨:
+
+- 💎 A new diamond sponsor: [Octopus](https://octopus.com/), thank you!
+- ⚛️ Migrate parts of the codebase to TypeScript (#22295, #22280, #22179, #22195) @rothbart, @eps1lon, @oliviertassinari.
+- 💅 Add support for custom variant to most of the components (9 new components in this release) @mnajdova
+- ⚛️ Keep working on React 17 support (#22270, #22262) @eps1lon
+- And many more 🐛 bug fixes and 📚 improvements.
+
+### `@material-ui/core@v5.0.0-alpha.7`
+
+### Breaking changes
+
+- [Menu] Remove transition onX props (#22212) @mbrookes
+  The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Menu
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  >
+  ```
+
+- [Popover] Remove transition onX props (#22184) @mbrookes
+  The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Popover
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
+  ```
+
+- [TextField] Improve line-height reset (#22149) @imnasnainaec
+  Increase the line-height by 4px to support long descender on special alphabets.
+  If you were overriding the input vertical padding, reduce it by 4px.
+
+### Changes
+
+- [Accordion] Fix scroll anchoring (#22292) @brickmaker17
+- [colorManipulator] Add support for CSS Color Module Level 4 (#20790) @marcosvega91
+- [Divider] Custom variant (#22182) @mnajdova
+- [Fab] Custom variant (#22189) @mnajdova
+- [l10n] Add Thai (th-TH) locale (#22242) @smoogi
+- [l10n] Improve ja-JP locale (#22287) @chelproc
+- [Link] Custom variant (#22204) @mnajdova
+- [Paper] Custom variant (#22216) @mnajdova
+- [Slider] Improve touch passive event handling (#22269) @mikhalev-im
+- [Stepper] Fix spacing without StepContent (#22199) @Floriferous
+- [SwipeableDrawer] Fix prevented inner scroll (#22254) @BramKaashoek
+- [Tabs] Add aria-orientation of vertical (#22291) @eps1lon
+- [Tabs] Document how to make scroll icons visible (#22255) @Sorgrum
+- [TextField] Add hidden label to multi-line filled textfield (#22284) @fakeharahman
+- [Toolbar] Custom variant (#22217) @mnajdova
+- [TrapFocus] Entangle effects (#22155) @eps1lon
+- [TrapFocus] Fix compatibility issues with React 17 (#22270) @eps1lon
+- [TrapFocus] Prevent possible crash in React 17 (#22262) @eps1lon
+
+### `@material-ui/icons@v5.0.0-alpha.7`
+
+- [icons] Synchronize icons (#22186) @oliviertassinari
+
+### `@material-ui/styles@v5.0.0-alpha.7`
+
+- [core] Change children to be optional (#22134) @suliskh
+
+### `@material-ui/lab@v5.0.0-alpha.7`
+
+- [Alert] Custom variant (#22218) @mnajdova
+- [Pagination] Custom variant (#22220, #22219) @mnajdova
+- [Skeleton] Custom variant (#22243) @mnajdova
+- [SpeedDial] Add support for uncontrolled open state (#22248) @akharkhonov
+- [Timeline] Custom variant (#22244) @mnajdova
+
+### Docs
+
+- [docs] Add Design resources in installation (#22209) @oliviertassinari
+- [docs] Add Octopus diamond sponsor (#22177) @oliviertassinari
+- [docs] Better track usage of icons (#22187) @oliviertassinari
+- [docs] Change property/properties to prop/props (#22271) @mbrookes
+- [docs] Document TextField helperText height (#22146) @morgan-sam
+- [docs] Fix `@global` being considered a class (#22297) @eps1lon
+- [docs] Fix a typo on TextField components (#22300) @Renfrew
+- [docs] Fix use of removed transition onE\* props (#22286) @mbrookes
+- [docs] Improve codesandbox generation logic (#22221) @oliviertassinari
+- [docs] Migrate Onepirate to TypeScript (#22295) @rothbart
+- [docs] Migrate Dashboard template to TypeScript (#22280) @oliviertassinari
+- [docs] Fix minimizing-bundle-size.md (#22298) @Primajin
+
+### Core
+
+- [core] Batch small changes (#22183) @oliviertassinari
+- [core] Change children to be optional (#22134) @suliskh
+- [test] Clear fake timers only in afterEach hook (#22307) @dmtrKovalenko
+- [test] Convert initMatchers to TypeScript (#22179) @eps1lon
+- [test] Improve toHaveVirtualFocus error message (#22185) @eps1lon
+- [test] Lint fix the custom rules plugin for useThemeVariants (#22192) @mnajdova
+- [test] Make all tests runnable with React 17 (#22290) @eps1lon
+- [test] Prevent swallowing errors during setup (#22196) @eps1lon
+- [test] Setup infra for tests in TypeScript (#22195) @eps1lon
+- [test] Update react next patch (#22260) @eps1lon
+
+## 5.0.0-alpha.6
+
+###### _Aug 13, 2020_
+
+Big thanks to the 26 contributors who made this release possible.
+Here are some highlights ✨:
+
+- 💅 Introduce a new dynamic variant API (#21648) @mnajdova.
+  This API allows developers to add new variants on the Material-UI's components right from the theme, without having to wrap the components.
+  For instance with the Button:
+
+  ```tsx
+  // Define the style that should be applied, for specific props.
+  const theme = createMuiTheme({
+    variants: {
+      MuiButton: [
+        {
+          props: { variant: 'dashed', color: 'secondary' },
+          styles: {
+            border: `4px dashed ${red[500]}`,
+          },
+        },
+      ],
+    },
+  });
+
+  // Retain type safety.
+  declare module '@material-ui/core/Button/Button' {
+    interface ButtonPropsVariantOverrides {
+      dashed: true;
+    }
+  }
+
+  // Enjoy!
+  <Button variant="dashed" />;
+  ```
+
+  More details in [the documentation](https://material-ui.com/customization/components/#adding-new-component-variants) and [RFC](#21749).
+
+- 👮 Add documentation for the [TrapFocus](https://next.material-ui.com/components/trap-focus/) component (#22062) @oliviertassinari.
+- ⚛️ Prepare support for React v17 (#22093, #22105, #22143, #22111) @eps1lon.
+- 🚧 We have undertaken breaking changes.
+
+### `@material-ui/core@v5.0.0-alpha.6`
+
+### Breaking changes
+
+- [Avatar] Rename variant circle -> circular for consistency (#22015) @kodai3
+  Rename `circle` to `circular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Avatar variant="circle">
+  +<Avatar variant="circular">
+  ```
+
+- [Badge] Rename overlap circle -> circular and rectangle -> rectangular for consistency (#22050) @kodai3
+  Rename `circle` to `circular` and `rectangle` to `rectangular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Badge overlap="circle">
+  -<Badge overlap="rectangle">
+  +<Badge overlap="circular">
+  +<Badge overlap="rectangular">
+  ```
+
+- [CircularProgress] Remove static variant, simplify determinate (#22060) @mbrookes
+  The `static` variant has been merged into the `determinate` variant, with the latter assuming the appearance of the former.
+  The removed variant was rarely useful. It was an exception to Material Design, and was removed from the specification.
+
+  ```diff
+  -<CircularProgress variant="determinate" />
+  ```
+
+  ```diff
+  -<CircularProgress variant="static" classes={{ static: 'className' }} />
+  +<CircularProgress variant="determinate" classes={{ determinate: 'className' }} />
+  ```
+
+- [Dialog] Remove transition onX props (#22113) @mbrookes
+  The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Dialog
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
+  ```
+
+- [Fab] Rename round -> circular for consistency (#21903) @kodai3
+  Rename `round` to `circular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Fab variant="round">
+  +<Fab variant="circular">
+  ```
+
+- [List] Improve hover/select/focus UI display (#21930) @joshwooding
+- [Pagination] Rename round -> circular for consistency (#22009) @kodai3
+  Rename `round` to `circular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Pagination shape="round">
+  -<PaginationItem shape="round">
+  +<Pagination shape="circular">
+  +<PaginationItem shape="circular">
+  ```
+
+- [RootRef] Remove component (#21974) @eps1lon
+  This component was removed. You can get a reference to the underlying DOM node of our components via `ref` prop.
+  The component relied on [`ReactDOM.findDOMNode`](https://reactjs.org/docs/react-dom.html#finddomnode) which is [deprecated in `React.StrictMode`](https://reactjs.org/docs/strict-mode.html#warning-about-deprecated-finddomnode-usage).
+
+  ```diff
+  -<RootRef rootRef={ref}>
+  -  <Button />
+  -</RootRef>
+  +<Button ref={ref} />
+  ```
+
+- [Snackbar] Change the default position on desktop (#21980) @kodai3
+  The notification now displays at the bottom left on large screens.
+  It better matches the behavior of Gmail, Google Keep, material.io, etc.
+  You can restore the previous behavior with:
+
+  ```diff
+  -<Snackbar />
+  +<Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} />
+  ```
+
+- [Snackbar] Remove transition onX props (#22107) @mbrookes
+  The onE\* transition props were removed. Use TransitionProps instead.
+
+  ```diff
+  <Snackbar
+  -  onEnter={onEnter}
+  -  onEntered={onEntered},
+  -  onEntering={onEntered},
+  -  onExit={onEntered},
+  -  onExited={onEntered},
+  -  onExiting={onEntered}
+  +  TransitionProps={{
+  +    onEnter,
+  +    onEntered,
+  +    onEntering,
+  +    onExit,
+  +    onExited,
+  +    onExiting,
+  +  }}
+  />
+  ```
+
+- [TextareaAutosize] Rename rowsMax->maxRows & rowsMin->minRows (#21873) @mhayk
+  Rename `rowsMin`/`rowsMax` prop with `mi Rows`/`maxRows` for consistency with HTML attributes.
+
+  ```diff
+  -<TextField rowsMax={6}>
+  -<TextareAutosize rowsMin={1}>
+  -<TextareAutosize rowsMax={6}>
+  +<TextField maxRows={6}>
+  +<TextareAutosize minRows={1}>
+  +<TextareAutosize maxRows={6}>
+  ```
+
+- [TextField] Better isolate static textarea behavior to dynamic one (#21995) @AxartInc
+  Better isolate the fixed textarea height behavior to the dynamic one.
+  You need to use the `rowsMin` prop in the following case:
+
+  ```diff
+  -<TextField rows={2} rowsMax={5} />
+  +<TextField rowsMin={2} rowsMax={5} />
+  ```
+
+  Remove the `rows` prop, use the `rowsMin` prop instead.
+  This change aims to clarify the behavior of the prop.
+
+  ```diff
+  -<TextareaAutosize rows={2} />
+  +<TextareaAutosize rowsMin={2} />
+  ```
+
+- [theme] Remove theme.mixins.gutters (#22109) @joshwooding
+  The abstraction hasn't proven to be used frequently enough to be valuable.
+
+  ```diff
+  -theme.mixins.gutters(),
+  +paddingLeft: theme.spacing(2),
+  +paddingRight: theme.spacing(2),
+  +[theme.breakpoints.up('sm')]: {
+  +  paddingLeft: theme.spacing(3),
+  +  paddingRight: theme.spacing(3),
+  +},
+  ```
+
+### Changes
+
+- [Avatar] Custom variant (#22139) @mnajdova
+- [Badge] Add missing class key (#22095) @kodai3
+- [Badge] Custom variant (#22140) @mnajdova
+- [Button] Improved variant type names & cleanup tests (#22010) @mnajdova
+- [ButtonBase] Forward type to other components than 'button' (#22172) @eps1lon
+- [ButtonGroup] Custom variant (#22160) @mnajdova
+- [Chip] Custom variant (#22161) @mnajdova
+- [CssBaseline] Add text size adjust property (#22089) @Tolsee
+- [l10n] Add Greek (el-GR) locale (#21988) @tmanolat
+- [Table] Cell small's right padding is bigger than medium (#22017) @adamlaurencik
+- [TrapFocus] Add documentation (#22062) @oliviertassinari
+- [Typography] Add custom variants support (#22006) @mnajdova
+- [useIsFocusVisible] Remove focus-visible if focus is re-targetted (#22102) @eps1lon
+- [core] Fix various potential issues with multiple windows (#22159) @scottander
+- [core] Improve hook dependencies in useControlled.js (#21977) @roth1002
+
+### `@material-ui/lab@v5.0.0-alpha.6`
+
+### Breaking changes
+
+- [Skeleton] Rename variant circle -> circular and rect -> rectangular for consistency (#22053) @kodai3
+  Rename `circle` to `circular` and `rect` to `rectangular` for consistency. The possible values should be adjectives, not nouns:
+
+  ```diff
+  -<Skeleton variant="circle">
+  -<Skeleton variant="rect">
+  +<Skeleton variant="circular">
+  +<Skeleton variant="rectangular">
+  ```
+
+### Changes
+
+- [Autocomplete] Add support for "{label: string}" data type as a default for "options" (#21992) @DanailH
+- [TreeView] Add disabled prop (#20133) @netochaves
+- [TreeView] Simplify focus logic (#22098) @eps1lon
+- [TreeView] Test current behavior of active item removal (#21720) @eps1lon
+- [TreeView] Test selection behavior (#21901) @joshwooding
+
+### `@material-ui/system@v5.0.0-alpha.6`
+
+- [core] Bump csstype to 3.0.0 (#22048) @eps1lon
+
+### Docs
+
+- [docs] Add 'size' prop to ToggleButton API docs (#22052) @zenje
+- [docs] Add ClassKeys migration description for Renaming API (#22061) @kodai3
+- [docs] Add a label to the TreeView demos (#21900) @joshwooding
+- [docs] Add missing JSDOC for various props (#22005) @eps1lon
+- [docs] Add the services that support MUI in readme (#22137) @naineet
+- [docs] Add trailingSlash: true (#22008) @oliviertassinari
+- [docs] Add visibility to TypeScript examples (#22013) @esemeniuc
+- [docs] Avoid using any type in Tabs examples (#22091) @tacigar
+- [docs] Bump next to 9.5.0 (#21975) @eps1lon
+- [docs] Disallow undefined array members at runtime where they're unexpected (#21990) @eps1lon
+- [docs] Improve Autocomplete GitHub demo (#22153) @aquibbaig
+- [docs] Improve draggable dialog demo wording (#22021) @Sanskar95
+- [docs] Improve transition props API descriptions (#21952) @maksimgm
+- [docs] Port buildApi to TypeScript (#22055) @eps1lon
+- [docs] Update build instructions for component API (#21970) @eps1lon
+- [docs] Update grouped instruction of autocomplete (#22056) @yfng96
+- [docs] Use `import * as React from 'react';` (#22058) @mbrookes
+- [docs] Use pickers v4 (#22023) @eps1lon
+
+### Core
+
+- [core] Allow running prettier from material-ui-x (#22071) @oliviertassinari
+- [core] Bump csstype to 3.0.0 (#22048) @eps1lon
+- [core] Fix next and prevent future regressions (#22135) @eps1lon
+- [core] Improve merge-conflict label automation (#22065) @eps1lon
+- [core] Lint cleanup (#21972) @eps1lon
+- [core] Resolve all dot-prop versions to 5.x (#22007) @eps1lon
+- [core] Small changes (#22020) @oliviertassinari
+- [Security] Bump elliptic from 6.5.0 to 6.5.3 (#21997) @dependabot-preview
+- [test] Drop css-loader (#21999) @eps1lon
+- [test] Lint framer workspace (#22002) @eps1lon
+- [test] Lint useThemeVariants with custom rules plugin (#21963) @eps1lon
+- [test] Run same tests in coverage and unit (#22092) @eps1lon
+- [test] Type-check framerx package (#21868) @eps1lon
+- [test] Work on React v17 (#22093, #22105, #22143, #22111) @eps1lon
+
 ## 5.0.0-alpha.5
 
 ###### _July 28, 2020_
@@ -8,13 +792,25 @@ Big thanks to the 18 contributors who made this release possible.
 
 ### `@material-ui/core@v5.0.0-alpha.5`
 
+#### Breaking changes
+
+- [Grid] Rename justify prop to justifyContent (#21845) @mnajdova
+
+  Rename `justify` prop with `justifyContent` to be aligned with the CSS property name.
+
+  ```diff
+  -<Grid justify="center">
+  +<Grid justifyContent="center">
+  ```
+
+#### Changes
+
 - [Accordion] Add new classes key (#21920) @natac13
 - [Accordion] Fix IconButtonProps spreading logic (#21850) @kgregory
 - [Avatar] Fix group size (#21896) @natac13
 - [Button] Custom variant (#21648) @mnajdova
 - [CssBaseline] Export ScopedCssBaseline from barrel index (#21869) @mherczeg
 - [Dialog] Fix body scrollbar close behavior (#21951) @maksimgm
-- [Grid] Rename justify prop to justifyContent (#21845) @mnajdova
 - [Icon] Hide name placeholder while "Material Icons" font is loading (#21950) @maksimgm
 - [Select] Ensure that onChange is called before onClose (#21878) @DanailH
 - [Slider] Make `index` public in the ValueLabel props (#21932) @govardhan-srinivas

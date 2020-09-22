@@ -11,7 +11,6 @@ export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
     ...theme.typography.button,
-    boxSizing: 'border-box',
     minWidth: 64,
     padding: '6px 16px',
     borderRadius: theme.shape.borderRadius,
@@ -23,9 +22,6 @@ export const styles = (theme) => ({
       backgroundColor: fade(theme.palette.text.primary, theme.palette.action.hoverOpacity),
       // Reset on touch devices, it doesn't add specificity
       '@media (hover: none)': {
-        backgroundColor: 'transparent',
-      },
-      '&$disabled': {
         backgroundColor: 'transparent',
       },
     },
@@ -117,9 +113,6 @@ export const styles = (theme) => ({
       '@media (hover: none)': {
         boxShadow: theme.shadows[2],
         backgroundColor: theme.palette.grey[300],
-      },
-      '&$disabled': {
-        backgroundColor: theme.palette.action.disabledBackground,
       },
     },
     '&$focusVisible': {
@@ -358,7 +351,6 @@ Button.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -367,6 +359,7 @@ Button.propTypes = {
   className: PropTypes.string,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'primary'
    */
   color: PropTypes.oneOf(['inherit', 'primary', 'secondary']),
   /**
@@ -376,14 +369,17 @@ Button.propTypes = {
   component: PropTypes.elementType,
   /**
    * If `true`, the button will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, no elevation is used.
+   * @default false
    */
   disableElevation: PropTypes.bool,
   /**
    * If `true`, the  keyboard focus ripple will be disabled.
+   * @default false
    */
   disableFocusRipple: PropTypes.bool,
   /**
@@ -391,6 +387,7 @@ Button.propTypes = {
    *
    * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
    * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   * @default false
    */
   disableRipple: PropTypes.bool,
   /**
@@ -403,6 +400,7 @@ Button.propTypes = {
   focusVisibleClassName: PropTypes.string,
   /**
    * If `true`, the button will take up the full width of its container.
+   * @default false
    */
   fullWidth: PropTypes.bool,
   /**
@@ -413,6 +411,7 @@ Button.propTypes = {
   /**
    * The size of the button.
    * `small` is equivalent to the dense button styling.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['large', 'medium', 'small']),
   /**
@@ -425,6 +424,7 @@ Button.propTypes = {
   type: PropTypes.oneOfType([PropTypes.oneOf(['button', 'reset', 'submit']), PropTypes.string]),
   /**
    * The variant to use.
+   * @default 'text'
    */
   variant: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
     PropTypes.oneOf(['contained', 'outlined', 'text']),

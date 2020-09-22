@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     maxWidth: 400,
-    margin: `${theme.spacing(1)}px auto`,
+    margin: `${theme.spacing(1)} auto`,
     padding: theme.spacing(2),
   },
 }));

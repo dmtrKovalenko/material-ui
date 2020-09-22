@@ -5,9 +5,12 @@ import webfontloader from 'webfontloader';
 import TestViewer from './TestViewer';
 
 // Get all the tests specifically written for preventing regressions.
-const requireRegression = require.context('./tests', true, /js$/);
+const requireRegression = require.context('./tests', true, /(js|ts|tsx)$/);
 const regressions = requireRegression.keys().reduce((res, path) => {
-  const [suite, name] = path.replace('./', '').replace('.js', '').split('/');
+  const [suite, name] = path
+    .replace('./', '')
+    .replace(/\.\w+$/, '')
+    .split('/');
   res.push({
     path,
     suite: `regression-${suite}`,
@@ -38,6 +41,7 @@ const blacklist = [
   'docs-components-backdrop/SimpleBackdrop.png', // Needs interaction
   'docs-components-badges/BadgeAlignment.png', // Redux isolation
   'docs-components-badges/BadgeVisibility.png', // Needs interaction
+  'docs-components-bottom-navigation/FixedBottomNavigation.png', // Redundant
   'docs-components-breadcrumbs/ActiveLastBreadcrumb.png', // Redundant
   'docs-components-chips/ChipsPlayground.png', // Redux isolation
   'docs-components-click-away-listener', // Needs interaction
@@ -46,7 +50,7 @@ const blacklist = [
   'docs-components-drawers/SwipeableTemporaryDrawer.png', // Needs interaction
   'docs-components-drawers/TemporaryDrawer.png', // Needs interaction
   'docs-components-floating-action-button/FloatingActionButtonZoom.png', // Needs interaction
-  'docs-components-grid-list', // Image don't load
+  'docs-components-image-list', // Image don't load
   'docs-components-grid/InteractiveGrid.png', // Redux isolation
   'docs-components-grid/SpacingGrid.png', // Needs interaction
   'docs-components-hidden', // Need to dynamically resize to test

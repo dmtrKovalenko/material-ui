@@ -7,19 +7,20 @@ import useForkRef from '../utils/useForkRef';
 import useTheme from '../styles/useTheme';
 import { duration } from '../styles/transitions';
 import { reflow, getTransitionProps } from '../transitions/utils';
+import { ownerWindow } from '../utils';
 
 // Translate the node so he can't be seen on the screen.
 // Later, we gonna translate back the node to his original location
 // with `none`.`
 function getTranslateValue(direction, node) {
   const rect = node.getBoundingClientRect();
-
+  const containerWindow = ownerWindow(node);
   let transform;
 
   if (node.fakeTransform) {
     transform = node.fakeTransform;
   } else {
-    const computedStyle = window.getComputedStyle(node);
+    const computedStyle = containerWindow.getComputedStyle(node);
     transform =
       computedStyle.getPropertyValue('-webkit-transform') ||
       computedStyle.getPropertyValue('transform');
@@ -35,7 +36,7 @@ function getTranslateValue(direction, node) {
   }
 
   if (direction === 'left') {
-    return `translateX(${window.innerWidth}px) translateX(${offsetX - rect.left}px)`;
+    return `translateX(${containerWindow.innerWidth}px) translateX(${offsetX - rect.left}px)`;
   }
 
   if (direction === 'right') {
@@ -43,7 +44,7 @@ function getTranslateValue(direction, node) {
   }
 
   if (direction === 'up') {
-    return `translateY(${window.innerHeight}px) translateY(${offsetY - rect.top}px)`;
+    return `translateY(${containerWindow.innerHeight}px) translateY(${offsetY - rect.top}px)`;
   }
 
   // direction === 'down'
@@ -192,10 +193,11 @@ const Slide = React.forwardRef(function Slide(props, ref) {
       }
     });
 
-    window.addEventListener('resize', handleResize);
+    const containerWindow = ownerWindow(childrenRef.current);
+    containerWindow.addEventListener('resize', handleResize);
     return () => {
       handleResize.clear();
-      window.removeEventListener('resize', handleResize);
+      containerWindow.removeEventListener('resize', handleResize);
     };
   }, [direction, inProp]);
 
@@ -247,6 +249,7 @@ Slide.propTypes = {
   children: elementAcceptingRef,
   /**
    * Direction the child node will enter from.
+   * @default 'down'
    */
   direction: PropTypes.oneOf(['down', 'left', 'right', 'up']),
   /**
@@ -284,6 +287,10 @@ Slide.propTypes = {
   /**
    * The duration for the transition, in milliseconds.
    * You may specify a single timeout for all transitions, or individually with an object.
+   * @default {
+   *   enter: duration.enteringScreen,
+   *   exit: duration.leavingScreen,
+   * }
    */
   timeout: PropTypes.oneOfType([
     PropTypes.number,

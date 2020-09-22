@@ -49,7 +49,15 @@ async function run(argv) {
     '--out-dir',
     outDir,
     '--ignore',
-    '"**/*.test.js","**/*.test.ts","**/*.test.tsx","**/*.spec.ts","**/*.spec.tsx","**/*.d.ts"',
+    // Need to put these patterns in quotes otherwise they might be evaluated by the used terminal.
+    `"${[
+      '**/*.test.js',
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+      '**/*.d.ts',
+    ].join('","')}"`,
   ].join(' ');
 
   if (verbose) {

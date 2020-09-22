@@ -10,7 +10,6 @@ import clsx from 'clsx';
 import debounce from '../utils/debounce';
 import ownerDocument from '../utils/ownerDocument';
 import ownerWindow from '../utils/ownerWindow';
-import createChainedFunction from '../utils/createChainedFunction';
 import withStyles from '../styles/withStyles';
 import Modal from '../Modal';
 import Grow from '../Grow';
@@ -102,12 +101,6 @@ const Popover = React.forwardRef(function Popover(props, ref) {
     elevation = 8,
     getContentAnchorEl,
     marginThreshold = 16,
-    onEnter,
-    onEntered,
-    onEntering,
-    onExit,
-    onExited,
-    onExiting,
     open,
     PaperProps = {},
     transformOrigin = {
@@ -116,7 +109,7 @@ const Popover = React.forwardRef(function Popover(props, ref) {
     },
     TransitionComponent = Grow,
     transitionDuration: transitionDurationProp = 'auto',
-    TransitionProps = {},
+    TransitionProps: { onEntering, ...TransitionProps } = {},
     ...other
   } = props;
   const paperRef = React.useRef();
@@ -365,12 +358,13 @@ const Popover = React.forwardRef(function Popover(props, ref) {
       setPositioningStyles();
     });
 
-    window.addEventListener('resize', handleResize);
+    const containerWindow = ownerWindow(anchorEl);
+    containerWindow.addEventListener('resize', handleResize);
     return () => {
       handleResize.clear();
-      window.removeEventListener('resize', handleResize);
+      containerWindow.removeEventListener('resize', handleResize);
     };
-  }, [open, setPositioningStyles]);
+  }, [anchorEl, open, setPositioningStyles]);
 
   let transitionDuration = transitionDurationProp;
 
@@ -396,14 +390,9 @@ const Popover = React.forwardRef(function Popover(props, ref) {
       <TransitionComponent
         appear
         in={open}
-        onEnter={onEnter}
-        onEntered={onEntered}
-        onExit={onExit}
-        onExited={onExited}
-        onExiting={onExiting}
         timeout={transitionDuration}
+        onEntering={handleEntering}
         {...TransitionProps}
-        onEntering={createChainedFunction(handleEntering, TransitionProps.onEntering)}
       >
         <Paper
           data-mui-test="Popover"
@@ -475,6 +464,10 @@ Popover.propTypes = {
    * Options:
    * vertical: [top, center, bottom];
    * horizontal: [left, center, right].
+   * @default {
+   *   vertical: 'top',
+   *   horizontal: 'left',
+   * }
    */
   anchorOrigin: PropTypes.shape({
     horizontal: PropTypes.oneOfType([
@@ -497,6 +490,7 @@ Popover.propTypes = {
   /**
    * This determines which anchor prop to refer to to set
    * the position of the popover.
+   * @default 'anchorEl'
    */
   anchorReference: PropTypes.oneOf(['anchorEl', 'anchorPosition', 'none']),
   /**
@@ -505,7 +499,6 @@ Popover.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -525,6 +518,7 @@ Popover.propTypes = {
   ]),
   /**
    * The elevation of the popover.
+   * @default 8
    */
   elevation: PropTypes.number,
   /**
@@ -538,6 +532,7 @@ Popover.propTypes = {
   getContentAnchorEl: PropTypes.func,
   /**
    * Specifies how close to the edge of the window the popover can appear.
+   * @default 16
    */
   marginThreshold: PropTypes.number,
   /**
@@ -546,35 +541,12 @@ Popover.propTypes = {
    */
   onClose: PropTypes.func,
   /**
-   * Callback fired before the component is entering.
-   */
-  onEnter: PropTypes.func,
-  /**
-   * Callback fired when the component has entered.
-   */
-  onEntered: PropTypes.func,
-  /**
-   * Callback fired when the component is entering.
-   */
-  onEntering: PropTypes.func,
-  /**
-   * Callback fired before the component is exiting.
-   */
-  onExit: PropTypes.func,
-  /**
-   * Callback fired when the component has exited.
-   */
-  onExited: PropTypes.func,
-  /**
-   * Callback fired when the component is exiting.
-   */
-  onExiting: PropTypes.func,
-  /**
    * If `true`, the popover is visible.
    */
   open: PropTypes.bool.isRequired,
   /**
    * Props applied to the [`Paper`](/api/paper/) element.
+   * @default {}
    */
   PaperProps: PropTypes /* @typescript-to-proptypes-ignore */.shape({
     component: elementTypeAcceptingRef,
@@ -586,6 +558,10 @@ Popover.propTypes = {
    * Options:
    * vertical: [top, center, bottom, x(px)];
    * horizontal: [left, center, right, x(px)].
+   * @default {
+   *   vertical: 'top',
+   *   horizontal: 'left',
+   * }
    */
   transformOrigin: PropTypes.shape({
     horizontal: PropTypes.oneOfType([
@@ -598,10 +574,12 @@ Popover.propTypes = {
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Grow
    */
   TransitionComponent: PropTypes.elementType,
   /**
    * Set to 'auto' to automatically calculate transition time based on height.
+   * @default 'auto'
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.oneOf(['auto']),
@@ -615,6 +593,7 @@ Popover.propTypes = {
   /**
    * Props applied to the transition element.
    * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+   * @default {}
    */
   TransitionProps: PropTypes.object,
 };

@@ -244,8 +244,8 @@ describe('makeStyles', () => {
       expect(sheetsRegistry.registry[0].classes).to.deep.equal({ root: 'MuiTextField-root' });
     });
 
-    describe('overrides', () => {
-      it('should support the overrides key', () => {
+    describe('styleOverrides', () => {
+      it('should support the styleOverrides key inside components', () => {
         const useStyles = makeStyles(
           {
             root: {
@@ -265,11 +265,13 @@ describe('makeStyles', () => {
         mount(
           <ThemeProvider
             theme={createMuiTheme({
-              overrides: {
+              components: {
                 MuiTextField: {
-                  root: {
-                    padding: 9,
-                    margin: [2, 2, 3],
+                  styleOverrides: {
+                    root: {
+                      padding: 9,
+                      margin: [2, 2, 3],
+                    },
                   },
                 },
               },
@@ -288,10 +290,12 @@ describe('makeStyles', () => {
 
       it('can be used to remove styles', () => {
         const theme = {
-          overrides: {
+          components: {
             Test: {
-              root: {
-                margin: null,
+              styleOverrides: {
+                root: {
+                  margin: null,
+                },
               },
             },
           },

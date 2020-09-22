@@ -144,9 +144,11 @@ describe('withStyles', () => {
       const { container } = render(
         <ThemeProvider
           theme={createMuiTheme({
-            props: {
+            components: {
               MuiFoo: {
-                foo: 'bar',
+                defaultProps: {
+                  foo: 'bar',
+                },
               },
             },
           })}
@@ -170,9 +172,11 @@ describe('withStyles', () => {
       const { container } = render(
         <ThemeProvider
           theme={createMuiTheme({
-            props: {
+            components: {
               MuiFoo: {
-                foo: 'bar',
+                defaultProps: {
+                  foo: 'bar',
+                },
               },
             },
           })}
@@ -207,7 +211,7 @@ describe('withStyles', () => {
       expect(sheetsRegistry.registry[0].classes).to.deep.equal({ root: 'MuiTextField-root' });
     });
 
-    it('should support the overrides key', () => {
+    it('should support the styleOverrides key inside components', () => {
       const styles = { root: { padding: 8 } };
       const StyledComponent = withStyles(styles, { name: 'MuiTextField' })(() => <div />);
       const generateClassName = createGenerateClassName();
@@ -216,10 +220,12 @@ describe('withStyles', () => {
       render(
         <ThemeProvider
           theme={createMuiTheme({
-            overrides: {
+            components: {
               MuiTextField: {
-                root: {
-                  padding: 9,
+                styleOverrides: {
+                  root: {
+                    padding: 9,
+                  },
                 },
               },
             },
@@ -244,21 +250,23 @@ describe('withStyles', () => {
       render(
         <ThemeProvider
           theme={createMuiTheme({
-            variants: {
-              MuiButton: [
-                {
-                  props: { variant: 'test' },
-                  styles: { padding: 9 },
-                },
-                {
-                  props: { variant: 'test', size: 'large' },
-                  styles: { fontSize: 20 },
-                },
-                {
-                  props: { size: 'largest' },
-                  styles: { fontSize: 22 },
-                },
-              ],
+            components: {
+              MuiButton: {
+                variants: [
+                  {
+                    props: { variant: 'test' },
+                    style: { padding: 9 },
+                  },
+                  {
+                    props: { variant: 'test', size: 'large' },
+                    style: { fontSize: 20 },
+                  },
+                  {
+                    props: { size: 'largest' },
+                    style: { fontSize: 22 },
+                  },
+                ],
+              },
             },
           })}
         >

@@ -97,7 +97,6 @@ AvatarGroup.propTypes = {
   children: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -106,6 +105,7 @@ AvatarGroup.propTypes = {
   className: PropTypes.string,
   /**
    * Max avatars to show before +x.
+   * @default 5
    */
   max: chainPropTypes(PropTypes.number, (props) => {
     if (props.max < 2) {
@@ -119,6 +119,7 @@ AvatarGroup.propTypes = {
   }),
   /**
    * Spacing between avatars.
+   * @default 'medium'
    */
   spacing: PropTypes.oneOfType([PropTypes.oneOf(['medium', 'small']), PropTypes.number]),
 };

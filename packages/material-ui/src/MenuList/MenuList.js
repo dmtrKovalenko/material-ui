@@ -5,6 +5,7 @@ import ownerDocument from '../utils/ownerDocument';
 import List from '../List';
 import getScrollbarSize from '../utils/getScrollbarSize';
 import useForkRef from '../utils/useForkRef';
+import useEnhancedEffect from '../utils/useEnhancedEffect';
 
 function nextItem(list, item, disableListWrap) {
   if (list === item) {
@@ -84,8 +85,6 @@ function moveFocus(
   }
 }
 
-const useEnhancedEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
-
 /**
  * A permanently displayed menu following https://www.w3.org/TR/wai-aria-practices/#menubutton.
  * It's exposed to help customization of the [`Menu`](/api/menu/) component. If you
@@ -129,7 +128,7 @@ const MenuList = React.forwardRef(function MenuList(props, ref) {
         // of the menu.
         const noExplicitWidth = !listRef.current.style.width;
         if (containerElement.clientHeight < listRef.current.clientHeight && noExplicitWidth) {
-          const scrollbarSize = `${getScrollbarSize(true)}px`;
+          const scrollbarSize = `${getScrollbarSize(ownerDocument(containerElement))}px`;
           listRef.current.style[
             theme.direction === 'rtl' ? 'paddingLeft' : 'paddingRight'
           ] = scrollbarSize;
@@ -272,11 +271,13 @@ MenuList.propTypes = {
   // ----------------------------------------------------------------------
   /**
    * If `true`, will focus the `[role="menu"]` container and move into tab order.
+   * @default false
    */
   autoFocus: PropTypes.bool,
   /**
    * If `true`, will focus the first menuitem if `variant="menu"` or selected item
    * if `variant="selectedMenu"`.
+   * @default false
    */
   autoFocusItem: PropTypes.bool,
   /**
@@ -289,10 +290,12 @@ MenuList.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, will allow focus on disabled items.
+   * @default false
    */
   disabledItemsFocusable: PropTypes.bool,
   /**
    * If `true`, the menu items will not wrap focus.
+   * @default false
    */
   disableListWrap: PropTypes.bool,
   /**
@@ -302,6 +305,7 @@ MenuList.propTypes = {
   /**
    * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
    * and the vertical alignment relative to the anchor element.
+   * @default 'selectedMenu'
    */
   variant: PropTypes.oneOf(['menu', 'selectedMenu']),
 };

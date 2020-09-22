@@ -6,7 +6,6 @@ import { duration } from '../styles/transitions';
 import ClickAwayListener from '../ClickAwayListener';
 import useEventCallback from '../utils/useEventCallback';
 import capitalize from '../utils/capitalize';
-import createChainedFunction from '../utils/createChainedFunction';
 import Grow from '../Grow';
 import SnackbarContent from '../SnackbarContent';
 
@@ -108,12 +107,6 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
     disableWindowBlurListener = false,
     message,
     onClose,
-    onEnter,
-    onEntered,
-    onEntering,
-    onExit,
-    onExited,
-    onExiting,
     onMouseEnter,
     onMouseLeave,
     open,
@@ -123,7 +116,7 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
       enter: duration.enteringScreen,
       exit: duration.leavingScreen,
     },
-    TransitionProps,
+    TransitionProps: { onEnter, onExited, ...TransitionProps } = {},
     ...other
   } = props;
 
@@ -191,15 +184,24 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
     }
   };
 
-  const handleExited = () => {
+  const handleExited = (node) => {
     setExited(true);
+
+    if (onExited) {
+      onExited(node);
+    }
   };
 
-  const handleEnter = () => {
+  const handleEnter = (node, isAppearing) => {
     setExited(false);
+
+    if (onEnter) {
+      onEnter(node, isAppearing);
+    }
   };
 
   React.useEffect(() => {
+    // TODO: window global should be refactored here
     if (!disableWindowBlurListener && open) {
       window.addEventListener('focus', handleResume);
       window.addEventListener('blur', handlePause);
@@ -234,14 +236,10 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
         <TransitionComponent
           appear
           in={open}
-          onEnter={createChainedFunction(handleEnter, onEnter)}
-          onEntered={onEntered}
-          onEntering={onEntering}
-          onExit={onExit}
-          onExited={createChainedFunction(handleExited, onExited)}
-          onExiting={onExiting}
           timeout={transitionDuration}
           direction={vertical === 'top' ? 'down' : 'up'}
+          onEnter={handleEnter}
+          onExited={handleExited}
           {...TransitionProps}
         >
           {children || <SnackbarContent message={message} action={action} {...ContentProps} />}
@@ -264,6 +262,7 @@ Snackbar.propTypes = {
    * The anchor of the `Snackbar`.
    * On smaller screens, the component grows to occupy all the available width,
    * the horizontal alignment is ignored.
+   * @default { vertical: 'bottom', horizontal: 'left' }
    */
   anchorOrigin: PropTypes.shape({
     horizontal: PropTypes.oneOf(['center', 'left', 'right']).isRequired,
@@ -274,6 +273,7 @@ Snackbar.propTypes = {
    * `onClose` function. `onClose` should then set the state of the `open`
    * prop to hide the Snackbar. This behavior is disabled by default with
    * the `null` value.
+   * @default null
    */
   autoHideDuration: PropTypes.number,
   /**
@@ -282,7 +282,6 @@ Snackbar.propTypes = {
   children: PropTypes.element,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -299,6 +298,7 @@ Snackbar.propTypes = {
   ContentProps: PropTypes.object,
   /**
    * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
+   * @default false
    */
   disableWindowBlurListener: PropTypes.bool,
   /**
@@ -324,30 +324,6 @@ Snackbar.propTypes = {
    */
   onClose: PropTypes.func,
   /**
-   * Callback fired before the transition is entering.
-   */
-  onEnter: PropTypes.func,
-  /**
-   * Callback fired when the transition has entered.
-   */
-  onEntered: PropTypes.func,
-  /**
-   * Callback fired when the transition is entering.
-   */
-  onEntering: PropTypes.func,
-  /**
-   * Callback fired before the transition is exiting.
-   */
-  onExit: PropTypes.func,
-  /**
-   * Callback fired when the transition has exited.
-   */
-  onExited: PropTypes.func,
-  /**
-   * Callback fired when the transition is exiting.
-   */
-  onExiting: PropTypes.func,
-  /**
    * @ignore
    */
   onMouseEnter: PropTypes.func,
@@ -369,11 +345,16 @@ Snackbar.propTypes = {
   /**
    * The component used for the transition.
    * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
+   * @default Grow
    */
   TransitionComponent: PropTypes.elementType,
   /**
    * The duration for the transition, in milliseconds.
    * You may specify a single timeout for all transitions, or individually with an object.
+   * @default {
+   *   enter: duration.enteringScreen,
+   *   exit: duration.leavingScreen,
+   * }
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.number,
@@ -386,6 +367,7 @@ Snackbar.propTypes = {
   /**
    * Props applied to the transition element.
    * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+   * @default {}
    */
   TransitionProps: PropTypes.object,
 };

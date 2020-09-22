@@ -1,25 +1,29 @@
 ---
 components: CssBaseline, ScopedCssBaseline
+githubLabel:
+  component: CssBaseline
 ---
 
 # CSS Baseline
 
 <p class="description">Material-UI oferece um componente CSS Base a fim de inciar uma elegante, consistente e simples base para construção de aplicativos.</p>
 
+[A paleta](/system/palette/) com funções de estilo.
+
 ## Reset global
 
 Você já deve estar familiarizado com [normalize.css](https://github.com/necolas/normalize.css), uma coleção de elementos HTML e normas de atributos de estilo.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 export default function MyApp() {
   return (
-    <React.Fragment>
+    <React. Fragment>
       <CssBaseline />
       {/* O resto da sua aplicação */}
-    </React.Fragment>
+    </React. Fragment>
   );
 }
 ```
@@ -29,7 +33,7 @@ export default function MyApp() {
 No entanto, você pode estar migrando progressivamente um site para Material-UI, usar um reset global pode não ser uma opção. É possível aplicar a baseline apenas aos filhos usando o componente `ScopedCssBaseline`.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import MyApp from './MyApp';
 
@@ -56,13 +60,13 @@ Os elementos `<html>` e `<body>` são atualizados para fornecer melhores padrõe
 
 ### Leiaute
 
-- `box-sizing` é definido globalmente no elemento `<html>` para `border-box`. Todos elementos —incluindo `*::before` e `*::after` são declarados para herdar essa propriedade, que garante que a largura declarada do elemento nunca seja excedida devido ao preenchimento da borda.
+- `box-sizing` é definido globalmente no elemento `<html>` para `border-box`. Todos elementos—incluindo `*::before` e `*::after` são declarados para herdar essa propriedade, que garante que a largura declarada do elemento nunca seja excedida devido ao preenchimento da borda.
 
 ### Tipografia
 
-- Nenhum tamanho de fonte base é declarado no `<html>`, mas 16px é assumido (o padrão do navegador). Você pode aprender mais sobre as implicações da mudança do padrão de tamanho de fonte do `<html>` na página de [documentação de tema](/customization/typography/#typography-html-font-size).
+- Nenhum tamanho de fonte base é declarado no `<html>`, mas 16px é assumido (o padrão do navegador). Você pode aprender mais sobre as implicações da mudança do padrão de tamanho da fonte do `<html>` na página de [documentação do tema](/customization/typography/#typography-html-font-size).
 - Define o estilo `theme.typography.body2` no elemento `<body>`.
-- Define o font-weight no `theme.typography.fontWeightBold` para elementos `<b>` e `<strong>`.
+- Define o font-weight para `theme.typography.fontWeightBold` em elementos `<b>` e `<strong>`.
 - Uma customização da suavização da fonte (font-smoothing) é ativada para melhor exibição da fonte Roboto.
 
 ## Customização

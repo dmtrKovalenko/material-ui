@@ -13,7 +13,6 @@ export const styles = (theme) => ({
     maxWidth: 264,
     minWidth: 72,
     position: 'relative',
-    boxSizing: 'border-box',
     minHeight: 48,
     flexShrink: 0,
     padding: '6px 12px',
@@ -43,7 +42,7 @@ export const styles = (theme) => ({
       opacity: 1,
     },
     '&$disabled': {
-      opacity: 0.5,
+      opacity: theme.palette.action.disabledOpacity,
     },
   },
   /* Styles applied to the root element if the parent [`Tabs`](/api/tabs/) has `textColor="primary"`. */
@@ -119,7 +118,7 @@ const Tab = React.forwardRef(function Tab(props, ref) {
   } = props;
 
   const handleClick = (event) => {
-    if (onChange) {
+    if (!selected && onChange) {
       onChange(event, value);
     }
 
@@ -183,7 +182,6 @@ Tab.propTypes = {
   children: unsupportedProp,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
@@ -192,10 +190,12 @@ Tab.propTypes = {
   className: PropTypes.string,
   /**
    * If `true`, the tab will be disabled.
+   * @default false
    */
   disabled: PropTypes.bool,
   /**
    * If `true`, the  keyboard focus ripple will be disabled.
+   * @default false
    */
   disableFocusRipple: PropTypes.bool,
   /**
@@ -203,6 +203,7 @@ Tab.propTypes = {
    *
    * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
    * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   * @default false
    */
   disableRipple: PropTypes.bool,
   /**
@@ -232,6 +233,7 @@ Tab.propTypes = {
   /**
    * Tab labels appear in a single row.
    * They can use a second line if needed.
+   * @default false
    */
   wrapped: PropTypes.bool,
 };

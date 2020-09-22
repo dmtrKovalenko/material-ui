@@ -23,7 +23,7 @@ export const styles = (theme) => ({
   indeterminate: {},
   /* Styles applied to the root element if `color="primary"`. */
   colorPrimary: {
-    '&$checked': {
+    '&$checked, &$indeterminate': {
       color: theme.palette.primary.main,
       '&:hover': {
         backgroundColor: fade(theme.palette.primary.main, theme.palette.action.hoverOpacity),
@@ -39,7 +39,7 @@ export const styles = (theme) => ({
   },
   /* Styles applied to the root element if `color="secondary"`. */
   colorSecondary: {
-    '&$checked': {
+    '&$checked, &$indeterminate': {
       color: theme.palette.secondary.main,
       '&:hover': {
         backgroundColor: fade(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
@@ -117,15 +117,16 @@ Checkbox.propTypes = {
   checked: PropTypes.bool,
   /**
    * The icon to display when the component is checked.
+   * @default <CheckBoxIcon />
    */
   checkedIcon: PropTypes.node,
   /**
    * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
    */
   classes: PropTypes.object,
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
+   * @default 'secondary'
    */
   color: PropTypes.oneOf(['default', 'primary', 'secondary']),
   /**
@@ -138,6 +139,7 @@ Checkbox.propTypes = {
   disableRipple: PropTypes.bool,
   /**
    * The icon to display when the component is unchecked.
+   * @default <CheckBoxOutlineBlankIcon />
    */
   icon: PropTypes.node,
   /**
@@ -149,10 +151,12 @@ Checkbox.propTypes = {
    * This does not set the native input element to indeterminate due
    * to inconsistent behavior across browsers.
    * However, we set a `data-indeterminate` attribute on the input.
+   * @default false
    */
   indeterminate: PropTypes.bool,
   /**
    * The icon to display when the component is indeterminate.
+   * @default <IndeterminateCheckBoxIcon />
    */
   indeterminateIcon: PropTypes.node,
   /**
@@ -177,6 +181,7 @@ Checkbox.propTypes = {
   /**
    * The size of the checkbox.
    * `small` is equivalent to the dense checkbox styling.
+   * @default 'medium'
    */
   size: PropTypes.oneOf(['medium', 'small']),
   /**
