@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { expect } from 'chai';
 import { spy, useFakeTimers, SinonSpy, SinonFakeTimers } from 'sinon';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen } from 'test/utils';
 import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
 import DateTimePicker from '@material-ui/lab/DateTimePicker';
@@ -176,7 +176,7 @@ describe('<DateTimePicker />', () => {
     expect(textbox.value).to.equal('12.');
   });
 
-  it('prop: maxDateTime – minutes is disabled by date part', async () => {
+  it('prop: maxDateTime – minutes is disabled by date part', () => {
     render(
       <DesktopDateTimePicker
         open
@@ -188,13 +188,11 @@ describe('<DateTimePicker />', () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole('dialog'));
-
     expect(screen.getByLabelText('25 minutes')).to.have.attribute('aria-disabled', 'true');
     expect(screen.getByLabelText('35 minutes')).to.have.attribute('aria-disabled', 'false');
   });
 
-  it('prop: minDateTime – hours is disabled by date part', async () => {
+  it('prop: minDateTime – hours is disabled by date part', () => {
     render(
       <DesktopDateTimePicker
         open
@@ -207,11 +205,10 @@ describe('<DateTimePicker />', () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole('dialog'));
     expect(screen.getByLabelText('11 hours')).to.have.attribute('aria-disabled', 'true');
   });
 
-  it('shows ArrowSwitcher on ClockView disabled and not allows to return back to the date', async () => {
+  it('shows ArrowSwitcher on ClockView disabled and not allows to return back to the date', () => {
     render(
       <DesktopDateTimePicker
         open
@@ -222,11 +219,10 @@ describe('<DateTimePicker />', () => {
       />,
     );
 
-    await waitFor(() => screen.getByRole('dialog'));
     expect(screen.getByLabelText('open previous view')).to.have.attribute('disabled');
   });
 
-  it('allows to switch using ArrowSwitcher on ClockView', async () => {
+  it('allows to switch using ArrowSwitcher on ClockView', () => {
     render(
       <DesktopDateTimePicker
         open
@@ -236,8 +232,6 @@ describe('<DateTimePicker />', () => {
         value={adapterToUse.date('2018-01-01T00:00:00.000Z')}
       />,
     );
-
-    await waitFor(() => screen.getByRole('dialog'));
 
     fireEvent.click(screen.getByLabelText('open next view'));
     expect(screen.getByLabelText('open next view')).to.have.attribute('disabled');
