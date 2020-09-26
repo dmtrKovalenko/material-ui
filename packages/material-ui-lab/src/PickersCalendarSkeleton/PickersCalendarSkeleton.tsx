@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from '@material-ui/core/Skeleton';
 import { createStyles, WithStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { DAY_SIZE, DAY_MARGIN } from '../internal/pickers/constants/dimensions';
 import { styles as calendarStyles } from '../DayPicker/PickersCalendar';

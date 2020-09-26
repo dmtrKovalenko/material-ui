@@ -25,7 +25,7 @@ export default function DelayingAppearance() {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const [query, setQuery] = React.useState('idle');
-  const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = React.useRef<number>();
 
   React.useEffect(
     () => () => {
