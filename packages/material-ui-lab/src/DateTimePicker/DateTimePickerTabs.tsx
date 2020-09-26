@@ -34,7 +34,7 @@ export interface DateTimePickerTabsProps {
 
 export const styles = (theme: Theme) => {
   const tabsBackground =
-    theme.palette.type === 'light' ? theme.palette.primary.main : theme.palette.background.default;
+    theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.background.default;
 
   return createStyles({
     root: {},
@@ -61,7 +61,7 @@ const DateTimePickerTabs: React.FC<DateTimePickerTabsProps & WithStyles<typeof s
 
   const theme = useTheme();
   const wrapperVariant = React.useContext(WrapperVariantContext);
-  const indicatorColor = theme.palette.type === 'light' ? 'secondary' : 'primary';
+  const indicatorColor = theme.palette.mode === 'light' ? 'secondary' : 'primary';
 
   const handleChange = (e: React.ChangeEvent<{}>, value: DateTimePickerView) => {
     if (value !== viewToTabIndex(view)) {

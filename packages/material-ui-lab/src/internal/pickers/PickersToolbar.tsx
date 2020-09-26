@@ -12,7 +12,7 @@ import { ToolbarComponentProps } from './typings/BasePicker';
 
 export const styles = (theme: Theme) => {
   const toolbarBackground =
-    theme.palette.type === 'light' ? theme.palette.primary.main : theme.palette.background.default;
+    theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.background.default;
 
   return createStyles({
     root: {

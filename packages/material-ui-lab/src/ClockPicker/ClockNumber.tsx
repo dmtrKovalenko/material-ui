@@ -47,7 +47,7 @@ export interface ClockNumberProps {
 export const styles = (theme: Theme) => {
   const size = 32;
   const clockNumberColor =
-    theme.palette.type === 'light' ? theme.palette.text.primary : theme.palette.text.secondary;
+    theme.palette.mode === 'light' ? theme.palette.text.primary : theme.palette.text.secondary;
 
   return createStyles({
     root: {
