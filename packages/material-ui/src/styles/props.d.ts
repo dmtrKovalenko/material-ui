@@ -1,3 +1,5 @@
+import { AlertProps } from '../Alert';
+import { AlertTitleProps } from '../AlertTitle';
 import { AppBarProps } from '../AppBar';
 import { AvatarProps } from '../Avatar';
 import { BackdropProps } from '../Backdrop';
@@ -69,8 +71,10 @@ import { PaperProps } from '../Paper';
 import { PopoverProps } from '../Popover';
 import { RadioGroupProps } from '../RadioGroup';
 import { RadioProps } from '../Radio';
+import { RatingProps } from '../Rating';
 import { ScopedCssBaselineProps } from '../ScopedCssBaseline';
 import { SelectProps } from '../Select';
+import { SkeletonProps } from '../Skeleton';
 import { SliderProps } from '../Slider';
 import { SnackbarContentProps } from '../SnackbarContent';
 import { SnackbarProps } from '../Snackbar';
@@ -107,6 +111,8 @@ export type ComponentsProps = {
 };
 
 export interface ComponentsPropsList {
+  MuiAlert: AlertProps;
+  MuiAlertTitle: AlertTitleProps;
   MuiAppBar: AppBarProps;
   MuiAvatar: AvatarProps;
   MuiBackdrop: BackdropProps;
@@ -177,8 +183,10 @@ export interface ComponentsPropsList {
   MuiPopover: PopoverProps;
   MuiRadio: RadioProps;
   MuiRadioGroup: RadioGroupProps;
+  MuiRating: RatingProps;
   MuiScopedCssBaseline: ScopedCssBaselineProps;
   MuiSelect: SelectProps;
+  MuiSkeleton: SkeletonProps;
   MuiSlider: SliderProps;
   MuiSnackbar: SnackbarProps;
   MuiSnackbarContent: SnackbarContentProps;

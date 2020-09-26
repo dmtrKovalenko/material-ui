@@ -834,6 +834,40 @@ describe('<Autocomplete />', () => {
       expect(handleClose.callCount).to.equal(1);
     });
 
+    it('does not close the popup when option selected if Control is pressed', () => {
+      const handleClose = spy();
+      const { getAllByRole } = render(
+        <Autocomplete
+          {...defaultProps}
+          onClose={handleClose}
+          open
+          options={['one', 'two']}
+          renderInput={(params) => <TextField {...params} autoFocus />}
+        />,
+      );
+
+      const options = getAllByRole('option');
+      fireEvent.click(options[0], { ctrlKey: true });
+      expect(handleClose.callCount).to.equal(0);
+    });
+
+    it('does not close the popup when option selected if Meta is pressed', () => {
+      const handleClose = spy();
+      const { getAllByRole } = render(
+        <Autocomplete
+          {...defaultProps}
+          onClose={handleClose}
+          open
+          options={['one', 'two']}
+          renderInput={(params) => <TextField {...params} autoFocus />}
+        />,
+      );
+
+      const options = getAllByRole('option');
+      fireEvent.click(options[0], { metaKey: true });
+      expect(handleClose.callCount).to.equal(0);
+    });
+
     it('moves focus to the first option on ArrowDown', () => {
       const { getAllByRole, getByRole } = render(
         <Autocomplete
@@ -1303,6 +1337,22 @@ describe('<Autocomplete />', () => {
       const htmlOptions = listbox.querySelectorAll('li');
 
       expect(htmlOptions[0].innerHTML).to.equal('one');
+    });
+
+    it('should display a no options message if no options are available', () => {
+      const { getByRole } = render(
+        <Autocomplete
+          {...defaultProps}
+          renderInput={(params) => <TextField autoFocus {...params} />}
+        />,
+      );
+
+      const combobox = getByRole('combobox');
+      const textbox = getByRole('textbox');
+      expect(combobox).to.have.attribute('aria-expanded', 'false');
+      expect(combobox).to.not.have.attribute('aria-owns');
+      expect(textbox).to.not.have.attribute('aria-controls');
+      expect(document.querySelector(`.${classes.paper}`)).to.have.text('No options');
     });
   });
 

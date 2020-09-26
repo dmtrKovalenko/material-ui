@@ -53,7 +53,33 @@ This change affects almost all components where you're using the `component` pro
 
 ### Theme
 
-For a smoother transition, the `adaptV4Theme` helper allows you to iteratively upgrade to the new theme structure.
+- Breakpoints are now treated as values instead of ranges. The behavior of `down(key)` was changed to define media query less than the value defined with the corresponding breakpoint (exclusive).
+  The `between(start, end)` was also updated to define media query for the values between the actual values of start (inclusive) and end (exclusive).
+  When using the `down()` breakpoints utility you need to update the breakpoint key by one step up. When using the `between(start, end)` the end breakpoint should also be updated by one step up. The same should be done when using the `Hidden` component. Find examples of the changes required defined below:
+
+```diff
+-theme.breakpoints.down('sm') // '@media (max-width:959.95px)' - [0, sm + 1) => [0, md)
++theme.breakpoints.down('md') // '@media (max-width:959.95px)' - [0, md)
+```
+
+```diff
+-theme.breakpoints.between('sm', 'md') // '@media (min-width:600px) and (max-width:1279.95px)' - [sm, md + 1) => [0, lg)
++theme.breakpoints.between('sm', 'lg') // '@media (min-width:600px) and (max-width:1279.95px)' - [0, lg)
+```
+
+```diff
+-theme.breakpoints.between('sm', 'xl') // '@media (min-width:600px)'
++theme.breakpoints.up('sm') // '@media (min-width:600px)'
+```
+
+```diff
+-<Hidden smDown>{...}</Hidden> // '@media (min-width:600px)'
++<Hidden mdDown>{...}</Hidden> // '@media (min-width:600px)'
+```
+
+#### Upgrade helper
+
+For a smoother transition, the `adaptV4Theme` helper allows you to iteratively upgrade some of the theme changes to the new theme structure.
 
 ```diff
 -import { createMuiTheme } from '@material-ui/core/styles';
@@ -65,6 +91,8 @@ For a smoother transition, the `adaptV4Theme` helper allows you to iteratively u
 -});
 +}));
 ```
+
+The following changes are supported by the adapter.
 
 #### Changes
 
@@ -95,15 +123,6 @@ For a smoother transition, the `adaptV4Theme` helper allows you to iteratively u
   theme.spacing(2) => '16px'
   ```
 
-  You can restore the previous behavior with:
-
-  ```diff
-  -const theme = createMuiTheme();
-  +const theme = createMuiTheme({
-  +  spacing: x => x * 8,
-  +});
-  ```
-
 - The `theme.palette.text.hint` key was unused in Material-UI components, and has been removed.
 
 ```diff
@@ -125,6 +144,15 @@ import { createMuiTheme } from '@material-ui/core/styles';
 ```
 
 - The components' definition inside the theme were restructure under the `components` key, to allow people easier discoverability about the definitions regarding one component.
+
+- The `theme.palette.type` was renamed to `theme.palette.mode`, to better follow the "dark mode" term that is usually used for describing this feature.
+
+```diff
+import { createMuiTheme } from '@material-ui/core/styles';
+
+-const theme = createMuitheme({palette: { type: 'dark' }}),
++const theme = createMuitheme({palette: { mode: 'dark' }}),
+```
 
 1. `props`
 
@@ -167,6 +195,17 @@ const theme = createMuitheme({
 +  },
 });
 ```
+
+### Alert
+
+- Move the component from the lab to the core. The component is now stable.
+
+  ```diff
+  -import Alert from '@material-ui/lab/Alert';
+  -import AlertTitle from '@material-ui/lab/AlertTitle';
+  +import Alert from '@material-ui/core/Alert';
+  +import AlertTitle from '@material-ui/core/AlertTitle';
+  ```
 
 ### Avatar
 
@@ -485,6 +524,13 @@ const theme = createMuitheme({
 
 ### Rating
 
+- Move the component from the lab to the core. The component is now stable.
+
+  ```diff
+  -import Rating from '@material-ui/lab/Rating';
+  +import Rating from '@material-ui/core/Rating';
+  ```
+
 - Change the default empty icon to improve accessibility.
   If you have a custom `icon` prop but no `emptyIcon` prop, you can restore the previous behavior with:
 
@@ -520,6 +566,13 @@ const theme = createMuitheme({
   ```
 
 ### Skeleton
+
+- Move the component from the lab to the core. The component is now stable.
+
+  ```diff
+  -import Skeleton from '@material-ui/lab/Skeleton';
+  +import Skeleton from '@material-ui/core/Skeleton';
+  ```
 
 - Rename `circle` to `circular` and `rect` to `rectangular` for consistency. The possible values should be adjectives, not nouns:
 
@@ -626,6 +679,20 @@ const theme = createMuitheme({
   -<Tabs onChange={(event: React.ChangeEvent<{}>, value: unknown) => {}} />
   +<Tabs onChange={(event: React.SyntheticEvent, value: unknown) => {}} />
   ```
+
+- The API that controls the scroll buttons has been split it in two props.
+
+  - The `scrollButtons` prop controls when the scroll buttons are displayed depending on the space available.
+  - The `allowScrollButtonsMobile` prop removes the CSS media query that systematically hide the scroll buttons on mobile.
+
+```diff
+-<Tabs scrollButtons="on" />
+-<Tabs scrollButtons="desktop" />
+-<Tabs scrollButtons="off" />
++<Tabs scrollButtons allowScrollButtonsMobile />
++<Tabs scrollButtons />
++<Tabs scrollButtons={false} />
+```
 
 ### TextField
 

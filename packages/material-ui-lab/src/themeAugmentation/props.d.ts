@@ -1,11 +1,7 @@
-import { AlertProps } from '../Alert';
-import { AlertTitleProps } from '../AlertTitle';
 import { AutocompleteProps } from '../Autocomplete';
 import { AvatarGroupProps } from '../AvatarGroup';
 import { PaginationProps } from '../Pagination';
 import { PaginationItemProps } from '../PaginationItem';
-import { RatingProps } from '../Rating';
-import { SkeletonProps } from '../Skeleton';
 import { SpeedDialProps } from '../SpeedDial';
 import { SpeedDialActionProps } from '../SpeedDialAction';
 import { SpeedDialIconProps } from '../SpeedDialIcon';
@@ -32,8 +28,6 @@ import { CalendarSkeletonProps } from '../PickersCalendarSkeleton';
 import { YearPickerProps } from '../YearPicker/YearPicker';
 
 export interface LabComponentsPropsList {
-  MuiAlert: AlertProps;
-  MuiAlertTitle: AlertTitleProps;
   MuiAutocomplete: AutocompleteProps<any, any, any, any>;
   MuiAvatarGroup: AvatarGroupProps;
   MuiClockPicker: ClockPickerProps;

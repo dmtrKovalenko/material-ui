@@ -1,12 +1,7 @@
-import { StyleRules, StyleRulesCallback } from '@material-ui/core/styles';
-import { AlertClassKey } from '../Alert';
-import { AlertTitleClassKey } from '../AlertTitle';
 import { AutocompleteClassKey } from '../Autocomplete';
 import { AvatarGroupClassKey } from '../AvatarGroup';
 import { PaginationClassKey } from '../Pagination';
 import { PaginationItemClassKey } from '../PaginationItem';
-import { RatingClassKey } from '../Rating';
-import { SkeletonClassKey } from '../Skeleton';
 import { SpeedDialClassKey } from '../SpeedDial';
 import { SpeedDialActionClassKey } from '../SpeedDialAction';
 import { SpeedDialIconClassKey } from '../SpeedDialIcon';
@@ -38,14 +33,10 @@ type Classes<T> = T extends string
 
 // prettier-ignore
 export interface LabComponentNameToClassKey {
-  MuiAlert: AlertClassKey;
-  MuiAlertTitle: AlertTitleClassKey;
   MuiAutocomplete: AutocompleteClassKey;
   MuiAvatarGroup: AvatarGroupClassKey;
   MuiPagination: PaginationClassKey;
   MuiPaginationItem: PaginationItemClassKey;
-  MuiRating: RatingClassKey;
-  MuiSkeleton: SkeletonClassKey;
   MuiSpeedDial: SpeedDialClassKey;
   MuiSpeedDialAction: SpeedDialActionClassKey;
   MuiSpeedDialIcon: SpeedDialIconClassKey;

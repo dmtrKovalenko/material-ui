@@ -47,7 +47,7 @@ export type InternalStandardProps<C, Removals extends keyof C = never> = Omit<
     style?: React.CSSProperties;
   };
 
-export type PaletteType = 'light' | 'dark';
+export type PaletteMode = 'light' | 'dark';
 export interface Color {
   50: string;
   100: string;
@@ -91,6 +91,12 @@ export * from './AccordionDetails';
 
 export { default as AccordionSummary } from './AccordionSummary';
 export * from './AccordionSummary';
+
+export { default as Alert } from './Alert';
+export * from './Alert';
+
+export { default as AlertTitle } from './AlertTitle';
+export * from './AlertTitle';
 
 export { default as AppBar } from './AppBar';
 export * from './AppBar';
@@ -313,6 +319,9 @@ export * from './Radio';
 
 export { default as RadioGroup } from './RadioGroup';
 export * from './RadioGroup';
+
+export { default as Rating } from './Rating';
+export * from './Rating';
 
 export { default as ScopedCssBaseline } from './ScopedCssBaseline';
 export * from './ScopedCssBaseline';
