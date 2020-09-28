@@ -3,10 +3,37 @@ import TextField from '@material-ui/core/TextField';
 import { spy } from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, screen } from 'test/utils';
-import TimePicker, { TimePickerProps } from '@material-ui/lab/TimePicker';
+import { TimePickerProps } from '@material-ui/lab/TimePicker';
 import MobileTimePicker from '@material-ui/lab/MobileTimePicker';
 import DesktopTimePicker from '@material-ui/lab/DesktopTimePicker';
 import { createPickerRender, adapterToUse, getByMuiTest } from '../internal/pickers/test-utils';
+
+export function fireTouchChangedEvent(
+  target: Element,
+  type: 'touchmove' | 'touchend',
+  { changedTouches }: { changedTouches: Array<Pick<TouchInit, 'clientX' | 'clientY'>> },
+) {
+  const originalGetBoundingClientRect = target.getBoundingClientRect;
+  target.getBoundingClientRect = () =>
+    ({ x: 0, y: 0, bottom: 0, height: 0, left: 0, right: 0, top: 0, width: 0 } as any);
+
+  const event = new window.TouchEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    composed: true,
+    changedTouches: changedTouches.map(
+      (opts) =>
+        new Touch({
+          target,
+          identifier: 0,
+          ...opts,
+        }),
+    ),
+  });
+
+  fireEvent(target, event);
+  target.getBoundingClientRect = originalGetBoundingClientRect;
+}
 
 describe('<TimePicker />', () => {
   const render = createPickerRender({ strict: false });
@@ -26,6 +53,7 @@ describe('<TimePicker />', () => {
 
     return event;
   }
+
 
   it('accepts time on clock mouse move', () => {
     const onChangeMock = spy();
@@ -65,15 +93,9 @@ describe('<TimePicker />', () => {
       />,
     );
 
-    fireEvent.touchMove(getByMuiTest('clock'), {
-      changedTouches: [
-        {
-          clientX: 20,
-          clientY: 15,
-        },
-      ],
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', {
+      changedTouches: [{ clientX: 20, clientY: 15 }],
     });
-
     expect(getByMuiTest('minutes')).to.have.text('53');
   });
 
@@ -124,7 +146,7 @@ describe('<TimePicker />', () => {
     expect(getByMuiTest('hours')).to.have.text('--');
     expect(getByMuiTest('minutes')).to.have.text('--');
 
-    fireEvent.touchMove(getByMuiTest('clock'), {
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove',  {
       changedTouches: [
         {
           clientX: 20,
@@ -175,7 +197,7 @@ describe('<TimePicker />', () => {
 
     beforeEach(() => {
       render(
-        <TimePicker
+        <MobileTimePicker
           renderInput={(props) => <TextField {...props} />}
           open
           ampm={false}
@@ -189,46 +211,46 @@ describe('<TimePicker />', () => {
     });
 
     it('should select enabled hour', () => {
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['13:--']);
       expect(getByMuiTest('hours')).to.have.text('13');
     });
 
     it('should select enabled minute', () => {
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
-      fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['13:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['13:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockMouseEvent['13:--']);
 
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['--:20']);
 
       expect(getByMuiTest('minutes')).to.have.text('20');
     });
 
     it('should not select minute when hour is disabled ', () => {
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['20:--']);
-      fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['20:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['20:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockMouseEvent['20:--']);
 
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['--:20']);
     });
 
     it('should not select disabled hour', () => {
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['20:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['20:--']);
       expect(getByMuiTest('hours')).to.have.text('00');
     });
 
     it('should not select disabled second', () => {
       fireEvent.click(getByMuiTest('seconds'));
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['--:20']);
 
       expect(getByMuiTest('seconds')).to.have.text('00');
     });
 
     it('should select enabled second', () => {
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['13:--']);
-      fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['13:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['13:--']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockMouseEvent['13:--']);
 
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:20']);
-      fireEvent.touchEnd(getByMuiTest('clock'), clockMouseEvent['--:20']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['--:20']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockMouseEvent['--:20']);
 
-      fireEvent.touchMove(getByMuiTest('clock'), clockMouseEvent['--:10']);
+      fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockMouseEvent['--:10']);
 
       expect(getByMuiTest('seconds')).to.have.text('10');
     });

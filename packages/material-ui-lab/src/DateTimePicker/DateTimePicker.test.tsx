@@ -5,12 +5,12 @@ import { spy, useFakeTimers, SinonSpy, SinonFakeTimers } from 'sinon';
 import { fireEvent, screen } from 'test/utils';
 import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
-import DateTimePicker from '@material-ui/lab/DateTimePicker';
 import MobileDateTimePicker from '@material-ui/lab/MobileDateTimePicker';
 import DesktopDateTimePicker from '@material-ui/lab/DesktopDateTimePicker';
 import StaticDateTimePicker from '@material-ui/lab/StaticDateTimePicker';
 import DayJsAdapter from '../dateAdapter/dayjs';
 import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
+import { fireTouchChangedEvent } from '../TimePicker/TimePicker.test';
 
 describe('<DateTimePicker />', () => {
   let clock: SinonFakeTimers;
@@ -95,14 +95,14 @@ describe('<DateTimePicker />', () => {
     expect(getByMuiTest('datetimepicker-toolbar-date')).to.have.text('Jan 15');
 
     // 3. Hours
-    fireEvent.touchMove(getByMuiTest('clock'), clockTouchEvent);
-    fireEvent.touchEnd(getByMuiTest('clock'), clockTouchEvent);
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockTouchEvent);
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockTouchEvent);
 
     expect(getByMuiTest('hours')).to.have.text('11');
 
     // 4. Minutes
-    fireEvent.touchMove(getByMuiTest('clock'), clockTouchEvent);
-    fireEvent.touchEnd(getByMuiTest('clock'), clockTouchEvent);
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchmove', clockTouchEvent);
+    fireTouchChangedEvent(getByMuiTest('clock'), 'touchend', clockTouchEvent);
 
     expect(getByMuiTest('minutes')).to.have.text('53');
 
@@ -112,7 +112,7 @@ describe('<DateTimePicker />', () => {
 
   it('prop: open – overrides open state', () => {
     render(
-      <DateTimePicker
+      <MobileDateTimePicker
         renderInput={(props) => <TextField {...props} />}
         open
         onChange={() => {}}
@@ -126,7 +126,7 @@ describe('<DateTimePicker />', () => {
   it('prop: onCloseMock – dispatches on close request', () => {
     const onCloseMock = spy();
     render(
-      <DateTimePicker
+      <MobileDateTimePicker
         renderInput={(props) => <TextField {...props} />}
         open
         onClose={onCloseMock}

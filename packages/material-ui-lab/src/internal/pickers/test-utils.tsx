@@ -21,7 +21,8 @@ export const FakeTransitionComponent = React.forwardRef<HTMLDivElement, Transiti
 );
 
 interface PickerRenderOptions {
-  locale?: string;
+  // object for date-fns, string for other adapters
+  locale?: string | object;
 }
 
 export function createPickerRender({
@@ -29,11 +30,6 @@ export function createPickerRender({
   ...renderOptions
 }: PickerRenderOptions & import('test/utils').RenderOptions) {
   const clientRender = createClientRender(renderOptions);
-
-  if (locale && adapterToUse.lib === 'date-fns') {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    locale = require(`date-fns/locale/${locale}`);
-  }
 
   return (node: React.ReactNode) =>
     clientRender(

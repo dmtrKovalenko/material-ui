@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { expect } from 'chai';
-import 'dayjs/locale/de';
+import fr from 'date-fns/locale/fr';
 import deLocale from 'date-fns/locale/de';
 import enLocale from 'date-fns/locale/en-US';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +10,7 @@ import { fireEvent, screen } from 'test/utils';
 import { adapterToUse, getByMuiTest, createPickerRender } from '../internal/pickers/test-utils';
 
 describe('<DatePicker /> localization', () => {
-  const render = createPickerRender({ strict: false, locale: 'fr' });
+  const render = createPickerRender({ strict: false, locale: fr });
 
   it('datePicker localized format for year view', () => {
     render(
@@ -95,8 +95,8 @@ describe('<DatePicker /> localization', () => {
       },
     ];
 
-    tests.forEach(({ valid, invalid, locale }) => {
-      const localizedRender = createPickerRender({ strict: false, locale });
+    tests.forEach(({ valid, invalid, locale, dateFnsLocale }) => {
+      const localizedRender = createPickerRender({ strict: false, locale: dateFnsLocale });
 
       it(`${locale}: should set invalid`, () => {
         localizedRender(

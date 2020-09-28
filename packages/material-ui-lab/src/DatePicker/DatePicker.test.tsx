@@ -142,7 +142,7 @@ describe('<DatePicker />', () => {
 
   it('allows to select edge years from list', () => {
     render(
-      <DatePicker
+      <MobileDatePicker
         open
         reduceAnimations
         value={null}
