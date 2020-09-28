@@ -23,7 +23,7 @@
   },
   "homepage": "https://material-ui.com/components/about-the-lab",
   "scripts": {
-    "build": "yarn build:cjs && yarn build:esm && yarn build:es && yarn build:types && yarn build:copy-files",
+    "build": "yarn build:cjs && yarn build:esm && yarn build:es && yarn build:copy-files && yarn build:types",
     "build:cjs": "node ../../scripts/build cjs",
     "build:esm": "node ../../scripts/build esm",
     "build:es": "node ../../scripts/build es",

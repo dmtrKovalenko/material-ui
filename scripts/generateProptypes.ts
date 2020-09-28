@@ -205,7 +205,7 @@ async function generateProptypes(
   const unstyledFile = tsFile.endsWith('Styled.d.ts')
     ? tsFile.replace(/Styled/g, 'Unstyled')
     : null;
-    
+
   const result = ttp.inject(proptypes, jsContent, {
     removeExistingPropTypes: true,
     disableTypescriptPropTypesValidation: isTsFile,
