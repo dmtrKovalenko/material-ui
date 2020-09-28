@@ -132,8 +132,8 @@ module.exports = {
       files: [
         // matching the pattern of the test runner
         '*.test.js',
-        '*.test.tsx',
         '*.test.ts',
+        '*.test.tsx',
       ],
       env: {
         mocha: true,
@@ -153,6 +153,7 @@ module.exports = {
 
         'material-ui/disallow-active-element-as-key-event-target': 'error',
         'material-ui/lower-case-test-name': 'error',
+
         // upgraded level from recommended
         'mocha/no-exclusive-tests': 'error',
         'mocha/no-skipped-tests': 'error',

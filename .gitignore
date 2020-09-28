@@ -5,6 +5,7 @@
 
 .DS_STORE
 *.log
+*.tsbuildinfo
 /.eslintcache
 /.nyc_output
 /coverage
