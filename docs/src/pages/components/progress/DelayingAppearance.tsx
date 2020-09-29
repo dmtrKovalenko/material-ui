@@ -29,9 +29,7 @@ export default function DelayingAppearance() {
 
   React.useEffect(
     () => () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      clearTimeout(timerRef.current);
     },
     [],
   );
