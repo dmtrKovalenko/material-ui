@@ -23,7 +23,7 @@ export function fireTouchChangedEvent(
     composed: true,
     changedTouches: changedTouches.map(
       (opts) =>
-        new Touch({
+        new window.Touch({
           target,
           identifier: 0,
           ...opts,
